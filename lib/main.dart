@@ -22,9 +22,8 @@ void main() async {
     ProviderScope(
       overrides: [
         sharedPrefProvider.overrideWith((ref) => sharedPref),
-        settingsControllerProvider.overrideWith((ref) => settingsController),
       ],
-      child: MyApp(),
+      child: MyApp(settingsController: settingsController),
     ),
   );
 }

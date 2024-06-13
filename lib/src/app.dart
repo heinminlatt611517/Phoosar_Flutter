@@ -3,21 +3,23 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/home/home.dart';
-import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({
     super.key,
+    required this.settingsController,
   });
+  final SettingsController settingsController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var settingsController = ref.watch(settingsControllerProvider);
     return ListenableBuilder(
       listenable: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -42,9 +44,9 @@ class MyApp extends ConsumerWidget {
                     return SettingsView(controller: settingsController);
 
                   case HomeScreen.routeName:
-                    return const HomeScreen();
+                    return HomeScreen(settingsController: settingsController);
                   default:
-                    return const HomeScreen();
+                    return HomeScreen(settingsController: settingsController);
                 }
               },
             );
