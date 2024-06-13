@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
+import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -72,15 +73,7 @@ class DashboardScreen extends StatelessWidget {
               SizedBox(
                 height: 30,
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/dating1.jpeg',
-                  width: MediaQuery.of(context).size.width - 32,
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              InfoCard(),
               SizedBox(
                 height: 20,
               ),
