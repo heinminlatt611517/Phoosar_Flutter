@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
+import 'package:phoosar/src/features/dashboard/widgets/get_premium_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/header.dart';
 import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
 import 'package:phoosar/src/features/dashboard/widgets/profile_builder.dart';
@@ -63,7 +64,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   CommonIconButton(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => GetPremiumDialog());
+                    },
                     backgroundColor: Color(0xfff8f8f8),
                     icon: SvgPicture.asset(
                       'assets/svgs/ic_information.svg',

@@ -3,9 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 
 class CommonButton extends StatelessWidget {
-  const CommonButton({super.key, required this.text, required this.onTap});
+  const CommonButton(
+      {super.key,
+      required this.text,
+      required this.onTap,
+      this.fontSize = 12});
   final String text;
   final Function() onTap;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,9 @@ class CommonButton extends StatelessWidget {
         child: Text(
           text,
           style: GoogleFonts.roboto(
-            fontSize: 12,
+            fontSize: fontSize ?? 12,
             color: whiteColor,
-            fontWeight: FontWeight.w100,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ),

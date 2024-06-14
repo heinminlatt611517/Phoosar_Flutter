@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/features/profile/widgets.dart/more_information.dart';
 import 'package:phoosar/src/features/profile/widgets.dart/profile_slider.dart';
 import 'package:phoosar/src/features/profile/widgets.dart/user_hobbies.dart';
@@ -67,6 +68,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     description:
                         'Helping the poor, helping the needy and making a difference.',
                   ),
+                  20.vGap,
+                  Divider(
+                    height: 1,
+                    color: greyColor,
+                  ),
+                  20.vGap,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.report,
+                        color: greyColor,
+                      ),
+                      12.hGap,
+                      Text(
+                        'Report Julia',
+                        style: GoogleFonts.roboto(
+                          fontSize: 17,
+                          color: greyColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  20.vGap,
+                  Divider(
+                    height: 1,
+                    color: greyColor,
+                  ),
+                  20.vGap,
                 ],
               ),
             ),
