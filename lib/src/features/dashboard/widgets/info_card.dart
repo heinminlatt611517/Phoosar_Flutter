@@ -1,166 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phoosar/src/common/widgets/info_row.dart';
+import 'package:phoosar/src/features/dashboard/widgets/dashboard_user_slider.dart';
+import 'package:phoosar/src/features/profile/profile.dart';
+import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/gap.dart';
 
 class InfoCard extends StatelessWidget {
-  const InfoCard({super.key});
+  const InfoCard({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.asset(
-            'assets/images/dating1.jpeg',
-            width: MediaQuery.of(context).size.width - 32,
-            height: MediaQuery.of(context).size.height * 0.6,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned(
-          bottom: 20,
-          left: 16,
-          right: 16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.circle,
-                    color: Colors.green,
-                    size: 12,
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    'Online',
-                    style: GoogleFonts.roboto(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w200,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Robert',
-                    style: GoogleFonts.roboto(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    '30',
-                    style: GoogleFonts.roboto(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w200,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    '6 km away',
-                    style: GoogleFonts.roboto(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.work,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    'Software Engineer',
-                    style: GoogleFonts.roboto(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.home,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    'Live in Yangon',
-                    style: GoogleFonts.roboto(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.65,
+      padding: const EdgeInsets.only(top: 20, bottom: 10),
+      child: Stack(
+        children: [
+          DashboardProfileSlider(),
+          Positioned(
+            bottom: 20,
+            left: 24,
+            right: 24,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+              },
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.school,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Expanded(
-                    child: Text(
-                      'University of Computer Studies (Yangon)',
-                      style: GoogleFonts.roboto(
-                        fontSize: 13,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w100,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        color: Colors.green,
+                        size: 12,
                       ),
+                      4.hGap,
+                      Text(
+                        'Online',
+                        style: GoogleFonts.roboto(
+                          fontSize: 12,
+                          color: whiteColor,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                    ],
+                  ),
+                  4.hGap,
+                  Row(
+                    children: [
+                      Text(
+                        'Julia',
+                        style: GoogleFonts.roboto(
+                          fontSize: 22,
+                          color: whiteColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      12.hGap,
+                      Text(
+                        '30',
+                        style: GoogleFonts.roboto(
+                          fontSize: 20,
+                          color: whiteColor,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                    ],
+                  ),
+                  8.vGap,
+                  UserInfoRow(
+                    icon: Icon(
+                      Icons.location_on,
+                      color: whiteColor,
+                      size: 14,
                     ),
+                    text: '6 km away',
+                  ),
+                  UserInfoRow(
+                    icon: Icon(
+                      Icons.work,
+                      color: whiteColor,
+                      size: 14,
+                    ),
+                    text: 'Software Engineer',
+                  ),
+                  UserInfoRow(
+                    icon: Icon(
+                      Icons.home,
+                      color: whiteColor,
+                      size: 14,
+                    ),
+                    text: 'Live in Yangon',
+                  ),
+                  UserInfoRow(
+                    icon: Icon(
+                      Icons.school,
+                      color: whiteColor,
+                      size: 14,
+                    ),
+                    text: 'University of Computer Studies (Yangon)',
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

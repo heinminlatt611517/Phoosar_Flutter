@@ -1,87 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
+import 'package:phoosar/src/features/dashboard/widgets/header.dart';
 import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
+import 'package:phoosar/src/features/dashboard/widgets/profile_builder.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
+import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/gap.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, required this.controller});
   final SettingsController controller;
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  bool isProfileBuilder = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: controller.themeMode == ThemeMode.dark
-          ? Colors.black
-          : Color(0xfff0f0f0),
+      backgroundColor: widget.controller.themeMode == ThemeMode.dark
+          ? blackColor
+          : whitePaleColor,
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 68,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey),
-                        color: Color(0xfff0f0f0),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.heart_broken,
-                            size: 15,
-                            color: Colors.red,
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            '100',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/ic_launcher.png',
-                          width: 42,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 80,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.menu,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              InfoCard(),
-              SizedBox(
-                height: 20,
-              ),
+              DashboardHeader(),
+              isProfileBuilder ? ProfileBuilder() : InfoCard(),
+              20.vGap,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CommonIconButton(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        isProfileBuilder = !isProfileBuilder;
+                      });
+                    },
                     backgroundColor: Color(0xfff8f8f8),
                     icon: SvgPicture.asset(
                       'assets/svgs/ic_backward.svg',

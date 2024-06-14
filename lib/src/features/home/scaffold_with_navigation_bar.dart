@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 class ScaffoldWithNavigationBar extends ConsumerWidget {
   const ScaffoldWithNavigationBar({
@@ -37,17 +38,17 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     width: 22,
                     height: 22,
                     color: selectedIndex == 0
-                        ? Colors.cyan
+                        ? primaryColor
                         : settingsController.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? whiteColor
+                            : blackColor,
                   ),
                 ),
               ),
               Container(
                 width: 2,
                 height: 32,
-                color: Color(0xfff0f0f0),
+                color: whitePaleColor,
               ),
               Expanded(
                 child: GestureDetector(
@@ -60,17 +61,17 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     width: 22,
                     height: 22,
                     color: selectedIndex == 1
-                        ? Colors.cyan
+                        ? primaryColor
                         : settingsController.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? whiteColor
+                            : blackColor,
                   ),
                 ),
               ),
               Container(
                 width: 2,
                 height: 32,
-                color: Color(0xfff0f0f0),
+                color: whitePaleColor,
               ),
               Expanded(
                 child: GestureDetector(
@@ -83,10 +84,10 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     width: 22,
                     height: 22,
                     color: selectedIndex == 2
-                        ? Colors.cyan
+                        ? primaryColor
                         : settingsController.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? whiteColor
+                            : blackColor,
                   ),
                 ),
               ),
