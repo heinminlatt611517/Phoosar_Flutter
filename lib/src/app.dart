@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
+import 'package:phoosar/src/utils/enable_drag.dart';
 import 'settings/settings_view.dart';
 
 class MyApp extends ConsumerWidget {
@@ -51,6 +52,7 @@ class MyApp extends ConsumerWidget {
               },
             );
           },
+          scrollBehavior: MyCustomScrollBehavior(),
         );
       },
     );

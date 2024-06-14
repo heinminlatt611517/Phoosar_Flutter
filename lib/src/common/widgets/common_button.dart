@@ -4,10 +4,7 @@ import 'package:phoosar/src/utils/colors.dart';
 
 class CommonButton extends StatelessWidget {
   const CommonButton(
-      {super.key,
-      required this.text,
-      required this.onTap,
-      this.fontSize = 12});
+      {super.key, required this.text, required this.onTap, this.fontSize = 12});
   final String text;
   final Function() onTap;
   final double? fontSize;
@@ -26,6 +23,7 @@ class CommonButton extends StatelessWidget {
         ),
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: GoogleFonts.roboto(
             fontSize: fontSize ?? 12,
             color: whiteColor,

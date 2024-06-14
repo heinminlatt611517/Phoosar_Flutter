@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
+import 'package:phoosar/src/features/dashboard/match.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_premium_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/header.dart';
 import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
@@ -57,7 +58,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   CommonIconButton(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MatchScreen(),
+                        ),
+                      );
+                    },
                     icon: Image.asset(
                       'assets/images/ic_love.png',
                       width: 28,
