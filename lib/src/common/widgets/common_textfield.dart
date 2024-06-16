@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 
 class CommonTextFormField extends StatelessWidget {
-  CommonTextFormField({Key? key, required this.controller, required this.hintText, required this.maxLines}) : super(key: key);
+  CommonTextFormField(
+      {Key? key,
+      required this.controller,
+      required this.hintText,
+      required this.maxLines})
+      : super(key: key);
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
@@ -25,7 +31,7 @@ class CommonTextFormField extends StatelessWidget {
           border: InputBorder.none, // Removes underline
           hintText: hintText,
           hintStyle: GoogleFonts.roboto(
-            fontSize: 12,
+            fontSize: smallFontSize,
             color: greyColor,
           ),
         ),

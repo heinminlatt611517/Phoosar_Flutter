@@ -23,7 +23,7 @@ class UserHobbies extends StatelessWidget {
                 child: Text(
                   hobby,
                   style: GoogleFonts.roboto(
-                    fontSize: 12,
+                    fontSize: smallFontSize,
                     color: whiteColor,
                     fontWeight: FontWeight.w100,
                   ),

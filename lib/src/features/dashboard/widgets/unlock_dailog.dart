@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_success_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class UnlockDailog extends StatelessWidget {
@@ -41,7 +42,7 @@ class UnlockDailog extends StatelessWidget {
                     Text(
                       heartCount,
                       style: GoogleFonts.roboto(
-                        fontSize: 16,
+                        fontSize: normalFontSize,
                         color: whiteColor,
                         fontWeight: FontWeight.w400,
                       ),
@@ -61,7 +62,7 @@ class UnlockDailog extends StatelessWidget {
               child: Text(
                 'UNLOCK',
                 style: GoogleFonts.roboto(
-                  fontSize: 13,
+                  fontSize: mediumFontSize,
                   color: blueColor,
                   fontWeight: FontWeight.w400,
                 ),

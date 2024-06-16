@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 
 class CommonButton extends StatelessWidget {
   const CommonButton(
@@ -25,7 +26,7 @@ class CommonButton extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: GoogleFonts.roboto(
-            fontSize: fontSize ?? 12,
+            fontSize: fontSize ?? smallFontSize,
             color: whiteColor,
             fontWeight: FontWeight.w400,
           ),

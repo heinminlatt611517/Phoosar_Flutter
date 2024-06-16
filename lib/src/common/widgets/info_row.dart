@@ -8,7 +8,7 @@ class UserInfoRow extends StatelessWidget {
     super.key,
     required this.icon,
     required this.text,
-    this.textSize = 12,
+    this.textSize = 14,
     this.textColor = whiteColor,
   });
   final Widget icon;

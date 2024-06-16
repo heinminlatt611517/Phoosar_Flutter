@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/info_row.dart';
 import 'package:phoosar/src/features/dashboard/widgets/dashboard_user_slider.dart';
 import 'package:phoosar/src/features/profile/profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class InfoCard extends StatelessWidget {
@@ -14,14 +15,14 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.65,
+      height: MediaQuery.of(context).size.height * 0.67,
       padding: const EdgeInsets.only(top: 20, bottom: 10),
       child: Stack(
         children: [
           DashboardProfileSlider(),
           Positioned(
-            bottom: 20,
-            left: 24,
+            bottom: 32,
+            left: 32,
             right: 24,
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -44,7 +45,7 @@ class InfoCard extends StatelessWidget {
                       Text(
                         'Online',
                         style: GoogleFonts.roboto(
-                          fontSize: 12,
+                          fontSize: smallFontSize,
                           color: whiteColor,
                           fontWeight: FontWeight.w200,
                         ),
@@ -57,7 +58,7 @@ class InfoCard extends StatelessWidget {
                       Text(
                         'Julia',
                         style: GoogleFonts.roboto(
-                          fontSize: 22,
+                          fontSize: largeFontSize,
                           color: whiteColor,
                           fontWeight: FontWeight.w700,
                         ),
@@ -66,7 +67,7 @@ class InfoCard extends StatelessWidget {
                       Text(
                         '30',
                         style: GoogleFonts.roboto(
-                          fontSize: 20,
+                          fontSize: mediumLargeFontSize,
                           color: whiteColor,
                           fontWeight: FontWeight.w200,
                         ),

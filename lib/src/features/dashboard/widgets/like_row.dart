@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class LikeRow extends StatelessWidget {
@@ -24,7 +25,7 @@ class LikeRow extends StatelessWidget {
                   likeCount,
                   textAlign: TextAlign.end,
                   style: GoogleFonts.roboto(
-                    fontSize: 14,
+                    fontSize: mediumFontSize,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -32,7 +33,7 @@ class LikeRow extends StatelessWidget {
               Text(
                 ' Likes',
                 style: GoogleFonts.roboto(
-                  fontSize: 13,
+                  fontSize: mediumFontSize,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -57,7 +58,7 @@ class LikeRow extends StatelessWidget {
                     Text(
                       heartCount,
                       style: GoogleFonts.roboto(
-                        fontSize: 12,
+                        fontSize: smallFontSize,
                         color: whiteColor,
                         fontWeight: FontWeight.w400,
                       ),
@@ -77,7 +78,7 @@ class LikeRow extends StatelessWidget {
                 child: Text(
                   'UNLOCK',
                   style: GoogleFonts.roboto(
-                    fontSize: 13,
+                    fontSize: mediumFontSize,
                     color: blueColor,
                     fontWeight: FontWeight.w400,
                   ),

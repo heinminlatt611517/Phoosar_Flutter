@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class CommonDialog extends StatelessWidget {
@@ -43,7 +44,7 @@ class CommonDialog extends StatelessWidget {
                 title,
                 style: GoogleFonts.roboto(
                   color: greyColor,
-                  fontSize: 18,
+                  fontSize: smallLargeFontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),

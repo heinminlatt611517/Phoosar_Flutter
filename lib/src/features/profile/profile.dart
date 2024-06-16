@@ -5,6 +5,7 @@ import 'package:phoosar/src/features/profile/widgets.dart/profile_slider.dart';
 import 'package:phoosar/src/features/profile/widgets.dart/user_hobbies.dart';
 import 'package:phoosar/src/features/profile/widgets.dart/user_information.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -85,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Text(
                         'Report Julia',
                         style: GoogleFonts.roboto(
-                          fontSize: 17,
+                          fontSize: smallLargeFontSize,
                           color: greyColor,
                           fontWeight: FontWeight.w700,
                         ),

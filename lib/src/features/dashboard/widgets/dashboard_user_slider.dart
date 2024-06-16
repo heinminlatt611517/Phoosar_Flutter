@@ -32,7 +32,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                   },
                   aspectRatio: 16 / 9,
                   viewportFraction: 1,
-                  height: MediaQuery.of(context).size.height * 0.6),
+                  height: MediaQuery.of(context).size.height * 0.62),
               items: sampleProfileImages.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -43,7 +43,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                           Image.asset(
                             i,
                             width: MediaQuery.of(context).size.width - 32,
-                            height: MediaQuery.of(context).size.height * 0.6,
+                            height: MediaQuery.of(context).size.height * 0.62,
                             fit: BoxFit.cover,
                           ),
                           Positioned(

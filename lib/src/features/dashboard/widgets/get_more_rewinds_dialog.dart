@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/rewind_row.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class GetMoreRewindsDialog extends StatelessWidget {
@@ -54,7 +55,7 @@ class GetMoreRewindsDialog extends StatelessWidget {
                 Text(
                   'UNLIMITED',
                   style: GoogleFonts.roboto(
-                    fontSize: 23,
+                    fontSize: largeFontSize,
                     color: blueColor,
                     fontWeight: FontWeight.w400,
                   ),
@@ -63,7 +64,7 @@ class GetMoreRewindsDialog extends StatelessWidget {
                 Text(
                   'Rewinds',
                   style: GoogleFonts.roboto(
-                    fontSize: 19,
+                    fontSize: mediumLargeFontSize,
                     color: blueColor,
                     fontWeight: FontWeight.w400,
                   ),
@@ -74,7 +75,7 @@ class GetMoreRewindsDialog extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                fontSize: 14,
+                fontSize: mediumFontSize,
                 text: "PHOOSAR PREMINUM",
                 onTap: () {},
               ),

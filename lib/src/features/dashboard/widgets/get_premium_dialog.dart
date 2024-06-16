@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_rewinds_dialog.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class GetPremiumDialog extends StatelessWidget {
@@ -27,7 +28,7 @@ class GetPremiumDialog extends StatelessWidget {
             Text(
               'See who likes you',
               style: GoogleFonts.roboto(
-                fontSize: 18,
+                fontSize: smallLargeFontSize,
                 color: blackColor,
                 fontWeight: FontWeight.w500,
               ),
@@ -35,7 +36,7 @@ class GetPremiumDialog extends StatelessWidget {
             Text(
               'And many more preminum features',
               style: GoogleFonts.roboto(
-                fontSize: 13,
+                fontSize: smallFontSize,
                 color: greyColor,
               ),
             ),

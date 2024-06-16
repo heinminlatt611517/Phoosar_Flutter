@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class MoreInformation extends StatelessWidget {
@@ -22,7 +23,7 @@ class MoreInformation extends StatelessWidget {
           title,
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(
-            fontSize: 13,
+            fontSize: mediumFontSize,
             color: blackColor,
             fontWeight: FontWeight.w300,
           ),
@@ -32,7 +33,7 @@ class MoreInformation extends StatelessWidget {
           description,
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(
-            fontSize: 12,
+            fontSize: smallFontSize,
             color: blackColor,
             fontWeight: FontWeight.w100,
           ),

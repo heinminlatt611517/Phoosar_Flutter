@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/info_row.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class UserInformation extends StatelessWidget {
@@ -25,7 +26,7 @@ class UserInformation extends StatelessWidget {
             Text(
               'Online',
               style: GoogleFonts.roboto(
-                fontSize: 11,
+                fontSize: smallFontSize,
                 color: blackColor,
                 fontWeight: FontWeight.w200,
               ),
@@ -38,7 +39,7 @@ class UserInformation extends StatelessWidget {
             Text(
               'Julia',
               style: GoogleFonts.roboto(
-                fontSize: 22,
+                fontSize: largeFontSize,
                 color: blackColor,
                 fontWeight: FontWeight.w700,
               ),
@@ -47,7 +48,7 @@ class UserInformation extends StatelessWidget {
             Text(
               '30',
               style: GoogleFonts.roboto(
-                fontSize: 18,
+                fontSize: smallLargeFontSize,
                 color: blackColor,
                 fontWeight: FontWeight.w200,
               ),
@@ -119,7 +120,7 @@ class UserInformation extends StatelessWidget {
           'Work hard, be kind, amazing things in life. Love dancing,singing,reading and generally have a good time.',
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(
-            fontSize: 12,
+            fontSize: smallFontSize,
             color: blackColor,
             fontWeight: FontWeight.w100,
           ),

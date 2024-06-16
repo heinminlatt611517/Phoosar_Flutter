@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_textfield.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class ProfileBuilder extends StatefulWidget {
@@ -22,7 +23,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
         right: 12,
         top: 12,
       ),
-      height: MediaQuery.of(context).size.height * 0.65,
+      height: MediaQuery.of(context).size.height * 0.67,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,7 +33,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
               Text(
                 'Profile Builder',
                 style: GoogleFonts.roboto(
-                  fontSize: 20,
+                  fontSize: mediumLargeFontSize,
                   color: blueColor,
                   fontWeight: FontWeight.w700,
                 ),
@@ -50,7 +51,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
                     Text(
                       '+10',
                       style: GoogleFonts.roboto(
-                        fontSize: 11,
+                        fontSize: smallFontSize,
                         color: blueColor,
                       ),
                     ),
@@ -63,7 +64,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
             "Answer the question below and increase your likelihood of finding a better match. A full profile gets 3x matches.",
             textAlign: TextAlign.left,
             style: GoogleFonts.roboto(
-              fontSize: 12,
+              fontSize: smallFontSize,
               color: blackColor,
               fontWeight: FontWeight.w100,
             ),
@@ -73,7 +74,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
             "After work, you can find me ..",
             textAlign: TextAlign.left,
             style: GoogleFonts.roboto(
-              fontSize: 13,
+              fontSize: mediumFontSize,
               color: blackColor,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w500,
@@ -113,7 +114,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
           Text(
             'You received 10 💕 for updating your profile',
             style: GoogleFonts.roboto(
-              fontSize: 11,
+              fontSize: smallFontSize,
               color: whiteColor,
             ),
           ),
@@ -137,7 +138,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
         'Profile successfully updated!',
         textAlign: TextAlign.center,
         style: GoogleFonts.roboto(
-          fontSize: 13,
+          fontSize: mediumFontSize,
           color: whiteColor,
         ),
       ),

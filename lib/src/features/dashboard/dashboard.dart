@@ -22,15 +22,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool isProfileBuilder = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: widget.controller.themeMode == ThemeMode.dark
+    return Container(
+      height: double.infinity,
+      color: widget.controller.themeMode == ThemeMode.dark
           ? blackColor
           : whitePaleColor,
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              MediaQuery.of(context).padding.top.vGap,
               DashboardHeader(),
               isProfileBuilder ? ProfileBuilder() : InfoCard(),
               20.vGap,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class DashboardHeader extends StatelessWidget {
@@ -15,7 +16,7 @@ class DashboardHeader extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 68,
+            width: 74,
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -33,7 +34,7 @@ class DashboardHeader extends StatelessWidget {
                 Text(
                   '200',
                   style: GoogleFonts.roboto(
-                    fontSize: 11,
+                    fontSize: smallFontSize,
                     color: blueColor,
                   ),
                 ),

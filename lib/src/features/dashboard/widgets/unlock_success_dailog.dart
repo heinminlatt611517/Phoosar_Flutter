@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class UnlockSuccessDailog extends StatelessWidget {
@@ -32,7 +33,7 @@ class UnlockSuccessDailog extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                fontSize: 14,
+                fontSize: mediumFontSize,
                 text: "CONTINUE",
                 onTap: () {
                   Navigator.pop(context);

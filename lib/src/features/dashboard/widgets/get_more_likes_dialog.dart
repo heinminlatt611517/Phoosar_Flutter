@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/like_row.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class GetMoreLikesDialog extends StatelessWidget {
@@ -52,7 +53,7 @@ class GetMoreLikesDialog extends StatelessWidget {
               child: Text(
                 'UNLIMITED',
                 style: GoogleFonts.roboto(
-                  fontSize: 23,
+                  fontSize: largeFontSize,
                   color: blueColor,
                   fontWeight: FontWeight.w400,
                 ),
@@ -62,7 +63,7 @@ class GetMoreLikesDialog extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                fontSize: 14,
+                fontSize: mediumFontSize,
                 text: "PHOOSAR PREMINUM",
                 onTap: () {},
               ),

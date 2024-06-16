@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class MatchScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _MatchScreenState extends State<MatchScreen> {
               child: Text(
                 'It\'s a match',
                 style: GoogleFonts.roboto(
-                  fontSize: 23,
+                  fontSize: largeFontSize,
                   color: blueColor,
                   fontWeight: FontWeight.w400,
                 ),
@@ -50,7 +51,7 @@ class _MatchScreenState extends State<MatchScreen> {
               "Seem like you two like each other!",
               textAlign: TextAlign.left,
               style: GoogleFonts.roboto(
-                fontSize: 14,
+                fontSize: mediumFontSize,
                 color: blackColor,
                 fontWeight: FontWeight.w300,
               ),
@@ -97,7 +98,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     'MESSAGE',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.roboto(
-                      fontSize: 12,
+                      fontSize: smallFontSize,
                       color: whiteColor,
                       fontWeight: FontWeight.w400,
                     ),
@@ -123,7 +124,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     'CONTINUE PLAYING',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.roboto(
-                      fontSize: 12,
+                      fontSize: smallFontSize,
                       color: blackColor,
                       fontWeight: FontWeight.w400,
                     ),
@@ -150,7 +151,7 @@ class _MatchScreenState extends State<MatchScreen> {
           Text(
             'You received 5 💕 for getting a match',
             style: GoogleFonts.roboto(
-              fontSize: 11,
+              fontSize: smallFontSize,
               color: whiteColor,
             ),
           ),
