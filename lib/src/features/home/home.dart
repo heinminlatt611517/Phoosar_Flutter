@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/features/chat/chat_screen.dart';
 import 'package:phoosar/src/features/dashboard/dashboard.dart';
 import 'package:phoosar/src/features/home/scaffold_with_navigation_bar.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
@@ -21,7 +22,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     var pages = [
       DashboardScreen(controller: widget.settingsController),
-      const Text('Chat'),
+      ChatScreen(),
       SettingsView(controller: widget.settingsController),
     ];
     return ScaffoldWithNavigationBar(
