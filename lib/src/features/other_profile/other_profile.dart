@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:phoosar/src/features/other_profile/widgets.dart/more_information.dart';
-import 'package:phoosar/src/features/other_profile/widgets.dart/profile_slider.dart';
-import 'package:phoosar/src/features/other_profile/widgets.dart/user_hobbies.dart';
-import 'package:phoosar/src/features/other_profile/widgets.dart/user_information.dart';
+import 'package:phoosar/src/features/other_profile/widgets/more_information.dart';
+import 'package:phoosar/src/features/other_profile/widgets/profile_slider.dart';
+import 'package:phoosar/src/features/other_profile/widgets/user_hobbies.dart';
+import 'package:phoosar/src/features/other_profile/widgets/user_information.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';

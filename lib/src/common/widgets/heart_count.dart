@@ -9,14 +9,17 @@ class HeartCount extends StatelessWidget {
     super.key,
     required this.heartCount,
     this.backgroundColor = primaryColor,
+    this.width,
   });
 
   final String heartCount;
   final Color backgroundColor;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: backgroundColor,

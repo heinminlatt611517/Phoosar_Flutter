@@ -8,10 +8,12 @@ class CommonIconButton extends StatelessWidget {
     required this.onTap,
     required this.icon,
     this.backgroundColor = whiteColor,
+    this.padding = 10,
   });
   final Function() onTap;
   final Widget icon;
   final Color? backgroundColor;
+  final double? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class CommonIconButton extends StatelessWidget {
       scaleFactor: 0.5,
       onTap: onTap,
       child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(padding ?? 10),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: backgroundColor ?? whiteColor),
