@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -7,6 +8,7 @@ class CommonIconButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.icon,
+    this.padding,
     this.backgroundColor = whiteColor,
     this.padding = 10,
   });
