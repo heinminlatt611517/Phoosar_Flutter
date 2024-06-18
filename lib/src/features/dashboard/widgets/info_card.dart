@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/info_row.dart';
 import 'package:phoosar/src/features/dashboard/widgets/dashboard_user_slider.dart';
-import 'package:phoosar/src/features/profile/profile.dart';
+import 'package:phoosar/src/features/other_profile/other_profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';

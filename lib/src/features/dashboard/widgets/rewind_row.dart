@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phoosar/src/common/widgets/heart_count.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -42,31 +43,7 @@ class RewindRow extends StatelessWidget {
           ),
           Row(
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.heart_broken,
-                      size: 15,
-                      color: Colors.red,
-                    ),
-                    4.hGap,
-                    Text(
-                      heartCount,
-                      style: GoogleFonts.roboto(
-                        fontSize: smallFontSize,
-                        color: whiteColor,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              HeartCount(heartCount: heartCount),
               10.hGap,
               InkWell(
                 onTap: () {

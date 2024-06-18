@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/utils/constants.dart';
 
-class ProfileSlider extends StatelessWidget {
-  const ProfileSlider({
+class OtherUserProfileSlider extends StatelessWidget {
+  const OtherUserProfileSlider({
     super.key,
   });
 
