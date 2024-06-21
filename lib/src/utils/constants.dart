@@ -17,6 +17,14 @@ List<String> hobbies = [
   'Writing',
 ];
 
+List<String> cities = [
+  'Yangon',
+  'Mandalay',
+  'Mawlamyine',
+  'Taungyi',
+  'Nay Pyi Taw',
+];
+
 double smallFontSize = 14;
 double mediumFontSize = 16;
 double normalFontSize = 18;
@@ -24,6 +32,3 @@ double smallLargeFontSize = 20;
 double mediumLargeFontSize = 22;
 double largeFontSize = 24;
 double veryLargeFontSize = 26;
-
-
-

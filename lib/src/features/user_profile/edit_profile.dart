@@ -14,6 +14,7 @@ class EditProfileScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: whitePaleColor,
         title: Text('Edit Profile'),
+        centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
       body: ListView(

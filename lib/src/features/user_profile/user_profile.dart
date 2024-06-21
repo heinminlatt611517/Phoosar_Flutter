@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/heart_count.dart';
 import 'package:phoosar/src/common/widgets/text_icon_button.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/user_profile/edit_profile.dart';
+import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -146,12 +147,12 @@ class UserProfileScreen extends StatelessWidget {
                   CommonTextIconButton(
                     text: 'SETTINGS',
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => MatchScreen(),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserSettingScreen(),
+                        ),
+                      );
                     },
                     icon: Icon(
                       Icons.settings,
