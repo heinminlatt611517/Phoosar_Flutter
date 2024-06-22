@@ -1,0 +1,10 @@
+const kSignInLabel = "Sign In";
+const kSignUpLabel = "Sign Up";
+const kEmailLabel = "Email";
+const kUserNameLabel = "User Name";
+const kPasswordLabel = "Password";
+const kForgotPasswordLabel = "Forgot Password?";
+const kDontHaveAccount = "Don't have an account?";
+const kAlreadyHaveAccount = "Already have an account?";
+const kContinueLabel = 'Continue';
+const kIamLabel = "I am";

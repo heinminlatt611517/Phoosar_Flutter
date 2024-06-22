@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/features/auth/auth_screen.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/enable_drag.dart';
+
 import 'settings/settings_view.dart';
 
 class MyApp extends ConsumerWidget {
@@ -41,13 +43,15 @@ class MyApp extends ConsumerWidget {
               settings: routeSettings,
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
+                  case AuthScreen.routeName:
+                    return AuthScreen();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
 
                   case HomeScreen.routeName:
                     return HomeScreen(settingsController: settingsController);
                   default:
-                    return HomeScreen(settingsController: settingsController);
+                    return AuthScreen();
                 }
               },
             );
