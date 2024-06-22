@@ -21,7 +21,13 @@ class RoomsScreen extends ConsumerWidget {
     final profilesState = ref.watch(profilesProvider);
 
     return roomState.when(
-      loading: () => const CircularProgressIndicator(),
+      loading: () => Center(
+        child: Container(
+          width: 50,
+          height: 50,
+          child: const CircularProgressIndicator(),
+        ),
+      ),
       error: (error, _) => Center(child: Text('Error: $error')),
       data: (rooms) {
         return profilesState.when(

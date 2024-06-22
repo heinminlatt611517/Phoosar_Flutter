@@ -53,7 +53,7 @@ class UserAvatar extends ConsumerWidget {
             color: Colors.blue, // Background color for the container
             child: Center(
               child: Text(
-                profile.username.substring(0, 2), // Display the initials
+                profile.username.substring(0, 3), // Display the initials
                 style: const TextStyle(
                     color: Colors.white, fontSize: 16), // Text color
               ),

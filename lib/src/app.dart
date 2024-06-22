@@ -37,7 +37,7 @@ class MyApp extends ConsumerWidget {
           ],
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
-          theme: appTheme,
+          theme: ThemeData(),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
@@ -46,7 +46,9 @@ class MyApp extends ConsumerWidget {
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   case AuthScreen.routeName:
-                    return AuthScreen();
+                    return AuthScreen(
+                      settingsController: settingsController,
+                    );
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
 

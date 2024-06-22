@@ -1,14 +1,20 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
+import 'package:phoosar/src/common/widgets/input_view.dart';
+import 'package:phoosar/src/features/auth/register.dart';
+import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  static Route<void> route() {
-    return MaterialPageRoute(builder: (context) => const LoginScreen());
-  }
+  const LoginScreen({Key? key, required this.settingsController})
+      : super(key: key);
+  final SettingsController settingsController;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -16,8 +22,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   Future<void> _signIn() async {
     setState(() {
@@ -25,8 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     try {
       await supabase.auth.signInWithPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
+        email: emailController.text,
+        password: passwordController.text,
       );
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
@@ -42,49 +48,127 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: formPadding,
-        children: [
-          60.vGap,
-          Image.asset(
-            'assets/images/ic_launcher.png',
-            width: MediaQuery.of(context).size.width * 0.2,
-            height: MediaQuery.of(context).size.height * 0.2,
-          ),
-          12.vGap,
-          const Text(
-            'Sign In',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ///app icon
+                Image.asset(
+                  'assets/images/phoosar_img.png',
+                  height: 60,
+                ),
+                50.vGap,
+
+                ///email input
+                InputView(
+                    passwordController: emailController,
+                    hintLabel: kEmailLabel),
+                24.vGap,
+
+                ///password input
+                InputView(
+                    passwordController: passwordController,
+                    hintLabel: kPasswordLabel),
+
+                50.vGap,
+
+                ///Sign in button
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: CommonButton(
+                    containerVPadding: 10,
+                    text: kSignInLabel,
+                    fontSize: 18,
+                    onTap: () {},
+                    bgColor: Colors.pinkAccent,
+                  ),
+                ),
+
+                30.vGap,
+
+                ///forgot password
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    kForgotPasswordLabel,
+                    style:
+                        TextStyle(fontSize: kTextRegular3x, color: Colors.grey),
+                  ),
+                ),
+
+                30.vGap,
+
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ///facebook signIn button
+                    HorizontalTextIconButton(
+                        onTap: () {},
+                        icon: Icon(
+                          Icons.facebook,
+                          color: Colors.blue,
+                        ),
+                        text: kSignInLabel),
+
+                    20.hGap,
+
+                    ///google signIn button
+                    HorizontalTextIconButton(
+                        onTap: () {},
+                        icon: Icon(
+                          Icons.email,
+                          color: Colors.red,
+                        ),
+                        text: kSignInLabel),
+                  ],
+                ),
+
+                40.vGap,
+
+                ///dont have account
+                RichText(
+                  text: new TextSpan(
+                    style: new TextStyle(
+                      fontSize: kTextRegular2x,
+                      color: Colors.grey,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(text: kDontHaveAccount),
+                      TextSpan(
+                        text: kSignUpLabel,
+                        style: new TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterScreen(
+                                  settingsController: widget.settingsController,
+                                ),
+                              ),
+                            );
+                          },
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
-          12.vGap,
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
-            keyboardType: TextInputType.emailAddress,
-          ),
-          spacer,
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
-          ),
-          spacer,
-          ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: const Text('Login'),
-          ),
-        ],
+        ),
       ),
     );
   }

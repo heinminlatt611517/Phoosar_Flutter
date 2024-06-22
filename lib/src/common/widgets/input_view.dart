@@ -4,9 +4,13 @@ import 'package:phoosar/src/utils/dimens.dart';
 class InputView extends StatelessWidget {
   final TextEditingController passwordController;
   final String hintLabel;
+  final String? Function(String?)? validator;
 
   const InputView(
-      {super.key, required this.passwordController, required this.hintLabel});
+      {super.key,
+      required this.passwordController,
+      required this.hintLabel,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class InputView extends StatelessWidget {
           border: Border.all(color: Colors.grey.withOpacity(0.5), width: 0.5)),
       child: TextFormField(
         controller: passwordController,
+        validator: validator,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintLabel,

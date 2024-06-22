@@ -1,11 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
+import 'package:phoosar/src/common/widgets/input_view.dart';
+import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -69,8 +76,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         data: {'username': username, 'device_token': 'device_token'},
         emailRedirectTo: 'io.supabase.chat://login',
       );
-      context.showSnackBar(
-          message: 'Please check your inbox for confirmation email.');
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {
@@ -82,85 +87,151 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
-        child: ListView(
-          padding: formPadding,
-          children: [
-            60.vGap,
-            Image.asset(
-              'assets/images/ic_launcher.png',
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).size.height * 0.2,
-            ),
-            12.vGap,
-            const Text(
-              'Register',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ///app icon
+                  Image.asset(
+                    'assets/images/phoosar_img.png',
+                    height: 60,
+                  ),
+                  50.vGap,
+
+                  ///user name input
+                  InputView(
+                      passwordController: _usernameController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                      hintLabel: kUserNameLabel),
+                  24.vGap,
+
+                  ///email input
+                  InputView(
+                      passwordController: _emailController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                      hintLabel: kEmailLabel),
+                  24.vGap,
+
+                  ///password input
+                  InputView(
+                      passwordController: _passwordController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Required';
+                        }
+                        if (val.length < 6) {
+                          return '6 characters minimum';
+                        }
+                        return null;
+                      },
+                      hintLabel: kPasswordLabel),
+
+                  50.vGap,
+
+                  ///Sign up button
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: CommonButton(
+                      containerVPadding: 10,
+                      text: kSignUpLabel,
+                      fontSize: 18,
+                      onTap: () {
+                        _signUp();
+                      },
+                      bgColor: Colors.lightBlueAccent,
+                    ),
+                  ),
+
+                  30.vGap,
+
+                  ///forgot password
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      kForgotPasswordLabel,
+                      style: TextStyle(
+                          fontSize: kTextRegular3x, color: Colors.grey),
+                    ),
+                  ),
+
+                  30.vGap,
+
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ///facebook signIn button
+                      HorizontalTextIconButton(
+                          onTap: () {},
+                          icon: Icon(
+                            Icons.facebook,
+                            color: Colors.blue,
+                          ),
+                          text: kSignInLabel),
+
+                      20.hGap,
+
+                      ///google signIn button
+                      HorizontalTextIconButton(
+                          onTap: () {},
+                          icon: Icon(
+                            Icons.email,
+                            color: Colors.red,
+                          ),
+                          text: kSignInLabel),
+                    ],
+                  ),
+
+                  40.vGap,
+
+                  ///already have account
+                  RichText(
+                    text: new TextSpan(
+                      style: new TextStyle(
+                        fontSize: kTextRegular2x,
+                        color: Colors.grey,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(text: kAlreadyHaveAccount),
+                        TextSpan(
+                          text: kSignInLabel,
+                          style: new TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.red),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(
+                                    settingsController:
+                                        widget.settingsController,
+                                  ),
+                                ),
+                              );
+                            },
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-            12.vGap,
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                label: Text('Email'),
-              ),
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Required';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            spacer,
-            TextFormField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                label: Text('Password'),
-              ),
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Required';
-                }
-                if (val.length < 6) {
-                  return '6 characters minimum';
-                }
-                return null;
-              },
-            ),
-            spacer,
-            TextFormField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                label: Text('Username'),
-              ),
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Required';
-                }
-                final isValid = RegExp(r'^[A-Za-z0-9_]{3,24}$').hasMatch(val);
-                if (!isValid) {
-                  return '3-24 long with alphanumeric or underscore';
-                }
-                return null;
-              },
-            ),
-            spacer,
-            ElevatedButton(
-              onPressed: _isLoading ? null : _signUp,
-              child: const Text('Register'),
-            ),
-            spacer,
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(LoginScreen.route());
-                },
-                child: const Text('I already have an account'))
-          ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/features/auth/auth_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
@@ -29,7 +30,7 @@ class SplashScreenState extends State<SplashScreen> {
       if (session == null) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => RegisterScreen(
+              builder: (context) => AuthScreen(
                   settingsController: widget.settingsController)),
           (route) => false,
         );
@@ -48,7 +49,7 @@ class SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
             builder: (context) =>
-                RegisterScreen(settingsController: widget.settingsController)),
+                AuthScreen(settingsController: widget.settingsController)),
         (route) => false,
       );
     }
