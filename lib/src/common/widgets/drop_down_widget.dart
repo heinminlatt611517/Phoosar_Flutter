@@ -54,10 +54,13 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
           }).toList();
         },
         decoration: InputDecoration(
-          enabledBorder: InputBorder.none,
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: Colors.grey, width: 0.5)),
           filled: true,
-          fillColor: whitePaleColor,
-          contentPadding: EdgeInsets.symmetric(vertical: 20),
+          fillColor: Colors.white,
+          contentPadding:
+              EdgeInsets.symmetric(vertical: 20, horizontal: kMarginLarge),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
           ),
