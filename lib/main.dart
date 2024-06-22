@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/env/env.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'src/app.dart';
@@ -17,6 +19,11 @@ void main() async {
   setPathUrlStrategy();
   registerErrorHandlers();
   final sharedPref = await SharedPreferences.getInstance();
+
+  await Supabase.initialize(
+    url: Env.supabaseUrl,
+    anonKey: Env.supabaseAnonKey,
+  );
 
   runApp(
     ProviderScope(

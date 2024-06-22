@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
+import 'package:phoosar/src/splash_page.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/enable_drag.dart';
 import 'settings/settings_view.dart';
 
@@ -33,7 +35,7 @@ class MyApp extends ConsumerWidget {
           ],
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
-          theme: ThemeData(),
+          theme: appTheme,
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
@@ -47,7 +49,9 @@ class MyApp extends ConsumerWidget {
                   case HomeScreen.routeName:
                     return HomeScreen(settingsController: settingsController);
                   default:
-                    return HomeScreen(settingsController: settingsController);
+                    return SplashScreen(
+                      settingsController: settingsController,
+                    );
                 }
               },
             );

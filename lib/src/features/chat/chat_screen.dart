@@ -2,8 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/features/auth/register.dart';
+import 'package:phoosar/src/features/chat/rooms_screen.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/list_items/message_list_item_view.dart';
+import 'package:phoosar/src/settings/settings_controller.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -11,14 +15,15 @@ import '../../common/widgets/common_button.dart';
 import '../../utils/colors.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({super.key, required this.controller});
+  final SettingsController controller;
 
   @override
   ConsumerState<ChatScreen> createState() => _ChatState();
 }
 
 class _ChatState extends ConsumerState<ChatScreen> {
-  bool isMatched = false;
+  bool isMatched = true;
   bool isLikedYou = false;
   @override
   Widget build(BuildContext context) {
@@ -32,6 +37,22 @@ class _ChatState extends ConsumerState<ChatScreen> {
           'Messages',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
         ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await supabase.auth.signOut();
+
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => RegisterScreen(
+                          settingsController: widget.controller,
+                        )),
+                (route) => false,
+              );
+            },
+            child: const Text('Logout'),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -52,18 +73,18 @@ class _ChatState extends ConsumerState<ChatScreen> {
           ),
 
           ///messages list item view
-          Visibility(
-            visible: isMatched || isLikedYou ? false : true,
-            child: Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return MessageListItemView();
-                },
-                itemCount: 8,
-              ),
-            ),
-          ),
+          // Visibility(
+          //   visible: isMatched || isLikedYou ? false : true,
+          //   child: Expanded(
+          //     child: ListView.builder(
+          //       shrinkWrap: true,
+          //       itemBuilder: (context, index) {
+          //         return MessageListItemView();
+          //       },
+          //       itemCount: 8,
+          //     ),
+          //   ),
+          // ),
 
           ///new matches view
           Visibility(
@@ -75,65 +96,10 @@ class _ChatState extends ConsumerState<ChatScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ///new match horizontal list
-                    Text(
-                      'New Matches',
-                      style: TextStyle(
-                          color: Colors.grey, fontSize: kTextRegular3x),
-                    ),
-                    10.vGap,
-                    Container(
-                      height: 140,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(right: kMarginMedium),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                "assets/images/sample_profile2.jpeg",
-                                width: 125,
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: 8,
-                      ),
-                    ),
-
-                    ///horizontal divider
-                    Container(
-                        margin: EdgeInsets.symmetric(vertical: kMarginLarge),
-                        width: double.infinity,
-                        height: 0.2,
-                        color: Colors.grey),
 
                     Expanded(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              "assets/images/sample_profile.png",
-                              width: 100,
-                              height: 125,
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                        itemCount: 12,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, // number of items in each row
-                          mainAxisSpacing: 18.0, // spacing between rows
-                          crossAxisSpacing: 8.0, // spacing between columns
-                        ),
-                      ),
-                    ),
+                        child:
+                            RoomsScreen(settingsController: widget.controller))
                   ],
                 ),
               ),

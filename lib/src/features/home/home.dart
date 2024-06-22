@@ -5,7 +5,6 @@ import 'package:phoosar/src/features/dashboard/dashboard.dart';
 import 'package:phoosar/src/features/home/scaffold_with_navigation_bar.dart';
 import 'package:phoosar/src/features/user_profile/user_profile.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
-import 'package:phoosar/src/settings/settings_view.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key, required this.settingsController});
@@ -23,7 +22,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     var pages = [
       DashboardScreen(controller: widget.settingsController),
-      ChatScreen(),
+      ChatScreen(
+        controller: widget.settingsController,
+      ),
       UserProfileScreen(controller: widget.settingsController),
       // SettingsView(controller: widget.settingsController),
     ];
