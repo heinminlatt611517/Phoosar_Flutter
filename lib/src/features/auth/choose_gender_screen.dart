@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -57,7 +58,14 @@ class _ChooseGenderScreenState extends State<ChooseGenderScreen> {
                 containerVPadding: 10,
                 text: kContinueLabel,
                 fontSize: 18,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChooseCountryAndCityScreen(),
+                    ),
+                  );
+                },
                 bgColor: Colors.pinkAccent,
               ),
             ),
