@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/features/auth/register.dart';
+import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -24,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late final StreamSubscription<AuthState> _authSubscription;
 
   Future<void> _signIn() async {
     setState(() {
@@ -41,9 +45,28 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     if (mounted) {
       setState(() {
-        _isLoading = true;
+        _isLoading = false;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    bool haveNavigated = false;
+    // Listen to auth state to redirect user when the user clicks on confirmation link
+    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      final session = data.session;
+      if (session != null && !haveNavigated) {
+        haveNavigated = true;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+              builder: (context) =>
+                  HomeScreen(settingsController: widget.settingsController)),
+        );
+      }
+    });
   }
 
   @override
@@ -91,7 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     containerVPadding: 10,
                     text: kSignInLabel,
                     fontSize: 18,
-                    onTap: () {},
+                    onTap: () {
+                      if (!_isLoading) {
+                        _signIn();
+                      }
+                    },
                     bgColor: Colors.pinkAccent,
                   ),
                 ),

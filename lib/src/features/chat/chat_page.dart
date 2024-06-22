@@ -15,18 +15,18 @@ class ChatPage extends ConsumerWidget {
   const ChatPage({Key? key, required this.roomId, required this.otherUserName})
       : super(key: key);
 
-  static Route<void> route(String roomId, String otherUserName) {
-    return MaterialPageRoute(
-      builder: (context) => ProviderScope(
-        overrides: [
-          chatProvider(roomId).overrideWithProvider(
-              StateNotifierProvider<ChatNotifier, AsyncValue<List<Message>>>(
-                  (ref) => ChatNotifier(ref, roomId))),
-        ],
-        child: ChatPage(roomId: roomId, otherUserName: otherUserName),
-      ),
-    );
-  }
+  // static Route<void> route(String roomId, String otherUserName) {
+  //   return MaterialPageRoute(
+  //     builder: (context) => ProviderScope(
+  //       overrides: [
+  //         chatProvider(roomId).overrideWithProvider(
+  //             StateNotifierProvider<ChatNotifier, AsyncValue<List<Message>>>(
+  //                 (ref) => ChatNotifier(ref, roomId))),
+  //       ],
+  //       child: ChatPage(roomId: roomId, otherUserName: otherUserName),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

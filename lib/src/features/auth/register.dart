@@ -24,7 +24,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final bool _isLoading = false;
+  bool _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -69,11 +69,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final email = _emailController.text;
     final password = _passwordController.text;
     final username = _usernameController.text;
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await supabase.auth.signUp(
         email: email,
         password: password,
-        data: {'username': username, 'device_token': 'device_token'},
+        data: {
+          'username': username,
+          'device_token': 'device_token',
+          'profile_url': 'https://firebasestorage.googleapis.com/v0/b/shwekhit-quiz.appspot.com/o/sample_profile.png?alt=media&token=6aaf7a1e-5595-41b3-a20b-a1d94865afb2'
+        },
         emailRedirectTo: 'io.supabase.chat://login',
       );
     } on AuthException catch (error) {
@@ -82,6 +89,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       debugPrint(error.toString());
       context.showErrorSnackBar(message: unexpectedErrorMessage);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -152,7 +162,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       text: kSignUpLabel,
                       fontSize: 18,
                       onTap: () {
-                        _signUp();
+                        if (!_isLoading) {
+                          _signUp();
+                        }
                       },
                       bgColor: Colors.lightBlueAccent,
                     ),

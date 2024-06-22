@@ -5,7 +5,6 @@ import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/models/profile.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/dimens.dart';
-import 'package:phoosar/src/utils/gap.dart';
 
 class MatchUsers extends ConsumerWidget {
   const MatchUsers({
@@ -36,12 +35,14 @@ class MatchUsers extends ConsumerWidget {
                           final roomId = await ref
                               .read(roomsProvider.notifier)
                               .createRoom(user.id);
-                          Navigator.of(context)
-                              .push(ChatPage.route(roomId, user.username));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                  roomId: roomId,
+                                  otherUserName: user.username)));
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  'Failed to create a new room: ${e.toString()}')));
+                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          //     content: Text(
+                          //         'Failed to create a new room: ${e.toString()}')));
                         }
                       },
                       child: Padding(

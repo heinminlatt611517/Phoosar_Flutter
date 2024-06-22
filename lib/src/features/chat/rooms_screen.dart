@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phoosar/src/features/auth/register.dart';
+import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/widgets/match_users.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
@@ -47,27 +47,12 @@ class RoomsScreen extends ConsumerWidget {
                       final otherUser =
                           profiles.firstWhere((p) => p.id != room.otherUserId);
                       return ListTile(
-                        onTap: () => Navigator.of(context)
-                            .push(ChatPage.route(room.id, otherUser.username)),
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              12), // Set the corner radius to 20
-                          child: Container(
-                            width: 60, // Specify the width
-                            height: 60, // Specify the height
-                            color: Colors
-                                .blue, // Background color for the container
-                            child: Center(
-                              child: Text(
-                                otherUser.username
-                                    .substring(0, 2), // Display the initials
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16), // Text color
-                              ),
-                            ),
-                          ),
-                        ),
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                    roomId: room.id,
+                                    otherUserName: otherUser.username))),
+                        leading: UserAvatar(userId: otherUser.id),
                         title: Text(otherUser.username),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 4),
