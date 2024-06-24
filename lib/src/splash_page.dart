@@ -30,8 +30,8 @@ class SplashScreenState extends State<SplashScreen> {
       if (session == null) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => AuthScreen(
-                  settingsController: widget.settingsController)),
+              builder: (context) =>
+                  AuthScreen(settingsController: widget.settingsController)),
           (route) => false,
         );
       } else {

@@ -8,6 +8,6 @@ final sharedPrefProvider = StateProvider<SharedPreferences>((ref) {
   throw UnimplementedError();
 });
 
-final supabaseClientProvider = Provider<SupabaseClient>((ref) {
+final supabaseClientProvider = StateProvider<SupabaseClient>((ref) {
   return Supabase.instance.client;
 });

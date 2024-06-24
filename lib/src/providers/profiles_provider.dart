@@ -23,6 +23,7 @@ class ProfilesNotifier extends StateNotifier<AsyncValue<List<Profile>>> {
           .toList();
       state = AsyncValue.data(profiles);
     } catch (e, stackTrace) {
+      throw e;
       state = AsyncValue.error(e, stackTrace);
     }
   }

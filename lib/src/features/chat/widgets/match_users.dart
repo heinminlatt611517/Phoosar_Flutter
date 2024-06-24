@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
@@ -30,6 +32,9 @@ class MatchUsers extends ConsumerWidget {
             children: matchUsers
                 .map<Widget>((user) => InkWell(
                       onTap: () async {
+                        log("User Id " + user.id);
+                        log("User Name " + user.username);
+
                         try {
                           // Accessing RoomProvider to create a room
                           final roomId = await ref
@@ -43,6 +48,7 @@ class MatchUsers extends ConsumerWidget {
                           // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           //     content: Text(
                           //         'Failed to create a new room: ${e.toString()}')));
+                          log("Failed to create a new room: ${e.toString()}");
                         }
                       },
                       child: Padding(

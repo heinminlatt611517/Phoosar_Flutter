@@ -21,8 +21,8 @@ void main() async {
   final sharedPref = await SharedPreferences.getInstance();
 
   await Supabase.initialize(
-    url: Env.supabaseUrl,
-    anonKey: Env.supabaseAnonKey,
+    url: Env.supabaseBaseUrl,
+    anonKey: Env.supabaseAnonDataKey,
   );
 
   runApp(

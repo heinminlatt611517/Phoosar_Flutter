@@ -20,15 +20,19 @@ class Profile {
     return {
       'id': id,
       'username': username,
+      'profile_url': profileUrl,
       'createdAt': createdAt.millisecondsSinceEpoch,
     };
   }
 
   Profile.fromMap(Map<String, dynamic> map)
-      : id = map['id'],
-        username = map['username'],
-        profileUrl = map['profile_url'],
-        createdAt = DateTime.parse(map['created_at']);
+      : id = map['id'] ??
+            'default_id', // Provide a default value or ensure the field is never null
+        username = map['username'] ?? 'default_username',
+        profileUrl = map['profile_url'] ?? 'default_url',
+        createdAt = map['created_at'] != null
+            ? DateTime.parse(map['created_at'])
+            : DateTime.now(); // Provide a default DateTime if null
 
   Profile copyWith({
     String? id,

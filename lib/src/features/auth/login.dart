@@ -2,11 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/profile_provider.dart';
+import 'package:phoosar/src/providers/profiles_provider.dart';
+import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -14,7 +19,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key, required this.settingsController})
       : super(key: key);
   final SettingsController settingsController;
@@ -23,7 +28,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -60,6 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
       final session = data.session;
       if (session != null && !haveNavigated) {
         haveNavigated = true;
+        ref.invalidate(profilesProvider);
+        ref.invalidate(profileProvider);
+        ref.invalidate(roomsProvider);
+        ref.invalidate(supabaseClientProvider);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
               builder: (context) =>

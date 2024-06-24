@@ -51,15 +51,17 @@ class UserAvatar extends ConsumerWidget {
             width: 60, // Specify the width
             height: 60, // Specify the height
 
-            child: Image.network(profile.profileUrl),
-            //color: Colors.blue, // Background color for the container
-            // child: Center(
-            //   child: Text(
-            //     profile.username.substring(0, 3), // Display the initials
-            //     style: const TextStyle(
-            //         color: Colors.white, fontSize: 16), // Text color
-            //   ),
-            // ),
+            //child: Image.network(profile.profileUrl),
+            color: Color(0xffe0e0e0), // Background color for the container
+            child: Center(
+              child: Text(
+                profile.username.length > 3
+                    ? profile.username.substring(0, 4)
+                    : profile.username, // Display the initials
+                style: const TextStyle(
+                    color: Colors.black, fontSize: 16), // Text color
+              ),
+            ),
           ),
         );
       },

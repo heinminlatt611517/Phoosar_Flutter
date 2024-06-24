@@ -45,7 +45,7 @@ class RoomsScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final room = rooms[index];
                       final otherUser =
-                          profiles.firstWhere((p) => p.id != room.otherUserId);
+                          profiles.firstWhere((p) => p.id == room.otherUserId);
                       return ListTile(
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(

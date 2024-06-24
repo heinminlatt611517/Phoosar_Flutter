@@ -10,9 +10,9 @@ abstract class Env {
     @EnviedField(varName: 'SECRET_KEY')
     static const String secretkey = _Env.secretkey;
 
-    @EnviedField(varName: 'SUPABASE_URL')
-    static const String supabaseUrl = _Env.supabaseUrl;
+    @EnviedField(varName: 'SUPABASE_BASE_URL')
+    static const String supabaseBaseUrl = _Env.supabaseBaseUrl;
 
-    @EnviedField(varName: 'SUPABASE_ANON_KEY')
-    static const String supabaseAnonKey = _Env.supabaseAnonKey;
+    @EnviedField(varName: 'SUPABASE_ANON_DATA_KEY')
+    static const String supabaseAnonDataKey = _Env.supabaseAnonDataKey;
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
-import 'package:phoosar/src/features/chat/models/profile.dart';
 import 'package:phoosar/src/features/chat/models/room.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/profile_provider.dart';
+import 'package:phoosar/src/providers/profiles_provider.dart';
 
 final roomsProvider =
     StateNotifierProvider<RoomsNotifier, AsyncValue<List<Room>>>(
@@ -22,34 +24,33 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
   Future<void> _initializeRooms() async {
     final client = _ref.read(supabaseClientProvider);
     _myUserId = client.auth.currentUser!.id; // Correctly accessing the user ID
+    log("My user ID: $_myUserId");
 
-    try {
-      _roomsSubscription = client.from('room_participants').stream(
-        primaryKey: ['room_id', 'profile_id'],
-      ).listen(
-        (participantMaps) {
-          if (participantMaps.isEmpty) {
-            state = const AsyncValue.data([]);
-            return;
-          }
-          final rooms = participantMaps
-              .map(Room.fromRoomParticipants)
-              .where((room) => room.otherUserId != _myUserId)
-              .toList();
+    List<Room> _rooms = [];
 
-          // Call _getNewestMessage for each room
-          for (var room in rooms) {
-            _getNewestMessage(room.id);
-          }
+    _ref.invalidate(profilesProvider);
+    _ref.invalidate(profileProvider);
 
-          state = AsyncValue.data(rooms);
-        },
-        onError: (error) =>
-            state = AsyncValue.error('Error loading rooms', StackTrace.current),
-      );
-    } catch (e) {
-      state = AsyncValue.error(e.toString(), StackTrace.current);
-    }
+    _roomsSubscription = client.from('room_participants').stream(
+      primaryKey: ['room_id', 'profile_id'],
+    ).listen((participantMaps) async {
+      if (participantMaps.isEmpty) {
+        state = const AsyncValue.data([]);
+        return;
+      }
+
+      _rooms = participantMaps
+          .map(Room.fromRoomParticipants)
+          .where((room) => room.otherUserId != _myUserId)
+          .toList();
+      
+      for (final room in _rooms) {
+        _getNewestMessage(room.id);
+      }
+      state = AsyncValue.data(_rooms);
+    }, onError: (error) {
+      throw ('Error loading rooms');
+    });
   }
 
   void _getNewestMessage(String roomId) {
@@ -81,6 +82,7 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
 
   Future<String> createRoom(String otherUserId) async {
     final client = _ref.read(supabaseClientProvider);
+    log("Creating room with user ID: $otherUserId");
     final response = await client
         .rpc('create_new_room', params: {'other_user_id': otherUserId});
     if (response.error != null) {
