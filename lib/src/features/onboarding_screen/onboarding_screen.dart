@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/features/onboarding_screen/alcohol_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/all_set_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/birthdate_screen.dart';
 import 'package:phoosar/src/features/onboarding_screen/fill_short_description_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/horoscopes_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/partner_religion_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/potential_match_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/relationship_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/smoke_screen.dart';
+import 'package:phoosar/src/features/onboarding_screen/type_of_person_screen.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/common_button.dart';
@@ -21,10 +30,22 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     Colors.grey,
     Colors.grey.withOpacity(0.4),
     Colors.grey.withOpacity(0.4),
+    Colors.grey.withOpacity(0.4),
+    Colors.grey.withOpacity(0.4),
+    Colors.grey.withOpacity(0.4),
+    Colors.grey.withOpacity(0.4),
+    Colors.grey.withOpacity(0.4),
+    Colors.grey.withOpacity(0.4),
   ];
 
   List<Color> indicatorTextColors = [
     Colors.grey,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
     Colors.black,
     Colors.black,
   ];
@@ -77,8 +98,14 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                     },
                     children: [
                       FillShortDescriptionScreen(),
-                      FillShortDescriptionScreen(),
-                      FillShortDescriptionScreen()
+                      RelationshipScreen(),
+                      HoroscopesScreen(),
+                      SmokeScreen(),
+                      AlcoholScreen(),
+                      BirthdateScreen(),
+                      PartnerReligionScreen(),
+                      PotentialMatchScreen(),
+                      TypeOfPersonScreen()
                     ],
                   ),
                 ),
@@ -113,6 +140,12 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
         text: kContinueLabel,
         fontSize: 18,
         onTap: () {
+          if (index == 8) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => AllSetScreen()),
+            );
+          }
           setState(() {
             _pageController.animateToPage(
               index + 1,

@@ -20,3 +20,23 @@ const kWhatAreYouLookingForInARelationship =
 const kShortDescriptionAboutYou = "Short Description About You";
 const kHowWouldYourFamilyOrBestFriendDescribeYou =
     "How would your family or your best friend describe you?";
+const kCasualDatingLabel = "Casual Dating";
+const kMarriageLabel = "Marriage";
+const kDoYouBelieveHoroscopes = "Do you believe in horoscopes?";
+const kYesLabel = "Yes";
+const kNoLabel = "No";
+const kDoYouSmokeLabel = "Do you smoke?";
+const kDoYouDrinkAlcoholLabel = "Do you drink alcohol?";
+const kDoYouCareBirthdate = "Do you care about birthdates?";
+const kDoYouCarePartnerReligion = "Do you care about your\npartner's religion?";
+const kWhereWouldYouLikeToMeet =
+    "Where would you like to meet\nyour potential match?";
+const kAtAParkLabel = "At a park";
+const kAtACoffeeShop = "At a coffee shop";
+const kWhatTypeOfPersonAreYou = "What type of person are you?";
+const kClamAndCollected = "Clam and Collected";
+const kChillAndLaidBack = "Chill and Laidback";
+const kFunAndUnSerious = "Fun and Unserious";
+const kYourAreAllSetLabel = "You're all set!";
+const kFindYourMatch = "Now let's find your match.";
+const kLetGoLabel = "Let's go";
