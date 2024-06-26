@@ -156,7 +156,10 @@ class _ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> chatContents = [
-      UserAvatar(userId: message.profileId),
+      UserAvatar(
+        userId: message.profileId,
+        fromChat: true,
+      ),
       const SizedBox(width: 12),
       Flexible(
         child: Container(

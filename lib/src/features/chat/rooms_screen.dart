@@ -52,12 +52,15 @@ class RoomsScreen extends ConsumerWidget {
                                 builder: (context) => ChatPage(
                                     roomId: room.id,
                                     otherUserName: otherUser.username))),
-                        leading: UserAvatar(userId: otherUser.id),
+                        leading: UserAvatar(
+                          userId: otherUser.id,
+                          fromChat: true,
+                        ),
                         title: Text(otherUser.username),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
-                            room.lastMessage?.content ?? '-',
+                            room.lastMessage?.content ?? 'Chat Room Created',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
