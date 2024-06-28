@@ -20,8 +20,40 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.98376363970-rhbkts7ddqbi09g9n2hp29v2n7bd8q8h</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb3804990019783837</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    	<string>fbapi</string>
+    	<string>fb-messenger-api</string>
+    	<string>fbauth2</string>
+    	<string>fbshareextension</string>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FacebookAppID</key>
+	<string>3804990019783837</string>
+	<key>FacebookClientToken</key>
+	<string>aeb42b6da146c3f9794581a2dee8b0ba</string>
+	<key>FacebookDisplayName</key>
+	<string>Phoosar</string>
+	<key>GIDClientID</key>
+	<string>98376363970-rhbkts7ddqbi09g9n2hp29v2n7bd8q8h.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

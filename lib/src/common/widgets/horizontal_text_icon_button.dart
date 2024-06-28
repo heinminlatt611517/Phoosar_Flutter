@@ -20,32 +20,32 @@ class HorizontalTextIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: kMarginMedium),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: const Color.fromRGBO(0, 0, 0, 0),
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1)),
-      child: Row(
-        children: [
-          Bounceable(
-            scaleFactor: 0.5,
-            onTap: onTap,
-            child: Container(
+    return Bounceable(
+      scaleFactor: 0.5,
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: kMarginMedium),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: const Color.fromRGBO(0, 0, 0, 0),
+            border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1)),
+        child: Row(
+          children: [
+            Container(
                 padding: EdgeInsets.symmetric(vertical: kMarginMedium),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(color: backgroundColor ?? whiteColor),
                     color: backgroundColor),
                 child: icon),
-          ),
-          Text(text,
-              style: GoogleFonts.roboto(
-                fontSize: smallFontSize,
-                color: blackColor,
-                fontWeight: FontWeight.w200,
-              )),
-        ],
+            Text(text,
+                style: GoogleFonts.roboto(
+                  fontSize: smallFontSize,
+                  color: blackColor,
+                  fontWeight: FontWeight.w200,
+                )),
+          ],
+        ),
       ),
     );
   }

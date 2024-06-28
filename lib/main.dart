@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/env/env.dart';
+import 'package:phoosar/firebase_options.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -19,6 +23,14 @@ void main() async {
   setPathUrlStrategy();
   registerErrorHandlers();
   final sharedPref = await SharedPreferences.getInstance();
+
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  } else {
+    await Firebase.initializeApp(
+        name: "phoosar", options: DefaultFirebaseOptions.currentPlatform);
+  }
 
   await Supabase.initialize(
     url: Env.supabaseBaseUrl,

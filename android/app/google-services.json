@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "98376363970",
+    "project_id": "newsdev-7afbf",
+    "storage_bucket": "newsdev-7afbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98376363970:android:bcab370af1656fe097f05b",
+        "android_client_info": {
+          "package_name": "com.daily.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98376363970-e5cj6aqepnn6mubj9cm9cc0vc7c81gt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm-Gdrmqi9_DdX4YiC6FMTSgZ1p9bhDn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98376363970-e5cj6aqepnn6mubj9cm9cc0vc7c81gt3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "98376363970-9g7br8q00ta316a6koa1ofqil1jr9717.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.daily.news"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98376363970:android:ed15c25ff9d0b40f97f05b",
+        "android_client_info": {
+          "package_name": "com.m"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98376363970-e5cj6aqepnn6mubj9cm9cc0vc7c81gt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm-Gdrmqi9_DdX4YiC6FMTSgZ1p9bhDn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98376363970-e5cj6aqepnn6mubj9cm9cc0vc7c81gt3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "98376363970-9g7br8q00ta316a6koa1ofqil1jr9717.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.daily.news"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
