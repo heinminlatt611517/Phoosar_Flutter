@@ -1,19 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
-import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -21,8 +18,9 @@ import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
-  const RegisterScreen({super.key, required this.settingsController});
-  final SettingsController settingsController;
+  const RegisterScreen({
+    super.key,
+  });
 
   @override
   ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
@@ -54,9 +52,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         ref.invalidate(roomsProvider);
         ref.invalidate(supabaseClientProvider);
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) =>
-                  HomeScreen(settingsController: widget.settingsController)),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       }
     });
@@ -237,10 +233,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(
-                                    settingsController:
-                                        widget.settingsController,
-                                  ),
+                                  builder: (context) => LoginScreen(),
                                 ),
                               );
                             },

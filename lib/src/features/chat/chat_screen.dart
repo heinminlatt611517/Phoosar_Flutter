@@ -15,8 +15,9 @@ import '../../common/widgets/common_button.dart';
 import '../../utils/colors.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
-  const ChatScreen({super.key, required this.controller});
-  final SettingsController controller;
+  const ChatScreen({
+    super.key,
+  });
 
   @override
   ConsumerState<ChatScreen> createState() => _ChatState();
@@ -45,7 +46,6 @@ class _ChatState extends ConsumerState<ChatScreen> {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => RegisterScreen(
-                          settingsController: widget.controller,
                         )),
                 (route) => false,
               );
@@ -99,7 +99,7 @@ class _ChatState extends ConsumerState<ChatScreen> {
 
                     Expanded(
                         child:
-                            RoomsScreen(settingsController: widget.controller))
+                            RoomsScreen())
                   ],
                 ),
               ),

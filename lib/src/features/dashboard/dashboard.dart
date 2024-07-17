@@ -11,8 +11,9 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key, required this.controller});
-  final SettingsController controller;
+  const DashboardScreen({
+    super.key,
+  });
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -24,9 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
-      color: widget.controller.themeMode == ThemeMode.dark
-          ? blackColor
-          : whitePaleColor,
+      color: whitePaleColor,
       child: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(8.0),

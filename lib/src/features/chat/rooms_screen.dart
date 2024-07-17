@@ -11,9 +11,9 @@ import 'package:timeago/timeago.dart';
 
 /// Displays the list of chat threads
 class RoomsScreen extends ConsumerWidget {
-  const RoomsScreen({Key? key, required this.settingsController})
-      : super(key: key);
-  final SettingsController settingsController;
+  const RoomsScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

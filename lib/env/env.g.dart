@@ -9,9 +9,7 @@ part of 'env.dart';
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env {
-  static const String baseurl = 'TOREPLACE_WITH_BASE_URL';
-
-  static const String secretkey = 'TOREPLACE_WITH_SECRET_KEY';
+  static const String baseurl = 'https://phoosar.mocinteractive.com/api';
 
   static const String supabaseBaseUrl =
       'https://xfbvcetgyhtylolirylb.supabase.co';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/colors.dart';
 
 class ScaffoldWithNavigationBar extends ConsumerWidget {
@@ -9,13 +8,11 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
     required this.body,
     required this.selectedIndex,
     required this.onDestinationSelected,
-    required this.settingsController,
     required super.key,
   });
   final Widget body;
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
-  final SettingsController settingsController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,11 +34,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     'assets/svgs/ic_home.svg',
                     width: 22,
                     height: 22,
-                    color: selectedIndex == 0
-                        ? primaryColor
-                        : settingsController.themeMode == ThemeMode.dark
-                            ? whiteColor
-                            : blackColor,
+                    color: selectedIndex == 0 ? primaryColor : blackColor,
                   ),
                 ),
               ),
@@ -60,11 +53,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     'assets/svgs/ic_chat.svg',
                     width: 22,
                     height: 22,
-                    color: selectedIndex == 1
-                        ? primaryColor
-                        : settingsController.themeMode == ThemeMode.dark
-                            ? whiteColor
-                            : blackColor,
+                    color: selectedIndex == 1 ? primaryColor : blackColor,
                   ),
                 ),
               ),
@@ -83,11 +72,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     'assets/svgs/ic_account.svg',
                     width: 22,
                     height: 22,
-                    color: selectedIndex == 2
-                        ? primaryColor
-                        : settingsController.themeMode == ThemeMode.dark
-                            ? whiteColor
-                            : blackColor,
+                    color: selectedIndex == 2 ? primaryColor : blackColor,
                   ),
                 ),
               ),

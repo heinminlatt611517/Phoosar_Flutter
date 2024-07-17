@@ -6,7 +6,6 @@ import 'package:phoosar/src/features/auth/auth_screen.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/splash_page.dart';
-import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/enable_drag.dart';
 
 import 'settings/settings_view.dart';
@@ -46,18 +45,14 @@ class MyApp extends ConsumerWidget {
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   case AuthScreen.routeName:
-                    return AuthScreen(
-                      settingsController: settingsController,
-                    );
+                    return AuthScreen();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
 
                   case HomeScreen.routeName:
-                    return HomeScreen(settingsController: settingsController);
+                    return HomeScreen();
                   default:
-                    return SplashScreen(
-                      settingsController: settingsController,
-                    );
+                    return SplashScreen();
                 }
               },
             );

@@ -11,16 +11,16 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key, required this.controller});
-  final SettingsController controller;
+  const UserProfileScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color:
-          controller.themeMode == ThemeMode.dark ? blackColor : whitePaleColor,
+      color: whitePaleColor,
       child: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(8.0),

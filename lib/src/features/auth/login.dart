@@ -17,7 +17,6 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -25,9 +24,9 @@ import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({Key? key, required this.settingsController})
-      : super(key: key);
-  final SettingsController settingsController;
+  const LoginScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -75,9 +74,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ref.invalidate(roomsProvider);
         ref.invalidate(supabaseClientProvider);
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) =>
-                  HomeScreen(settingsController: widget.settingsController)),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       }
     });
@@ -200,9 +197,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RegisterScreen(
-                                  settingsController: widget.settingsController,
-                                ),
+                                builder: (context) => RegisterScreen(),
                               ),
                             );
                           },

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/auth/register.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
 class AuthScreen extends StatelessWidget {
-  const AuthScreen({super.key, required this.settingsController});
-  final SettingsController settingsController;
+  const AuthScreen({
+    super.key,
+  });
 
   static const routeName = '/auth';
 
@@ -50,9 +50,7 @@ class AuthScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginScreen(
-                            settingsController: settingsController,
-                          ),
+                          builder: (context) => LoginScreen(),
                         ),
                       );
                     },
@@ -73,9 +71,7 @@ class AuthScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen(
-                            settingsController: settingsController,
-                          ),
+                          builder: (context) => RegisterScreen(),
                         ),
                       );
                     },
