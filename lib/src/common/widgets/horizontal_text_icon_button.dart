@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/gap.dart';
 
 class HorizontalTextIconButton extends StatelessWidget {
   const HorizontalTextIconButton({
@@ -38,12 +39,14 @@ class HorizontalTextIconButton extends StatelessWidget {
                     border: Border.all(color: backgroundColor ?? whiteColor),
                     color: backgroundColor),
                 child: icon),
+            8.hGap,
             Text(text,
                 style: GoogleFonts.roboto(
                   fontSize: smallFontSize,
                   color: blackColor,
                   fontWeight: FontWeight.w200,
                 )),
+            8.hGap
           ],
         ),
       ),

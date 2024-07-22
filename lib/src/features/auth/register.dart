@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
+import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -77,25 +79,58 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      await supabase.auth.signUp(
-        email: email,
-        password: password,
-        data: {
-          'username': username,
-          'device_token': 'device_token',
-        },
-        emailRedirectTo: 'io.supabase.chat://login',
-      );
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      debugPrint(error.toString());
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
+    var response = await ref.read(repositoryProvider).register(
+          jsonEncode({
+            "email": email,
+            "password": password,
+            "user_name": username,
+          }),
+          context,
+        );
+    if (response.statusCode.toString().startsWith("2")) {
+      AuthenticationResponse authResponse =
+          AuthenticationResponse.fromJson(jsonDecode(response.body));
+      ref
+          .watch(sharedPrefProvider)
+          .setString("token", authResponse.token ?? '');
+      try {
+        await supabase.auth.signUp(
+          email: email,
+          password: password,
+          data: {
+            'username': username,
+            'device_token': 'device_token',
+          },
+          emailRedirectTo: 'io.supabase.chat://login',
+        );
+      } on AuthException catch (error) {
+        context.showErrorSnackBar(message: error.message);
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      } catch (error) {
+        debugPrint(error.toString());
+        context.showErrorSnackBar(message: unexpectedErrorMessage);
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override

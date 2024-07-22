@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/utils/gap.dart';
 import 'common_button.dart';
 import 'common_dialog.dart';
 import 'package:sized_context/sized_context.dart';
@@ -26,7 +27,7 @@ class ErrorDialog extends StatelessWidget {
             child: Text(
               message.toString(),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, height: 1.8),
+              style: const TextStyle(fontSize: 18, height: 1.8),
             ),
           ),
           SizedBox(
@@ -46,6 +47,7 @@ class ErrorDialog extends StatelessWidget {
                   },
                 ),
               ),
+              20.hGap
             ],
           ),
           SizedBox(

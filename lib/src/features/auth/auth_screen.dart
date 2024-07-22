@@ -19,12 +19,12 @@ class AuthScreen extends StatelessWidget {
       body: Stack(
         children: [
           ///wave bg
-          Image.asset(
-            'assets/images/auth_wave_bg.png',
-            height: double.infinity,
-            width: double.infinity,
-            fit: BoxFit.fill,
-          ),
+          // Image.asset(
+          //   'assets/images/auth_wave_bg.png',
+          //   height: double.infinity,
+          //   width: double.infinity,
+          //   fit: BoxFit.fill,
+          // ),
 
           ///logo,signIn,signUp
           Center(
@@ -36,8 +36,16 @@ class AuthScreen extends StatelessWidget {
                   'assets/images/phoosar_img.png',
                   height: 80,
                 ),
+                8.vGap,
 
-                50.vGap,
+                Text(
+                  'Destination, Myanmar Connections',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                60.vGap,
 
                 ///Sign in button
                 SizedBox(
@@ -75,7 +83,7 @@ class AuthScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    bgColor: Colors.lightBlueAccent,
+                    bgColor: Colors.cyan,
                   ),
                 ),
               ],

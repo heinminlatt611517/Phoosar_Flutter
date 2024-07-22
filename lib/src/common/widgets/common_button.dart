@@ -8,7 +8,7 @@ class CommonButton extends StatelessWidget {
       {super.key,
       required this.text,
       required this.onTap,
-      this.fontSize = 12,
+      this.fontSize = 16,
       this.containerVPadding,
       this.containerHPadding,
       this.bgColor});

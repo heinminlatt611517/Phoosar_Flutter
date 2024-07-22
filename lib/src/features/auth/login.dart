@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/gestures.dart';
@@ -11,6 +12,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/models/facebook_user.dart';
+import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -42,20 +44,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      await supabase.auth.signInWithPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (_) {
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
-    }
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
+    var response = await ref.read(repositoryProvider).login(
+          jsonEncode({
+            "email": emailController.text,
+            "password": passwordController.text,
+          }),
+          context,
+        );
+    if (response.statusCode.toString().startsWith("2")) {
+      AuthenticationResponse authResponse =
+          AuthenticationResponse.fromJson(jsonDecode(response.body));
+      ref
+          .watch(sharedPrefProvider)
+          .setString("token", authResponse.token ?? '');
+      try {
+        await supabase.auth.signInWithPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } on AuthException catch (error) {
+        context.showErrorSnackBar(message: error.message);
+      } catch (_) {
+        context.showErrorSnackBar(message: unexpectedErrorMessage);
+      }
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -170,7 +186,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           googleSignIn();
                         },
                         icon: Icon(
-                          Icons.email,
+                          Icons.mail,
                           color: Colors.red,
                         ),
                         text: kSignInLabel),
@@ -273,5 +289,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   loginWithSocialToken(String socialToken, String type, String avator,
-      String name, String email) async {}
+      String name, String email) async {
+    var response = await ref.read(repositoryProvider).socialLogin(
+          jsonEncode({
+            {
+              "provider": type,
+              "provider_id": socialToken,
+              "email": email,
+              "name": name
+            }
+          }),
+          context,
+        );
+    if (response.statusCode.toString().startsWith("2")) {
+      AuthenticationResponse authResponse =
+          AuthenticationResponse.fromJson(jsonDecode(response.body));
+      ref
+          .watch(sharedPrefProvider)
+          .setString("token", authResponse.token ?? '');
+      try {
+        await supabase.auth.signInWithPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } on AuthException catch (error) {
+        context.showErrorSnackBar(message: error.message);
+      } catch (_) {
+        context.showErrorSnackBar(message: unexpectedErrorMessage);
+      }
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 }

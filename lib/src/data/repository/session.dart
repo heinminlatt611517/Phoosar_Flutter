@@ -1,17 +1,18 @@
+import 'dart:convert';
 import 'dart:developer' as developer;
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/error_dialog.dart';
 import 'package:phoosar/src/data/response/default_response.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/extensions.dart';
 import 'package:phoosar/src/utils/page_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart';
 
 class Session {
   static bool showOnce = false;
-  static Dio dio = Dio();
 
   static unauthenticatedState(SharedPreferences prefs, BuildContext context,
       [String? error]) {
@@ -33,232 +34,256 @@ class Session {
   }
 
   static Future<Response> get(
-      Uri url, BuildContext context, WidgetRef ref, CancelToken cancelToken) async {
+    Uri url,
+    BuildContext context,
+    Ref ref,
+  ) async {
     var prefs = ref.watch(sharedPrefProvider);
     var token = prefs.getString("token") ?? "";
     developer.log("Token : " + token.toString());
 
-    try {
-      Response response = await dio.get(
-        url.toString(),
-        options: Options(
-          headers: {
-            "Accept": "application/json",
-            'content-type': 'application/json',
-            'Authorization': "Bearer " + token,
-          },
-        ),
-        cancelToken: cancelToken,
-      );
+    final client = await ref.getDebouncedHttpClient();
 
-      if (!response.statusCode.toString().startsWith("2")) {
-        var data = DefaultResponse.fromJson(response.data);
-        if (response.statusCode == 422) {
-          showDialog(
-              context: context,
-              builder: (context) => ErrorDialog(
-                    title: data.message,
-                    message: data.errors!.join("\n"),
-                  ));
-        } else if (response.statusCode == 401) {
-          unauthenticatedState(prefs, context);
-        } else {
-          showDialog(
-              context: context,
-              builder: (context) => ErrorDialog(
-                    title: "",
-                    message: data.message,
-                  ));
-        }
-      }
-      return response;
-    } on DioError catch (e) {
-      if (CancelToken.isCancel(e)) {
-        developer.log("Request canceled: ${e.message}");
+    Response response = await client.get(
+      url,
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + token,
+      },
+    );
+
+    if (!response.statusCode.toString().startsWith("2")) {
+      var data = DefaultResponse.fromJson(jsonDecode(response.body));
+      if (response.statusCode == 422) {
+        showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+                  title: data.message,
+                  message: data.errors!.join("\n"),
+                ));
+      } else if (response.statusCode == 401) {
+        unauthenticatedState(prefs, context);
+      } else if (response.statusCode == 404) {
+        showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+                  title: "Error 404",
+                  message:
+                      "Client error - the request contains bad syntax or cannot be fulfilled",
+                ));
       } else {
-        developer.log("Request error: ${e.message}");
+        showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+                  title: "",
+                  message: data.message,
+                ));
       }
-      return Response(
-        requestOptions: RequestOptions(path: url.toString()),
-        statusCode: 408,
-        statusMessage: 'Error',
-      );
     }
+    return response;
   }
 
   static Future<Response> post(
-      Uri url, dynamic data, BuildContext context, CancelToken cancelToken) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
+      Uri url, dynamic data, BuildContext context, Ref ref) async {
+    var prefs = ref.watch(sharedPrefProvider);
+    var token = prefs.getString("token") ?? "";
+    developer.log("Token : $token");
 
-    developer.log("Jwt token: $token");
+    final client = await ref.getDebouncedHttpClient();
 
     try {
-      Response response = await dio.post(
-        url.toString(),
-        data: data,
-        options: Options(
-          headers: {
-            "Accept": "application/json",
-            'content-type': 'application/json',
-            'Authorization': "Bearer " + token!,
-          },
-        ),
-        cancelToken: cancelToken,
+      Response response = await client.post(
+        url,
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: data,
       );
 
-      developer.log("Jwt token: ${response.data}");
-      var responseData = DefaultResponse.fromJson(response.data);
       if (!response.statusCode.toString().startsWith("2")) {
+        var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
         if (response.statusCode == 401) {
           unauthenticatedState(prefs, context);
+        } else if (response.statusCode == 404) {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "Error 404",
+              message:
+                  "Client error - the request contains bad syntax or cannot be fulfilled",
+            ),
+          );
         } else {
           showDialog(
-              context: context,
-              builder: (context) => ErrorDialog(
-                    title: "",
-                    message: response.statusCode == 422
-                        ? responseData.errors!.join("\n")
-                        : responseData.message,
-                  ));
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "",
+              message: response.statusCode == 422
+                  ? responseData.errors!.join("\n")
+                  : responseData.message,
+            ),
+          );
         }
       }
       return response;
-    } on DioError catch (e) {
-      if (CancelToken.isCancel(e)) {
-        developer.log("Request canceled: ${e.message}");
-      } else {
-        developer.log("Request error: ${e.message}");
-      }
+    } catch (e) {
+      developer.log("Request error: $e");
       return Response(
-        requestOptions: RequestOptions(path: url.toString()),
-        statusCode: 408,
-        statusMessage: 'Error',
+        'Error',
+        408,
+        request: Request('POST', url),
       );
     }
   }
-  
-  static Future<Response> delete(Uri url, CancelToken cancelToken) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token") ?? '';
+
+  static Future<Response> postWithoutAuth(
+      Uri url, dynamic data, BuildContext context, Ref ref) async {
+    final client = await ref.getDebouncedHttpClient();
+
+    var prefs = ref.watch(sharedPrefProvider);
 
     try {
-      Response response = await dio.delete(
-        url.toString(),
-        options: Options(
-          headers: {
-            "Accept": "application/json",
-            'content-type': 'application/json',
-            'Authorization': "Bearer " + token,
-          },
-        ),
-        cancelToken: cancelToken,
+      Response response = await client.post(
+        url,
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: data,
       );
-      return response;
-    } on DioError catch (e) {
-      if (CancelToken.isCancel(e)) {
-        developer.log("Request canceled: ${e.message}");
-      } else {
-        developer.log("Request error: ${e.message}");
+
+      if (!response.statusCode.toString().startsWith("2")) {
+        var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
+        if (response.statusCode == 401) {
+          unauthenticatedState(prefs, context);
+        } else if (response.statusCode == 404) {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "Error 404",
+              message:
+                  "Client error - the request contains bad syntax or cannot be fulfilled",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "",
+              message: response.statusCode == 422
+                  ? responseData.errors!.join("\n")
+                  : responseData.message,
+            ),
+          );
+        }
       }
+      return response;
+    } catch (e) {
+      developer.log("Request error: $e");
       return Response(
-        requestOptions: RequestOptions(path: url.toString()),
-        statusCode: 408,
-        statusMessage: 'Error',
+        'Error',
+        408,
+        request: Request('POST', url),
+      );
+    }
+  }
+
+  static Future<Response> delete(Uri url, BuildContext context, Ref ref) async {
+    var prefs = ref.watch(sharedPrefProvider);
+    var token = prefs.getString("token") ?? "";
+    developer.log("Token : $token");
+
+    final client = await ref.getDebouncedHttpClient();
+
+    try {
+      Response response = await client.delete(
+        url,
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+      );
+
+      if (!response.statusCode.toString().startsWith("2")) {
+        var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
+        if (response.statusCode == 401) {
+          unauthenticatedState(prefs, context);
+        } else if (response.statusCode == 404) {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "Error 404",
+              message:
+                  "Client error - the request contains bad syntax or cannot be fulfilled",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "",
+              message: responseData.message,
+            ),
+          );
+        }
+      }
+      return response;
+    } catch (e) {
+      developer.log("Request error: $e");
+      return Response(
+        'Error',
+        408,
+        request: Request('DELETE', url),
       );
     }
   }
 
   static Future<Response> patch(
-      Uri url, dynamic data, BuildContext context, CancelToken cancelToken) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
+      Uri url, dynamic data, BuildContext context, Ref ref) async {
+    var prefs = ref.watch(sharedPrefProvider);
+    var token = prefs.getString("token") ?? "";
+    developer.log("Token : $token");
 
-    developer.log("Jwt token: $token");
+    final client = await ref.getDebouncedHttpClient();
 
     try {
-      Response response = await dio.patch(
-        url.toString(),
-        data: data,
-        options: Options(
-          headers: {
-            "Accept": "application/json",
-            'content-type': 'application/json',
-            'Authorization': "Bearer " + token!,
-          },
-        ),
-        cancelToken: cancelToken,
+      Response response = await client.patch(
+        url,
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: data,
       );
 
-      var responseData = DefaultResponse.fromJson(response.data);
       if (!response.statusCode.toString().startsWith("2")) {
+        var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
         showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-                  title: "",
-                  message: responseData.message,
-                ));
+          context: context,
+          builder: (context) => ErrorDialog(
+            title: "",
+            message: response.statusCode == 422
+                ? responseData.errors!.join("\n")
+                : responseData.message,
+          ),
+        );
       }
 
-      developer.log("Jwt token: ${response.data}");
+      developer.log("Response : ${response.body}");
 
       return response;
-    } on DioError catch (e) {
-      if (CancelToken.isCancel(e)) {
-        developer.log("Request canceled: ${e.message}");
-      } else {
-        developer.log("Request error: ${e.message}");
-      }
+    } catch (e) {
+      developer.log("Request error: $e");
       return Response(
-        requestOptions: RequestOptions(path: url.toString()),
-        statusCode: 408,
-        statusMessage: 'Error',
+        'Error',
+        408,
+        request: Request('PATCH', url),
       );
     }
   }
-
-  static Future<Response> put(
-      Uri url, dynamic data, BuildContext context, CancelToken cancelToken) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
-
-    try {
-      Response response = await dio.put(
-        url.toString(),
-        data: data,
-        options: Options(
-          headers: {
-            "Accept": "application/json",
-            'content-type': 'application/json',
-            'Authorization': "Bearer " + token!,
-          },
-        ),
-        cancelToken: cancelToken,
-      );
-
-      var responseData = DefaultResponse.fromJson(response.data);
-      if (!response.statusCode.toString().startsWith("2")) {
-        showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-                  title: "",
-                  message: responseData.message,
-                ));
-      }
-
-      return response;
-    } on DioError catch (e) {
-      if (CancelToken.isCancel(e)) {
-        developer.log("Request canceled: ${e.message}");
-      } else {
-        developer.log("Request error: ${e.message}");
-      }
-      return Response(
-        requestOptions: RequestOptions(path: url.toString()),
-        statusCode: 408,
-        statusMessage: 'Error',
-      );
-    }
-  }
-
 }
