@@ -87,8 +87,8 @@ class Repository {
     return response;
   }
 
-
-  Future<Response> saveOnlineStatus(dynamic request, BuildContext context) async {
+  Future<Response> saveOnlineStatus(
+      dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-online-status"),
       request,
@@ -149,6 +149,17 @@ class Repository {
     return response;
   }
 
+  Future<Response> blockedProfilesList(
+      dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/blocked-list"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
   Future<Response> packagesList(dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/packages"),
@@ -189,7 +200,8 @@ class Repository {
     return response;
   }
 
-  Future<Response> purchaseHistory(dynamic request, BuildContext context) async {
+  Future<Response> purchaseHistory(
+      dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/purchase-history"),
       request,
