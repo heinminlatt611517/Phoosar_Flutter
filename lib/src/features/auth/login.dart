@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -9,10 +10,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phoosar/env/env.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/country_code_with_phone_number_widget.dart';
+import 'package:phoosar/src/common/widgets/email_and_phone_number_view.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/models/facebook_user.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
+import 'package:phoosar/src/features/auth/enter_pin_code_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -38,7 +42,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   late final StreamSubscription<AuthState> authSubscription;
+
+  ///Email or Phone number
+  String selectedText = kEmailLabel;
 
   Future<void> _signIn() async {
     setState(() {
@@ -121,16 +129,57 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 50.vGap,
 
-                ///email input
-                InputView(
-                    passwordController: emailController,
-                    hintLabel: kEmailLabel),
-                24.vGap,
+                ///email and phone number view
+                EmailAndPhoneNumberView(
+                    selectedText: selectedText,
+                    onTapEmailOrPhoneNumber: (value) {
+                      setState(() {
+                        selectedText = value;
+                      });
+                    }),
 
-                ///password input
-                InputView(
-                    passwordController: passwordController,
-                    hintLabel: kPasswordLabel),
+                20.vGap,
+
+                ///phone number sign in view
+                Visibility(
+                  visible: selectedText == kPhoneNumberLabel,
+                  child: Column(
+                    children: [
+                      CountryCodeWithPhoneNumberWidget(
+                        textEditingController: phoneNumberController,
+                        hintLabel: '',
+                        onSelectCountryCode: (String value) {
+                          log("SelectedCountryCode===========> $value");
+                        },
+                      ),
+                      24.vGap,
+
+                      ///password input
+                      InputView(
+                          passwordController: passwordController,
+                          hintLabel: kPasswordLabel),
+                    ],
+                  ),
+                ),
+
+                ///email sing in view
+                Visibility(
+                  visible: selectedText == kEmailLabel,
+                  child: Column(
+                    children: [
+                      ///email input
+                      InputView(
+                          passwordController: emailController,
+                          hintLabel: kEmailLabel),
+                      24.vGap,
+
+                      ///password input
+                      InputView(
+                          passwordController: passwordController,
+                          hintLabel: kPasswordLabel),
+                    ],
+                  ),
+                ),
 
                 50.vGap,
 
@@ -142,8 +191,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     text: kSignInLabel,
                     fontSize: 18,
                     onTap: () {
-                      if (!_isLoading) {
-                        _signIn();
+                      if (selectedText == kPhoneNumberLabel) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => EnterPinCodeScreen()),
+                        );
+                      } else {
+                        if (!_isLoading) {
+                          _signIn();
+                        }
                       }
                     },
                     bgColor: Colors.pinkAccent,
@@ -164,6 +220,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 30.vGap,
 
+                ///facebook and google sign in view
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

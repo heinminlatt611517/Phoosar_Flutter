@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
-import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/home/home.dart';
@@ -22,31 +21,29 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../env/env.dart';
-import '../../common/widgets/country_code_with_phone_number_widget.dart';
-import '../../common/widgets/email_and_phone_number_view.dart';
 import '../../data/models/facebook_user.dart';
-import 'enter_pin_code_screen.dart';
 
-class RegisterScreen extends ConsumerStatefulWidget {
-  const RegisterScreen({
+class EnterPinCodeScreen extends ConsumerStatefulWidget {
+  const EnterPinCodeScreen({
     super.key,
   });
 
   @override
-  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<EnterPinCodeScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
   bool _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
-
+  StreamController<ErrorAnimationType>? errorController;
+  final TextEditingController _pinController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _usernameController = TextEditingController();
   final phoneNumberController = TextEditingController();
 
   ///Email or Phone number
@@ -57,6 +54,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   void initState() {
     super.initState();
+    errorController = StreamController<ErrorAnimationType>();
 
     bool haveNavigated = false;
     // Listen to auth state to redirect user when the user clicks on confirmation link
@@ -79,73 +77,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   void dispose() {
     super.dispose();
 
+    errorController?.close();
     // Dispose subscription when no longer needed
     _authSubscription.cancel();
-  }
-
-  Future<void> _signUp() async {
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    }
-    final email = _emailController.text;
-    final password = _passwordController.text;
-    final username = _usernameController.text;
-    setState(() {
-      _isLoading = true;
-    });
-    var response = await ref.read(repositoryProvider).register(
-          jsonEncode({
-            "email": email,
-            "password": password,
-            "user_name": username,
-          }),
-          context,
-        );
-    if (response.statusCode.toString().startsWith("2")) {
-      AuthenticationResponse authResponse =
-          AuthenticationResponse.fromJson(jsonDecode(response.body));
-      ref
-          .watch(sharedPrefProvider)
-          .setString("token", authResponse.token ?? '');
-      try {
-        await supabase.auth.signUp(
-          email: email,
-          password: password,
-          data: {
-            'username': username,
-            'device_token': 'device_token',
-          },
-          emailRedirectTo: 'io.supabase.chat://login',
-        );
-      } on AuthException catch (error) {
-        context.showErrorSnackBar(message: error.message);
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      } catch (error) {
-        debugPrint(error.toString());
-        context.showErrorSnackBar(message: unexpectedErrorMessage);
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      }
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    } else {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
   }
 
   @override
@@ -166,125 +100,71 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     'assets/images/phoosar_img.png',
                     height: 60,
                   ),
-                  50.vGap,
+                  100.vGap,
 
-                  ///email and phone number view
-                  EmailAndPhoneNumberView(
-                      selectedText: selectedText,
-                      onTapEmailOrPhoneNumber: (value) {
-                        setState(() {
-                          selectedText = value;
-                        });
-                      }),
-
-                  20.vGap,
-
-                  ///phone number sign up view
-                  Visibility(
-                    visible: selectedText == kPhoneNumberLabel,
-                    child: Column(
-                      children: [
-                        ///password input
-                        InputView(
-                            passwordController: _usernameController,
-                            hintLabel: kUserNameLabel),
-
-                        24.vGap,
-
-                        CountryCodeWithPhoneNumberWidget(
-                          textEditingController: phoneNumberController,
-                          hintLabel: '',
-                          onSelectCountryCode: (String value) {
-                            log("SelectedCountryCode===========> $value");
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  ///user name , email , password view
-                  Visibility(
-                      visible: selectedText == kEmailLabel,
-                      child: Column(
-                        children: [
-                          ///user name input
-                          InputView(
-                              passwordController: _usernameController,
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Required';
-                                }
-                                return null;
-                              },
-                              hintLabel: kUserNameLabel),
-                          24.vGap,
-
-                          ///email input
-                          InputView(
-                              passwordController: _emailController,
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Required';
-                                }
-                                return null;
-                              },
-                              hintLabel: kEmailLabel),
-                          24.vGap,
-
-                          ///password input
-                          InputView(
-                              passwordController: _passwordController,
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Required';
-                                }
-                                if (val.length < 6) {
-                                  return '6 characters minimum';
-                                }
-                                return null;
-                              },
-                              hintLabel: kPasswordLabel),
-                        ],
-                      )),
-
-                  50.vGap,
-
-                  ///Sign up button
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: CommonButton(
-                      containerVPadding: 10,
-                      text: kSignUpLabel,
-                      fontSize: 18,
-                      onTap: () {
-                        if (selectedText == kPhoneNumberLabel) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => EnterPinCodeScreen()),
-                          );
-                        } else {
-                          if (!_isLoading) {
-                            _signUp();
-                          }
-                        }
+                  ///Pin code text field
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Center(
+                        child: PinCodeTextField(
+                      backgroundColor: Colors.transparent,
+                      keyboardType: TextInputType.number,
+                      autoDisposeControllers: true,
+                      cursorColor: Colors.blue,
+                      appContext: context,
+                      length: 6,
+                      obscureText: false,
+                      animationType: AnimationType.fade,
+                      pinTheme: PinTheme(
+                        selectedFillColor: Colors.white,
+                        inactiveColor: Colors.grey,
+                        activeColor: Colors.white,
+                        inactiveFillColor: Colors.grey.shade200,
+                        shape: PinCodeFieldShape.box,
+                        borderWidth: 1,
+                        inactiveBorderWidth: 1,
+                        borderRadius: BorderRadius.circular(10),
+                        fieldHeight: 50,
+                        fieldWidth: 50,
+                        activeFillColor: Colors.pinkAccent,
+                      ),
+                      animationDuration: const Duration(milliseconds: 300),
+                      enableActiveFill: true,
+                      errorAnimationController: errorController,
+                      controller: _pinController,
+                      onCompleted: (v) async {
+                        _pinController.clear();
                       },
-                      bgColor: Colors.lightBlueAccent,
-                    ),
+                    )),
                   ),
 
-                  30.vGap,
+                  10.vGap,
 
-                  ///forgot password
+                  ///resend otp text button
                   TextButton(
                     onPressed: () {},
                     child: Text(
-                      kForgotPasswordLabel,
+                      kResendOTPLabel,
                       style: TextStyle(
                           fontSize: kTextRegular3x, color: Colors.grey),
                     ),
                   ),
 
                   30.vGap,
+
+                  ///ConfirmButton button
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: CommonButton(
+                      containerVPadding: 10,
+                      text: kConfirmLabel,
+                      fontSize: 18,
+                      onTap: () {},
+                      bgColor: Colors.lightBlueAccent,
+                    ),
+                  ),
+
+                  100.vGap,
 
                   Row(
                     mainAxisSize: MainAxisSize.min,

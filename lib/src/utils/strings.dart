@@ -40,3 +40,6 @@ const kFunAndUnSerious = "Fun and Unserious";
 const kYourAreAllSetLabel = "You're all set!";
 const kFindYourMatch = "Now let's find your match.";
 const kLetGoLabel = "Let's go";
+const kPhoneNumberLabel = "Phone Number";
+const kConfirmLabel = "Confirm";
+const kResendOTPLabel = "Resend OTP";
