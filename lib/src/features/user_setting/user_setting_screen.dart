@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
+import 'package:phoosar/src/features/user_setting/purchase_history.dart';
+import 'package:phoosar/src/features/user_setting/whats_new.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -398,6 +400,49 @@ class BillingAndNotificationView extends StatelessWidget {
         20.vGap,
 
         ///power by and ex dinger icon
+
+        ///billing container
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PurchaseHistory()));
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: kMarginMedium2, vertical: kMarginMedium2),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey.withOpacity(0.3))),
+            child: Row(
+              children: [
+                Text(
+                  'Purchase History',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Spacer(),
+
+                ///arrow forward
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: kMarginMedium2, vertical: kMarginSmall),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.withOpacity(0.5)),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+
+        10.vGap,
         Row(
           children: [
             Text(
@@ -417,42 +462,6 @@ class BillingAndNotificationView extends StatelessWidget {
         ),
 
         20.vGap,
-
-        ///billing container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium2),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.withOpacity(0.3))),
-          child: Row(
-            children: [
-              Text(
-                'Billing',
-                style: TextStyle(color: Colors.grey),
-              ),
-              Spacer(),
-
-              ///arrow forward
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: kMarginMedium2, vertical: kMarginSmall),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: Center(
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-
-        10.vGap,
 
         ///notification
         Text(
@@ -522,6 +531,11 @@ class HelpAndWhatNewView extends StatelessWidget {
               border: Border.all(color: Colors.grey.withOpacity(0.3))),
           child: Row(
             children: [
+              Text(
+                'Terms and Conditions',
+                style: TextStyle(
+                    color: Colors.grey, fontWeight: FontWeight.normal),
+              ),
               Spacer(),
 
               ///arrow forward
@@ -545,35 +559,44 @@ class HelpAndWhatNewView extends StatelessWidget {
 
         10.vGap,
 
-        ///what is new container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium2),
-          child: Row(
-            children: [
-              Text(
-                'What New',
-                style: TextStyle(
-                    color: Colors.grey, fontWeight: FontWeight.normal),
-              ),
-              Spacer(),
-
-              ///arrow forward
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: kMarginMedium2, vertical: kMarginSmall),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: Center(
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => WhatsNewScreen()));
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: kMarginMedium2, vertical: kMarginMedium2),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey.withOpacity(0.3))),
+            child: Row(
+              children: [
+                Text(
+                  'What\'s New',
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.normal),
                 ),
-              )
-            ],
+                Spacer(),
+
+                ///arrow forward
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: kMarginMedium2, vertical: kMarginSmall),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.withOpacity(0.5)),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ],

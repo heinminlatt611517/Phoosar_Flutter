@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/data/response/package_list_response.dart';
+import 'package:phoosar/src/features/payment/payment.dart';
 import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
 import 'package:phoosar/src/features/user_setting/widgets/selectable_card.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -13,7 +15,8 @@ class PhoosarPremiumScreen extends ConsumerStatefulWidget {
 }
 
 class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
-  int selectedIndex = 1;
+  int selectedIndex = -1;
+  PackageData? selectedPackageData;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                         onTap: () {
                           setState(() {
                             selectedIndex = index;
+                            selectedPackageData = data[index];
                           });
                         },
                         isSelected: selectedIndex == index,
@@ -55,17 +59,28 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
               loading: () => CircularProgressIndicator(),
             ),
             SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                // Handle continue button press
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.pinkAccent,
-                padding: EdgeInsets.symmetric(horizontal: 64, vertical: 12),
-              ),
-              child: Text(
-                'CONTINUE',
-                style: TextStyle(fontSize: 18, color: Colors.white),
+            Visibility(
+              visible: selectedPackageData != null,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Handle continue button press
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                              planType: selectedPackageData?.name ?? '',
+                              planTypeId:
+                                  selectedPackageData?.id.toString() ?? '',
+                              amount: selectedPackageData?.value ?? '')));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent,
+                  padding: EdgeInsets.symmetric(horizontal: 64, vertical: 12),
+                ),
+                child: Text(
+                  'CONTINUE',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ),
           ],

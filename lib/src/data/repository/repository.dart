@@ -188,4 +188,14 @@ class Repository {
     );
     return response;
   }
+
+  Future<Response> purchaseHistory(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/purchase-history"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
 }
