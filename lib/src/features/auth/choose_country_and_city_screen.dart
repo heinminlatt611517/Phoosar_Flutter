@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -75,11 +77,13 @@ class _ChooseCountryAndCityScreenState
 }
 
 ///currently located city and country dropdown view
-class CurrentlyLocatedCityAndCountryDropdownView extends StatelessWidget {
+class CurrentlyLocatedCityAndCountryDropdownView extends ConsumerWidget {
   const CurrentlyLocatedCityAndCountryDropdownView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(profileSaveRequestProvider.notifier).state.city = cities.first;
+    ref.read(profileSaveRequestProvider.notifier).state.country = 'Myanmar';
     return Column(
       children: [
         Text(
@@ -88,10 +92,19 @@ class CurrentlyLocatedCityAndCountryDropdownView extends StatelessWidget {
         ),
         20.vGap,
         DropDownWidget(
-            items: cities, onSelect: (value) {}, initValue: cities.first),
+            items: cities,
+            onSelect: (value) {
+              ref.read(profileSaveRequestProvider.notifier).state.city = value;
+            },
+            initValue: cities.first),
         20.vGap,
         DropDownWidget(
-            items: cities, onSelect: (value) {}, initValue: cities.first),
+            items: ['Myanmar'],
+            onSelect: (value) {
+              ref.read(profileSaveRequestProvider.notifier).state.country =
+                  value;
+            },
+            initValue: 'Myanmar'),
       ],
     );
   }

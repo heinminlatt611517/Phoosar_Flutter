@@ -10,6 +10,8 @@ import 'package:phoosar/src/features/onboarding_screen/potential_match_screen.da
 import 'package:phoosar/src/features/onboarding_screen/relationship_screen.dart';
 import 'package:phoosar/src/features/onboarding_screen/smoke_screen.dart';
 import 'package:phoosar/src/features/onboarding_screen/type_of_person_screen.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/common_button.dart';
@@ -139,12 +141,18 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
         containerVPadding: 10,
         text: kContinueLabel,
         fontSize: 18,
-        onTap: () {
+        onTap: () async {
           if (index == 8) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => AllSetScreen()),
-            );
+            var request = ref.read(profileSaveRequestProvider);
+            var response = await ref
+                .read(repositoryProvider)
+                .saveProfile(request, context);
+            if (response.statusCode.toString().startsWith('2')) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => AllSetScreen()),
+              );
+            }
           }
           setState(() {
             _pageController.animateToPage(
