@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/response/find_list_response.dart';
+import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/data/response/match_list_response.dart';
 import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
@@ -30,6 +31,28 @@ final matchListProvider =
   final response = await repository.matchList(jsonEncode({}), context);
   if (response.statusCode == 200) {
     return MatchListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load match list');
+  }
+});
+
+final likedYouListProvider =
+    FutureProvider.family<List<LikedYouData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.likedYouList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return LikedYouListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load match list');
+  }
+});
+
+final likedProfilesListProvider =
+    FutureProvider.family<List<LikedYouData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.likedProfilesList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return LikedYouListResponse.fromJson(jsonDecode(response.body)).data ?? [];
   } else {
     throw Exception('Failed to load match list');
   }
