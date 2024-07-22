@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/info_row.dart';
+import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/features/dashboard/widgets/dashboard_user_slider.dart';
 import 'package:phoosar/src/features/other_profile/other_profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -8,9 +9,8 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class InfoCard extends StatelessWidget {
-  const InfoCard({
-    super.key,
-  });
+  const InfoCard({super.key, required this.findData});
+  final ProfileData findData;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,9 @@ class InfoCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20, bottom: 10),
       child: Stack(
         children: [
-          DashboardProfileSlider(),
+          DashboardProfileSlider(
+            profileImages: findData.profileImages ?? [],
+          ),
           Positioned(
             bottom: 32,
             left: 32,
@@ -28,7 +30,7 @@ class InfoCard extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                    MaterialPageRoute(builder: (context) => ProfileScreen(findData: findData)));
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +58,7 @@ class InfoCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Julia',
+                        findData.name ?? '',
                         style: GoogleFonts.roboto(
                           fontSize: largeFontSize,
                           color: whiteColor,
@@ -65,7 +67,7 @@ class InfoCard extends StatelessWidget {
                       ),
                       12.hGap,
                       Text(
-                        '30',
+                        findData.birthdate ?? '',
                         style: GoogleFonts.roboto(
                           fontSize: mediumLargeFontSize,
                           color: whiteColor,
@@ -81,7 +83,7 @@ class InfoCard extends StatelessWidget {
                       color: whiteColor,
                       size: 14,
                     ),
-                    text: '6 km away',
+                    text: findData.city ?? '',
                   ),
                   UserInfoRow(
                     icon: Icon(
@@ -89,7 +91,7 @@ class InfoCard extends StatelessWidget {
                       color: whiteColor,
                       size: 14,
                     ),
-                    text: 'Software Engineer',
+                    text: findData.jobTitle ?? '',
                   ),
                   UserInfoRow(
                     icon: Icon(
@@ -97,7 +99,7 @@ class InfoCard extends StatelessWidget {
                       color: whiteColor,
                       size: 14,
                     ),
-                    text: 'Live in Yangon',
+                    text: 'Live in ${findData.livingIn ?? ''}',
                   ),
                   UserInfoRow(
                     icon: Icon(
@@ -105,7 +107,7 @@ class InfoCard extends StatelessWidget {
                       color: whiteColor,
                       size: 14,
                     ),
-                    text: 'University of Computer Studies (Yangon)',
+                    text: findData.school ?? '',
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/features/other_profile/widgets/more_information.dart';
 import 'package:phoosar/src/features/other_profile/widgets/profile_slider.dart';
 import 'package:phoosar/src/features/other_profile/widgets/user_hobbies.dart';
@@ -9,7 +10,11 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({
+    super.key,
+    required this.findData,
+  });
+  final ProfileData findData;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -29,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserInformation(),
+                  UserInformation(findData: widget.findData),
                   20.vGap,
                   Divider(
                     height: 1,

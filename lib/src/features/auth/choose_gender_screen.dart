@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
-class ChooseGenderScreen extends StatefulWidget {
+class ChooseGenderScreen extends ConsumerStatefulWidget {
   const ChooseGenderScreen({super.key});
 
   @override
-  State<ChooseGenderScreen> createState() => _ChooseGenderScreenState();
+  ConsumerState<ChooseGenderScreen> createState() => _ChooseGenderScreenState();
 }
 
-class _ChooseGenderScreenState extends State<ChooseGenderScreen> {
+class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
   var selectedGender = "";
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class _ChooseGenderScreenState extends State<ChooseGenderScreen> {
                 setState(() {
                   selectedGender = value;
                 });
+                ref.read(profileSaveRequestProvider.notifier).state.gender = value;
               },
             ),
 

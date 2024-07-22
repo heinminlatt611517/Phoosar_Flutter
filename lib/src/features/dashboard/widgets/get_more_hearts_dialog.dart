@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/heart_row.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class GetMoreHeartsDialog extends StatelessWidget {
+class GetMoreHeartsDialog extends ConsumerWidget {
   const GetMoreHeartsDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var heartList = ref.watch(pointListProvider(context));
     return CommonDialog(
       title: 'Get More Hearts',
       width: 400,
@@ -26,29 +29,34 @@ class GetMoreHeartsDialog extends StatelessWidget {
               color: greyColor,
             ),
             12.vGap,
-            HeartRow(likeHeartCount: '5', heartCount: '25'),
-            12.vGap,
-            Divider(
-              height: 1,
-              color: greyColor,
+            heartList.when(
+              data: (data) {
+                return Container(
+                  height: data.length * 60,
+                  child: ListView.builder(
+                      itemCount: data.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            HeartRow(
+                                likeHeartCount: data[index].value.toString(),
+                                heartCount: data[index].point.toString()),
+                            12.vGap,
+                            Divider(
+                              height: 1,
+                              color: greyColor,
+                            ),
+                            12.vGap,
+                          ],
+                        );
+                      }),
+                );
+              },
+              loading: () => CircularProgressIndicator(),
+              error: (error, stack) => Text('Error: $error'),
             ),
-            12.vGap,
-            HeartRow(likeHeartCount: '10', heartCount: '50'),
-            12.vGap,
-            Divider(
-              height: 1,
-              color: greyColor,
-            ),
-            12.vGap,
-            HeartRow(likeHeartCount: '20', heartCount: '100'),
-            12.vGap,
-            Divider(
-              height: 1,
-              color: greyColor,
-            ),
-            12.vGap,
-            HeartRow(likeHeartCount: '40', heartCount: '200'),
-            30.vGap,
+            20.vGap,
             Center(
               child: Text(
                 'UNLIMITED Hearts',

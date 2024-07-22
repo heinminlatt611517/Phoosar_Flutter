@@ -87,6 +87,17 @@ class Repository {
     return response;
   }
 
+
+  Future<Response> saveOnlineStatus(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/save-online-status"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
   Future<Response> saveUserQA(dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-user-qa"),

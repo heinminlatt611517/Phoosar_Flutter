@@ -22,7 +22,7 @@ class RewindRow extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                width: 20,
+                width: 40,
                 child: Text(
                   rewindCount,
                   textAlign: TextAlign.end,

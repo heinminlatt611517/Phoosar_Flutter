@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/features/dashboard/match.dart';
@@ -6,23 +9,38 @@ import 'package:phoosar/src/features/dashboard/widgets/get_premium_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/header.dart';
 import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
 import 'package:phoosar/src/features/dashboard/widgets/profile_builder.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({
     super.key,
   });
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   bool isProfileBuilder = false;
+  int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(repositoryProvider).saveOnlineStatus(
+            jsonEncode({"is_online": true}),
+            context,
+          );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    var findList = ref.watch(findListProvider(context));
     return Container(
       height: double.infinity,
       color: whitePaleColor,
@@ -33,7 +51,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               MediaQuery.of(context).padding.top.vGap,
               DashboardHeader(),
-              isProfileBuilder ? ProfileBuilder() : InfoCard(),
+              findList.when(data: (data) {
+                return data.isEmpty
+                    ? Container()
+                    : InfoCard(findData: data[selectedIndex]);
+              }, error: (error, stack) {
+                return Container();
+              }, loading: () {
+                return Container();
+              }),
+              // isProfileBuilder ? ProfileBuilder() : InfoCard(),
               20.vGap,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

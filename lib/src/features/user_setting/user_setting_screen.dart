@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -28,9 +29,18 @@ class UserSettingScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ///phoosar premium view
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                  child: PhoosarPremiumView()),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PhoosarPremiumScreen()));
+                },
+                child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: kMarginLarge),
+                    child: PhoosarPremiumView()),
+              ),
 
               16.vGap,
 

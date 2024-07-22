@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/info_row.dart';
+import 'package:phoosar/src/data/response/find_list_response.dart';
+import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -8,7 +10,9 @@ import 'package:phoosar/src/utils/gap.dart';
 class UserInformation extends StatelessWidget {
   const UserInformation({
     super.key,
+    required this.findData,
   });
+  final ProfileData findData;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class UserInformation extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Julia',
+              findData.name ?? '',
               style: GoogleFonts.roboto(
                 fontSize: largeFontSize,
                 color: blackColor,
@@ -46,7 +50,7 @@ class UserInformation extends StatelessWidget {
             ),
             12.hGap,
             Text(
-              '30',
+              findData.birthdate ?? '',
               style: GoogleFonts.roboto(
                 fontSize: smallLargeFontSize,
                 color: blackColor,
@@ -62,7 +66,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: '6 km away',
+          text: findData.city ?? '' + ' km away',
           textColor: blackColor,
         ),
         UserInfoRow(
@@ -71,7 +75,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: 'Software Engineer',
+          text: findData.jobTitle ?? '',
           textColor: blackColor,
         ),
         UserInfoRow(
@@ -80,7 +84,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: 'Live in Yangon',
+          text: 'Live in ${findData.livingIn ?? ''}',
           textColor: blackColor,
         ),
         UserInfoRow(
@@ -89,7 +93,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: 'University of Computer Studies (Yangon)',
+          text: findData.school ?? '',
           textColor: blackColor,
         ),
         UserInfoRow(
@@ -98,7 +102,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: 'Sunday',
+          text: findData.birthdate ?? '',
           textColor: blackColor,
         ),
         UserInfoRow(
@@ -107,7 +111,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: 'No',
+          text: findData.smoke == "1" ? "Yes" : "No",
           textColor: blackColor,
         ),
         8.vGap,

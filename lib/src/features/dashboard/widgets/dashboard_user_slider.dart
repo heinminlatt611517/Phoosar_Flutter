@@ -7,7 +7,9 @@ import 'package:phoosar/src/utils/constants.dart';
 class DashboardProfileSlider extends StatefulWidget {
   const DashboardProfileSlider({
     super.key,
+    required this.profileImages,
   });
+  final List<String> profileImages;
 
   @override
   State<DashboardProfileSlider> createState() => _DashboardProfileSliderState();
