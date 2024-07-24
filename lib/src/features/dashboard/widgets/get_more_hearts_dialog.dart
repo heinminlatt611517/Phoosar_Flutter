@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/heart_row.dart';
+import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -73,7 +74,15 @@ class GetMoreHeartsDialog extends ConsumerWidget {
               child: CommonButton(
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMINUM",
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PhoosarPremiumScreen(),
+                    ),
+                  );
+                },
               ),
             ),
             12.vGap,

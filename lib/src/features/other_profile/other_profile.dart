@@ -28,7 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            OtherUserProfileSlider(),
+            OtherUserProfileSlider(
+              profileImages: widget.findData.profileImages ?? [],
+            ),
             Padding(
               padding: EdgeInsets.all(16),
               child: Column(

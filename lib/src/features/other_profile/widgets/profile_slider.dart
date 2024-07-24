@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:phoosar/src/utils/constants.dart';
 
 class OtherUserProfileSlider extends StatelessWidget {
   const OtherUserProfileSlider({
     super.key,
+    required this.profileImages,
   });
+
+  final List<String> profileImages;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +17,11 @@ class OtherUserProfileSlider extends StatelessWidget {
           aspectRatio: 16 / 9,
           viewportFraction: 1,
           height: MediaQuery.of(context).size.height * 0.5),
-      items: sampleProfileImages.map((i) {
+      items: profileImages.map((i) {
         return Builder(
           builder: (BuildContext context) {
-            return Image.asset(
-              i,
+            return CachedNetworkImage(
+              imageUrl: i,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.5,
               fit: BoxFit.cover,

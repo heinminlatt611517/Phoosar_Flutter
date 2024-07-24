@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/info_row.dart';
-import 'package:phoosar/src/data/response/find_list_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -84,7 +83,7 @@ class UserInformation extends StatelessWidget {
             color: blackColor,
             size: 14,
           ),
-          text: 'Live in ${findData.livingIn ?? ''}',
+          text: 'Live in ${findData.city ?? ''}',
           textColor: blackColor,
         ),
         UserInfoRow(

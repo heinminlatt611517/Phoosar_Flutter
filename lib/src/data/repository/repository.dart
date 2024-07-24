@@ -180,6 +180,26 @@ class Repository {
     return response;
   }
 
+  Future<Response> likesList(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/likes"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> rewindsList(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/rewinds"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
   Future<Response> whatNewsList(dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/what-news"),

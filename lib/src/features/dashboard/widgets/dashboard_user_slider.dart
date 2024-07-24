@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -35,15 +36,15 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                   aspectRatio: 16 / 9,
                   viewportFraction: 1,
                   height: MediaQuery.of(context).size.height * 0.62),
-              items: sampleProfileImages.map((i) {
+              items: widget.profileImages.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Stack(
                         children: [
-                          Image.asset(
-                            i,
+                          CachedNetworkImage(
+                            imageUrl: i,
                             width: MediaQuery.of(context).size.width - 32,
                             height: MediaQuery.of(context).size.height * 0.62,
                             fit: BoxFit.cover,
@@ -78,12 +79,13 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
               top: 12,
               right: 6,
               child: DotsIndicator(
-                dotsCount: sampleProfileImages.length,
+                dotsCount: widget.profileImages.length,
                 position:
                     _currentIndex, // Ensure currentIndex is tracked in state
                 decorator: DotsDecorator(
                   activeColor: blackColor,
-                  colors: List.filled(sampleProfileImages.length, Colors.white),
+                  colors:
+                      List.filled(widget.profileImages.length, Colors.white),
                   size: const Size.square(7),
                   activeSize: const Size(8, 8),
                   activeShape: RoundedRectangleBorder(

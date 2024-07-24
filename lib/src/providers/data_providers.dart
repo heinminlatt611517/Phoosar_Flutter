@@ -4,22 +4,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
-import 'package:phoosar/src/data/response/find_list_response.dart';
+import 'package:phoosar/src/data/response/find_response.dart';
+import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/data/response/match_list_response.dart';
 import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/data/response/purchase_history_list_response.dart';
+import 'package:phoosar/src/data/response/rewind_list_response.dart';
 import 'package:phoosar/src/data/response/whats_new_list_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 
-final findListProvider = FutureProvider.family<List<ProfileData>, BuildContext>(
-    (ref, context) async {
+final findListProvider =
+    FutureProvider.family<ProfileData?, BuildContext>((ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.findList(jsonEncode({}), context);
   if (response.statusCode == 200) {
-    return FindListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+    return FindResponse.fromJson(jsonDecode(response.body)).data;
   } else {
     throw Exception('Failed to load find list');
   }
@@ -37,7 +39,8 @@ final matchListProvider =
 });
 
 final likedYouListProvider =
-    FutureProvider.family<List<LikedYouData>, BuildContext>((ref, context) async {
+    FutureProvider.family<List<LikedYouData>, BuildContext>(
+        (ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.likedYouList(jsonEncode({}), context);
   if (response.statusCode == 200) {
@@ -48,7 +51,8 @@ final likedYouListProvider =
 });
 
 final likedProfilesListProvider =
-    FutureProvider.family<List<LikedYouData>, BuildContext>((ref, context) async {
+    FutureProvider.family<List<LikedYouData>, BuildContext>(
+        (ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.likedProfilesList(jsonEncode({}), context);
   if (response.statusCode == 200) {
@@ -81,7 +85,31 @@ final pointListProvider =
   }
 });
 
-final whatsNewProvider = FutureProvider.family<List<WhatsNewData>, BuildContext>((ref, context) async {
+final likeListProvider =
+    FutureProvider.family<List<LikeData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.likesList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return LikeListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load match list');
+  }
+});
+
+final rewindListProvider =
+    FutureProvider.family<List<RewindData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.rewindsList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return RewindListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load match list');
+  }
+});
+
+final whatsNewProvider =
+    FutureProvider.family<List<WhatsNewData>, BuildContext>(
+        (ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.whatNewsList(jsonEncode({}), context);
   if (response.statusCode == 200) {

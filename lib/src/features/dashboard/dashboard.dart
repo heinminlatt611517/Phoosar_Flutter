@@ -25,7 +25,6 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   bool isProfileBuilder = false;
-  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -52,9 +51,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               MediaQuery.of(context).padding.top.vGap,
               DashboardHeader(),
               findList.when(data: (data) {
-                return data.isEmpty
-                    ? Container()
-                    : InfoCard(findData: data[selectedIndex]);
+                return data == null ? Container() : InfoCard(findData: data);
               }, error: (error, stack) {
                 return Container();
               }, loading: () {

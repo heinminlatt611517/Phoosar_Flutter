@@ -29,8 +29,11 @@ class InfoCard extends StatelessWidget {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen(findData: findData)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProfileScreen(findData: findData)));
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +102,7 @@ class InfoCard extends StatelessWidget {
                       color: whiteColor,
                       size: 14,
                     ),
-                    text: 'Live in ${findData.livingIn ?? ''}',
+                    text: 'Live in ${findData.city ?? ''}',
                   ),
                   UserInfoRow(
                     icon: Icon(

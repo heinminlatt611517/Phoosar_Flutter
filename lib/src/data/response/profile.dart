@@ -3,19 +3,21 @@ class ProfileData {
   String? profileId;
   String? name;
   String? email;
-  dynamic phone;
+  String? phone;
   int? isOnline;
   int? gender;
   dynamic birthdate;
   String? about;
   String? jobTitle;
   String? school;
-  String? livingIn;
   int? smoke;
   String? country;
   String? city;
   String? matchCountry;
   String? matchCity;
+  List<String>? speakLanguages;
+  List<String>? interests;
+  List<MoreDetails>? moreDetails;
   List<String>? profileImages;
 
   ProfileData(
@@ -30,12 +32,14 @@ class ProfileData {
       this.about,
       this.jobTitle,
       this.school,
-      this.livingIn,
       this.smoke,
       this.country,
       this.city,
       this.matchCountry,
       this.matchCity,
+      this.speakLanguages,
+      this.interests,
+      this.moreDetails,
       this.profileImages});
 
   ProfileData.fromJson(Map<String, dynamic> json) {
@@ -50,12 +54,19 @@ class ProfileData {
     about = json['about'];
     jobTitle = json['job_title'];
     school = json['school'];
-    livingIn = json['living_in'];
     smoke = json['smoke'];
     country = json['country'];
     city = json['city'];
     matchCountry = json['match_country'];
     matchCity = json['match_city'];
+    speakLanguages = json['speak_languages'].cast<String>();
+    interests = json['interests'].cast<String>();
+    if (json['more_details'] != null) {
+      moreDetails = <MoreDetails>[];
+      json['more_details'].forEach((v) {
+        moreDetails!.add(new MoreDetails.fromJson(v));
+      });
+    }
     profileImages = json['profile_images'].cast<String>();
   }
 
@@ -72,13 +83,39 @@ class ProfileData {
     data['about'] = this.about;
     data['job_title'] = this.jobTitle;
     data['school'] = this.school;
-    data['living_in'] = this.livingIn;
     data['smoke'] = this.smoke;
     data['country'] = this.country;
     data['city'] = this.city;
     data['match_country'] = this.matchCountry;
     data['match_city'] = this.matchCity;
+    data['speak_languages'] = this.speakLanguages;
+    data['interests'] = this.interests;
+    if (this.moreDetails != null) {
+      data['more_details'] = this.moreDetails!.map((v) => v.toJson()).toList();
+    }
     data['profile_images'] = this.profileImages;
+    return data;
+  }
+}
+
+class MoreDetails {
+  int? id;
+  String? question;
+  String? answerText;
+
+  MoreDetails({this.id, this.question, this.answerText});
+
+  MoreDetails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    question = json['question'];
+    answerText = json['answer_text'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['question'] = this.question;
+    data['answer_text'] = this.answerText;
     return data;
   }
 }

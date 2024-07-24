@@ -14,7 +14,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var rewindList = ref.watch(pointListProvider(context));
+    var rewindList = ref.watch(rewindListProvider(context));
     return CommonDialog(
       title: 'Get More Rewinds',
       width: 400,
@@ -40,7 +40,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                         return Column(
                           children: [
                             RewindRow(
-                                rewindCount: data[index].value.toString(),
+                                rewindCount: data[index].rewind.toString(),
                                 heartCount: data[index].point.toString()),
                             12.vGap,
                             Divider(

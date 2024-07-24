@@ -14,7 +14,7 @@ class GetMoreLikesDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var pointList = ref.watch(pointListProvider(context));
+    var likesList = ref.watch(likeListProvider(context));
     return CommonDialog(
       title: 'Get More Likes',
       width: 400,
@@ -29,7 +29,7 @@ class GetMoreLikesDialog extends ConsumerWidget {
               color: greyColor,
             ),
             12.vGap,
-            pointList.when(
+            likesList.when(
               data: (data) {
                 return Container(
                   height: data.length * 60,
@@ -40,7 +40,7 @@ class GetMoreLikesDialog extends ConsumerWidget {
                         return Column(
                           children: [
                             LikeRow(
-                                likeCount: data[index].value.toString(),
+                                likeCount: data[index].like.toString(),
                                 heartCount: data[index].point.toString()),
                             12.vGap,
                             Divider(
