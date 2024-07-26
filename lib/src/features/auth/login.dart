@@ -54,7 +54,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     var response = await ref.read(repositoryProvider).login(
           jsonEncode({
-            "email": emailController.text,
+            "type": selectedText == kEmailLabel ? "email" : "phone",
+            "value": selectedText == kEmailLabel
+                ? emailController.text
+                : phoneNumberController.text,
             "password": passwordController.text,
           }),
           context,
@@ -169,8 +172,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     children: [
                       ///email input
                       InputView(
-                          controller: emailController,
-                          hintLabel: kEmailLabel),
+                          controller: emailController, hintLabel: kEmailLabel),
                       24.vGap,
 
                       ///password input
