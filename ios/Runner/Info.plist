@@ -33,7 +33,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb3804990019783837</string>
+				<string>fb2565943233593019</string>
 			</array>
 		</dict>
 	</array>
@@ -47,9 +47,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
-	<string>3804990019783837</string>
+	<string>2565943233593019</string>
 	<key>FacebookClientToken</key>
-	<string>aeb42b6da146c3f9794581a2dee8b0ba</string>
+	<string>69911446c6bf70512689f3c5a73803c5</string>
 	<key>FacebookDisplayName</key>
 	<string>Phoosar</string>
 	<key>GIDClientID</key>

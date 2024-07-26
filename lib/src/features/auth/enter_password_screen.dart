@@ -4,7 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
-import 'package:phoosar/src/features/auth/enter_password_screen.dart';
+import 'package:phoosar/src/common/widgets/input_view.dart';
+import 'package:phoosar/src/data/response/authentication_response.dart';
+import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -18,8 +20,8 @@ import 'package:phoosar/src/utils/strings.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class EnterPinCodeScreen extends ConsumerStatefulWidget {
-  const EnterPinCodeScreen({
+class EnterPasswordScreen extends ConsumerStatefulWidget {
+  const EnterPasswordScreen({
     super.key,
     required this.email,
     required this.type,
@@ -32,15 +34,16 @@ class EnterPinCodeScreen extends ConsumerStatefulWidget {
   final String phoneNumber;
 
   @override
-  ConsumerState<EnterPinCodeScreen> createState() => _RegisterScreenState();
+  ConsumerState<EnterPasswordScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
-  bool _isLoading = false;
+class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
   StreamController<ErrorAnimationType>? errorController;
-  final TextEditingController _pinController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   ///Email or Phone number
   String selectedText = kEmailLabel;
@@ -63,7 +66,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
         ref.invalidate(roomsProvider);
         ref.invalidate(supabaseClientProvider);
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
         );
       }
     });
@@ -99,54 +102,27 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                   100.vGap,
 
                   ///Pin code text field
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Center(
-                        child: PinCodeTextField(
-                      backgroundColor: Colors.transparent,
-                      keyboardType: TextInputType.number,
-                      autoDisposeControllers: true,
-                      cursorColor: Colors.blue,
-                      appContext: context,
-                      length: 6,
-                      obscureText: false,
-                      animationType: AnimationType.fade,
-                      pinTheme: PinTheme(
-                        selectedFillColor: Colors.white,
-                        inactiveColor: Colors.grey,
-                        activeColor: Colors.white,
-                        inactiveFillColor: Colors.grey.shade200,
-                        shape: PinCodeFieldShape.box,
-                        borderWidth: 1,
-                        inactiveBorderWidth: 1,
-                        borderRadius: BorderRadius.circular(10),
-                        fieldHeight: 50,
-                        fieldWidth: 50,
-                        activeFillColor: Colors.pinkAccent,
-                      ),
-                      animationDuration: const Duration(milliseconds: 300),
-                      enableActiveFill: true,
-                      errorAnimationController: errorController,
-                      controller: _pinController,
-                      onCompleted: (v) async {
-                        _verifyOTP();
+                  InputView(
+                      controller: _passwordController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
                       },
-                    )),
-                  ),
+                      hintLabel: kPasswordLabel),
+                  24.vGap,
+                  InputView(
+                      controller: _confirmPasswordController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                      hintLabel: kConfirmPasswordLabel),
 
                   10.vGap,
-
-                  ///resend otp text button
-                  TextButton(
-                    onPressed: () {
-                      _requestOTP();
-                    },
-                    child: Text(
-                      kResendOTPLabel,
-                      style: TextStyle(
-                          fontSize: kTextRegular3x, color: Colors.grey),
-                    ),
-                  ),
 
                   30.vGap,
 
@@ -158,7 +134,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                       text: kConfirmLabel,
                       fontSize: 18,
                       onTap: () {
-                        _verifyOTP();
+                        _signUp();
                       },
                       bgColor: Colors.lightBlueAccent,
                     ),
@@ -201,64 +177,71 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
     );
   }
 
-  Future<void> _requestOTP() async {
+  Future<void> _signUp() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
-
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
-    await ref.read(repositoryProvider).sendOTP(
-          jsonEncode({
-            "type": widget.type,
-            "value": widget.type == "email" ? widget.email : widget.phoneNumber,
-            "user_name": widget.userName,
-          }),
-          context,
-        );
-  }
-
-  Future<void> _verifyOTP() async {
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+    if (password != confirmPassword) {
+      context.showErrorSnackBar(message: 'Passwords do not match');
       return;
     }
-    final pin = _pinController.text;
-    setState(() {
-      _isLoading = true;
-    });
-    var response = await ref.read(repositoryProvider).verifyOTP(
+    var response = await ref.read(repositoryProvider).register(
           jsonEncode({
-            "type": widget.type,
             "value": widget.type == "email" ? widget.email : widget.phoneNumber,
+            "password": password,
+            "password_confirmation": confirmPassword,
             "user_name": widget.userName,
-            "otp": pin,
+            "type": widget.type,
           }),
           context,
         );
-    _pinController.clear();
     if (response.statusCode.toString().startsWith("2")) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => EnterPasswordScreen(
-            email: widget.email,
-            type: widget.type,
-            userName: widget.userName,
-            phoneNumber: widget.phoneNumber,
-          ),
-        ),
-      );
+      AuthenticationResponse authResponse =
+          AuthenticationResponse.fromJson(jsonDecode(response.body));
+      ref
+          .watch(sharedPrefProvider)
+          .setString("token", authResponse.token ?? '');
+      try {
+        await supabase.auth.signUp(
+          email: widget.email,
+          password: password,
+          data: {
+            'username': widget.userName,
+            'device_token': 'device_token',
+          },
+          emailRedirectTo: 'io.supabase.chat://login',
+        );
+      } on AuthException catch (error) {
+        context.showErrorSnackBar(message: error.message);
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      } catch (error) {
+        debugPrint(error.toString());
+        context.showErrorSnackBar(message: unexpectedErrorMessage);
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
       if (mounted) {
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
     } else {
       if (mounted) {
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
     }

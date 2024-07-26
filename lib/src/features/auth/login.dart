@@ -156,7 +156,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                       ///password input
                       InputView(
-                          passwordController: passwordController,
+                          controller: passwordController,
                           hintLabel: kPasswordLabel),
                     ],
                   ),
@@ -169,13 +169,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     children: [
                       ///email input
                       InputView(
-                          passwordController: emailController,
+                          controller: emailController,
                           hintLabel: kEmailLabel),
                       24.vGap,
 
                       ///password input
                       InputView(
-                          passwordController: passwordController,
+                          controller: passwordController,
                           hintLabel: kPasswordLabel),
                     ],
                   ),
@@ -191,15 +191,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     text: kSignInLabel,
                     fontSize: 18,
                     onTap: () {
-                      if (selectedText == kPhoneNumberLabel) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (context) => EnterPinCodeScreen()),
-                        );
-                      } else {
-                        if (!_isLoading) {
-                          _signIn();
-                        }
+                      if (!_isLoading) {
+                        _signIn();
                       }
                     },
                     bgColor: Colors.pinkAccent,

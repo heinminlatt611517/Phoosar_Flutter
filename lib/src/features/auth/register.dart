@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
-import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/login.dart';
@@ -45,95 +43,42 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
   final phoneNumberController = TextEditingController();
 
   ///Email or Phone number
   String selectedText = kEmailLabel;
 
-  late final StreamSubscription<AuthState> _authSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    bool haveNavigated = false;
-    // Listen to auth state to redirect user when the user clicks on confirmation link
-    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      final session = data.session;
-      if (session != null && !haveNavigated) {
-        haveNavigated = true;
-        ref.invalidate(profilesProvider);
-        ref.invalidate(profileProvider);
-        ref.invalidate(roomsProvider);
-        ref.invalidate(supabaseClientProvider);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    // Dispose subscription when no longer needed
-    _authSubscription.cancel();
-  }
-
-  Future<void> _signUp() async {
+  Future<void> _requestOTP(String type) async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     final email = _emailController.text;
-    final password = _passwordController.text;
+    final phoneNumber = phoneNumberController.text;
     final username = _usernameController.text;
     setState(() {
       _isLoading = true;
     });
-    var response = await ref.read(repositoryProvider).register(
+    var response = await ref.read(repositoryProvider).sendOTP(
           jsonEncode({
-            "email": email,
-            "password": password,
+            "type": type,
+            "value": type == "email" ? email : phoneNumber,
             "user_name": username,
           }),
           context,
         );
     if (response.statusCode.toString().startsWith("2")) {
-      AuthenticationResponse authResponse =
-          AuthenticationResponse.fromJson(jsonDecode(response.body));
-      ref
-          .watch(sharedPrefProvider)
-          .setString("token", authResponse.token ?? '');
-      try {
-        await supabase.auth.signUp(
-          email: email,
-          password: password,
-          data: {
-            'username': username,
-            'device_token': 'device_token',
-          },
-          emailRedirectTo: 'io.supabase.chat://login',
-        );
-      } on AuthException catch (error) {
-        context.showErrorSnackBar(message: error.message);
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      } catch (error) {
-        debugPrint(error.toString());
-        context.showErrorSnackBar(message: unexpectedErrorMessage);
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      }
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => EnterPinCodeScreen(
+            email: email,
+            type: type,
+            userName: username,
+            phoneNumber: phoneNumber,
+          ),
+        ),
+      );
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -186,7 +131,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       children: [
                         ///password input
                         InputView(
-                            passwordController: _usernameController,
+                            controller: _usernameController,
                             hintLabel: kUserNameLabel),
 
                         24.vGap,
@@ -209,7 +154,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         children: [
                           ///user name input
                           InputView(
-                              passwordController: _usernameController,
+                              controller: _usernameController,
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return 'Required';
@@ -221,7 +166,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                           ///email input
                           InputView(
-                              passwordController: _emailController,
+                              controller: _emailController,
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return 'Required';
@@ -230,20 +175,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               },
                               hintLabel: kEmailLabel),
                           24.vGap,
-
-                          ///password input
-                          InputView(
-                              passwordController: _passwordController,
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Required';
-                                }
-                                if (val.length < 6) {
-                                  return '6 characters minimum';
-                                }
-                                return null;
-                              },
-                              hintLabel: kPasswordLabel),
                         ],
                       )),
 
@@ -257,16 +188,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       text: kSignUpLabel,
                       fontSize: 18,
                       onTap: () {
-                        if (selectedText == kPhoneNumberLabel) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => EnterPinCodeScreen()),
-                          );
-                        } else {
-                          if (!_isLoading) {
-                            _signUp();
-                          }
+                        if (!_isLoading) {
+                          _requestOTP(selectedText == kPhoneNumberLabel
+                              ? "phone"
+                              : "email");
                         }
+                        // if (selectedText == kPhoneNumberLabel) {
+                        //   Navigator.of(context).pushReplacement(
+                        //     MaterialPageRoute(
+                        //         builder: (context) => EnterPinCodeScreen()),
+                        //   );
+                        // } else {
+                        //   if (!_isLoading) {
+                        //     _signUp();
+                        //   }
+                        // }
                       },
                       bgColor: Colors.lightBlueAccent,
                     ),
@@ -282,33 +218,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       style: TextStyle(
                           fontSize: kTextRegular3x, color: Colors.grey),
                     ),
-                  ),
-
-                  30.vGap,
-
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ///facebook signIn button
-                      HorizontalTextIconButton(
-                          onTap: () {},
-                          icon: Icon(
-                            Icons.facebook,
-                            color: Colors.blue,
-                          ),
-                          text: kSignInLabel),
-
-                      20.hGap,
-
-                      ///google signIn button
-                      HorizontalTextIconButton(
-                          onTap: () {},
-                          icon: Icon(
-                            Icons.email,
-                            color: Colors.red,
-                          ),
-                          text: kSignInLabel),
-                    ],
                   ),
 
                   40.vGap,
@@ -429,7 +338,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       try {
         await supabase.auth.signInWithPassword(
           email: _emailController.text,
-          password: _passwordController.text,
+          password: socialToken,
         );
       } on AuthException catch (error) {
         context.showErrorSnackBar(message: error.message);

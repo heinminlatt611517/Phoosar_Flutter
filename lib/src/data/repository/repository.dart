@@ -7,25 +7,6 @@ import 'package:http/http.dart';
 class Repository {
   final Ref ref;
   Repository(this.ref);
-  Future<Response> login(dynamic request, BuildContext context) async {
-    var response = await Session.postWithoutAuth(
-      Uri.parse("${Env.baseurl}/login"),
-      request,
-      context,
-      ref,
-    );
-    return response;
-  }
-
-  Future<Response> register(dynamic request, BuildContext context) async {
-    var response = await Session.postWithoutAuth(
-      Uri.parse("${Env.baseurl}/register"),
-      request,
-      context,
-      ref,
-    );
-    return response;
-  }
 
   Future<Response> sendOTP(dynamic request, BuildContext context) async {
     var response = await Session.postWithoutAuth(
@@ -46,6 +27,28 @@ class Repository {
     );
     return response;
   }
+  
+  Future<Response> login(dynamic request, BuildContext context) async {
+    var response = await Session.postWithoutAuth(
+      Uri.parse("${Env.baseurl}/login"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> register(dynamic request, BuildContext context) async {
+    var response = await Session.postWithoutAuth(
+      Uri.parse("${Env.baseurl}/register"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  
 
   Future<Response> socialLogin(dynamic request, BuildContext context) async {
     var response = await Session.post(
