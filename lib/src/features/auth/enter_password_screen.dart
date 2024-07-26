@@ -8,7 +8,6 @@ import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
-import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
