@@ -51,7 +51,7 @@ class Repository {
   
 
   Future<Response> socialLogin(dynamic request, BuildContext context) async {
-    var response = await Session.post(
+    var response = await Session.postWithoutAuth(
       Uri.parse("${Env.baseurl}/social-login"),
       request,
       context,

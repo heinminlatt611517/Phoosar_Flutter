@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/models/facebook_user.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
-import 'package:phoosar/src/features/auth/enter_pin_code_screen.dart';
+import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -48,51 +47,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   ///Email or Phone number
   String selectedText = kEmailLabel;
-
-  Future<void> _signIn() async {
-    await FirebaseAnalytics.instance.logEvent(
-      name: "login",
-      parameters: {
-        "email": emailController.text,
-        "password": passwordController.text,
-      },
-    );
-    setState(() {
-      _isLoading = true;
-    });
-    var response = await ref.read(repositoryProvider).login(
-          jsonEncode({
-            "type": selectedText == kEmailLabel ? "email" : "phone",
-            "value": selectedText == kEmailLabel
-                ? emailController.text
-                : phoneNumberController.text,
-            "password": passwordController.text,
-          }),
-          context,
-        );
-    if (response.statusCode.toString().startsWith("2")) {
-      AuthenticationResponse authResponse =
-          AuthenticationResponse.fromJson(jsonDecode(response.body));
-      ref
-          .watch(sharedPrefProvider)
-          .setString("token", authResponse.token ?? '');
-      try {
-        await supabase.auth.signInWithPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-      } on AuthException catch (error) {
-        context.showErrorSnackBar(message: error.message);
-      } catch (_) {
-        context.showErrorSnackBar(message: unexpectedErrorMessage);
-      }
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
+  String? socialLoginType;
 
   @override
   void initState() {
@@ -108,9 +63,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ref.invalidate(profileProvider);
         ref.invalidate(roomsProvider);
         ref.invalidate(supabaseClientProvider);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
+        if (socialLoginType == "new") {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
+          );
+        }
       }
     });
   }
@@ -289,6 +250,51 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
+  Future<void> _signIn() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: "login",
+      parameters: {
+        "email": emailController.text,
+        "password": passwordController.text,
+      },
+    );
+    setState(() {
+      _isLoading = true;
+    });
+    var response = await ref.read(repositoryProvider).login(
+          jsonEncode({
+            "type": selectedText == kEmailLabel ? "email" : "phone",
+            "value": selectedText == kEmailLabel
+                ? emailController.text
+                : phoneNumberController.text,
+            "password": passwordController.text,
+          }),
+          context,
+        );
+    if (response.statusCode.toString().startsWith("2")) {
+      AuthenticationResponse authResponse =
+          AuthenticationResponse.fromJson(jsonDecode(response.body));
+      ref
+          .watch(sharedPrefProvider)
+          .setString("token", authResponse.token ?? '');
+      try {
+        await supabase.auth.signInWithPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } on AuthException catch (error) {
+        context.showErrorSnackBar(message: error.message);
+      } catch (_) {
+        context.showErrorSnackBar(message: unexpectedErrorMessage);
+      }
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   googleSignIn() async {
     GoogleSignIn googleSignIn = Platform.isAndroid
         ? GoogleSignIn(
@@ -325,7 +331,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   facebookSignIn(BuildContext context) async {
-    log("Facebook Sign IN called");
     await FacebookAuth.instance.login(
       permissions: ['email'],
     ).then((result) {
@@ -350,14 +355,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   loginWithSocialToken(String socialToken, String type, String avator,
       String name, String email) async {
+    // Sanitize the username
+    String sanitizedName =
+        name.replaceAll(RegExp(r'[^a-zA-Z0-9_]'), '_').toLowerCase();
+    if (sanitizedName.length > 30) {
+      sanitizedName = sanitizedName.substring(0, 30);
+    }
+
     var response = await ref.read(repositoryProvider).socialLogin(
           jsonEncode({
-            {
-              "provider": type,
-              "provider_id": socialToken,
-              "email": email,
-              "name": name
-            }
+            "provider": type,
+            "provider_id": socialToken,
+            "email": email,
+            "name": sanitizedName
           }),
           context,
         );
@@ -367,11 +377,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString("token", authResponse.token ?? '');
+      socialLoginType = authResponse.type;
+
       try {
-        await supabase.auth.signInWithPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+        if (authResponse.type == "old") {
+          await supabase.auth.signInWithPassword(
+            email: email,
+            password: email,
+          );
+        } else {
+          await supabase.auth.signUp(
+            email: email,
+            password: email,
+            data: {
+              'username': sanitizedName,
+              'device_token': 'device_token',
+            },
+            emailRedirectTo: 'io.supabase.chat://login',
+          );
+        }
       } on AuthException catch (error) {
         context.showErrorSnackBar(message: error.message);
       } catch (_) {
