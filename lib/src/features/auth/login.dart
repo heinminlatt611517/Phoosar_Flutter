@@ -16,7 +16,6 @@ import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/models/facebook_user.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
-import 'package:phoosar/src/features/auth/enter_pin_code_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -74,8 +73,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           password: passwordController.text,
         );
       } on AuthException catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
         context.showErrorSnackBar(message: error.message);
       } catch (_) {
+        setState(() {
+          _isLoading = false;
+        });
         context.showErrorSnackBar(message: unexpectedErrorMessage);
       }
       if (mounted) {
@@ -83,6 +88,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           _isLoading = false;
         });
       }
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -192,6 +201,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     containerVPadding: 10,
                     text: kSignInLabel,
                     fontSize: 18,
+                    isLoading: _isLoading,
                     onTap: () {
                       if (!_isLoading) {
                         _signIn();

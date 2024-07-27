@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
+import 'package:phoosar/src/data/request/question_save_request.dart';
 import 'package:phoosar/src/data/response/find_response.dart';
 import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
@@ -12,6 +13,7 @@ import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/data/response/purchase_history_list_response.dart';
+import 'package:phoosar/src/data/response/questions_response.dart';
 import 'package:phoosar/src/data/response/rewind_list_response.dart';
 import 'package:phoosar/src/data/response/whats_new_list_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -133,6 +135,21 @@ final purchaseHistoryProvider =
   }
 });
 
+final questionListProvider =
+    FutureProvider.family<List<QuestionData>, BuildContext>(
+        (ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getQuestionList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return QuestionsResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load whats new');
+  }
+});
 final profileSaveRequestProvider = StateProvider<ProfileSaveRequest>((ref) {
   return ProfileSaveRequest();
+});
+
+final questionSaveRequestProvider = StateProvider<QuestionSaveRequest>((ref) {
+  return QuestionSaveRequest();
 });

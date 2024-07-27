@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:phoosar/src/common/widgets/error_dialog.dart';
 import 'package:phoosar/src/data/response/default_response.dart';
 import 'package:phoosar/src/features/auth/login.dart';
@@ -9,7 +11,6 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/extensions.dart';
 import 'package:phoosar/src/utils/page_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart';
 
 class Session {
   static bool showOnce = false;

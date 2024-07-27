@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
-import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
+import 'package:phoosar/src/features/auth/select_birthday_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -48,7 +49,8 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                 setState(() {
                   selectedGender = value;
                 });
-                ref.read(profileSaveRequestProvider.notifier).state.gender = value;
+                ref.read(profileSaveRequestProvider.notifier).state.gender =
+                    value;
               },
             ),
 
@@ -62,12 +64,16 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                 text: kContinueLabel,
                 fontSize: 18,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChooseCountryAndCityScreen(),
-                    ),
-                  );
+                  if (selectedGender == "") {
+                    context.showErrorSnackBar(message: kErrorMessage);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SelectBirthdayScreen(),
+                      ),
+                    );
+                  }
                 },
                 bgColor: Colors.pinkAccent,
               ),
@@ -128,7 +134,7 @@ class GenderCircleContainerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         onTapButton();
       },
@@ -137,7 +143,8 @@ class GenderCircleContainerView extends StatelessWidget {
         width: 100,
         decoration: BoxDecoration(
             border: Border.all(
-                color: isSelected ? borderColor : Colors.grey, width: 1),
+                color: isSelected ? borderColor : Colors.grey,
+                width: isSelected ? 3 : 1),
             borderRadius: BorderRadius.circular(50)),
         child: Icon(Icons.female),
       ),

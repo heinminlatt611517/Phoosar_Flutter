@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/drop_down_widget.dart';
-import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
+import 'package:phoosar/src/features/auth/add_speak_language_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -61,7 +61,7 @@ class _ChooseCountryAndCityScreenState
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UploadProfileImageScreen(),
+                        builder: (context) => AddSpeakLanguageScreen(),
                       ),
                     );
                   },

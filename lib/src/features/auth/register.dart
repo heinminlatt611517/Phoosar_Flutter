@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -11,11 +12,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/login.dart';
-import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
-import 'package:phoosar/src/providers/profile_provider.dart';
-import 'package:phoosar/src/providers/profiles_provider.dart';
-import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -187,6 +184,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       containerVPadding: 10,
                       text: kSignUpLabel,
                       fontSize: 18,
+                      isLoading: _isLoading,
                       onTap: () {
                         if (!_isLoading) {
                           _requestOTP(selectedText == kPhoneNumberLabel

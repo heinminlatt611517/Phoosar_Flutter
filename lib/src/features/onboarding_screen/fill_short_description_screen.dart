@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
 import '../../utils/dimens.dart';
 
-class FillShortDescriptionScreen extends StatefulWidget {
+class FillShortDescriptionScreen extends ConsumerStatefulWidget {
   const FillShortDescriptionScreen({super.key});
 
   @override
-  State<FillShortDescriptionScreen> createState() =>
+  ConsumerState<FillShortDescriptionScreen> createState() =>
       _FillShortDescriptionScreenState();
 }
 
 class _FillShortDescriptionScreenState
-    extends State<FillShortDescriptionScreen> {
+    extends ConsumerState<FillShortDescriptionScreen> {
   TextEditingController shortDescriptionTextController =
       TextEditingController();
   @override
@@ -38,6 +39,11 @@ class _FillShortDescriptionScreenState
               ///short desc text form field
               TextFormField(
                   maxLines: 10,
+                  controller: shortDescriptionTextController,
+                  onChanged: (value) {
+                    // ref.read(profileSaveRequestProvider.notifier).state.about =
+                    //     value;
+                  },
                   decoration: InputDecoration(
                     hintMaxLines: 2,
                     hintStyle: TextStyle(

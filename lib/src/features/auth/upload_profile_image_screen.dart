@@ -1,21 +1,33 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:phoosar/src/common/widgets/select_photo_options_widget.dart';
 import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
+import '../../providers/app_provider.dart';
+import '../../providers/data_providers.dart';
 import '../../utils/dimens.dart';
 
-class UploadProfileImageScreen extends StatefulWidget {
+class UploadProfileImageScreen extends ConsumerStatefulWidget {
   const UploadProfileImageScreen({super.key});
 
   @override
-  State<UploadProfileImageScreen> createState() =>
+  ConsumerState<UploadProfileImageScreen> createState() =>
       _UploadProfileImageScreenState();
 }
 
-class _UploadProfileImageScreenState extends State<UploadProfileImageScreen> {
+class _UploadProfileImageScreenState
+    extends ConsumerState<UploadProfileImageScreen> {
+  var base64ImageString = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,41 +44,64 @@ class _UploadProfileImageScreenState extends State<UploadProfileImageScreen> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(kMarginLarge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                kUploadYourProfileImage,
-                style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
-              ),
-
-              60.vGap,
-
-              ///choose image view
-              ChooseImageView(),
-
-              60.vGap,
-
-              ///continue button
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: CommonButton(
-                  containerVPadding: 10,
-                  text: kContinueLabel,
-                  fontSize: 18,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HelpUsScreen(),
-                      ),
-                    );
-                  },
-                  bgColor: Colors.pinkAccent,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  kUploadYourProfileImage,
+                  style:
+                      TextStyle(color: Colors.grey, fontSize: kTextRegular24),
                 ),
-              ),
-            ],
+
+                60.vGap,
+
+                ///choose image view
+                ChooseImageView(
+                  base64ImageString: (value) {
+                    setState(() {
+                      base64ImageString = value;
+                      ref
+                          .read(profileSaveRequestProvider)
+                          .profileImages
+                          ?.add(value);
+                    });
+                  },
+                ),
+
+                60.vGap,
+
+                ///continue button
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: CommonButton(
+                    containerVPadding: 10,
+                    text: kContinueLabel,
+                    fontSize: 18,
+                    onTap: () async {
+                      if (base64ImageString == "") {
+                        context.showErrorSnackBar(message: kErrorMessage);
+                      } else {
+                        var request = ref.read(profileSaveRequestProvider);
+                        var response = await ref
+                            .read(repositoryProvider)
+                            .saveProfile(request, context);
+                        if (response.statusCode.toString().startsWith('2')) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HelpUsScreen(),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    bgColor: Colors.pinkAccent,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -75,8 +110,31 @@ class _UploadProfileImageScreenState extends State<UploadProfileImageScreen> {
 }
 
 ///choose image container view
-class ChooseImageView extends StatelessWidget {
-  const ChooseImageView({super.key});
+class ChooseImageView extends StatefulWidget {
+  Function(String) base64ImageString;
+  ChooseImageView({super.key, required this.base64ImageString});
+
+  @override
+  State<ChooseImageView> createState() => _ChooseImageViewState();
+}
+
+class _ChooseImageViewState extends State<ChooseImageView> {
+  File? _image;
+
+  ///cropImage
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      uiSettings: [
+        AndroidUiSettings(
+            hideBottomControls: true,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+      ],
+    );
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +152,13 @@ class ChooseImageView extends StatelessWidget {
               bottom: 0,
               left: 0,
               right: 0,
-              child: Image.asset(
-                'assets/images/upload_profile_img.png',
-                height: 240,
-                width: 240,
-              ),
+              child: _image != null
+                  ? Image.file(_image ?? File(""))
+                  : Image.asset(
+                      'assets/images/upload_profile_img.png',
+                      height: 240,
+                      width: 240,
+                    ),
             )
           ],
         ),
@@ -110,7 +170,50 @@ class ChooseImageView extends StatelessWidget {
           containerVPadding: 10,
           text: kChooseImageLabel,
           fontSize: 18,
-          onTap: () {},
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(10.0),
+                ),
+              ),
+              builder: (context) => DraggableScrollableSheet(
+                  initialChildSize: 0.28,
+                  maxChildSize: 0.4,
+                  minChildSize: 0.28,
+                  expand: false,
+                  builder: (context, scrollController) {
+                    return SingleChildScrollView(
+                      controller: scrollController,
+                      child: SelectPhotoOptionsWidget(
+                        onTap: (source) async {
+                          Navigator.of(context).pop();
+                          try {
+                            final image = await ImagePicker(
+                                    // imageQuality: 25,
+                                    )
+                                .pickImage(
+                              source: source,
+                            );
+                            if (image == null) return;
+                            File? img = File(image.path);
+                            img = await _cropImage(imageFile: img);
+                            setState(() {
+                              _image = img;
+                              widget.base64ImageString(base64Encode(
+                                  File(image.path).readAsBytesSync()));
+                            });
+                          } catch (e) {
+                            debugPrint(e.toString());
+                          }
+                        },
+                      ),
+                    );
+                  }),
+            );
+          },
           bgColor: Colors.grey.withOpacity(0.5),
         ),
       ],
