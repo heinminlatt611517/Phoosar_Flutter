@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phoosar/env/env.dart';
-import 'session.dart';
 import 'package:http/http.dart';
+import 'package:phoosar/env/env.dart';
+
+import 'session.dart';
 
 class Repository {
   final Ref ref;
@@ -27,7 +30,7 @@ class Repository {
     );
     return response;
   }
-  
+
   Future<Response> login(dynamic request, BuildContext context) async {
     var response = await Session.postWithoutAuth(
       Uri.parse("${Env.baseurl}/login"),
@@ -47,8 +50,6 @@ class Repository {
     );
     return response;
   }
-
-  
 
   Future<Response> socialLogin(dynamic request, BuildContext context) async {
     var response = await Session.postWithoutAuth(
@@ -104,7 +105,7 @@ class Repository {
   Future<Response> saveUserQA(dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-user-qa"),
-      request,
+      jsonEncode(request),
       context,
       ref,
     );

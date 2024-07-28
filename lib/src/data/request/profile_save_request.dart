@@ -12,7 +12,7 @@ class ProfileSaveRequest {
   String? matchCountry;
   String? matchCity;
   List<String>? profileImages;
-
+  List<String>? speakLanguages;
   ProfileSaveRequest(
       {this.name,
       this.gender,
@@ -26,7 +26,8 @@ class ProfileSaveRequest {
       this.city,
       this.matchCountry,
       this.matchCity,
-      this.profileImages});
+      this.profileImages,
+      this.speakLanguages});
 
   ProfileSaveRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -42,6 +43,7 @@ class ProfileSaveRequest {
     matchCountry = json['match_country'];
     matchCity = json['match_city'];
     profileImages = json['profile_images'].cast<String>();
+    speakLanguages = json['speak_languages'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +61,7 @@ class ProfileSaveRequest {
     data['match_country'] = this.matchCountry;
     data['match_city'] = this.matchCity;
     data['profile_images'] = this.profileImages;
+    data['speak_languages'] = this.speakLanguages;
     return data;
   }
 }

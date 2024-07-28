@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phoosar/src/features/onboarding_screen/alcohol_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/all_set_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/birthdate_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/fill_short_description_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/horoscopes_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/partner_religion_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/potential_match_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/relationship_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/smoke_screen.dart';
-import 'package:phoosar/src/features/onboarding_screen/type_of_person_screen.dart';
-import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
-import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/common_button.dart';
+import '../../common/widgets/selectable_button.dart';
+import '../../data/request/question_save_request.dart';
+import '../../data/response/questions_response.dart';
+import '../../providers/app_provider.dart';
+import '../../utils/dimens.dart';
 import '../../utils/strings.dart';
+import 'all_set_screen.dart';
 
 class OnBoardingScreen extends ConsumerStatefulWidget {
   const OnBoardingScreen({super.key});
@@ -26,44 +21,20 @@ class OnBoardingScreen extends ConsumerStatefulWidget {
 
 class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
-
   int _currentPage = 0;
-  List<Color> indicatorColors = [
-    Colors.grey,
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-    Colors.grey.withOpacity(0.4),
-  ];
-
-  List<Color> indicatorTextColors = [
-    Colors.grey,
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    Colors.black,
-  ];
-
-  ///scroll controller
-  final ScrollController _scrollController = ScrollController();
+  List<Color> indicatorColors = [];
+  List<Questions> selectedQuestionList = [];
+  var isLoading = false;
 
   @override
   void dispose() {
     _pageController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    var questionList = ref.watch(questionListProvider(context));
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -77,110 +48,88 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
             height: 60,
           ),
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            50.vGap,
+        body: questionList.when(
+          data: (data) {
+            if (indicatorColors.length != data.length) {
+              indicatorColors = List.generate(
+                data.length,
+                (_) => Colors.grey.withOpacity(0.4),
+              );
+              indicatorColors.first = Colors.blue;
+            }
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 50),
 
-            ///build horizontal indicator
-            buildPageIndicator(),
+                /// Build horizontal indicator
+                buildPageIndicator(data),
 
-            ///body view
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: const Duration(seconds: 1),
-                child: Center(
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _currentPage = index;
-                        updateIndicatorColors();
-                      });
+                /// Body view
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(seconds: 1),
+                    child: Center(
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentPage = index;
+                            updateIndicatorColors();
+                          });
+                        },
+                        children: data
+                            .map((questions) => QuestionWidgetView(
+                                  questionData: (questionsData) {
+                                    selectedQuestionList.add(questionsData);
+                                  },
+                                  data: questions,
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    transitionBuilder: (child, animation) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      );
                     },
-                    children: [
-                      FillShortDescriptionScreen(),
-                      RelationshipScreen(),
-                      HoroscopesScreen(),
-                      SmokeScreen(),
-                      AlcoholScreen(),
-                      BirthdateScreen(),
-                      PartnerReligionScreen(),
-                      PotentialMatchScreen(),
-                      TypeOfPersonScreen()
-                    ],
                   ),
                 ),
-                transitionBuilder: (child, animation) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1.0, 0.0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  );
-                },
-              ),
+
+                /// Continue button
+                _buildContinueButton(_currentPage, data.length),
+
+                SizedBox(height: 60),
+              ],
+            );
+          },
+          error: (error, stack) => Container(),
+          loading: () => Center(
+            child: SpinKitThreeBounce(
+              color: Colors.pinkAccent,
             ),
-
-            ///continue button
-            _buildContinueButton(_currentPage),
-
-            60.vGap
-          ],
+          ),
         ),
       ),
     );
   }
 
-  ///continue button
-  Widget _buildContinueButton(int index) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 2,
-      child: CommonButton(
-        containerVPadding: 10,
-        text: kContinueLabel,
-        fontSize: 18,
-        onTap: () async {
-          if (index == 8) {
-            var request = ref.read(profileSaveRequestProvider);
-            var response = await ref
-                .read(repositoryProvider)
-                .saveProfile(request, context);
-            if (response.statusCode.toString().startsWith('2')) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => AllSetScreen()),
-              );
-            }
-          }
-          setState(() {
-            _pageController.animateToPage(
-              index + 1,
-              duration: const Duration(seconds: 1),
-              curve: Curves.easeInOut,
-            );
-          });
-        },
-        bgColor: Colors.pinkAccent,
-      ),
-    );
-  }
-
-  ///build page indicator
-  Widget buildPageIndicator() {
+  /// Build page indicator
+  Widget buildPageIndicator(List<QuestionData> questionList) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        indicatorColors.length,
-        (index) => buildIndicator(
-          index,
-        ),
+        questionList.length,
+        (index) => buildIndicator(index),
       ),
     );
   }
 
-  ///build indicator
+  /// Build indicator
   Widget buildIndicator(int index) {
     return Container(
       width: 22,
@@ -188,6 +137,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: indicatorColors[index],
+        borderRadius: BorderRadius.circular(2),
       ),
     );
   }
@@ -197,17 +147,122 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     setState(() {
       indicatorColors = List.generate(
         indicatorColors.length,
-        (index) => index <= _currentPage
-            ? Colors.blue
-            : Colors.grey.withOpacity(0.4), // Change color condition here
-      );
-
-      indicatorTextColors = List.generate(
-        indicatorTextColors.length,
-        (index) => index <= _currentPage
-            ? Colors.white
-            : Colors.black, // Change color condition here
+        (index) =>
+            index <= _currentPage ? Colors.blue : Colors.grey.withOpacity(0.4),
       );
     });
+  }
+
+  /// Continue button
+  Widget _buildContinueButton(int index, int pageLength) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 2,
+      child: CommonButton(
+        containerVPadding: 10,
+        text: kContinueLabel,
+        isLoading: isLoading,
+        fontSize: 18,
+        onTap: () async {
+          ref.read(questionSaveRequestProvider).questions =
+              selectedQuestionList;
+          if (index == pageLength - 1) {
+            setState(() {
+              isLoading = true;
+            });
+            var request = ref.read(questionSaveRequestProvider);
+            var response =
+                await ref.read(repositoryProvider).saveUserQA(request, context);
+            if (response.statusCode.toString().startsWith('2')) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => AllSetScreen()),
+              );
+            } else {
+              setState(() {
+                isLoading = false;
+              });
+            }
+          } else {
+            _pageController.animateToPage(
+              index + 1,
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut,
+            );
+          }
+        },
+        bgColor: Colors.pinkAccent,
+      ),
+    );
+  }
+}
+
+class QuestionWidgetView extends StatefulWidget {
+  final QuestionData data;
+  final Function(Questions) questionData;
+
+  const QuestionWidgetView(
+      {super.key, required this.data, required this.questionData});
+
+  @override
+  State<QuestionWidgetView> createState() => _QuestionWidgetViewState();
+}
+
+class _QuestionWidgetViewState extends State<QuestionWidgetView> {
+  var selectedText = "";
+  TextEditingController shortDescriptionTextController =
+      TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(kMarginLarge),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                widget.data.question ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.5),
+                  fontWeight: FontWeight.bold,
+                  fontSize: kTextRegular24,
+                ),
+              ),
+              SizedBox(height: 80),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: SelectableButton(
+                      label: widget.data.answers?[index].answer ?? "",
+                      isSelected:
+                          selectedText == widget.data.answers?[index].answer,
+                      onTapButton: (value) {
+                        var craftQuestionVo = Questions(
+                          id: widget.data.id,
+                          answerId: widget.data.answers?[index].id.toString(),
+                          answerText:
+                              widget.data.answers?[index].answer.toString(),
+                        );
+                        widget.questionData(craftQuestionVo);
+                        setState(() {
+                          selectedText = value;
+                        });
+                      },
+                    ),
+                  );
+                },
+                itemCount: widget.data.answers?.length ?? 0,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

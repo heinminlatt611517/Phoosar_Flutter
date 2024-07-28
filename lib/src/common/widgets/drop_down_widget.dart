@@ -43,12 +43,14 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         isExpanded: true,
         selectedItemBuilder: (BuildContext context) {
           return widget.items.map<Widget>((String value) {
-            return Text(
-              value,
-              style: TextStyle(
-                color: Colors.grey.withOpacity(0.7),
-                fontSize:
-                    kTextRegular2x, // Set the text color for the selected item
+            return FittedBox(
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: Colors.grey.withOpacity(0.7),
+                  fontSize:
+                      kTextRegular2x, // Set the text color for the selected item
+                ),
               ),
             );
           }).toList();
@@ -68,10 +70,12 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         items: widget.items
             .map((item) => DropdownMenuItem<String>(
                   value: item,
-                  child: Text(
-                    item,
-                    style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                  child: FittedBox(
+                    child: Text(
+                      item,
+                      style: TextStyle(
+                          color: Colors.grey, fontSize: kTextRegular2x),
+                    ),
                   ),
                 ))
             .toList(),

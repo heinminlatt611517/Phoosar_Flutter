@@ -161,6 +161,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     containerVPadding: 10,
                     text: kSignInLabel,
                     fontSize: 18,
+                    isLoading: _isLoading,
                     onTap: () {
                       if (!_isLoading) {
                         _signIn();

@@ -109,6 +109,22 @@ List<String> cities = [
   'Nay Pyi Taw',
 ];
 
+List<String> months = [
+  'Month',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
 double smallFontSize = 14;
 double mediumFontSize = 16;
 double normalFontSize = 18;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
@@ -63,6 +64,9 @@ class _AllSetScreenState extends State<AllSetScreen> {
                   fontSize: 18,
                   onTap: () {
                     ///do navigation login
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
                   },
                   bgColor: Colors.pinkAccent,
                 ),
