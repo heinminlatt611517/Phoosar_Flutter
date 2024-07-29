@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../utils/dimens.dart';
@@ -40,7 +40,7 @@ class _AllSetScreenState extends State<AllSetScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      kYourAreAllSetLabel,
+                      AppLocalizations.of(context)!.kYourAreAllSetLabel,
                       style: TextStyle(
                           color: Colors.pinkAccent,
                           fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class _AllSetScreenState extends State<AllSetScreen> {
                     ),
                     20.vGap,
                     Text(
-                      kFindYourMatch,
+                      AppLocalizations.of(context)!.kFindYourMatch,
                       style: TextStyle(color: Colors.black),
                     ),
                   ],
@@ -60,7 +60,7 @@ class _AllSetScreenState extends State<AllSetScreen> {
                 width: MediaQuery.of(context).size.width / 2,
                 child: CommonButton(
                   containerVPadding: 10,
-                  text: kLetGoLabel,
+                  text: AppLocalizations.of(context)!.kLetGoLabel,
                   fontSize: 18,
                   onTap: () {
                     ///do navigation login

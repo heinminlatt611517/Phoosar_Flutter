@@ -16,3 +16,9 @@ final supabaseClientProvider = StateProvider<SupabaseClient>((ref) {
 final repositoryProvider = StateProvider<Repository>((ref) {
   return Repository(ref);
 });
+
+final localeProvider = StateProvider<String>((ref) {
+  var sharedPrefs = ref.watch(sharedPrefProvider);
+  var locale = sharedPrefs.getString("locale");
+  return locale ?? "my";
+});

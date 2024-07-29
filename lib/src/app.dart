@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/auth/auth_screen.dart';
 import 'package:phoosar/src/features/home/home.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/splash_page.dart';
 import 'package:phoosar/src/utils/enable_drag.dart';
@@ -33,7 +34,9 @@ class MyApp extends ConsumerWidget {
           ],
           supportedLocales: const [
             Locale('en', ''),
+            Locale('my', ''),
           ],
+          locale: Locale(ref.watch(localeProvider)),
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
           theme: ThemeData(),

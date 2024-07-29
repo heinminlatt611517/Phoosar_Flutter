@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/dimens.dart';
-import '../../utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 ///email and phone number view
 class EmailAndPhoneNumberView extends StatelessWidget {
@@ -26,19 +26,19 @@ class EmailAndPhoneNumberView extends StatelessWidget {
         children: [
           ///email
           EmailAndPhoneNumberButtonView(
-            isSelected: selectedText == kEmailLabel,
-            label: kEmailLabel,
+            isSelected: selectedText == "Email",
+            label: AppLocalizations.of(context)!.kEmailLabel,
             onTapButton: () {
-              onTapEmailOrPhoneNumber(kEmailLabel);
+              onTapEmailOrPhoneNumber("Email");
             },
           ),
 
           ///Phone number
           EmailAndPhoneNumberButtonView(
-            isSelected: selectedText == kPhoneNumberLabel,
-            label: kPhoneNumberLabel,
+            isSelected: selectedText == "Phone",
+            label: AppLocalizations.of(context)!.kPhoneNumberLabel,
             onTapButton: () {
-              onTapEmailOrPhoneNumber(kPhoneNumberLabel);
+              onTapEmailOrPhoneNumber("Phone");
             },
           )
         ],

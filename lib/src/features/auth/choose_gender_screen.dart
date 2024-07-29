@@ -6,8 +6,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ChooseGenderScreen extends ConsumerStatefulWidget {
   const ChooseGenderScreen({super.key});
 
@@ -36,7 +35,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              kIamLabel,
+              AppLocalizations.of(context)!.kIamLabel,
               style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
             ),
 
@@ -61,11 +60,11 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
               width: MediaQuery.of(context).size.width / 2,
               child: CommonButton(
                 containerVPadding: 10,
-                text: kContinueLabel,
+                text: AppLocalizations.of(context)!.kContinueLabel,
                 fontSize: 18,
                 onTap: () {
                   if (selectedGender == "") {
-                    context.showErrorSnackBar(message: kErrorMessage);
+                      context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
                   } else {
                     Navigator.push(
                       context,

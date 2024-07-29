@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../utils/dimens.dart';
@@ -35,7 +35,7 @@ class _HelpUsScreenState extends State<HelpUsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                kHelpUsGetToKnowLabel,
+                AppLocalizations.of(context)!.kHelpUsGetToKnowLabel,
                 style: TextStyle(
                     color: Colors.pinkAccent,
                     fontWeight: FontWeight.bold,
@@ -45,7 +45,7 @@ class _HelpUsScreenState extends State<HelpUsScreen> {
               20.vGap,
 
               Text(
-                kAnswerFollowingQuestionToFindPerfectMatch,
+                AppLocalizations.of(context)!.kAnswerFollowingQuestionToFindPerfectMatch,
                 style: TextStyle(color: Colors.black, fontSize: kTextSmall),
               ),
 
@@ -56,7 +56,7 @@ class _HelpUsScreenState extends State<HelpUsScreen> {
                 width: MediaQuery.of(context).size.width / 2,
                 child: CommonButton(
                   containerVPadding: 10,
-                  text: kContinueLabel,
+                  text: AppLocalizations.of(context)!.kContinueLabel,
                   fontSize: 18,
                   onTap: () {
                     Navigator.push(

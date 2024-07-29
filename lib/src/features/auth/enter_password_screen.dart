@@ -15,7 +15,7 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -45,7 +45,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
   final _confirmPasswordController = TextEditingController();
 
   ///Email or Phone number
-  String selectedText = kEmailLabel;
+  String selectedText = "Email";
 
   late final StreamSubscription<AuthState> _authSubscription;
 
@@ -109,7 +109,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                         }
                         return null;
                       },
-                      hintLabel: kPasswordLabel),
+                      hintLabel: AppLocalizations.of(context)!.kPasswordLabel),
                   24.vGap,
                   InputView(
                       controller: _confirmPasswordController,
@@ -119,7 +119,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                         }
                         return null;
                       },
-                      hintLabel: kConfirmPasswordLabel),
+                      hintLabel: AppLocalizations.of(context)!.kConfirmPasswordLabel),
 
                   10.vGap,
 
@@ -130,7 +130,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: kConfirmLabel,
+                      text: AppLocalizations.of(context)!.kConfirmLabel,
                       fontSize: 18,
                       onTap: () {
                         _signUp();
@@ -149,9 +149,9 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                         color: Colors.grey,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: kAlreadyHaveAccount),
+                        TextSpan(text: AppLocalizations.of(context)!.kAlreadyHaveAccount),
                         TextSpan(
-                          text: kSignInLabel,
+                          text: AppLocalizations.of(context)!.kSignInLabel,
                           style: new TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.red),
                           recognizer: TapGestureRecognizer()

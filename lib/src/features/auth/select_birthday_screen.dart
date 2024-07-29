@@ -4,7 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/drop_down_widget.dart';
 import '../../providers/data_providers.dart';
@@ -58,7 +58,7 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
               child: Column(
                 children: [
                   Text(
-                    kBirthdayLabel,
+                    AppLocalizations.of(context)!.kBirthdayLabel,
                     style:
                         TextStyle(color: Colors.grey, fontSize: kTextRegular24),
                   ),
@@ -121,13 +121,13 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
               width: MediaQuery.of(context).size.width / 2,
               child: CommonButton(
                 containerVPadding: 10,
-                text: kContinueLabel,
+                text: AppLocalizations.of(context)!.kContinueLabel,
                 fontSize: 18,
                 onTap: () {
                   if (selectedDay == "" ||
                       selectedMonth == "" ||
                       selectedYear == "") {
-                    context.showErrorSnackBar(message: kErrorMessage);
+                    context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
                   } else {
                     ref
                             .read(profileSaveRequestProvider.notifier)

@@ -5,7 +5,7 @@ import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/data_providers.dart';
 
@@ -52,7 +52,7 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                kISpeakLabel,
+                AppLocalizations.of(context)!.kISpeakLabel,
                 style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
               ),
 
@@ -108,7 +108,7 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
               TextFormField(
                 controller: _languageController,
                 decoration: InputDecoration(
-                  hintText: kAddLanguage,
+                  hintText: AppLocalizations.of(context)!.kAddLanguage,
                   suffixIcon: UnconstrainedBox(
                     child: InkWell(
                         onTap: () {
@@ -137,11 +137,11 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                 width: MediaQuery.of(context).size.width / 2,
                 child: CommonButton(
                   containerVPadding: 10,
-                  text: kContinueLabel,
+                  text: AppLocalizations.of(context)!.kContinueLabel,
                   fontSize: 18,
                   onTap: () {
                     if (_languages.isEmpty) {
-                      context.showErrorSnackBar(message: kErrorMessage);
+                      context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
                     } else {
                       ref
                           .read(profileSaveRequestProvider.notifier)

@@ -14,7 +14,7 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -43,7 +43,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
   final TextEditingController _pinController = TextEditingController();
 
   ///Email or Phone number
-  String selectedText = kEmailLabel;
+  String selectedText = "Email";
 
   late final StreamSubscription<AuthState> _authSubscription;
 
@@ -142,7 +142,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                       _requestOTP();
                     },
                     child: Text(
-                      kResendOTPLabel,
+                      AppLocalizations.of(context)!.kResendOTPLabel,
                       style: TextStyle(
                           fontSize: kTextRegular3x, color: Colors.grey),
                     ),
@@ -155,7 +155,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: kConfirmLabel,
+                      text: AppLocalizations.of(context)!.kConfirmLabel,
                       fontSize: 18,
                       onTap: () {
                         _verifyOTP();
@@ -174,9 +174,9 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         color: Colors.grey,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: kAlreadyHaveAccount),
+                        TextSpan(text: AppLocalizations.of(context)!.kAlreadyHaveAccount),
                         TextSpan(
-                          text: kSignInLabel,
+                          text: AppLocalizations.of(context)!.kSignInLabel,
                           style: new TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.red),
                           recognizer: TapGestureRecognizer()

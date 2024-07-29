@@ -9,7 +9,7 @@ import '../../data/request/question_save_request.dart';
 import '../../data/response/questions_response.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
-import '../../utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'all_set_screen.dart';
 
 class OnBoardingScreen extends ConsumerStatefulWidget {
@@ -159,7 +159,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
       width: MediaQuery.of(context).size.width / 2,
       child: CommonButton(
         containerVPadding: 10,
-        text: kContinueLabel,
+        text: AppLocalizations.of(context)!.kContinueLabel,
         isLoading: isLoading,
         fontSize: 18,
         onTap: () async {

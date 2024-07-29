@@ -26,7 +26,7 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -46,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   late final StreamSubscription<AuthState> authSubscription;
 
   ///Email or Phone number
-  String selectedText = kEmailLabel;
+  String selectedText = "Email";
   String? socialLoginType;
 
   @override
@@ -114,7 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 ///phone number sign in view
                 Visibility(
-                  visible: selectedText == kPhoneNumberLabel,
+                  visible: selectedText == "Phone",
                   child: Column(
                     children: [
                       CountryCodeWithPhoneNumberWidget(
@@ -129,25 +129,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ///password input
                       InputView(
                           controller: passwordController,
-                          hintLabel: kPasswordLabel),
+                          hintLabel:
+                              AppLocalizations.of(context)!.kPasswordLabel),
                     ],
                   ),
                 ),
 
                 ///email sing in view
                 Visibility(
-                  visible: selectedText == kEmailLabel,
+                  visible: selectedText == "Email",
                   child: Column(
                     children: [
                       ///email input
                       InputView(
-                          controller: emailController, hintLabel: kEmailLabel),
+                          controller: emailController,
+                          hintLabel: AppLocalizations.of(context)!.kEmailLabel),
                       24.vGap,
 
                       ///password input
                       InputView(
                           controller: passwordController,
-                          hintLabel: kPasswordLabel),
+                          hintLabel:
+                              AppLocalizations.of(context)!.kPasswordLabel),
                     ],
                   ),
                 ),
@@ -159,9 +162,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   width: MediaQuery.of(context).size.width / 2,
                   child: CommonButton(
                     containerVPadding: 10,
-                    text: kSignInLabel,
+                    text: AppLocalizations.of(context)!.kSignInLabel,
                     fontSize: 18,
-                    isLoading: _isLoading,
                     onTap: () {
                       if (!_isLoading) {
                         _signIn();
@@ -177,7 +179,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    kForgotPasswordLabel,
+                    AppLocalizations.of(context)!.kForgotPasswordLabel,
                     style:
                         TextStyle(fontSize: kTextRegular3x, color: Colors.grey),
                   ),
@@ -198,7 +200,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           Icons.facebook,
                           color: Colors.blue,
                         ),
-                        text: kSignInLabel),
+                        text: AppLocalizations.of(context)!.kSignInLabel),
 
                     20.hGap,
 
@@ -211,7 +213,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           Icons.mail,
                           color: Colors.red,
                         ),
-                        text: kSignInLabel),
+                        text: AppLocalizations.of(context)!.kSignInLabel),
                   ],
                 ),
 
@@ -225,9 +227,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.grey,
                     ),
                     children: <TextSpan>[
-                      TextSpan(text: kDontHaveAccount),
                       TextSpan(
-                        text: kSignUpLabel,
+                          text: AppLocalizations.of(context)!.kDontHaveAccount),
+                      TextSpan(
+                        text: AppLocalizations.of(context)!.kSignUpLabel,
                         style: new TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.red),
                         recognizer: TapGestureRecognizer()
@@ -264,8 +267,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     var response = await ref.read(repositoryProvider).login(
           jsonEncode({
-            "type": selectedText == kEmailLabel ? "email" : "phone",
-            "value": selectedText == kEmailLabel
+            "type": selectedText == "Email" ? "email" : "phone",
+            "value": selectedText == "Email"
                 ? emailController.text
                 : phoneNumberController.text,
             "password": passwordController.text,

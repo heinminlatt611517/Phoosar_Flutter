@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../utils/dimens.dart';
 
@@ -28,7 +28,7 @@ class _FillShortDescriptionScreenState
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                kShortDescriptionAboutYou,
+                AppLocalizations.of(context)!.kShortDescriptionAboutYou,
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.5),
                     fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class _FillShortDescriptionScreenState
                     hintStyle: TextStyle(
                         fontSize: kTextRegular,
                         color: Colors.grey.withOpacity(0.8)),
-                    hintText: kHowWouldYourFamilyOrBestFriendDescribeYou,
+                    hintText: AppLocalizations.of(context)!.kHowWouldYourFamilyOrBestFriendDescribeYou,
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),

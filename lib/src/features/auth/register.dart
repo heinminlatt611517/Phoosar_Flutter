@@ -16,7 +16,7 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../env/env.dart';
@@ -44,7 +44,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final phoneNumberController = TextEditingController();
 
   ///Email or Phone number
-  String selectedText = kEmailLabel;
+  String selectedText = "Email";
 
   Future<void> _requestOTP(String type) async {
     final isValid = _formKey.currentState!.validate();
@@ -123,13 +123,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                   ///phone number sign up view
                   Visibility(
-                    visible: selectedText == kPhoneNumberLabel,
+                    visible: selectedText == "Phone",
                     child: Column(
                       children: [
                         ///password input
                         InputView(
                             controller: _usernameController,
-                            hintLabel: kUserNameLabel),
+                            hintLabel: AppLocalizations.of(context)!.kUserNameLabel),
 
                         24.vGap,
 
@@ -146,7 +146,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                   ///user name , email , password view
                   Visibility(
-                      visible: selectedText == kEmailLabel,
+                      visible: selectedText == "Email",
                       child: Column(
                         children: [
                           ///user name input
@@ -158,7 +158,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 }
                                 return null;
                               },
-                              hintLabel: kUserNameLabel),
+                              hintLabel: AppLocalizations.of(context)!.kUserNameLabel),
                           24.vGap,
 
                           ///email input
@@ -170,7 +170,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 }
                                 return null;
                               },
-                              hintLabel: kEmailLabel),
+                              hintLabel: AppLocalizations.of(context)!.kEmailLabel),
                           24.vGap,
                         ],
                       )),
@@ -182,12 +182,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: kSignUpLabel,
+                      text: AppLocalizations.of(context)!.kSignUpLabel,
                       fontSize: 18,
                       isLoading: _isLoading,
                       onTap: () {
                         if (!_isLoading) {
-                          _requestOTP(selectedText == kPhoneNumberLabel
+                          _requestOTP(selectedText == "Phone"
                               ? "phone"
                               : "email");
                         }
@@ -212,7 +212,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   TextButton(
                     onPressed: () {},
                     child: Text(
-                      kForgotPasswordLabel,
+                      AppLocalizations.of(context)!.kForgotPasswordLabel,
                       style: TextStyle(
                           fontSize: kTextRegular3x, color: Colors.grey),
                     ),
@@ -228,9 +228,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         color: Colors.grey,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: kAlreadyHaveAccount),
+                        TextSpan(text: AppLocalizations.of(context)!.kAlreadyHaveAccount),
                         TextSpan(
-                          text: kSignInLabel,
+                          text: AppLocalizations.of(context)!.kSignInLabel,
                           style: new TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.red),
                           recognizer: TapGestureRecognizer()

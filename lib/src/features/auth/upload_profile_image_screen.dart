@@ -10,7 +10,7 @@ import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../providers/app_provider.dart';
@@ -50,7 +50,7 @@ class _UploadProfileImageScreenState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  kUploadYourProfileImage,
+                  AppLocalizations.of(context)!.kUploadYourProfileImage,
                   style:
                       TextStyle(color: Colors.grey, fontSize: kTextRegular24),
                 ),
@@ -77,11 +77,11 @@ class _UploadProfileImageScreenState
                   width: MediaQuery.of(context).size.width / 2,
                   child: CommonButton(
                     containerVPadding: 10,
-                    text: kContinueLabel,
+                    text: AppLocalizations.of(context)!.kContinueLabel,
                     fontSize: 18,
                     onTap: () async {
                       if (base64ImageString == "") {
-                        context.showErrorSnackBar(message: kErrorMessage);
+                        context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
                       } else {
                         var request = ref.read(profileSaveRequestProvider);
                         var response = await ref
@@ -168,7 +168,7 @@ class _ChooseImageViewState extends State<ChooseImageView> {
         ///choose image button
         CommonButton(
           containerVPadding: 10,
-          text: kChooseImageLabel,
+          text: AppLocalizations.of(context)!.kChooseImageLabel,
           fontSize: 18,
           onTap: () {
             showModalBottomSheet(

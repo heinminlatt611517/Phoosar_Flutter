@@ -5,7 +5,7 @@ import 'package:phoosar/src/features/auth/add_speak_language_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../utils/dimens.dart';
@@ -55,7 +55,7 @@ class _ChooseCountryAndCityScreenState
                 width: MediaQuery.of(context).size.width / 2,
                 child: CommonButton(
                   containerVPadding: 10,
-                  text: kContinueLabel,
+                  text: AppLocalizations.of(context)!.kContinueLabel,
                   fontSize: 18,
                   onTap: () {
                     Navigator.push(
@@ -87,7 +87,7 @@ class CurrentlyLocatedCityAndCountryDropdownView extends ConsumerWidget {
     return Column(
       children: [
         Text(
-          kCurrentLocateIn,
+          AppLocalizations.of(context)!.kCurrentLocateIn,
           style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
         ),
         20.vGap,
@@ -119,7 +119,7 @@ class MatchCityAndCountryDropdownView extends StatelessWidget {
     return Column(
       children: [
         Text(
-          kWantMyMatch,
+          AppLocalizations.of(context)!.kWantMyMatch,
           style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
         ),
         20.vGap,
