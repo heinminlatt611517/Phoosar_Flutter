@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/drop_down_widget.dart';
 import '../../providers/data_providers.dart';
@@ -127,13 +128,19 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                   if (selectedDay == "" ||
                       selectedMonth == "" ||
                       selectedYear == "") {
-                    context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
+                    context.showErrorSnackBar(
+                        message: AppLocalizations.of(context)!.kErrorMessage);
                   } else {
+                    var selectedBirthDate =
+                        "${selectedDay.toString()}, $selectedMonth, ${selectedYear.toString()}";
+                    debugPrint(selectedBirthDate);
                     ref
                             .read(profileSaveRequestProvider.notifier)
                             .state
                             .birthdate =
-                        "$selectedDay,$selectedMonth,$selectedYear";
+                        DateFormat('yyyy-MM-dd').format(
+                            DateFormat('d, MMMM, yyyy')
+                                .parse(selectedBirthDate));
                     Navigator.push(
                       context,
                       MaterialPageRoute(

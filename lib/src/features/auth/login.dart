@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phoosar/env/env.dart';
@@ -19,6 +21,7 @@ import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
+import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
@@ -26,7 +29,7 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -47,7 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   ///Email or Phone number
   String selectedText = "Email";
-  String? socialLoginType;
+  String? recentOnboardingStatus;
 
   @override
   void initState() {
@@ -63,13 +66,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ref.invalidate(profileProvider);
         ref.invalidate(roomsProvider);
         ref.invalidate(supabaseClientProvider);
-        if (socialLoginType == "new") {
+        if (recentOnboardingStatus == kProfileStatus) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
+          );
+        }
+        if (recentOnboardingStatus == kQuestionStatus) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => OnBoardingScreen()),
           );
         } else {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
           );
         }
       }
@@ -164,6 +172,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     containerVPadding: 10,
                     text: AppLocalizations.of(context)!.kSignInLabel,
                     fontSize: 18,
+                    isLoading: _isLoading,
                     onTap: () {
                       if (!_isLoading) {
                         _signIn();
@@ -280,15 +289,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           AuthenticationResponse.fromJson(jsonDecode(response.body));
       ref
           .watch(sharedPrefProvider)
-          .setString("token", authResponse.token ?? '');
+          .setString(kTokenKey, authResponse.token ?? '');
+      recentOnboardingStatus = authResponse.recentOnBoarding;
       try {
         await supabase.auth.signInWithPassword(
           email: emailController.text,
           password: passwordController.text,
         );
       } on AuthException catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
         context.showErrorSnackBar(message: error.message);
       } catch (_) {
+        setState(() {
+          _isLoading = false;
+        });
         context.showErrorSnackBar(message: unexpectedErrorMessage);
       }
       if (mounted) {
@@ -296,6 +312,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           _isLoading = false;
         });
       }
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -380,8 +400,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           AuthenticationResponse.fromJson(jsonDecode(response.body));
       ref
           .watch(sharedPrefProvider)
-          .setString("token", authResponse.token ?? '');
-      socialLoginType = authResponse.type;
+          .setString(kTokenKey, authResponse.token ?? '');
+      recentOnboardingStatus = authResponse.recentOnBoarding;
 
       try {
         if (authResponse.type == "old") {

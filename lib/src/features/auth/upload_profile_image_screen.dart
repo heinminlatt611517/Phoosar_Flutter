@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +11,6 @@ import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../providers/app_provider.dart';
@@ -28,6 +28,7 @@ class UploadProfileImageScreen extends ConsumerStatefulWidget {
 class _UploadProfileImageScreenState
     extends ConsumerState<UploadProfileImageScreen> {
   var base64ImageString = "";
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +67,10 @@ class _UploadProfileImageScreenState
                           .read(profileSaveRequestProvider)
                           .profileImages
                           ?.add(value);
+                      ref.read(profileSaveRequestProvider).name = "Si thu";
+                      ref.read(profileSaveRequestProvider).profileImages = [];
+                      ref.read(profileSaveRequestProvider).moreDetails = [];
+                      ref.read(profileSaveRequestProvider).interests = [];
                     });
                   },
                 ),
@@ -77,13 +82,21 @@ class _UploadProfileImageScreenState
                   width: MediaQuery.of(context).size.width / 2,
                   child: CommonButton(
                     containerVPadding: 10,
+                    isLoading: _isLoading,
                     text: AppLocalizations.of(context)!.kContinueLabel,
                     fontSize: 18,
                     onTap: () async {
                       if (base64ImageString == "") {
-                        context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
+                        context.showErrorSnackBar(
+                            message:
+                                AppLocalizations.of(context)!.kErrorMessage);
                       } else {
                         var request = ref.read(profileSaveRequestProvider);
+                        debugPrint(
+                            "UserBirthday:::${ref.read(profileSaveRequestProvider.notifier).state.birthdate}");
+                        setState(() {
+                          _isLoading = true;
+                        });
                         var response = await ref
                             .read(repositoryProvider)
                             .saveProfile(request, context);
@@ -94,6 +107,10 @@ class _UploadProfileImageScreenState
                               builder: (context) => HelpUsScreen(),
                             ),
                           );
+                        } else {
+                          setState(() {
+                            _isLoading = false;
+                          });
                         }
                       }
                     },

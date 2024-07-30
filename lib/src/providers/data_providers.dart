@@ -3,8 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/data/request/city_request.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/request/question_save_request.dart';
+import 'package:phoosar/src/data/response/city_list_response.dart';
+import 'package:phoosar/src/data/response/country_list_response.dart';
 import 'package:phoosar/src/data/response/find_response.dart';
 import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
@@ -146,10 +149,56 @@ final questionListProvider =
     throw Exception('Failed to load whats new');
   }
 });
+
+final countryListProvider =
+    FutureProvider.family<List<CountryData>, BuildContext>(
+        (ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.countryList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return CountryListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load whats new');
+  }
+});
+
+final cityListProvider =
+    FutureProvider.family<List<CityData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final cityRequest = ref.watch(cityRequestProvider);
+  final response = await repository.cityList(jsonEncode(cityRequest), context);
+  if (response.statusCode == 200) {
+    return CityListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load whats new');
+  }
+});
+
+final matchCityListProvider =
+    FutureProvider.family<List<CityData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final matchCityRequest = ref.watch(matchCityRequestProvider);
+  final response =
+      await repository.cityList(jsonEncode(matchCityRequest), context);
+  if (response.statusCode == 200) {
+    return CityListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load whats new');
+  }
+});
+
 final profileSaveRequestProvider = StateProvider<ProfileSaveRequest>((ref) {
   return ProfileSaveRequest();
 });
 
 final questionSaveRequestProvider = StateProvider<QuestionSaveRequest>((ref) {
   return QuestionSaveRequest();
+});
+
+final cityRequestProvider = StateProvider<CityRequest>((ref) {
+  return CityRequest();
+});
+
+final matchCityRequestProvider = StateProvider<CityRequest>((ref) {
+  return CityRequest();
 });

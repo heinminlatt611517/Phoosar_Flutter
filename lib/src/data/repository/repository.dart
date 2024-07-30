@@ -64,7 +64,7 @@ class Repository {
   Future<Response> saveProfile(dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-profile"),
-      request,
+      jsonEncode(request),
       context,
       ref,
     );
@@ -228,6 +228,26 @@ class Repository {
       dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/purchase-history"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> countryList(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/country"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> cityList(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/city"),
       request,
       context,
       ref,

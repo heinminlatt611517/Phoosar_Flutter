@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/select_birthday_screen.dart';
@@ -6,7 +7,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ChooseGenderScreen extends ConsumerStatefulWidget {
   const ChooseGenderScreen({super.key});
 
@@ -49,7 +50,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                   selectedGender = value;
                 });
                 ref.read(profileSaveRequestProvider.notifier).state.gender =
-                    value;
+                    value == "Male" ? "1" : "2";
               },
             ),
 
@@ -64,7 +65,8 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                 fontSize: 18,
                 onTap: () {
                   if (selectedGender == "") {
-                      context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
+                    context.showErrorSnackBar(
+                        message: AppLocalizations.of(context)!.kErrorMessage);
                   } else {
                     Navigator.push(
                       context,

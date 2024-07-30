@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -9,7 +10,6 @@ import '../../data/request/question_save_request.dart';
 import '../../data/response/questions_response.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'all_set_screen.dart';
 
 class OnBoardingScreen extends ConsumerStatefulWidget {
@@ -219,47 +219,84 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(kMarginLarge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.data.question ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black.withOpacity(0.5),
-                  fontWeight: FontWeight.bold,
-                  fontSize: kTextRegular24,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.data.question ?? "",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.5),
+                    fontWeight: FontWeight.bold,
+                    fontSize: kTextRegular24,
+                  ),
                 ),
-              ),
-              SizedBox(height: 80),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: SelectableButton(
-                      label: widget.data.answers?[index].answer ?? "",
-                      isSelected:
-                          selectedText == widget.data.answers?[index].answer,
-                      onTapButton: (value) {
-                        var craftQuestionVo = Questions(
-                          id: widget.data.id,
-                          answerId: widget.data.answers?[index].id.toString(),
-                          answerText:
-                              widget.data.answers?[index].answer.toString(),
-                        );
-                        widget.questionData(craftQuestionVo);
-                        setState(() {
-                          selectedText = value;
-                        });
-                      },
-                    ),
-                  );
-                },
-                itemCount: widget.data.answers?.length ?? 0,
-              ),
-            ],
+                SizedBox(height: 80),
+                widget.data.answerType.toString() == "1"
+                    ? TextFormField(
+                        maxLines: 10,
+                        controller: shortDescriptionTextController,
+                        onChanged: (value) {
+                          var craftQuestionVo = Questions(
+                            id: widget.data.id,
+                            answerId: "",
+                            answerText: value,
+                          );
+                          widget.questionData(craftQuestionVo);
+                        },
+                        decoration: InputDecoration(
+                          hintMaxLines: 2,
+                          hintStyle: TextStyle(
+                              fontSize: kTextRegular,
+                              color: Colors.grey.withOpacity(0.8)),
+                          hintText: AppLocalizations.of(context)!
+                              .kHowWouldYourFamilyOrBestFriendDescribeYou,
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 0.5,
+                            ),
+                          ),
+                        ))
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: SelectableButton(
+                              label: widget.data.answers?[index].answer ?? "",
+                              isSelected: selectedText ==
+                                  widget.data.answers?[index].answer,
+                              onTapButton: (value) {
+                                var craftQuestionVo = Questions(
+                                  id: widget.data.id,
+                                  answerId:
+                                      widget.data.answers?[index].id.toString(),
+                                  answerText: widget.data.answers?[index].answer
+                                      .toString(),
+                                );
+                                widget.questionData(craftQuestionVo);
+                                setState(() {
+                                  selectedText = value;
+                                });
+                              },
+                            ),
+                          );
+                        },
+                        itemCount: widget.data.answers?.length ?? 0,
+                      ),
+              ],
+            ),
           ),
         ),
       ),
