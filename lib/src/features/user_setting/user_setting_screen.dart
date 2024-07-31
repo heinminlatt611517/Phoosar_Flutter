@@ -41,7 +41,7 @@ class UserSettingScreen extends StatelessWidget {
                 child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                    child: PhoosarPremiumView()),
+                    child: PhoosarPremiumView(context)),
               ),
 
               16.vGap,
@@ -136,7 +136,7 @@ class UserSettingScreen extends StatelessWidget {
 }
 
 ///Phoosar premium view
-Widget PhoosarPremiumView() {
+Widget PhoosarPremiumView(BuildContext context) {
   return Container(
     width: double.infinity,
     padding: EdgeInsets.symmetric(vertical: kMarginMedium),
@@ -147,8 +147,8 @@ Widget PhoosarPremiumView() {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          'assets/images/ic_launcher.png',
-          width: 42,
+          'assets/images/phoosar_premium_img.png',
+          width: MediaQuery.of(context).size.width / 2,
         ),
         10.vGap,
         Text(

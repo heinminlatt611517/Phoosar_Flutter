@@ -21,7 +21,7 @@ class GetPremiumDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/ic_launcher.png',
+              'assets/images/phoosar_premium_img.png',
               width: MediaQuery.of(context).size.width * 0.3,
             ),
             20.vGap,

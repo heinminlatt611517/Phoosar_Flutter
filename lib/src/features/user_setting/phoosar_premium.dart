@@ -31,7 +31,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
           children: [
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                child: PhoosarPremiumView()),
+                child: PhoosarPremiumView(context)),
             20.vGap,
             packageList.when(
               data: (data) => Container(
