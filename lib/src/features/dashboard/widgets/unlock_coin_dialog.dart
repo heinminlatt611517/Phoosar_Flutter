@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
-import 'package:phoosar/src/features/dashboard/widgets/unlock_success_dailog.dart';
+import 'package:phoosar/src/features/user_setting/get_more_coins_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class UnlockDailog extends StatelessWidget {
-  const UnlockDailog({super.key, required this.heartCount});
-  final String heartCount;
+class UnlockCoinDialog extends StatelessWidget {
+  const UnlockCoinDialog({super.key, required this.coinCount});
+  final String coinCount;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +33,13 @@ class UnlockDailog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.heart_broken,
+                      Icons.currency_bitcoin,
                       size: 24,
-                      color: Colors.red,
+                      color: Colors.yellow,
                     ),
                     4.hGap,
                     Text(
-                      heartCount,
+                      coinCount,
                       style: GoogleFonts.roboto(
                         fontSize: normalFontSize,
                         color: whiteColor,
@@ -54,16 +54,17 @@ class UnlockDailog extends StatelessWidget {
             InkWell(
               onTap: () {
                 Navigator.pop(context);
-                showDialog(
-                    context: context,
-                    builder: (context) => UnlockSuccessDailog());
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GetMoreCoinsScreen()));
               },
               child: Text(
                 'UNLOCK',
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
-                  color: blueColor,
-                  fontWeight: FontWeight.w400,
+                  color: Colors.pinkAccent,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

@@ -31,13 +31,15 @@ class PackageData {
   int? id;
   String? name;
   String? value;
+  String? point;
 
-  PackageData({this.id, this.name, this.value});
+  PackageData({this.id, this.name, this.value, this.point});
 
   PackageData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     value = json['value'];
+    point = json['point'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +47,7 @@ class PackageData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['value'] = this.value;
+    data['point'] = this.point;
     return data;
   }
 }

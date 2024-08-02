@@ -6,6 +6,10 @@ const kSendLabel = "Send";
 const kUpdateLabel = "Update";
 const kEnterNewPasswordLabel = "Enter New Password";
 const kConfirmPasswordLabel = "Confirm Password";
+const kUnlimitedLikeAndMoreLabel = "Unlimited Likes & more";
+const kUnlimitedLikeLabel = "Unlimited Likes";
+const kGetMoreCoinsLabel = "Get More Coins";
+const kBuyNowLabel = "BUY NOW";
 
 ///share_pref key
 const kRecentOnboardingKey = "Recent Onboarding";
