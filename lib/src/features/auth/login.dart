@@ -19,6 +19,7 @@ import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/models/facebook_user.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
 import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
+import 'package:phoosar/src/features/auth/forgot_password_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
@@ -186,7 +187,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 ///forgot password
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPasswordScreen(),
+                      ),
+                    );
+                  },
                   child: Text(
                     AppLocalizations.of(context)!.kForgotPasswordLabel,
                     style:
