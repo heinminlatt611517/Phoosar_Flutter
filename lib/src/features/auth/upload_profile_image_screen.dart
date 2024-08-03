@@ -80,22 +80,34 @@ class _UploadProfileImageScreenState
                     text: AppLocalizations.of(context)!.kContinueLabel,
                     fontSize: 18,
                     onTap: () async {
-                      if (base64ImageString == "") {
-                        context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
-                      } else {
-                        var request = ref.read(profileSaveRequestProvider);
-                        var response = await ref
-                            .read(repositoryProvider)
-                            .saveProfile(request, context);
-                        if (response.statusCode.toString().startsWith('2')) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HelpUsScreen(),
-                            ),
-                          );
-                        }
+                      var request = ref.read(profileSaveRequestProvider);
+                      var response = await ref
+                          .read(repositoryProvider)
+                          .saveProfile(request, context);
+                      if (response.statusCode.toString().startsWith('2')) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HelpUsScreen(),
+                          ),
+                        );
                       }
+                      // if (base64ImageString == "") {
+                      //   context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
+                      // } else {
+                      //   var request = ref.read(profileSaveRequestProvider);
+                      //   var response = await ref
+                      //       .read(repositoryProvider)
+                      //       .saveProfile(request, context);
+                      //   if (response.statusCode.toString().startsWith('2')) {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => HelpUsScreen(),
+                      //       ),
+                      //     );
+                      //   }
+                      // }
                     },
                     bgColor: Colors.pinkAccent,
                   ),

@@ -7,6 +7,7 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ChooseGenderScreen extends ConsumerStatefulWidget {
   const ChooseGenderScreen({super.key});
 
@@ -64,7 +65,8 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                 fontSize: 18,
                 onTap: () {
                   if (selectedGender == "") {
-                      context.showErrorSnackBar(message: AppLocalizations.of(context)!.kErrorMessage);
+                    context.showErrorSnackBar(
+                        message: AppLocalizations.of(context)!.kErrorMessage);
                   } else {
                     Navigator.push(
                       context,
@@ -98,6 +100,7 @@ class ChooseGenderCircleContainer extends StatelessWidget {
       children: [
         ///male
         GenderCircleContainerView(
+          isMale: true,
           isSelected: selectedGender == "Male",
           onTapButton: () {
             onTap("Male");
@@ -109,6 +112,7 @@ class ChooseGenderCircleContainer extends StatelessWidget {
 
         ///female
         GenderCircleContainerView(
+            isMale: false,
             isSelected: selectedGender == "Female",
             borderColor: Colors.lightBlueAccent,
             onTapButton: () {
@@ -124,9 +128,11 @@ class GenderCircleContainerView extends StatelessWidget {
   final bool isSelected;
   final Function onTapButton;
   final Color borderColor;
+  final bool isMale;
 
   const GenderCircleContainerView(
       {super.key,
+      required this.isMale,
       required this.isSelected,
       required this.onTapButton,
       required this.borderColor});
@@ -145,7 +151,9 @@ class GenderCircleContainerView extends StatelessWidget {
                 color: isSelected ? borderColor : Colors.grey,
                 width: isSelected ? 3 : 1),
             borderRadius: BorderRadius.circular(50)),
-        child: Icon(Icons.female),
+        child: isMale
+            ? Image.asset('assets/images/male.png')
+            : Image.asset('assets/images/female.png'),
       ),
     );
   }
