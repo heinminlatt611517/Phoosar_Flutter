@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/widgets/match_users.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:timeago/timeago.dart';
 
@@ -46,28 +46,48 @@ class RoomsScreen extends ConsumerWidget {
                       final room = rooms[index];
                       final otherUser =
                           profiles.firstWhere((p) => p.id == room.otherUserId);
-                      return ListTile(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => ChatPage(
-                                    roomId: room.id,
-                                    otherUserName: otherUser.username))),
-                        leading: UserAvatar(
-                          userId: otherUser.id,
-                          fromChat: true,
+                      return Slidable(
+                        key: ValueKey(index),
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (_) {},
+                              backgroundColor: Colors.grey,
+                              foregroundColor: Colors.white,
+                              icon: Icons.block,
+                            ),
+                            SlidableAction(
+                              onPressed: (_) {},
+                              backgroundColor: Colors.pinkAccent,
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                            ),
+                          ],
                         ),
-                        title: Text(otherUser.username),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            room.lastMessage?.content ?? 'Chat Room Created',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                        child: ListTile(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                      roomId: room.id,
+                                      otherUserName: otherUser.username))),
+                          leading: UserAvatar(
+                            userId: otherUser.id,
+                            fromChat: true,
                           ),
+                          title: Text(otherUser.username),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              room.lastMessage?.content ?? 'Chat Room Created',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          trailing: Text(format(
+                              room.lastMessage?.createdAt ?? room.createdAt,
+                              locale: 'en_short')),
                         ),
-                        trailing: Text(format(
-                            room.lastMessage?.createdAt ?? room.createdAt,
-                            locale: 'en_short')),
                       );
                     },
                     separatorBuilder: (context, index) => const Divider(

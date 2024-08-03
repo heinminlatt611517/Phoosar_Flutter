@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phoosar/src/data/response/package_list_response.dart';
+import 'package:phoosar/src/data/response/point_list_response.dart';
 import 'package:phoosar/src/features/payment/payment.dart';
-import 'package:phoosar/src/features/user_setting/widgets/selectable_card.dart';
+import 'package:phoosar/src/features/user_setting/widgets/selectable_coin_card.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -11,21 +11,22 @@ import 'package:sized_context/sized_context.dart';
 
 import '../../common/widgets/phoosar_premium_view.dart';
 
-class PhoosarPremiumScreen extends ConsumerStatefulWidget {
+class GetMoreCoinsScreen extends ConsumerStatefulWidget {
   @override
-  _PhoosarPremiumScreenState createState() => _PhoosarPremiumScreenState();
+  _GetMoreCoinsScreenState createState() => _GetMoreCoinsScreenState();
 }
 
-class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
+class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
   int selectedIndex = -1;
-  PackageData? selectedPackageData;
+  PointData? selectedPointData;
 
   @override
   Widget build(BuildContext context) {
-    var packageList = ref.watch(packageListProvider(context));
+    var pointList = ref.watch(pointListProvider(context));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Phoosar Premium'),
+        centerTitle: true,
+        title: Text(kGetMoreCoinsLabel),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,24 +34,25 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
           children: [
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                child: PhoosarPremiumView(context, kUnlimitedLikeAndMoreLabel)),
+                child: PhoosarPremiumView(context, kUnlimitedLikeLabel)),
             20.vGap,
-            packageList.when(
+            pointList.when(
               data: (data) => Container(
-                height: 140,
+                height: 160,
                 width: context.widthPx,
                 child: ListView.builder(
                     itemCount: data.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return SelectableCard(
+                      return SelectableCoinCard(
                         duration: data[index].name ?? '',
                         price: data[index].value ?? '',
+                        point: data[index].point ?? '',
                         label: '',
                         onTap: () {
                           setState(() {
                             selectedIndex = index;
-                            selectedPackageData = data[index];
+                            selectedPointData = data[index];
                           });
                         },
                         isSelected: selectedIndex == index,
@@ -62,7 +64,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
             ),
             SizedBox(height: 32),
             Visibility(
-              visible: selectedPackageData != null,
+              visible: selectedPointData != null,
               child: ElevatedButton(
                 onPressed: () {
                   // Handle continue button press
@@ -70,10 +72,10 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PaymentScreen(
-                              planType: selectedPackageData?.name ?? '',
+                              planType: selectedPointData?.name ?? '',
                               planTypeId:
-                                  selectedPackageData?.id.toString() ?? '',
-                              amount: selectedPackageData?.value ?? '')));
+                                  selectedPointData?.id.toString() ?? '',
+                              amount: selectedPointData?.value ?? '')));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,

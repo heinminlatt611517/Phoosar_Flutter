@@ -42,11 +42,12 @@ class _SelectableCardState extends State<SelectableCard> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              widget.duration.split(' ')[0] +
-                  '\n' +
-                  widget.duration.split(' ')[1] +
-                  ' ' +
-                  widget.duration.split(' ')[2],
+              widget.duration,
+              // widget.duration.split(' ')[0] +
+              //     '\n' +
+              //     widget.duration.split(' ')[1] +
+              //     ' ' +
+              //     widget.duration.split(' ')[2],
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

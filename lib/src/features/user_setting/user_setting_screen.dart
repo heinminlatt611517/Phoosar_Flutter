@@ -5,8 +5,10 @@ import 'package:phoosar/src/features/user_setting/purchase_history.dart';
 import 'package:phoosar/src/features/user_setting/whats_new.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/drop_down_widget.dart';
+import '../../common/widgets/phoosar_premium_view.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 
@@ -41,7 +43,8 @@ class UserSettingScreen extends StatelessWidget {
                 child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                    child: PhoosarPremiumView()),
+                    child: PhoosarPremiumView(
+                        context, kUnlimitedLikeAndMoreLabel)),
               ),
 
               16.vGap,
@@ -133,39 +136,6 @@ class UserSettingScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-///Phoosar premium view
-Widget PhoosarPremiumView() {
-  return Container(
-    width: double.infinity,
-    padding: EdgeInsets.symmetric(vertical: kMarginMedium),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1)),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          'assets/images/ic_launcher.png',
-          width: 42,
-        ),
-        10.vGap,
-        Text(
-          "Phoosar Premium",
-          style: TextStyle(
-              color: Colors.deepPurple,
-              fontWeight: FontWeight.bold,
-              fontSize: kTextRegular22),
-        ),
-        10.vGap,
-        Text(
-          "Unlimited Likes & more",
-          style: TextStyle(color: Colors.grey.withOpacity(0.4)),
-        ),
-      ],
-    ),
-  );
 }
 
 ///City dropdown with label view

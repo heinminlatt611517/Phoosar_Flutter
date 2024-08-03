@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phoosar/src/common/widgets/heart_count.dart';
+import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
+import 'package:phoosar/src/features/dashboard/widgets/unlock_coin_dialog.dart';
 import 'package:phoosar/src/features/user_profile/widgets/self_information.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -72,9 +73,18 @@ class EditProfileScreen extends StatelessWidget {
                             color: blackColor,
                             size: 24,
                           )
-                        : HeartCount(
-                            width: 54,
-                            heartCount: '10',
+                        : InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => UnlockCoinDialog(
+                                        coinCount: "10",
+                                      ));
+                            },
+                            child: CoinCount(
+                              width: 54,
+                              coinCount: '10',
+                            ),
                           ),
                   ),
                 );

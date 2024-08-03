@@ -1,17 +1,17 @@
-class PackageListResponse {
+class CityListResponse {
   int? status;
   String? message;
-  List<PackageData>? data;
+  List<CityData>? data;
 
-  PackageListResponse({this.status, this.message, this.data});
+  CityListResponse({this.status, this.message, this.data});
 
-  PackageListResponse.fromJson(Map<String, dynamic> json) {
+  CityListResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <PackageData>[];
+      data = <CityData>[];
       json['data'].forEach((v) {
-        data!.add(new PackageData.fromJson(v));
+        data!.add(new CityData.fromJson(v));
       });
     }
   }
@@ -27,27 +27,21 @@ class PackageListResponse {
   }
 }
 
-class PackageData {
-  int? id;
+class CityData {
+  int? code;
   String? name;
-  String? value;
-  String? point;
 
-  PackageData({this.id, this.name, this.value, this.point});
+  CityData({this.code, this.name});
 
-  PackageData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  CityData.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
     name = json['name'];
-    value = json['value'];
-    point = json['point'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['code'] = this.code;
     data['name'] = this.name;
-    data['value'] = this.value;
-    data['point'] = this.point;
     return data;
   }
 }

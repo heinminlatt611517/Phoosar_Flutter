@@ -5,13 +5,14 @@ class ProfileSaveRequest {
   String? about;
   String? jobTitle;
   String? school;
-  String? livingIn;
   bool? smoke;
   String? country;
   String? city;
   String? matchCountry;
   String? matchCity;
   List<String>? profileImages;
+  List<String>? moreDetails;
+  List<String>? interests;
   List<String>? speakLanguages;
   ProfileSaveRequest(
       {this.name,
@@ -20,13 +21,14 @@ class ProfileSaveRequest {
       this.about,
       this.jobTitle,
       this.school,
-      this.livingIn,
-      this.smoke,
+      this.smoke = false,
       this.country,
       this.city,
       this.matchCountry,
       this.matchCity,
       this.profileImages,
+      this.moreDetails,
+      this.interests,
       this.speakLanguages});
 
   ProfileSaveRequest.fromJson(Map<String, dynamic> json) {
@@ -36,13 +38,14 @@ class ProfileSaveRequest {
     about = json['about'];
     jobTitle = json['job_title'];
     school = json['school'];
-    livingIn = json['living_in'];
     smoke = json['smoke'];
     country = json['country'];
     city = json['city'];
     matchCountry = json['match_country'];
     matchCity = json['match_city'];
     profileImages = json['profile_images'].cast<String>();
+    moreDetails = json['more_details'].cast<String>();
+    interests = json['interests'].cast<String>();
     speakLanguages = json['speak_languages'].cast<String>();
   }
 
@@ -54,13 +57,14 @@ class ProfileSaveRequest {
     data['about'] = this.about;
     data['job_title'] = this.jobTitle;
     data['school'] = this.school;
-    data['living_in'] = this.livingIn;
     data['smoke'] = this.smoke;
     data['country'] = this.country;
     data['city'] = this.city;
     data['match_country'] = this.matchCountry;
     data['match_city'] = this.matchCity;
     data['profile_images'] = this.profileImages;
+    data['more_details'] = this.moreDetails;
+    data['interests'] = this.interests;
     data['speak_languages'] = this.speakLanguages;
     return data;
   }
