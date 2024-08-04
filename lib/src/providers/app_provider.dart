@@ -22,3 +22,15 @@ final localeProvider = StateProvider<String>((ref) {
   var locale = sharedPrefs.getString("locale");
   return locale ?? "my";
 });
+
+final swipeCountProvider = StateProvider<int>((ref) {
+  var sharedPrefs = ref.watch(sharedPrefProvider);
+  var swipeCount = sharedPrefs.getInt("swipeCount");
+  return swipeCount ?? 0;
+});
+
+final lastFindIdsProvider = StateProvider<List<String>>((ref) {
+  var sharedPrefs = ref.watch(sharedPrefProvider);
+  var lastFindIds = sharedPrefs.getStringList("lastFindIds");
+  return lastFindIds ?? [];
+});

@@ -264,4 +264,15 @@ class Repository {
     );
     return response;
   }
+
+  Future<Response> saveProfileReact(
+      dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/save-react"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
 }
