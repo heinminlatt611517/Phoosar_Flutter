@@ -50,6 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   ///Email or Phone number
   String selectedText = "Email";
+   var countryCode = "+959";
 
   @override
   void dispose() {

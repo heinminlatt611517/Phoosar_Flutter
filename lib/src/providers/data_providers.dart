@@ -193,12 +193,26 @@ final selfProfileProvider = StateProvider<SelfProfileResponse?>((ref) {
   return null; // Initial value
 });
 
+final profileDataProvider =
+    FutureProvider.family<ProfileData?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getProfile(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return FindResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load profile data');
+  }
+});
+
 final moreDetailsQuestionListProvider =
-FutureProvider.family<List<QuestionAnswerData>, BuildContext>((ref, context) async {
+    FutureProvider.family<List<QuestionAnswerData>, BuildContext>(
+        (ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.getMoreDetailsQuestions(context);
   if (response.statusCode == 200) {
-    return MoreDetailsQuestionResponse.fromJson(jsonDecode(response.body)).data ?? [];
+    return MoreDetailsQuestionResponse.fromJson(jsonDecode(response.body))
+            .data ??
+        [];
   } else {
     throw Exception('Failed to load whats new');
   }
