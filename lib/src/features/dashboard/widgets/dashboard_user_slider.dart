@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:phoosar/src/utils/colors.dart';
-import 'package:phoosar/src/utils/constants.dart';
 
 class DashboardProfileSlider extends StatefulWidget {
   const DashboardProfileSlider({
@@ -26,8 +25,8 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            CarouselSlider(
-              options: CarouselOptions(
+            carousel_slider.CarouselSlider(
+              options: carousel_slider.CarouselOptions(
                   onPageChanged: (index, reason) {
                     setState(() {
                       _currentIndex = index;

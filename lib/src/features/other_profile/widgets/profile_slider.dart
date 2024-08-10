@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
+import 'package:flutter/material.dart' hide CarouselController;
 
 class OtherUserProfileSlider extends StatelessWidget {
   const OtherUserProfileSlider({
@@ -12,8 +12,8 @@ class OtherUserProfileSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
+    return carousel_slider.CarouselSlider(
+      options: carousel_slider.CarouselOptions(
           aspectRatio: 16 / 9,
           viewportFraction: 1,
           height: MediaQuery.of(context).size.height * 0.5),

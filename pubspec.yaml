@@ -10,7 +10,11 @@ environment:
   sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
-  carousel_slider: ^4.2.1
+  
+  carousel_slider:
+    git:
+      url: https://github.com/sampaio96/flutter_carousel_slider.git
+      ref: master
   dots_indicator: ^3.0.0
   dropdown_button2: ^2.3.9
   envied: ^0.5.4+1
