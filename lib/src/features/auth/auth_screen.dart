@@ -62,7 +62,7 @@ class AuthScreen extends ConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditProfileScreen(),
+                          builder: (context) => LoginScreen(),
                         ),
                       );
                     },
