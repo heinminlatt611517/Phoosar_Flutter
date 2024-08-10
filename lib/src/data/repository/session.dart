@@ -91,7 +91,7 @@ class Session {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
-          'Authorization': "Bearer 8|Rhhtn5PQOmsbbBdkpKVhenXJoVL6QrbsoSByGYjW84428aeb",
+          'Authorization':  "Bearer $token",
         },
         body: data,
       );
