@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../utils/dimens.dart';
 
-class HelpUsScreen extends StatefulWidget {
+class HelpUsScreen extends ConsumerStatefulWidget {
   const HelpUsScreen({super.key});
 
   @override
-  State<HelpUsScreen> createState() => _HelpUsScreenState();
+  ConsumerState<HelpUsScreen> createState() => _HelpUsScreenState();
 }
 
-class _HelpUsScreenState extends State<HelpUsScreen> {
+class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +64,9 @@ class _HelpUsScreenState extends State<HelpUsScreen> {
                   text: AppLocalizations.of(context)!.kContinueLabel,
                   fontSize: 18,
                   onTap: () {
+                    ref
+                        .watch(sharedPrefProvider)
+                        .setString(kRecentOnboardingKey, kQuestionStatus);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

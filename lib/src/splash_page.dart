@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/auth/auth_screen.dart';
@@ -39,12 +41,12 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
       } else {
         var recentOnboardingStatus =
             ref.watch(sharedPrefProvider).getString(kRecentOnboardingKey);
-        if (recentOnboardingStatus == kProfileStatus) {
+        log("Status " + recentOnboardingStatus.toString());
+        if (recentOnboardingStatus == null || recentOnboardingStatus == kProfileStatus) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
           );
-        }
-        if (recentOnboardingStatus == kQuestionStatus) {
+        } else if (recentOnboardingStatus == kQuestionStatus) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => OnBoardingScreen()),
           );
@@ -53,10 +55,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
             MaterialPageRoute(builder: (context) => HomeScreen()),
           );
         }
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-          (route) => false,
-        );
+        
       }
     } catch (_) {
       context.showErrorSnackBar(

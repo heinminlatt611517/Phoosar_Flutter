@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/home/home.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../utils/dimens.dart';
 
-class AllSetScreen extends StatefulWidget {
+class AllSetScreen extends ConsumerStatefulWidget {
   const AllSetScreen({super.key});
 
   @override
-  State<AllSetScreen> createState() => _AllSetScreenState();
+  ConsumerState<AllSetScreen> createState() => _AllSetScreenState();
 }
 
-class _AllSetScreenState extends State<AllSetScreen> {
+class _AllSetScreenState extends ConsumerState<AllSetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +66,9 @@ class _AllSetScreenState extends State<AllSetScreen> {
                   text: AppLocalizations.of(context)!.kLetGoLabel,
                   fontSize: 18,
                   onTap: () {
+                    ref
+                        .watch(sharedPrefProvider)
+                        .setString(kRecentOnboardingKey, kCompleteStatus);
                     ///do navigation login
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomeScreen()),

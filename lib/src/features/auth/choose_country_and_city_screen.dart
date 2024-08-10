@@ -34,57 +34,59 @@ class _ChooseCountryAndCityScreenState
           height: 60,
         ),
       ),
-      body: Center(
-        child: Padding(
-            padding: const EdgeInsets.all(kMarginLarge),
-            child: countryList.when(data: (countryList) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ///currently located city and country dropdown view
-                  CurrentlyLocatedCityAndCountryDropdownView(
-                    countryList: countryList,
-                  ),
-
-                  30.vGap,
-
-                  ///match city and country dropdown view
-                  MatchCityAndCountryDropdownView(
-                    countryList: countryList,
-                  ),
-
-                  60.vGap,
-
-                  ///continue button
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: CommonButton(
-                      containerVPadding: 10,
-                      text: AppLocalizations.of(context)!.kContinueLabel,
-                      fontSize: 18,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddSpeakLanguageScreen(),
-                          ),
-                        );
-                      },
-                      bgColor: Colors.pinkAccent,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+              padding: const EdgeInsets.all(kMarginLarge),
+              child: countryList.when(data: (countryList) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ///currently located city and country dropdown view
+                    CurrentlyLocatedCityAndCountryDropdownView(
+                      countryList: countryList,
                     ),
+
+                    30.vGap,
+
+                    ///match city and country dropdown view
+                    MatchCityAndCountryDropdownView(
+                      countryList: countryList,
+                    ),
+
+                    60.vGap,
+
+                    ///continue button
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: CommonButton(
+                        containerVPadding: 10,
+                        text: AppLocalizations.of(context)!.kContinueLabel,
+                        fontSize: 18,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddSpeakLanguageScreen(),
+                            ),
+                          );
+                        },
+                        bgColor: Colors.pinkAccent,
+                      ),
+                    ),
+                  ],
+                );
+              }, error: (error, stack) {
+                return Container();
+              }, loading: () {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.pinkAccent,
                   ),
-                ],
-              );
-            }, error: (error, stack) {
-              return Container();
-            }, loading: () {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Colors.pinkAccent,
-                ),
-              );
-            })),
+                );
+              })),
+        ),
       ),
     );
   }

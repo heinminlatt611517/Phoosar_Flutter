@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/features/user_setting/purchase_history.dart';
 import 'package:phoosar/src/features/user_setting/whats_new.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -12,11 +15,11 @@ import '../../common/widgets/phoosar_premium_view.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 
-class UserSettingScreen extends StatelessWidget {
+class UserSettingScreen extends ConsumerWidget {
   const UserSettingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -575,29 +578,35 @@ class HelpAndWhatNewView extends StatelessWidget {
 }
 
 ///logout and delete account view
-class LogoutAndDeleteAccountView extends StatelessWidget {
+class LogoutAndDeleteAccountView extends ConsumerWidget {
   const LogoutAndDeleteAccountView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Column(
       children: [
         ///logout container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.withOpacity(0.3))),
-          child: Row(
-            children: [
-              Spacer(),
-              Text(
-                'Logout',
-                style: TextStyle(color: Colors.grey),
-              ),
-              Spacer(),
-            ],
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            logout(context, ref);
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: kMarginMedium2, vertical: kMarginMedium),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey.withOpacity(0.3))),
+            child: Row(
+              children: [
+                Spacer(),
+                Text(
+                  'Log out',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Spacer(),
+              ],
+            ),
           ),
         ),
 
@@ -630,6 +639,17 @@ class LogoutAndDeleteAccountView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> logout(BuildContext context, WidgetRef ref) async {
+    // Clear shared preferences
+    await ref.read(sharedPrefProvider).clear();
+
+    // Navigate to the login screen
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+      (route) => false,
     );
   }
 }
