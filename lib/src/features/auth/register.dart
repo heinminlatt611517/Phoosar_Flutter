@@ -45,6 +45,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   ///Email or Phone number
   String selectedText = "Email";
+  var countryCode = "";
 
   Future<void> _requestOTP(String type) async {
     final isValid = _formKey.currentState!.validate();
@@ -60,7 +61,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     var response = await ref.read(repositoryProvider).sendOTP(
           jsonEncode({
             "type": type,
-            "value": type == "email" ? email : phoneNumber,
+            "value": type == "email" ? email : "${countryCode}${phoneNumber}",
             "user_name": username,
           }),
           context,
@@ -72,7 +73,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             email: email,
             type: type,
             userName: username,
-            phoneNumber: phoneNumber,
+            phoneNumber: "${countryCode}${phoneNumber}",
           ),
         ),
       );
@@ -88,6 +89,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         });
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      countryCode = "+95";
+    });
   }
 
   @override
@@ -138,6 +147,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           hintLabel: '',
                           onSelectCountryCode: (String value) {
                             log("SelectedCountryCode===========> $value");
+                            setState(() {
+                              countryCode = value;
+                            });
                           },
                         ),
                       ],

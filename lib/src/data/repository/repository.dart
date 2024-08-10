@@ -71,9 +71,10 @@ class Repository {
     return response;
   }
 
-  Future<Response> getProfile(BuildContext context) async {
-    var response = await Session.get(
+  Future<Response> getProfile(dynamic request,BuildContext context) async {
+    var response = await Session.post(
       Uri.parse("${Env.baseurl}/profile"),
+      request,
       context,
       ref,
     );
@@ -270,6 +271,34 @@ class Repository {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-react"),
       request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> getMoreDetailsQuestions(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/moredetails"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> addInterests(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/add-interest"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+  Future<Response> deleteInterest(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/delete-interest"),
+      jsonEncode(request),
       context,
       ref,
     );

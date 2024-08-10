@@ -100,7 +100,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                   ),
                   100.vGap,
 
-                  ///Pin code text field
+                  /// text field
                   InputView(
                       controller: _passwordController,
                       validator: (val) {

@@ -12,6 +12,7 @@ import 'package:phoosar/src/data/response/find_response.dart';
 import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/data/response/match_list_response.dart';
+import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
@@ -190,11 +191,22 @@ final matchCityListProvider =
 final profileDataProvider =
     FutureProvider.family<ProfileData?, BuildContext>((ref, context) async {
   final repository = ref.watch(repositoryProvider);
-  final response = await repository.getProfile(context);
+  final response = await repository.getProfile(jsonEncode({}),context);
   if (response.statusCode == 200) {
     return FindResponse.fromJson(jsonDecode(response.body)).data;
   } else {
     throw Exception('Failed to load profile data');
+  }
+});
+
+final moreDetailsQuestionListProvider =
+FutureProvider.family<List<QuestionAnswerData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getMoreDetailsQuestions(context);
+  if (response.statusCode == 200) {
+    return MoreDetailsQuestionResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load whats new');
   }
 });
 
