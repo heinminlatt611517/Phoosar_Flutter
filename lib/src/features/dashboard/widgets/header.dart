@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/custom_switch.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -16,6 +17,7 @@ class DashboardHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var localeSelected = ref.watch(localeProvider);
+    var profileData = ref.watch(profileDataProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -37,7 +39,7 @@ class DashboardHeader extends ConsumerWidget {
                 ),
                 4.hGap,
                 Text(
-                  '200',
+                  profileData!.gender.toString(),
                   style: GoogleFonts.roboto(
                     fontSize: smallFontSize,
                     color: blueColor,

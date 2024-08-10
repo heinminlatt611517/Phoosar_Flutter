@@ -65,14 +65,6 @@ class Session {
                 ));
       } else if (response.statusCode == 401) {
         unauthenticatedState(prefs, context);
-      } else if (response.statusCode == 404) {
-        showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-                  title: "Error 404",
-                  message:
-                      "Client error - the request contains bad syntax or cannot be fulfilled",
-                ));
       } else {
         showDialog(
             context: context,
@@ -108,15 +100,6 @@ class Session {
         var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
         if (response.statusCode == 401) {
           unauthenticatedState(prefs, context);
-        } else if (response.statusCode == 404) {
-          showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-              title: "Error 404",
-              message:
-                  "Client error - the request contains bad syntax or cannot be fulfilled",
-            ),
-          );
         } else {
           showDialog(
             context: context,
@@ -160,15 +143,6 @@ class Session {
         var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
         if (response.statusCode == 401) {
           unauthenticatedState(prefs, context);
-        } else if (response.statusCode == 404) {
-          showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-              title: "Error 404",
-              message:
-                  "Client error - the request contains bad syntax or cannot be fulfilled",
-            ),
-          );
         } else {
           showDialog(
             context: context,
@@ -213,15 +187,6 @@ class Session {
         var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
         if (response.statusCode == 401) {
           unauthenticatedState(prefs, context);
-        } else if (response.statusCode == 404) {
-          showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-              title: "Error 404",
-              message:
-                  "Client error - the request contains bad syntax or cannot be fulfilled",
-            ),
-          );
         } else {
           showDialog(
             context: context,

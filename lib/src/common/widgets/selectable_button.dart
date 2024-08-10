@@ -27,7 +27,7 @@ class SelectableButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: isSelected ? Colors.white : Colors.black),
           ),
         ),
       ),

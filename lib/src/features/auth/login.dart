@@ -264,6 +264,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString(kTokenKey, authResponse.token ?? '');
+      ref
+          .watch(sharedPrefProvider)
+          .setString(kRecentOnboardingKey, authResponse.recentOnBoarding ?? '');
       navigateToNextScreen(authResponse.recentOnBoarding ?? '');
     } else {
       setState(() {

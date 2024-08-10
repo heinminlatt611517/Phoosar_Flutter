@@ -36,6 +36,7 @@ class _HelpUsScreenState extends State<HelpUsScreen> {
             children: [
               Text(
                 AppLocalizations.of(context)!.kHelpUsGetToKnowLabel,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.pinkAccent,
                     fontWeight: FontWeight.bold,
@@ -45,7 +46,8 @@ class _HelpUsScreenState extends State<HelpUsScreen> {
               20.vGap,
 
               Text(
-                AppLocalizations.of(context)!.kAnswerFollowingQuestionToFindPerfectMatch,
+                AppLocalizations.of(context)!
+                    .kAnswerFollowingQuestionToFindPerfectMatch,
                 style: TextStyle(color: Colors.black, fontSize: kTextSmall),
               ),
 

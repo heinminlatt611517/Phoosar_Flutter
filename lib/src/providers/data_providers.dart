@@ -187,16 +187,20 @@ final matchCityListProvider =
   }
 });
 
-final profileDataProvider =
-    FutureProvider.family<ProfileData?, BuildContext>((ref, context) async {
+final profileDataProvider = StateProvider<ProfileData?>((ref) {
+  return null; // Initial value
+});
+
+Future<void> fetchAndSetProfileData(WidgetRef ref, BuildContext context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.getProfile(context);
   if (response.statusCode == 200) {
-    return FindResponse.fromJson(jsonDecode(response.body)).data;
+    final profileData = FindResponse.fromJson(jsonDecode(response.body)).data;
+    ref.read(profileDataProvider.notifier).state = profileData;
   } else {
     throw Exception('Failed to load profile data');
   }
-});
+}
 
 final profileSaveRequestProvider = StateProvider<ProfileSaveRequest>((ref) {
   return ProfileSaveRequest();

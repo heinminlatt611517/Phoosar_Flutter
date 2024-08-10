@@ -34,6 +34,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             jsonEncode({"is_online": true}),
             context,
           );
+      fetchAndSetProfileData(ref, context);
     });
   }
 
@@ -42,6 +43,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     var findList = ref.watch(findListProvider(context));
     var swipeCount = ref.watch(swipeCountProvider);
     var lastFindIds = ref.watch(lastFindIdsProvider);
+    
     return Container(
       height: double.infinity,
       color: whitePaleColor,
