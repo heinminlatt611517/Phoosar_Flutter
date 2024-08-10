@@ -3,21 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
-import 'package:phoosar/src/features/dashboard/widgets/heart_row.dart';
+import 'package:phoosar/src/features/dashboard/widgets/coin_row.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class GetMoreHeartsDialog extends ConsumerWidget {
-  const GetMoreHeartsDialog({super.key});
+class GetMoreCoinsDialog extends ConsumerWidget {
+  const GetMoreCoinsDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var heartList = ref.watch(pointListProvider(context));
     return CommonDialog(
-      title: 'Get More Hearts',
+      title: 'Get More Coins',
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -40,9 +40,13 @@ class GetMoreHeartsDialog extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            HeartRow(
-                                likeHeartCount: data[index].value.toString(),
-                                heartCount: data[index].point.toString()),
+                            CoinRow(
+                              likeHeartCount: data[index].value.toString(),
+                              heartCount: data[index].point.toString(),
+                              planType: data[index].name.toString(),
+                              planTypeId: data[index].id.toString(),
+                              amount: data[index].value.toString(),
+                            ),
                             12.vGap,
                             Divider(
                               height: 1,

@@ -6,9 +6,10 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class LikeRow extends StatelessWidget {
-  const LikeRow({super.key, required this.likeCount, required this.heartCount});
+  const LikeRow({super.key, required this.likeCount, required this.heartCount,required this.buyId});
   final String likeCount;
   final String heartCount;
+  final String buyId;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class LikeRow extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (context) =>
-                          UnlockDailog(heartCount: heartCount));
+                          UnlockDailog(heartCount: heartCount,buyId: buyId,));
                 },
                 child: Text(
                   'UNLOCK',

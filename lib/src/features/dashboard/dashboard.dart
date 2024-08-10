@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/data/response/profile_react_response.dart';
+import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/features/dashboard/match.dart';
+import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
+import 'package:phoosar/src/features/dashboard/widgets/get_more_rewinds_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_premium_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/header.dart';
 import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
@@ -29,12 +32,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(repositoryProvider).saveOnlineStatus(
-            jsonEncode({"is_online": true}),
-            context,
-          );
-      fetchAndSetProfileData(ref, context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final repository = ref.watch(repositoryProvider);
+      repository.saveOnlineStatus(
+        jsonEncode({"is_online": true}),
+        context,
+      );
+
+      final response = await repository.getProfile(context);
+      var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
+      ref.read(selfProfileProvider.notifier).state = data;
     });
   }
 
@@ -43,7 +50,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     var findList = ref.watch(findListProvider(context));
     var swipeCount = ref.watch(swipeCountProvider);
     var lastFindIds = ref.watch(lastFindIdsProvider);
-    
+
     return Container(
       height: double.infinity,
       color: whitePaleColor,
@@ -65,18 +72,45 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CommonIconButton(
-                                onTap: () {
+                                onTap: () async {
                                   increaseSwipeCount();
 
                                   var latestLastFindIds = lastFindIds.last;
 
-                                  ref.read(repositoryProvider).saveProfileReact(
+                                  var response = await ref
+                                      .read(repositoryProvider)
+                                      .saveProfileReact(
                                         jsonEncode({
-                                          "reacted_user_id": latestLastFindIds,
+                                          "reacted_user_id":
+                                              latestLastFindIds.toString(),
                                           "reacted_type": "rewind"
                                         }),
                                         context,
                                       );
+                                  var profileReactResponse =
+                                      ProfileReactResponse.fromJson(
+                                          jsonDecode(response.body));
+
+                                  if (profileReactResponse.data?.buyRewind ??
+                                      false) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          GetMoreRewindsDialog(),
+                                    );
+                                  } else if (profileReactResponse
+                                          .data?.matchData !=
+                                      null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => MatchScreen(
+                                          matchProfileData: profileReactResponse
+                                              .data?.matchData,
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 },
                                 backgroundColor: Color(0xfff8f8f8),
                                 icon: SvgPicture.asset(
@@ -90,7 +124,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
                                   ref.read(repositoryProvider).saveProfileReact(
                                         jsonEncode({
-                                          "reacted_user_id": data.id,
+                                          "reacted_user_id": data.id.toString(),
                                           "reacted_type": "skip"
                                         }),
                                         context,
@@ -110,7 +144,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                       .read(repositoryProvider)
                                       .saveProfileReact(
                                         jsonEncode({
-                                          "reacted_user_id": data.id,
+                                          "reacted_user_id": data.id.toString(),
                                           "reacted_type": "like"
                                         }),
                                         context,
@@ -120,7 +154,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                       ProfileReactResponse.fromJson(
                                           jsonDecode(response.body));
 
-                                  if (profileReactResponse.data?.matchData !=
+                                  if (profileReactResponse.data?.buyLike ??
+                                      false) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          GetMoreLikesDialog(),
+                                    );
+                                  } else if (profileReactResponse
+                                          .data?.matchData !=
                                       null) {
                                     Navigator.push(
                                       context,

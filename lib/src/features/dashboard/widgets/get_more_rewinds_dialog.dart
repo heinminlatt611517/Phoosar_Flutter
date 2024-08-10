@@ -41,7 +41,8 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                           children: [
                             RewindRow(
                                 rewindCount: data[index].rewind.toString(),
-                                heartCount: data[index].point.toString()),
+                                heartCount: data[index].point.toString(),
+                                buyId: data[index].id.toString(),),
                             12.vGap,
                             Divider(
                               height: 1,

@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
+import 'package:phoosar/src/features/payment/payment.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class HeartRow extends StatelessWidget {
-  const HeartRow(
-      {super.key, required this.likeHeartCount, required this.heartCount});
+class CoinRow extends StatelessWidget {
+  const CoinRow(
+      {super.key,
+      required this.likeHeartCount,
+      required this.heartCount,
+      required this.planType,
+      required this.planTypeId,
+      required this.amount});
   final String likeHeartCount;
   final String heartCount;
+  final String amount;
+  final String planType;
+  final String planTypeId;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +62,7 @@ class HeartRow extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                width: 20,
+                width: 40,
                 child: Text(
                   likeHeartCount,
                   textAlign: TextAlign.end,
@@ -64,7 +73,7 @@ class HeartRow extends StatelessWidget {
                 ),
               ),
               Text(
-                ' Hearts',
+                ' Coins',
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
                   fontWeight: FontWeight.w400,
@@ -77,9 +86,13 @@ class HeartRow extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.pop(context);
-              showDialog(
-                  context: context,
-                  builder: (context) => UnlockDailog(heartCount: heartCount));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PaymentScreen(
+                          planType: planType,
+                          planTypeId: planTypeId,
+                          amount: amount)));
             },
             child: Text(
               'BUY NOW',

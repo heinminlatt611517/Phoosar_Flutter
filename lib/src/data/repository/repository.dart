@@ -72,8 +72,9 @@ class Repository {
   }
 
   Future<Response> getProfile(BuildContext context) async {
-    var response = await Session.get(
+    var response = await Session.post(
       Uri.parse("${Env.baseurl}/profile"),
+      jsonEncode({}),
       context,
       ref,
     );
@@ -269,6 +270,16 @@ class Repository {
       dynamic request, BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-react"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> buyWithPoint(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/buy-with-point"),
       request,
       context,
       ref,

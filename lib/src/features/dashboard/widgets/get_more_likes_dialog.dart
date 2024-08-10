@@ -40,8 +40,10 @@ class GetMoreLikesDialog extends ConsumerWidget {
                         return Column(
                           children: [
                             LikeRow(
-                                likeCount: data[index].like.toString(),
-                                heartCount: data[index].point.toString()),
+                              likeCount: data[index].like.toString(),
+                              heartCount: data[index].point.toString(),
+                              buyId: data[index].id.toString(),
+                            ),
                             12.vGap,
                             Divider(
                               height: 1,

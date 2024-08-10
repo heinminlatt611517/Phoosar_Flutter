@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/custom_switch.dart';
+import 'package:phoosar/src/features/dashboard/widgets/get_more_coins_dialog.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -17,35 +18,47 @@ class DashboardHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var localeSelected = ref.watch(localeProvider);
-    var profileData = ref.watch(profileDataProvider);
+    var selfProfileData = ref.watch(selfProfileProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          Container(
-            width: 74,
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey),
-              color: whitePaleColor,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.heart_broken,
-                  size: 15,
-                  color: Colors.red,
-                ),
-                4.hGap,
-                Text(
-                  profileData!.gender.toString(),
-                  style: GoogleFonts.roboto(
-                    fontSize: smallFontSize,
-                    color: blueColor,
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              showDialog(
+                  context: context, builder: (context) => GetMoreCoinsDialog());
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey),
+                color: whitePaleColor,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.heart_broken,
+                    size: 15,
+                    color: Colors.red,
                   ),
-                ),
-              ],
+                  4.hGap,
+                  Container(
+                    child: Text(
+                      selfProfileData != null
+                          ? (selfProfileData.data!.pointTotal.toString())
+                          : "0",
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.roboto(
+                        fontSize: smallFontSize,
+                        color: blueColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(

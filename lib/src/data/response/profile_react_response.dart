@@ -29,8 +29,10 @@ class ProfileReactResponse {
 class ProfileReactData {
   ProfileData? rewindData;
   ProfileData? matchData;
+  bool? buyLike;
+  bool? buyRewind;
 
-  ProfileReactData({this.rewindData, this.matchData});
+  ProfileReactData({this.rewindData, this.matchData,this.buyLike,this.buyRewind});
 
   ProfileReactData.fromJson(Map<String, dynamic> json) {
     rewindData = json['rewind_data'] != null
@@ -39,6 +41,9 @@ class ProfileReactData {
     matchData = json['match_data'] != null
         ? new ProfileData.fromJson(json['match_data'])
         : null;
+    buyLike = json['buy_like'];
+    buyRewind = json['buy_rewind'];
+      
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +54,8 @@ class ProfileReactData {
     if (this.matchData != null) {
       data['match_data'] = this.matchData!.toJson();
     }
+    data['buy_like'] = this.buyLike;
+    data['buy_rewind'] = this.buyRewind;
     return data;
   }
 }

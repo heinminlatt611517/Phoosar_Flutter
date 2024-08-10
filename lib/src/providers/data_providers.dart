@@ -18,6 +18,7 @@ import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/data/response/purchase_history_list_response.dart';
 import 'package:phoosar/src/data/response/questions_response.dart';
 import 'package:phoosar/src/data/response/rewind_list_response.dart';
+import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/data/response/whats_new_list_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 
@@ -187,20 +188,9 @@ final matchCityListProvider =
   }
 });
 
-final profileDataProvider = StateProvider<ProfileData?>((ref) {
+final selfProfileProvider = StateProvider<SelfProfileResponse?>((ref) {
   return null; // Initial value
 });
-
-Future<void> fetchAndSetProfileData(WidgetRef ref, BuildContext context) async {
-  final repository = ref.watch(repositoryProvider);
-  final response = await repository.getProfile(context);
-  if (response.statusCode == 200) {
-    final profileData = FindResponse.fromJson(jsonDecode(response.body)).data;
-    ref.read(profileDataProvider.notifier).state = profileData;
-  } else {
-    throw Exception('Failed to load profile data');
-  }
-}
 
 final profileSaveRequestProvider = StateProvider<ProfileSaveRequest>((ref) {
   return ProfileSaveRequest();

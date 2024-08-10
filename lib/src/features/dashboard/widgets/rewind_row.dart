@@ -8,9 +8,10 @@ import 'package:phoosar/src/utils/gap.dart';
 
 class RewindRow extends StatelessWidget {
   const RewindRow(
-      {super.key, required this.rewindCount, required this.heartCount});
+      {super.key, required this.rewindCount, required this.heartCount,required this.buyId});
   final String rewindCount;
   final String heartCount;
+  final String buyId;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class RewindRow extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (context) =>
-                          UnlockDailog(heartCount: heartCount));
+                          UnlockDailog(heartCount: heartCount,buyId: buyId,));
                 },
                 child: Text(
                   'UNLOCK',
