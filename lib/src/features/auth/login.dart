@@ -47,43 +47,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  late final StreamSubscription<AuthState> authSubscription;
 
   ///Email or Phone number
   String selectedText = "Email";
-  String? recentOnboardingStatus;
-
-  @override
-  void initState() {
-    super.initState();
-
-    bool haveNavigated = false;
-    // Listen to auth state to redirect user when the user clicks on confirmation link
-    authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      final session = data.session;
-      if (session != null && !haveNavigated) {
-        haveNavigated = true;
-        ref.invalidate(profilesProvider);
-        ref.invalidate(profileProvider);
-        ref.invalidate(roomsProvider);
-        ref.invalidate(supabaseClientProvider);
-        if (recentOnboardingStatus == kProfileStatus) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
-          );
-        }
-        if (recentOnboardingStatus == kQuestionStatus) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => OnBoardingScreen()),
-          );
-        } else {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
-        }
-      }
-    });
-  }
 
   @override
   void dispose() {
@@ -298,32 +264,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString(kTokenKey, authResponse.token ?? '');
-      recentOnboardingStatus = authResponse.recentOnBoarding;
-      try {
-        await supabase.auth.signInWithPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-      } on AuthException catch (error) {
-        setState(() {
-          _isLoading = false;
-        });
-        context.showErrorSnackBar(message: error.message);
-      } catch (_) {
-        setState(() {
-          _isLoading = false;
-        });
-        context.showErrorSnackBar(message: unexpectedErrorMessage);
-      }
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      navigateToNextScreen(authResponse.recentOnBoarding ?? '');
     } else {
       setState(() {
         _isLoading = false;
       });
+    }
+  }
+
+  navigateToNextScreen(String recentOnboardingStatus) {
+    ref.invalidate(profilesProvider);
+    ref.invalidate(profileProvider);
+    ref.invalidate(roomsProvider);
+    ref.invalidate(supabaseClientProvider);
+    if (recentOnboardingStatus == kProfileStatus) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
+      );
+    }
+    if (recentOnboardingStatus == kQuestionStatus) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
     }
   }
 
@@ -409,35 +375,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString(kTokenKey, authResponse.token ?? '');
-      recentOnboardingStatus = authResponse.recentOnBoarding;
+      navigateToNextScreen(authResponse.recentOnBoarding ?? '');
+    }
+  }
 
-      try {
-        if (authResponse.type == "old") {
-          await supabase.auth.signInWithPassword(
-            email: email,
-            password: email,
-          );
-        } else {
-          await supabase.auth.signUp(
-            email: email,
-            password: email,
-            data: {
-              'username': sanitizedName,
-              'device_token': 'device_token',
-            },
-            emailRedirectTo: 'io.supabase.chat://login',
-          );
-        }
-      } on AuthException catch (error) {
-        context.showErrorSnackBar(message: error.message);
-      } catch (_) {
-        context.showErrorSnackBar(message: unexpectedErrorMessage);
-      }
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+  supabaseLogin() async {
+    try {
+      await supabase.auth.signInWithPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+    } on AuthException catch (error) {
+      setState(() {
+        _isLoading = false;
+      });
+      context.showErrorSnackBar(message: error.message);
+    } catch (_) {
+      setState(() {
+        _isLoading = false;
+      });
+      context.showErrorSnackBar(message: unexpectedErrorMessage);
+    }
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 }

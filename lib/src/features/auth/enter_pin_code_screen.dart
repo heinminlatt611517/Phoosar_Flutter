@@ -36,37 +36,18 @@ class EnterPinCodeScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
-  bool _isLoading = false;
-
   final _formKey = GlobalKey<FormState>();
   StreamController<ErrorAnimationType>? errorController;
   final TextEditingController _pinController = TextEditingController();
 
   ///Email or Phone number
   String selectedText = "Email";
-
-  late final StreamSubscription<AuthState> _authSubscription;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     errorController = StreamController<ErrorAnimationType>();
-
-    bool haveNavigated = false;
-    // Listen to auth state to redirect user when the user clicks on confirmation link
-    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      final session = data.session;
-      if (session != null && !haveNavigated) {
-        haveNavigated = true;
-        ref.invalidate(profilesProvider);
-        ref.invalidate(profileProvider);
-        ref.invalidate(roomsProvider);
-        ref.invalidate(supabaseClientProvider);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      }
-    });
   }
 
   @override
@@ -74,8 +55,6 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
     super.dispose();
 
     errorController?.close();
-    // Dispose subscription when no longer needed
-    _authSubscription.cancel();
   }
 
   @override
@@ -174,7 +153,9 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         color: Colors.grey,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: AppLocalizations.of(context)!.kAlreadyHaveAccount),
+                        TextSpan(
+                            text: AppLocalizations.of(context)!
+                                .kAlreadyHaveAccount),
                         TextSpan(
                           text: AppLocalizations.of(context)!.kSignInLabel,
                           style: new TextStyle(
@@ -208,7 +189,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
     }
 
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
     await ref.read(repositoryProvider).sendOTP(
           jsonEncode({
@@ -227,7 +208,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
     }
     final pin = _pinController.text;
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
     var response = await ref.read(repositoryProvider).verifyOTP(
           jsonEncode({
@@ -252,13 +233,13 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
       );
       if (mounted) {
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
     } else {
       if (mounted) {
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
     }

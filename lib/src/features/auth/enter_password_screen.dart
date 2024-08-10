@@ -47,28 +47,10 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
   ///Email or Phone number
   String selectedText = "Email";
 
-  late final StreamSubscription<AuthState> _authSubscription;
-
   @override
   void initState() {
     super.initState();
     errorController = StreamController<ErrorAnimationType>();
-
-    bool haveNavigated = false;
-    // Listen to auth state to redirect user when the user clicks on confirmation link
-    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      final session = data.session;
-      if (session != null && !haveNavigated) {
-        haveNavigated = true;
-        ref.invalidate(profilesProvider);
-        ref.invalidate(profileProvider);
-        ref.invalidate(roomsProvider);
-        ref.invalidate(supabaseClientProvider);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
-        );
-      }
-    });
   }
 
   @override
@@ -76,8 +58,6 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
     super.dispose();
 
     errorController?.close();
-    // Dispose subscription when no longer needed
-    _authSubscription.cancel();
   }
 
   @override
@@ -119,7 +99,8 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                         }
                         return null;
                       },
-                      hintLabel: AppLocalizations.of(context)!.kConfirmPasswordLabel),
+                      hintLabel:
+                          AppLocalizations.of(context)!.kConfirmPasswordLabel),
 
                   10.vGap,
 
@@ -149,7 +130,9 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                         color: Colors.grey,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: AppLocalizations.of(context)!.kAlreadyHaveAccount),
+                        TextSpan(
+                            text: AppLocalizations.of(context)!
+                                .kAlreadyHaveAccount),
                         TextSpan(
                           text: AppLocalizations.of(context)!.kSignInLabel,
                           style: new TextStyle(
@@ -206,37 +189,13 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString("token", authResponse.token ?? '');
-      try {
-        await supabase.auth.signUp(
-          email: widget.email,
-          password: password,
-          data: {
-            'username': widget.userName,
-            'device_token': 'device_token',
-          },
-          emailRedirectTo: 'io.supabase.chat://login',
-        );
-      } on AuthException catch (error) {
-        context.showErrorSnackBar(message: error.message);
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      } catch (error) {
-        debugPrint(error.toString());
-        context.showErrorSnackBar(message: unexpectedErrorMessage);
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      ref.invalidate(profilesProvider);
+      ref.invalidate(profileProvider);
+      ref.invalidate(roomsProvider);
+      ref.invalidate(supabaseClientProvider);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
+      );
     } else {
       if (mounted) {
         setState(() {

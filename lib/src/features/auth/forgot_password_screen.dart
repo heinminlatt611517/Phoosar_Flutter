@@ -28,7 +28,6 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
-  late final StreamSubscription<AuthState> authSubscription;
 
   ///Email or Phone number
   String selectedText = "Email";
