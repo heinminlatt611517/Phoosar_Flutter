@@ -10,7 +10,7 @@ class ProfileData {
   String? about;
   String? jobTitle;
   String? school;
-  int? smoke;
+  String? smoke;
   String? country;
   String? city;
   String? matchCountry;

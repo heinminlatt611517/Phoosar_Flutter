@@ -97,6 +97,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         hintLabel: '',
                         onSelectCountryCode: (String value) {
                           log("SelectedCountryCode===========> $value");
+                          setState(() {
+                            countryCode = value;
+                          });
                         },
                       ),
                       24.vGap,
@@ -254,7 +257,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             "value": selectedText == "Email"
                 ? emailController.text
                 : phoneNumberController.text,
-            "password": passwordController.text,
+            "password": "${countryCode}${passwordController.text}",
           }),
           context,
         );

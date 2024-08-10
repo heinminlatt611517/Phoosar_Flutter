@@ -6,9 +6,11 @@ class SelectableButton extends StatelessWidget {
   final String label;
   final bool isSelected;
   final Function(String) onTapButton;
+  final Color? bgColor;
   const SelectableButton(
       {super.key,
       required this.label,
+        this.bgColor,
       required this.isSelected,
       required this.onTapButton});
 
@@ -22,7 +24,7 @@ class SelectableButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
         decoration: BoxDecoration(
             color:
-                isSelected ? Colors.pinkAccent : Colors.grey.withOpacity(0.4),
+                isSelected ? bgColor ?? Colors.pinkAccent : Colors.grey.withOpacity(0.4),
             borderRadius: BorderRadius.circular(kMarginMedium)),
         child: Center(
           child: Text(
