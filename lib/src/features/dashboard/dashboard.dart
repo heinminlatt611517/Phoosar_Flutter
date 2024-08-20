@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,7 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   bool isProfileBuilder = false;
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -66,14 +68,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ? Container()
                     : Column(
                         children: [
-                          InfoCard(findData: data),
+                          InfoCard(findData: data[selectedIndex]),
                           20.vGap,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CommonIconButton(
                                 onTap: () async {
-                                  increaseSwipeCount();
+                                  increaseSwipeCount(data.length);
 
                                   var latestLastFindIds = lastFindIds.last;
 
@@ -87,6 +89,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         }),
                                         context,
                                       );
+
                                   var profileReactResponse =
                                       ProfileReactResponse.fromJson(
                                           jsonDecode(response.body));
@@ -120,11 +123,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               ),
                               CommonIconButton(
                                 onTap: () {
-                                  increaseSwipeCount();
+                                  increaseSwipeCount(data.length);
 
                                   ref.read(repositoryProvider).saveProfileReact(
                                         jsonEncode({
-                                          "reacted_user_id": data.id.toString(),
+                                          "reacted_user_id":
+                                              data[selectedIndex].id.toString(),
                                           "reacted_type": "skip"
                                         }),
                                         context,
@@ -138,13 +142,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               ),
                               CommonIconButton(
                                 onTap: () async {
-                                  increaseSwipeCount();
+                                  increaseSwipeCount(data.length);
 
                                   var response = await ref
                                       .read(repositoryProvider)
                                       .saveProfileReact(
                                         jsonEncode({
-                                          "reacted_user_id": data.id.toString(),
+                                          "reacted_user_id":
+                                              data[selectedIndex].id.toString(),
                                           "reacted_type": "like"
                                         }),
                                         context,
@@ -210,10 +215,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  increaseSwipeCount() {
+  increaseSwipeCount(int total) {
     var sharedPrefs = ref.watch(sharedPrefProvider);
     var oldSwipeCount = sharedPrefs.getInt("swipeCount");
     sharedPrefs.setInt("swipeCount", (oldSwipeCount ?? 0) + 1);
     ref.invalidate(swipeCountProvider);
+    if (total > selectedIndex) {
+      setState(() {
+        selectedIndex++;
+      });
+    } else {
+      log('Last Index');
+    }
   }
 }

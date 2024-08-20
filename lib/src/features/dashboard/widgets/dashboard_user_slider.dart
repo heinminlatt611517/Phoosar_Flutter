@@ -78,7 +78,9 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
               top: 12,
               right: 6,
               child: DotsIndicator(
-                dotsCount: widget.profileImages.length,
+                dotsCount: widget.profileImages.length < 1
+                    ? 1
+                    : widget.profileImages.length,
                 position:
                     _currentIndex, // Ensure currentIndex is tracked in state
                 decorator: DotsDecorator(
