@@ -10,7 +10,9 @@ import '../utils/constants.dart';
 class MoreDetailsListItemView extends StatelessWidget {
   final String title;
   final String description;
-  const MoreDetailsListItemView({super.key,required this.title,required this.description});
+  final String id;
+  final Function(String id) onTapDelete;
+  const MoreDetailsListItemView({super.key,required this.id,required this.title,required this.description,required this.onTapDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class MoreDetailsListItemView extends StatelessWidget {
               Spacer(),
               CommonIconButton(
                 onTap: () {
-                  showYesNoDialog(context: context, onPress: (){},title: 'Are you sure you want to delete?');
+                   onTapDelete(id);
                 },
                 backgroundColor: primaryColor,
                 icon: Icon(

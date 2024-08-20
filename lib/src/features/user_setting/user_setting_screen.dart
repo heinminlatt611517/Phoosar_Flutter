@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/features/auth/login.dart';
+import 'package:phoosar/src/features/user_setting/block_user_screen.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/features/user_setting/purchase_history.dart';
 import 'package:phoosar/src/features/user_setting/whats_new.dart';
@@ -30,7 +31,7 @@ class UserSettingScreen extends ConsumerWidget {
       backgroundColor: whitePaleColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: kMarginMedium2),
+          padding: const EdgeInsets.symmetric(vertical: kMarginMedium2,horizontal: kMarginMedium2),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,422 +46,126 @@ class UserSettingScreen extends ConsumerWidget {
                 },
                 child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                    child: PhoosarPremiumView(
-                        context, kUnlimitedLikeAndMoreLabel)),
-              ),
-
-              16.vGap,
-
-              ///account setting label
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                child: Text(
-                  "Account Settings",
-                  style:
-                      TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
-                ),
+                        const EdgeInsets.symmetric(horizontal: kMarginMedium),
+                    child: Container(
+                      decoration: BoxDecoration(color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),),
+                      child: PhoosarPremiumView(
+                          context, kUnlimitedLikeAndMoreLabel),
+                    )),
               ),
 
               20.vGap,
 
               ///location and city dropdown with label view
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                  child: CityDropdownWithLabelView()),
-
-              20.vGap,
-
-              ///age range slider view
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginMedium),
-                child: AgeRangeSliderView(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Account Settings",
+                    style:
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                  ),
+                  12.vGap,
+                  LabelWithIconOrText(label: 'Location', isIcon: false,
+                    text: 'Yangon',
+                    ),
+                ],
               ),
 
               20.vGap,
 
-              ///map view
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginXXLarge),
-                child: MapView(),
+              ///active subscription
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Active Subscription",
+                    style:
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                  ),
+                  12.vGap,
+                  LabelWithIconOrText(label: 'None', isIcon: false,
+                  ),
+                ],
               ),
 
-              ///horizontal divider
-              Container(
-                height: 1,
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(
-                    horizontal: kMarginLarge, vertical: kMarginSmall),
-                color: Colors.grey.withOpacity(0.3),
+              28.vGap,
+
+              ///billing
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Billing",
+                    style:
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                  ),
+                  12.vGap,
+                  LabelWithIconOrText(label: 'Purchase History', isIcon: true,
+                    onTap: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => PurchaseHistory()));
+                    },
+                  ),
+                ],
               ),
 
-              ///Home,Message,UserProfile View
-              HomeAndMessageAndUserProfileView(),
+              28.vGap,
 
-              24.vGap,
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                child: Text(
-                  "Billing",
-                  style:
-                      TextStyle(color: Colors.grey, fontSize: kTextRegular24),
-                ),
-              ),
-
-              10.vGap,
-
-              ///Billing and notification view
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginXXLarge),
-                child: BillingAndNotificationView(),
+              ///privacy
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Privacy",
+                    style:
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                  ),
+                  12.vGap,
+                  LabelWithIconOrText(label: 'Blocking', isIcon: false,
+                    onTap: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => BlockUserScreen()));
+                    },
+                  ),
+                ],
               ),
 
               20.vGap,
+
+              ///notification
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Notifications",
+                    style:
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                  ),
+                  12.vGap,
+                  LabelWithIconOrText(label: 'Push Notifications', isIcon: false,
+                    onTap: (){
+                    },
+                  ),
+                ],
+              ),
+
+              40.vGap,
 
               ///help and what's new view
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginXXLarge),
-                child: HelpAndWhatNewView(),
-              ),
+              HelpAndWhatNewView(),
 
-              25.vGap,
+              40.vGap,
 
               ///logout and delete account view
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child: LogoutAndDeleteAccountView(),
-              ),
+              LogoutAndDeleteAccountView(),
 
               10.vGap,
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-///City dropdown with label view
-class CityDropdownWithLabelView extends StatelessWidget {
-  const CityDropdownWithLabelView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          "Location",
-          style: TextStyle(
-            fontSize: kTextRegular2x,
-            color: Colors.grey,
-          ),
-        ),
-        Spacer(),
-        SizedBox(
-          height: 60,
-          width: 140,
-          child: DropDownWidget(
-              items: cities, onSelect: (value) {}, initValue: cities.first),
-        )
-      ],
-    );
-  }
-}
-
-///age range view
-class AgeRangeSliderView extends StatelessWidget {
-  const AgeRangeSliderView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-          vertical: kMarginMedium, horizontal: kMarginLarge),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey.withOpacity(0.1), width: 1)),
-      child: Column(
-        children: [
-          ///age text
-          Row(
-            children: [
-              Text(
-                "Age Range",
-                style: TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
-              ),
-              Spacer(),
-              Text(
-                "18-36",
-                style: TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
-              ),
-            ],
-          ),
-          6.vGap,
-
-          ///slider
-          Slider(
-            value: 1.0,
-            min: 1.0,
-            max: 3.0,
-            onChanged: (value) {},
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-///map view
-class MapView extends StatelessWidget {
-  const MapView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: whitePaleColor,
-            offset: Offset(0.0, 1.0), //(x,y)
-            blurRadius: 6.0,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(12.0),
-              topLeft: Radius.circular(12.0),
-            ),
-            child: Image.asset(
-              'assets/images/ic_map.png',
-              width: double.infinity,
-              fit: BoxFit.fill,
-              height: 180,
-            ),
-          ),
-
-          16.vGap,
-
-          ///maximum distance text
-          Row(
-            children: [
-              Text(
-                "Maximum Distance",
-                style: TextStyle(
-                  fontSize: kTextRegular,
-                  color: Colors.grey,
-                ),
-              ),
-              Spacer(),
-              Text(
-                "80 Km",
-                style: TextStyle(
-                  fontSize: kTextRegular,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-///home , message , user profile icon view
-class HomeAndMessageAndUserProfileView extends StatelessWidget {
-  const HomeAndMessageAndUserProfileView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/svgs/ic_home.svg',
-              width: 22,
-              height: 22,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-        Container(
-          width: 1,
-          height: 32,
-          color: Colors.grey,
-        ),
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/svgs/ic_chat.svg',
-              width: 22,
-              height: 22,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-        Container(
-          width: 1,
-          height: 32,
-          color: Colors.grey,
-        ),
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/svgs/ic_account.svg',
-              width: 22,
-              height: 22,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-///billing view
-class BillingAndNotificationView extends StatelessWidget {
-  const BillingAndNotificationView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ///pay container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium2),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.withOpacity(0.3))),
-          child: Row(
-            children: [
-              Text(
-                'Pay',
-                style: TextStyle(color: Colors.grey),
-              ),
-              Spacer(),
-
-              ///container button
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: kMarginMedium2, vertical: kMarginSmall),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.blue),
-                child: Text(
-                  'CONTINUE',
-                  style: TextStyle(fontSize: kTextSmall, color: Colors.white),
-                ),
-              )
-            ],
-          ),
-        ),
-
-        20.vGap,
-
-        ///power by and ex dinger icon
-
-        ///billing container
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PurchaseHistory()));
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: kMarginMedium2, vertical: kMarginMedium2),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey.withOpacity(0.3))),
-            child: Row(
-              children: [
-                Text(
-                  'Purchase History',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Spacer(),
-
-                ///arrow forward
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: kMarginMedium2, vertical: kMarginSmall),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.withOpacity(0.5)),
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-
-        10.vGap,
-        Row(
-          children: [
-            Text(
-              'Powered by',
-              style: TextStyle(color: Colors.grey),
-            ),
-            Spacer(),
-
-            ///ez dinder icon
-            Image.asset(
-              'assets/images/ic_map.png',
-              width: 100,
-              fit: BoxFit.fill,
-              height: 40,
-            ),
-          ],
-        ),
-
-        20.vGap,
-
-        ///notification
-        Text(
-          'Notifications',
-        ),
-
-        8.vGap,
-
-        ///notification container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium2),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.withOpacity(0.3))),
-          child: Row(
-            children: [
-              Text(
-                'Push notifications',
-                style: TextStyle(color: Colors.grey),
-              ),
-              Spacer(),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
@@ -478,13 +183,14 @@ class HelpAndWhatNewView extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               horizontal: kMarginMedium2, vertical: kMarginMedium2),
           decoration: BoxDecoration(
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey.withOpacity(0.3))),
           child: Row(
             children: [
               Spacer(),
               Text(
-                'Help &',
+                'Help & Support',
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
@@ -495,83 +201,18 @@ class HelpAndWhatNewView extends StatelessWidget {
 
         10.vGap,
 
-        ///arrow container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium2),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.withOpacity(0.3))),
-          child: Row(
-            children: [
-              Text(
-                'Terms and Conditions',
-                style: TextStyle(
-                    color: Colors.grey, fontWeight: FontWeight.normal),
-              ),
-              Spacer(),
-
-              ///arrow forward
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: kMarginMedium2, vertical: kMarginSmall),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: Center(
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-              )
-            ],
+        ///term and conditions
+        LabelWithIconOrText(label: 'Terms and Conditions', isIcon: true,
           ),
-        ),
 
         10.vGap,
 
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => WhatsNewScreen()));
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: kMarginMedium2, vertical: kMarginMedium2),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey.withOpacity(0.3))),
-            child: Row(
-              children: [
-                Text(
-                  'What\'s New',
-                  style: TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.normal),
-                ),
-                Spacer(),
-
-                ///arrow forward
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: kMarginMedium2, vertical: kMarginSmall),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.withOpacity(0.5)),
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+        ///what news container
+        LabelWithIconOrText(label: 'What\'s New', isIcon: true,
+        onTap: (){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => WhatsNewScreen()));
+        },),
       ],
     );
   }
@@ -593,8 +234,9 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
           },
           child: Container(
             padding: EdgeInsets.symmetric(
-                horizontal: kMarginMedium2, vertical: kMarginMedium),
+                horizontal: kMarginMedium2, vertical: kMarginMedium2),
             decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey.withOpacity(0.3))),
             child: Row(
@@ -623,8 +265,9 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
         ///delete account container
         Container(
           padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium),
+              horizontal: kMarginMedium2, vertical: kMarginMedium2),
           decoration: BoxDecoration(
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey.withOpacity(0.3))),
           child: Row(
@@ -653,3 +296,69 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
     );
   }
 }
+
+///label with icon or text container view
+class LabelWithIconOrText extends StatelessWidget {
+  final String label;
+  final String? text;
+  final bool isIcon;
+  final Function()? onTap;
+  const LabelWithIconOrText({super.key,required this.label,required this.isIcon,this.text,this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        onTap!();
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: kMarginMedium2, vertical: kMarginMedium2),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.withOpacity(0.3))),
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                  color: Colors.grey, fontWeight: FontWeight.normal),
+            ),
+            Spacer(),
+
+            ///arrow forward
+            Visibility(
+              visible: isIcon,
+                child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: kMarginMedium2, vertical: kMarginSmall),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey.withOpacity(0.5)),
+              child: Center(
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: Colors.grey,
+                ),
+              ),
+            )),
+
+            Visibility(
+              visible: !isIcon,
+              child: Text(
+                text ?? "",
+                style: TextStyle(
+                    color: Colors.grey, fontWeight: FontWeight.normal),
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+

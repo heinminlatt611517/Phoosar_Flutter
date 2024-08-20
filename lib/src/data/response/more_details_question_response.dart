@@ -1,57 +1,53 @@
-import 'dart:convert';
-
-MoreDetailsQuestionResponse moreDetailsQuestionResponseFromJson(String str) => MoreDetailsQuestionResponse.fromJson(json.decode(str));
-
-String moreDetailsQuestionResponseToJson(MoreDetailsQuestionResponse data) => json.encode(data.toJson());
-
 class MoreDetailsQuestionResponse {
   int? status;
   String? message;
   List<QuestionAnswerData>? data;
 
-  MoreDetailsQuestionResponse({
-    this.status,
-    this.message,
-    this.data,
-  });
+  MoreDetailsQuestionResponse({this.status, this.message, this.data});
 
-  factory MoreDetailsQuestionResponse.fromJson(Map<String, dynamic> json) => MoreDetailsQuestionResponse(
-    status: json["status"],
-    message: json["message"],
-    data: json["data"] == null ? [] : List<QuestionAnswerData>.from(json["data"]!.map((x) => QuestionAnswerData.fromJson(x))),
-  );
+  MoreDetailsQuestionResponse.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    if (json['data'] != null) {
+      data = <QuestionAnswerData>[];
+      json['data'].forEach((v) {
+        data!.add(new QuestionAnswerData.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 class QuestionAnswerData {
   int? id;
   String? question;
-  int? answerType;
-  List<dynamic>? answers;
+  String? answerText;
+  int? paidStatus;
 
-  QuestionAnswerData({
-    this.id,
-    this.question,
-    this.answerType,
-    this.answers,
-  });
+  QuestionAnswerData({this.id, this.question, this.answerText, this.paidStatus});
 
-  factory QuestionAnswerData.fromJson(Map<String, dynamic> json) => QuestionAnswerData(
-    id: json["id"],
-    question: json["question"],
-    answerType: json["answer_type"],
-    answers: json["answers"] == null ? [] : List<dynamic>.from(json["answers"]!.map((x) => x)),
-  );
+  QuestionAnswerData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    question = json['question'];
+    answerText = json['answer_text'];
+    paidStatus = json['paid_status'];
+  }
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "question": question,
-    "answer_type": answerType,
-    "answers": answers == null ? [] : List<dynamic>.from(answers!.map((x) => x)),
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['question'] = this.question;
+    data['answer_text'] = this.answerText;
+    data['paid_status'] = this.paidStatus;
+    return data;
+  }
 }

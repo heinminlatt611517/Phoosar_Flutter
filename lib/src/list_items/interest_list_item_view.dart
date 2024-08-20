@@ -10,7 +10,8 @@ import '../utils/colors.dart';
 class InterestListItemView extends ConsumerWidget {
   final bool isShowDeleteIcon;
   final String? value;
-  const InterestListItemView({super.key,required this.isShowDeleteIcon,this.value});
+  final Function(String name) onTapDelete;
+  const InterestListItemView({super.key,required this.isShowDeleteIcon,this.value,required this.onTapDelete});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -33,16 +34,7 @@ class InterestListItemView extends ConsumerWidget {
             top: 10,
             child: CommonIconButton(
               onTap: () {
-                showYesNoDialog(context: context, onPress: () async{
-                  var request = {"interest_name" : value};
-                  var response =
-                      await ref.read(repositoryProvider).deleteInterest(request, context);
-                  if (response.statusCode.toString().startsWith('2')) {
-                    ref.invalidate(profileDataProvider(context));
-                    Navigator.pop(context);
-                    ref.invalidate(profileDataProvider(context));
-                  }
-                },title: 'Are you sure you want to delete this interest?');
+                onTapDelete(value ?? "");
               },
               backgroundColor: primaryColor,
               icon: Icon(

@@ -12,6 +12,7 @@ class Repository {
   Repository(this.ref);
 
   Future<Response> sendOTP(dynamic request, BuildContext context) async {
+    debugPrint("Request:::$request");
     var response = await Session.postWithoutAuth(
       Uri.parse("${Env.baseurl}/send-otp"),
       request,
@@ -288,8 +289,9 @@ class Repository {
   }
 
   Future<Response> getMoreDetailsQuestions(BuildContext context) async {
-    var response = await Session.get(
+    var response = await Session.post(
       Uri.parse("${Env.baseurl}/moredetails"),
+      jsonEncode({}),
       context,
       ref,
     );
@@ -314,4 +316,25 @@ class Repository {
     );
     return response;
   }
+
+  Future<Response> deleteMoreDetailsAnswer(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/delete-moredetail-answer"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> updateMoreDetailsAnswer(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/update-moredetail-answer"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

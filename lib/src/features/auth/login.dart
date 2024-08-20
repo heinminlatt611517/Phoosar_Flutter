@@ -257,8 +257,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             "type": selectedText == "Email" ? "email" : "phone",
             "value": selectedText == "Email"
                 ? emailController.text
-                : phoneNumberController.text,
-            "password": "${countryCode}${passwordController.text}",
+                : "${countryCode}${phoneNumberController.text}",
+            "password": "${passwordController.text}",
           }),
           context,
         );

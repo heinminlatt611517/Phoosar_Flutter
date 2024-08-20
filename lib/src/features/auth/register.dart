@@ -66,6 +66,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           }),
           context,
         );
+
     if (response.statusCode.toString().startsWith("2")) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(

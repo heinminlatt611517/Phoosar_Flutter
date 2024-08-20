@@ -4,16 +4,30 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class SelfInformation extends StatelessWidget {
+class SelfInformation extends StatefulWidget {
   const SelfInformation({
     super.key,
     required this.title,
     required this.description,
+    this.onChangeDescription
   });
 
   final String title;
   final String description;
+  final Function(String value)? onChangeDescription;
 
+  @override
+  State<SelfInformation> createState() => _SelfInformationState();
+}
+
+class _SelfInformationState extends State<SelfInformation> {
+  TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    descriptionController.text = widget.description;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +36,7 @@ class SelfInformation extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 20),
           child: Text(
-            title,
+            widget.title,
             textAlign: TextAlign.left,
             style: GoogleFonts.roboto(
               fontSize: mediumFontSize,
@@ -43,9 +57,13 @@ class SelfInformation extends StatelessWidget {
           color: whiteColor,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              description,
+            child: TextFormField(
+              controller: descriptionController,
               textAlign: TextAlign.left,
+              onFieldSubmitted: (value){
+                widget.onChangeDescription!(value);
+              },
+              decoration: InputDecoration(border: InputBorder.none),
               style: GoogleFonts.roboto(
                 fontSize: smallFontSize,
                 color: blackColor,

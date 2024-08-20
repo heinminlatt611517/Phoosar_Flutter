@@ -26,80 +26,83 @@ class MoreDetailsScreen extends ConsumerWidget {
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        20.vGap,
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            'Use these writing prompt to make your\nprofile even better! Click on a prompt to',
-            textAlign: TextAlign.left,
-            style: GoogleFonts.roboto(
-              fontSize: kTextRegular3x,
-              color: blackColor,
-              fontWeight: FontWeight.w300,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          20.vGap,
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+              'Use these writing prompt to make your\nprofile even better! Click on a prompt to',
+              textAlign: TextAlign.left,
+              style: GoogleFonts.roboto(
+                fontSize: kTextRegular3x,
+                color: blackColor,
+                fontWeight: FontWeight.w300,
+              ),
             ),
           ),
-        ),
-        20.vGap,
-          questionData.when(data: (data){
-            return
-            ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context,index){
-                return  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  child: InkWell(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MoreDetailsWritingPromptScreen(questionAnswerData: data[index],),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data[index].question ?? "",
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600,
+          20.vGap,
+            questionData.when(data: (data){
+              debugPrint("Data======>>>>$data");
+              return
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context,index){
+                  return  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MoreDetailsWritingPromptScreen(questionAnswerData: data[index],),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data[index].question ?? "",
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                            8.vGap,
-                            Text(
-                              data[index].question ?? "",
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.roboto(
-                                fontSize: smallFontSize,
-                                color: blackColor,
-                                fontWeight: FontWeight.w100,
+                              8.vGap,
+                              Text(
+                                data[index].answerText ?? "",
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.roboto(
+                                  fontSize: smallFontSize,
+                                  color: blackColor,
+                                  fontWeight: FontWeight.w100,
+                                ),
                               ),
-                            ),
-                            14.vGap
-                          ],
+                              14.vGap
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },itemCount: data.length,);
-          }, error: (error,stack){
-            return Container();
-          }, loading: (){
-            return Center(child: SpinKitThreeBounce(color: Colors.pinkAccent,),);
-          })
+                  );
+                },itemCount: data.length,);
+            }, error: (error,stack){
+              return Container();
+            }, loading: (){
+              return Center(child: SpinKitThreeBounce(color: Colors.pinkAccent,),);
+            })
 
-      ]),
+        ]),
+      ),
     );
   }
 }

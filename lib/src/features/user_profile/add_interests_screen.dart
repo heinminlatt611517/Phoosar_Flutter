@@ -119,6 +119,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                       return InterestListItemView(
                         isShowDeleteIcon: false,
                         value: _interests[index],
+                        onTapDelete: (value){},
                       );
                     },
                     itemCount: _interests.length,
@@ -148,6 +149,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                     .read(repositoryProvider)
                     .addInterests({"interest_names": _interests}, context);
                 if (response.statusCode.toString().startsWith('2')) {
+                  ref.invalidate(profileDataProvider);
                   Navigator.of(context).pop();
                 } else {
                   setState(() {
