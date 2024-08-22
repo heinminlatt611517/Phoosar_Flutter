@@ -4,11 +4,13 @@ import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/features/payment/payment.dart';
 import 'package:phoosar/src/features/user_setting/widgets/selectable_card.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:sized_context/sized_context.dart';
 
+import '../../common/widgets/phoosar_premium_carousel_widget.dart';
 import '../../common/widgets/phoosar_premium_view.dart';
 
 class PhoosarPremiumScreen extends ConsumerStatefulWidget {
@@ -24,7 +26,10 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
   Widget build(BuildContext context) {
     var packageList = ref.watch(packageListProvider(context));
     return Scaffold(
+      backgroundColor: whitePaleColor,
       appBar: AppBar(
+        backgroundColor: whitePaleColor,
+        centerTitle: true,
         title: Text('Phoosar Premium'),
       ),
       body: SingleChildScrollView(
@@ -32,8 +37,12 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                child: PhoosarPremiumView(context, kUnlimitedLikeAndMoreLabel)),
+                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge,vertical: kMarginMedium2),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),),
+                  child: PhoosarPremiumCarouselWidget(),
+                )),
             20.vGap,
             packageList.when(
               data: (data) => Container(
@@ -45,7 +54,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                     itemBuilder: (context, index) {
                       return SelectableCard(
                         duration: data[index].name ?? '',
-                        price: data[index].value ?? '',
+                        price: "${data[index].value} kyats" ?? '',
                         label: '',
                         onTap: () {
                           setState(() {

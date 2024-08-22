@@ -27,10 +27,10 @@ class CoinCount extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.currency_bitcoin,
-            size: 15,
-            color: Colors.yellow,
+          Image.asset(
+            'assets/images/coin.png',
+            height: 16,
+            fit: BoxFit.cover,
           ),
           4.hGap,
           Text(

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/icon_button.dart';
 import '../../utils/colors.dart';
@@ -32,7 +33,7 @@ class BlockUserScreen extends StatelessWidget {
                     imageUrl:
                         'https://reputationtoday.in/wp-content/uploads/2019/11/110-1102775_download-empty-profile-hd-png-download.jpg',
                     errorWidget: (context, url, error) => Image.network(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQc9dZn33Wnk-j0sXZ19f8NiMZpJys7nTlA&s')),
+                        errorImageUrl)),
               ),
               Align(
                 alignment: Alignment.bottomCenter,

@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/common/widgets/selectable_button.dart';
+import 'package:phoosar/src/data/dummy_data/upload_photo_data.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_coin_dialog.dart';
 import 'package:phoosar/src/features/user_profile/add_interests_screen.dart';
@@ -18,11 +19,14 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/drop_down_widget.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
 import 'more_details_writing_prompt_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -55,7 +59,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: whitePaleColor,
-          title: Text('Edit Profile'),
+          title: Text(AppLocalizations.of(context)!.kEditProfileLowerCase,),
           centerTitle: true,
         ),
         backgroundColor: whitePaleColor,
@@ -72,17 +76,34 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 shrinkWrap: true,
                 padding: EdgeInsets.all(12),
                 itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Stack(
+                  if (uploadPhotoData[index]['can_upload'] == true) {
+                    return uploadPhotoData[index]['url'].toString() == "" ?
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: greyColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child:Icon(
+                          Icons.add,
+                          color: blackColor,
+                          size: 24,
+                        )
+                      ),
+                    )
+                        :Stack(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedNetworkImage(
-                                    imageUrl: data?.profileImages?[index] ?? "",
+                                    height: 200,
+                                      fit: BoxFit.cover,
+                                    imageUrl: uploadPhotoData[index]['url'].toString(),
                                     errorWidget: (context, url, error) =>
-                                       Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQc9dZn33Wnk-j0sXZ19f8NiMZpJys7nTlA&s')
+                                       Image.network(errorImageUrl)
                                   ),
                                 ),
                               ),
@@ -109,13 +130,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
-                        child: index == 1 || index == 2
-                            ? Icon(
-                                Icons.add,
-                                color: blackColor,
-                                size: 24,
-                              )
-                            : InkWell(
+                        child: InkWell(
                                 onTap: () {
                                   showDialog(
                                       context: context,
@@ -124,7 +139,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                           ));
                                 },
                                 child: CoinCount(
-                                  width: 54,
+                                  width: 80,
                                   coinCount: '10',
                                 ),
                               ),
@@ -132,7 +147,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     );
                   }
                 },
-                itemCount: 6,
+                itemCount: uploadPhotoData.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, // number of items in each row
                   mainAxisSpacing: 8.0, // spacing between rows
@@ -145,7 +160,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
-                title: 'Name',
+                title: AppLocalizations.of(context)!.kNameLabel,
                 description: data?.name ?? "",
                 onChangeDescription: (value) async{
                   var request = {"name": value};
@@ -167,7 +182,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Birthday',
+                  AppLocalizations.of(context)!.kBirthdayLabel,
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular2x,
@@ -264,7 +279,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
-                title: 'About ${data?.name ?? ""}',
+                title: '${AppLocalizations.of(context)!.kAboutLabel} ${data?.name ?? ""}',
                 description: data?.about ?? "",
                 onChangeDescription: (value) async{
                   var request = {"about": value};
@@ -284,7 +299,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
-                title: 'Job Title',
+                title: AppLocalizations.of(context)!.kJobTitleLabel,
                 description: data?.jobTitle ?? "",
                 onChangeDescription: (value) async{
                   var request = {"job_title": value};
@@ -304,7 +319,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
-                title: 'School',
+                title: AppLocalizations.of(context)!.kSchoolLabel,
                 description: data?.school ?? "",
                 onChangeDescription: (value) async{
                   var request = {"school": value};
@@ -324,7 +339,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
-                title: 'Living In',
+                title: AppLocalizations.of(context)!.kLivingInLabel,
                 description: '${data?.city ?? ""}, ${data?.city ?? ""}',
               ),
               24.vGap,
@@ -333,7 +348,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Smoke?',
+                  AppLocalizations.of(context)!.kSmokeLabel,
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular2x,
@@ -394,7 +409,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Interests',
+                  AppLocalizations.of(context)!.kInterestLabel,
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular2x,
@@ -438,7 +453,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'Add Interests',
+                      AppLocalizations.of(context)!.kAddInterestLabel,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular2x,
@@ -474,7 +489,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'More details',
+                  AppLocalizations.of(context)!.kMoreDetailsLabel,
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular2x,
@@ -543,7 +558,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'Add More Details',
+                      AppLocalizations.of(context)!.kAddMoreDetailsLabel,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular2x,
@@ -583,7 +598,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Gender?',
+                  AppLocalizations.of(context)!.kGenderLabel,
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular2x,
@@ -644,7 +659,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Control Your Profile',
+                  AppLocalizations.of(context)!.kControlYourProfileLabel,
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular2x,
@@ -662,7 +677,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'Dont Show My Age',
+                      kDontShowMyAgeLabel,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular2x,
@@ -688,7 +703,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'Make my distance invisible',
+                      AppLocalizations.of(context)!.kMakeDistanceInvisibleLabel,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular2x,

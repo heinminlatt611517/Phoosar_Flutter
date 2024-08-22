@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/user_setting/block_user_screen.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
@@ -9,12 +8,10 @@ import 'package:phoosar/src/features/user_setting/whats_new.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
 
-import '../../common/widgets/drop_down_widget.dart';
-import '../../common/widgets/phoosar_premium_view.dart';
+import '../../common/widgets/phoosar_premium_carousel_widget.dart';
 import '../../utils/colors.dart';
-import '../../utils/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserSettingScreen extends ConsumerWidget {
   const UserSettingScreen({super.key});
@@ -25,7 +22,7 @@ class UserSettingScreen extends ConsumerWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: whitePaleColor,
-        title: Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.kSettingLowerCaseLabel,),
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
@@ -50,8 +47,7 @@ class UserSettingScreen extends ConsumerWidget {
                     child: Container(
                       decoration: BoxDecoration(color: Colors.white,
                         borderRadius: BorderRadius.circular(10),),
-                      child: PhoosarPremiumView(
-                          context, kUnlimitedLikeAndMoreLabel),
+                      child: PhoosarPremiumCarouselWidget(),
                     )),
               ),
 
@@ -62,12 +58,12 @@ class UserSettingScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Account Settings",
+                  AppLocalizations.of(context)!.kAccountSettingLabel,
                     style:
                     TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: 'Location', isIcon: false,
+                  LabelWithIconOrText(label: AppLocalizations.of(context)!.kLocationLabel, isIcon: false,
                     text: 'Yangon',
                     ),
                 ],
@@ -80,7 +76,7 @@ class UserSettingScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Active Subscription",
+                    AppLocalizations.of(context)!.kActiveSubscriptionLabel,
                     style:
                     TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
@@ -97,12 +93,12 @@ class UserSettingScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Billing",
+                    AppLocalizations.of(context)!.kBillingLabel,
                     style:
                     TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: 'Purchase History', isIcon: true,
+                  LabelWithIconOrText(label: AppLocalizations.of(context)!.kPurchaseHistoryLabel, isIcon: true,
                     onTap: (){
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => PurchaseHistory()));
@@ -118,12 +114,12 @@ class UserSettingScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Privacy",
+                    AppLocalizations.of(context)!.kPrivacyLabel,
                     style:
                     TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: 'Blocking', isIcon: false,
+                  LabelWithIconOrText(label:AppLocalizations.of(context)!.kBlockingLabel, isIcon: false,
                     onTap: (){
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => BlockUserScreen()));
@@ -139,12 +135,12 @@ class UserSettingScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Notifications",
+                    AppLocalizations.of(context)!.kNotificationLabel,
                     style:
                     TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: 'Push Notifications', isIcon: false,
+                  LabelWithIconOrText(label: AppLocalizations.of(context)!.kPushNotificationLabel, isIcon: false,
                     onTap: (){
                     },
                   ),
@@ -190,7 +186,7 @@ class HelpAndWhatNewView extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                'Help & Support',
+                AppLocalizations.of(context)!.kHelpAndSupportLabel,
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
@@ -202,13 +198,13 @@ class HelpAndWhatNewView extends StatelessWidget {
         10.vGap,
 
         ///term and conditions
-        LabelWithIconOrText(label: 'Terms and Conditions', isIcon: true,
+        LabelWithIconOrText(label: AppLocalizations.of(context)!.kTermAndConditionLabel, isIcon: true,
           ),
 
         10.vGap,
 
         ///what news container
-        LabelWithIconOrText(label: 'What\'s New', isIcon: true,
+        LabelWithIconOrText(label: AppLocalizations.of(context)!.kWhatNewLabel, isIcon: true,
         onTap: (){
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => WhatsNewScreen()));
@@ -243,7 +239,7 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
               children: [
                 Spacer(),
                 Text(
-                  'Log out',
+                  AppLocalizations.of(context)!.kLogoutLabel,
                   style: TextStyle(color: Colors.grey),
                 ),
                 Spacer(),
@@ -274,7 +270,7 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
             children: [
               Spacer(),
               Text(
-                'Delete Account',
+                AppLocalizations.of(context)!.kDeleteAccountLabel,
                 style: TextStyle(color: Colors.red),
               ),
               Spacer(),

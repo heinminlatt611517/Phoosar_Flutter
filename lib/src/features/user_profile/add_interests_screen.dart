@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
-import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../common/widgets/common_button.dart';
 import '../../common/widgets/icon_button.dart';
 import '../../list_items/interest_list_item_view.dart';
@@ -39,7 +38,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whitePaleColor,
-        title: Text('Add Interests'),
+        title: Text(AppLocalizations.of(context)!.kAddInterestLabel),
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
@@ -103,7 +102,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
-                      'Interests',
+                      AppLocalizations.of(context)!.kInterestLabel,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular3x,
@@ -136,28 +135,32 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
           20.vGap,
 
           Center(
-            child: CommonButton(
-              containerVPadding: 10,
-              text: "Save",
-              isLoading: isLoading,
-              fontSize: 18,
-              onTap: () async {
-                setState(() {
-                  isLoading = true;
-                });
-                var response = await ref
-                    .read(repositoryProvider)
-                    .addInterests({"interest_names": _interests}, context);
-                if (response.statusCode.toString().startsWith('2')) {
-                  ref.invalidate(profileDataProvider);
-                  Navigator.of(context).pop();
-                } else {
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
-              },
-              bgColor: Colors.pinkAccent,
+            child: IntrinsicWidth(
+              child: CommonButton(
+                containerVPadding: 10,
+                text: AppLocalizations.of(context)!.kSaveLabel,
+                isLoading: isLoading,
+                fontSize: 18,
+                onTap: () async {
+                  if(_interests.isNotEmpty){
+                    setState(() {
+                      isLoading = true;
+                    });
+                    var response = await ref
+                        .read(repositoryProvider)
+                        .addInterests({"interest_names": _interests}, context);
+                    if (response.statusCode.toString().startsWith('2')) {
+                      ref.invalidate(profileDataProvider);
+                      Navigator.of(context).pop();
+                    } else {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  }
+                },
+                bgColor: Colors.pinkAccent,
+              ),
             ),
           ),
         ],

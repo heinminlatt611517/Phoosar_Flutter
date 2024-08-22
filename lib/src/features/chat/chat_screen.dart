@@ -2,15 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/chat/rooms_screen.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_profiles.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_you.dart';
-import 'package:phoosar/src/features/chat/widgets/matches.dart';
-import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import '../../utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({
@@ -29,24 +28,23 @@ class _ChatState extends ConsumerState<ChatScreen> {
       backgroundColor: whitePaleColor,
       appBar: AppBar(
         backgroundColor: whitePaleColor,
-        leading: Icon(Icons.arrow_back_ios_new, color: Colors.black45),
         centerTitle: true,
         title: Text(
-          'Messages',
+         selectedIndex == 0 ? AppLocalizations.of(context)!.kMatchesLabel : selectedIndex == 1 ? AppLocalizations.of(context)!.kLikedYouLabel : AppLocalizations.of(context)!.kLikedProfilesLabel,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
         ),
         actions: [
-          TextButton(
-            onPressed: () async {
-              await supabase.auth.signOut();
-
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => RegisterScreen()),
-                (route) => false,
-              );
-            },
-            child: const Text('Logout'),
-          ),
+          // TextButton(
+          //   onPressed: () async {
+          //     await supabase.auth.signOut();
+          //
+          //     Navigator.of(context).pushAndRemoveUntil(
+          //       MaterialPageRoute(builder: (context) => RegisterScreen()),
+          //       (route) => false,
+          //     );
+          //   },
+          //   child: const Text('Logout'),
+          // ),
         ],
       ),
       body: Column(
@@ -153,7 +151,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Matches",
+                      AppLocalizations.of(context)!.kMatchesLabel,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
 
@@ -182,7 +180,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Liked You",
+                      AppLocalizations.of(context)!.kLikedYouLabel,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
 
@@ -210,7 +208,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Liked Profiles",
+                      AppLocalizations.of(context)!.kLikedProfilesLabel,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/common/widgets/phoosar_premium_carousel_widget.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
 import 'package:phoosar/src/features/payment/payment.dart';
 import 'package:phoosar/src/features/user_setting/widgets/selectable_coin_card.dart';
@@ -10,6 +11,7 @@ import 'package:phoosar/src/utils/strings.dart';
 import 'package:sized_context/sized_context.dart';
 
 import '../../common/widgets/phoosar_premium_view.dart';
+import '../../utils/colors.dart';
 
 class GetMoreCoinsScreen extends ConsumerStatefulWidget {
   @override
@@ -24,8 +26,10 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
   Widget build(BuildContext context) {
     var pointList = ref.watch(pointListProvider(context));
     return Scaffold(
+      backgroundColor: whitePaleColor,
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: whitePaleColor,
         title: Text(kGetMoreCoinsLabel),
       ),
       body: SingleChildScrollView(
@@ -33,8 +37,12 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                child: PhoosarPremiumView(context, kUnlimitedLikeLabel)),
+                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge,vertical: kMarginMedium2),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),),
+                  child: PhoosarPremiumCarouselWidget(),
+                )),
             20.vGap,
             pointList.when(
               data: (data) => Container(

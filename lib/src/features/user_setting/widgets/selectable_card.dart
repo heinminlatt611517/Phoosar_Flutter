@@ -26,6 +26,7 @@ class _SelectableCardState extends State<SelectableCard> {
     return GestureDetector(
       onTap: () => widget.onTap(),
       child: Container(
+        width: MediaQuery.of(context).size.width/3,
         margin: EdgeInsets.symmetric(
             horizontal: 8, vertical: widget.isSelected ? 0 : 8),
         padding: EdgeInsets.symmetric(
@@ -42,6 +43,7 @@ class _SelectableCardState extends State<SelectableCard> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
+              textAlign: TextAlign.center,
               widget.duration,
               // widget.duration.split(' ')[0] +
               //     '\n' +
@@ -59,6 +61,7 @@ class _SelectableCardState extends State<SelectableCard> {
               widget.price,
               style: TextStyle(
                 fontSize: 18,
+                fontWeight: FontWeight.bold,
                 color: widget.isSelected ? Colors.white : Colors.black,
               ),
             ),

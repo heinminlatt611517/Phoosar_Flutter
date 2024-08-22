@@ -6,12 +6,9 @@ import 'package:phoosar/src/features/user_profile/more_details_writing_prompt_sc
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
-
-import '../../common/widgets/common_button.dart';
-import '../../common/widgets/icon_button.dart';
-import '../../list_items/interest_list_item_view.dart';
 import '../../utils/constants.dart';
 import '../../utils/dimens.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoreDetailsScreen extends ConsumerWidget {
   const MoreDetailsScreen({super.key});
@@ -22,7 +19,7 @@ class MoreDetailsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whitePaleColor,
-        title: Text('More Details'),
+        title: Text(AppLocalizations.of(context)!.kMoreDetailsLabel,),
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,

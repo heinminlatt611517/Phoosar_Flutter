@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:phoosar/src/common/widgets/heart_count.dart';
+import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/text_icon_button.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/user_profile/edit_profile.dart';
 import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
-import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({
@@ -52,7 +53,7 @@ class UserProfileScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Your hearts',
+                          AppLocalizations.of(context)!.kYourCoinsLabel,
                           style: GoogleFonts.roboto(
                             fontSize: smallLargeFontSize,
                             color: blackColor,
@@ -60,8 +61,8 @@ class UserProfileScreen extends StatelessWidget {
                           ),
                         ),
                         12.hGap,
-                        HeartCount(
-                          heartCount: '200',
+                        CoinCount(
+                          coinCount: '200',
                           backgroundColor: greyColor,
                         ),
                       ],
@@ -145,7 +146,7 @@ class UserProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CommonTextIconButton(
-                    text: 'SETTINGS',
+                    text: AppLocalizations.of(context)!.kSettingUpperCaseLabel,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -162,7 +163,7 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                   12.hGap,
                   CommonTextIconButton(
-                    text: 'EDIT PROFILE',
+                    text: AppLocalizations.of(context)!.kEditProfileLabel,
                     onTap: () {
                       Navigator.push(
                         context,
