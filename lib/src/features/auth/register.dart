@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
@@ -20,7 +21,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../env/env.dart';
-import '../../common/widgets/country_code_with_phone_number_widget.dart';
 import '../../common/widgets/email_and_phone_number_view.dart';
 import '../../data/models/facebook_user.dart';
 import 'enter_pin_code_screen.dart';
@@ -41,7 +41,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
-  final phoneNumberController = TextEditingController();
+  String e164PhoneNo = "";
+  PhoneNumber phone = PhoneNumber(isoCode: 'MM');
+  TextEditingController _phoneController = TextEditingController();
 
   ///Email or Phone number
   String selectedText = "Email";
@@ -53,7 +55,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       return;
     }
     final email = _emailController.text;
-    final phoneNumber = phoneNumberController.text;
     final username = _usernameController.text;
     setState(() {
       _isLoading = true;
@@ -61,7 +62,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     var response = await ref.read(repositoryProvider).sendOTP(
           jsonEncode({
             "type": type,
-            "value": type == "email" ? email : "${countryCode}${phoneNumber}",
+            "value": type == "email" ? email : e164PhoneNo,
             "user_name": username,
           }),
           context,
@@ -74,7 +75,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             email: email,
             type: type,
             userName: username,
-            phoneNumber: "${countryCode}${phoneNumber}",
+            phoneNumber: e164PhoneNo,
           ),
         ),
       );
@@ -139,19 +140,52 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ///password input
                         InputView(
                             controller: _usernameController,
-                            hintLabel: AppLocalizations.of(context)!.kUserNameLabel),
+                            hintLabel:
+                                AppLocalizations.of(context)!.kUserNameLabel),
 
                         24.vGap,
 
-                        CountryCodeWithPhoneNumberWidget(
-                          textEditingController: phoneNumberController,
-                          hintLabel: '',
-                          onSelectCountryCode: (String value) {
-                            log("SelectedCountryCode===========> $value");
-                            setState(() {
-                              countryCode = value;
-                            });
-                          },
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  width: 0.5),
+                              borderRadius: BorderRadius.circular(4.0)),
+                          child: InternationalPhoneNumberInput(
+                            //countries: ['MM'],
+                            onInputChanged: (PhoneNumber number) {
+                              print(number.phoneNumber);
+                              setState(() {
+                                e164PhoneNo = number.phoneNumber.toString();
+                              });
+                            },
+                            onInputValidated: (bool value) {
+                              print(value);
+                            },
+                            selectorConfig: SelectorConfig(
+                              leadingPadding: 12,
+                              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                            ),
+                            ignoreBlank: false,
+                            initialValue: phone,
+                            hintText: '',
+                            autoValidateMode: AutovalidateMode.disabled,
+                            selectorTextStyle: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+
+                            //initialValue: number,
+                            textFieldController: _phoneController,
+                            formatInput: true,
+                            keyboardType: TextInputType.number,
+                            keyboardAction: TextInputAction.done,
+                            // keyboardType: TextInputType.numberWithOptions(
+                            //     signed: true, decimal: true),
+                            inputBorder: InputBorder.none,
+                            onSaved: (PhoneNumber number) {
+                              print('On Saved: $number');
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -171,7 +205,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 }
                                 return null;
                               },
-                              hintLabel: AppLocalizations.of(context)!.kUserNameLabel),
+                              hintLabel:
+                                  AppLocalizations.of(context)!.kUserNameLabel),
                           24.vGap,
 
                           ///email input
@@ -183,7 +218,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 }
                                 return null;
                               },
-                              hintLabel: AppLocalizations.of(context)!.kEmailLabel),
+                              hintLabel:
+                                  AppLocalizations.of(context)!.kEmailLabel),
                           24.vGap,
                         ],
                       )),
@@ -200,9 +236,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       isLoading: _isLoading,
                       onTap: () {
                         if (!_isLoading) {
-                          _requestOTP(selectedText == "Phone"
-                              ? "phone"
-                              : "email");
+                          _requestOTP(
+                              selectedText == "Phone" ? "phone" : "email");
                         }
                         // if (selectedText == kPhoneNumberLabel) {
                         //   Navigator.of(context).pushReplacement(
@@ -241,7 +276,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         color: Colors.grey,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: AppLocalizations.of(context)!.kAlreadyHaveAccount),
+                        TextSpan(
+                            text: AppLocalizations.of(context)!
+                                .kAlreadyHaveAccount),
                         TextSpan(
                           text: AppLocalizations.of(context)!.kSignInLabel,
                           style: new TextStyle(

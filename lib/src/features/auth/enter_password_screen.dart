@@ -6,9 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
+import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
@@ -189,10 +191,20 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString("token", authResponse.token ?? '');
+      final profileRes = await ref
+          .watch(repositoryProvider)
+          .getProfile(jsonEncode({}), context);
+      var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
+      ref.read(selfProfileProvider.notifier).state = data;
+      
+      // Supabase Register
+      
+
       ref.invalidate(profilesProvider);
       ref.invalidate(profileProvider);
       ref.invalidate(roomsProvider);
       ref.invalidate(supabaseClientProvider);
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
       );

@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-
+import 'dart:math';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,20 +9,22 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/env/env.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
-import 'package:phoosar/src/common/widgets/country_code_with_phone_number_widget.dart';
 import 'package:phoosar/src/common/widgets/email_and_phone_number_view.dart';
 import 'package:phoosar/src/common/widgets/horizontal_text_icon_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/models/facebook_user.dart';
 import 'package:phoosar/src/data/response/authentication_response.dart';
+import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/features/auth/choose_gender_screen.dart';
 import 'package:phoosar/src/features/auth/forgot_password_screen.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
@@ -32,6 +33,7 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({
@@ -46,11 +48,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
+  //final TextEditingController phoneNumberController = TextEditingController();
 
   ///Email or Phone number
   String selectedText = "Email";
-   var countryCode = "+959";
+  //var countryCode = "+959";
+  String e164PhoneNo = "";
+  PhoneNumber phone = PhoneNumber(isoCode: 'MM');
+  TextEditingController _phoneController = TextEditingController();
 
   @override
   void dispose() {
@@ -93,16 +98,49 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   visible: selectedText == "Phone",
                   child: Column(
                     children: [
-                      CountryCodeWithPhoneNumberWidget(
-                        textEditingController: phoneNumberController,
-                        hintLabel: '',
-                        onSelectCountryCode: (String value) {
-                          log("SelectedCountryCode===========> $value");
-                          setState(() {
-                            countryCode = value;
-                          });
-                        },
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Colors.grey.withOpacity(0.5),
+                                width: 0.5),
+                            borderRadius: BorderRadius.circular(4.0)),
+                        child: InternationalPhoneNumberInput(
+                          //countries: ['MM'],
+                          onInputChanged: (PhoneNumber number) {
+                            print(number.phoneNumber);
+                            setState(() {
+                              e164PhoneNo = number.phoneNumber.toString();
+                            });
+                          },
+                          onInputValidated: (bool value) {
+                            print(value);
+                          },
+                          selectorConfig: SelectorConfig(
+                            leadingPadding: 12,
+                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                          ),
+                          ignoreBlank: false,
+                          initialValue: phone,
+                          hintText: '',
+                          autoValidateMode: AutovalidateMode.disabled,
+                          selectorTextStyle: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+
+                          //initialValue: number,
+                          textFieldController: _phoneController,
+                          formatInput: true,
+                          keyboardType: TextInputType.number,
+                          keyboardAction: TextInputAction.done,
+                          // keyboardType: TextInputType.numberWithOptions(
+                          //     signed: true, decimal: true),
+                          inputBorder: InputBorder.none,
+                          onSaved: (PhoneNumber number) {
+                            print('On Saved: $number');
+                          },
+                        ),
                       ),
+
                       24.vGap,
 
                       ///password input
@@ -255,9 +293,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     var response = await ref.read(repositoryProvider).login(
           jsonEncode({
             "type": selectedText == "Email" ? "email" : "phone",
-            "value": selectedText == "Email"
-                ? emailController.text
-                : "${countryCode}${phoneNumberController.text}",
+            "value":
+                selectedText == "Email" ? emailController.text : e164PhoneNo,
+            //: "${countryCode}${phoneNumberController.text}",
             "password": "${passwordController.text}",
           }),
           context,
@@ -271,6 +309,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString(kRecentOnboardingKey, authResponse.recentOnBoarding ?? '');
+      final profileRes = await ref
+          .watch(repositoryProvider)
+          .getProfile(jsonEncode({}), context);
+      var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
+      ref.read(selfProfileProvider.notifier).state = data;
+
+      // Supabase Login
+      
       navigateToNextScreen(authResponse.recentOnBoarding ?? '');
     } else {
       setState(() {
@@ -323,16 +369,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       result.authentication.then((googleKey) {
         loginWithSocialToken(
             googleKey.accessToken!, "google", avator ?? "", name ?? "", email);
-      }).catchError((err) {
-        log("====================GoogleSignIn authentication====================");
-        log(err.toString());
-        log("===================================================================");
-      });
-    }).catchError((err) {
-      log("====================GoogleSignIn====================");
-      log(err.toString());
-      log("====================================================");
-    });
+      }).catchError((err) {});
+    }).catchError((err) {});
   }
 
   facebookSignIn(BuildContext context) async {
@@ -340,7 +378,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       permissions: ['email'],
     ).then((result) {
       FacebookAuth.instance.getUserData().then((userData) async {
-        log("Facebook userData => $userData");
+        // log("Facebook userData => $userData");
 
         // or FacebookAuth.i.login()
         if (result.status == LoginStatus.success) {

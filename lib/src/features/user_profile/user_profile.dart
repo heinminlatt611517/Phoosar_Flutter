@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/text_icon_button.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/user_profile/edit_profile.dart';
 import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
-
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends ConsumerWidget {
   const UserProfileScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var selfProfileData = ref.watch(selfProfileProvider);
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -84,8 +87,12 @@ class UserProfileScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
                   children: [
-                    Image.asset(
-                      'assets/images/sample_profile2.jpeg',
+                    Image.network(
+                      (selfProfileData!.data!.profileImages != null &&
+                              selfProfileData.data!.profileImages!.isNotEmpty)
+                          ? selfProfileData.data?.profileImages![0] ??
+                              errorImageUrl
+                          : errorImageUrl,
                       width: MediaQuery.of(context).size.width - 32,
                       height: MediaQuery.of(context).size.height * 0.5,
                       fit: BoxFit.cover,
@@ -118,7 +125,7 @@ class UserProfileScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Marius',
+                              selfProfileData.data?.name ?? '',
                               style: GoogleFonts.roboto(
                                 fontSize: largeFontSize,
                                 color: whiteColor,
@@ -127,7 +134,8 @@ class UserProfileScreen extends StatelessWidget {
                             ),
                             12.hGap,
                             Text(
-                              '30',
+                              calculateAge(
+                                  selfProfileData.data?.birthdate ?? ''),
                               style: GoogleFonts.roboto(
                                 fontSize: mediumLargeFontSize,
                                 color: whiteColor,
@@ -185,5 +193,17 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String calculateAge(String birthdate) {
+    if (birthdate.isEmpty) return '';
+    DateTime birthDate = DateTime.parse(birthdate);
+    DateTime today = DateTime.now();
+    int age = today.year - birthDate.year;
+    if (today.month < birthDate.month ||
+        (today.month == birthDate.month && today.day < birthDate.day)) {
+      age--;
+    }
+    return age.toString();
   }
 }
