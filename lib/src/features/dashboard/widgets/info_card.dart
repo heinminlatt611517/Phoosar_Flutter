@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/info_row.dart';
@@ -7,6 +9,7 @@ import 'package:phoosar/src/features/other_profile/other_profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({super.key, required this.findData});
@@ -14,13 +17,17 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(findData.profileImages.toString());
     return Container(
       height: MediaQuery.of(context).size.height * 0.67,
       padding: const EdgeInsets.only(top: 20, bottom: 10),
       child: Stack(
         children: [
           DashboardProfileSlider(
-            profileImages: findData.profileImages ?? [],
+            profileImages: (findData.profileImages == null ||
+                    findData.profileImages!.isEmpty)
+                ? [errorImageUrl]
+                : findData.profileImages ?? [],
           ),
           Positioned(
             bottom: 32,
