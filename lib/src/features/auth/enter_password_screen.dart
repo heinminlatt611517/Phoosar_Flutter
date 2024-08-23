@@ -48,11 +48,21 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
 
   ///Email or Phone number
   String selectedText = "Email";
+  late final StreamSubscription<AuthState> authSubscription;
 
   @override
   void initState() {
     super.initState();
     errorController = StreamController<ErrorAnimationType>();
+    bool haveNavigated = false;
+    // Listen to auth state to redirect user when the user clicks on confirmation link
+    authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      final session = data.session;
+      if (session != null && !haveNavigated) {
+        haveNavigated = true;
+        navigateToNextScreen();
+      }
+    });
   }
 
   @override
@@ -196,18 +206,43 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
           .getProfile(jsonEncode({}), context);
       var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
       ref.read(selfProfileProvider.notifier).state = data;
-      
+
       // Supabase Register
-      
+      // try {
+      //   await supabase.auth.signUp(
+      //     email: widget.type == "email"
+      //         ? widget.email
+      //         : ('user' + widget.phoneNumber + '@gmail.com'),
+      //     password: password,
+      //     data: {
+      //       'username': widget.userName,
+      //       'device_token': 'device_token',
+      //     },
+      //     emailRedirectTo: 'io.supabase.chat://login',
+      //   );
+      // } on AuthException catch (error) {
+      //   context.showErrorSnackBar(message: error.message);
+      //   if (mounted) {
+      //     setState(() {
+      //       isLoading = false;
+      //     });
+      //   }
+      // } catch (error) {
+      //   debugPrint(error.toString());
+      //   context.showErrorSnackBar(message: unexpectedErrorMessage);
+      //   if (mounted) {
+      //     setState(() {
+      //       isLoading = false;
+      //     });
+      //   }
+      // }
+      // if (mounted) {
+      //   setState(() {
+      //     isLoading = false;
+      //   });
+      // }
 
-      ref.invalidate(profilesProvider);
-      ref.invalidate(profileProvider);
-      ref.invalidate(roomsProvider);
-      ref.invalidate(supabaseClientProvider);
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
-      );
+      navigateToNextScreen();
     } else {
       if (mounted) {
         setState(() {
@@ -215,5 +250,16 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
         });
       }
     }
+  }
+
+  navigateToNextScreen() {
+    ref.invalidate(profilesProvider);
+    ref.invalidate(profileProvider);
+    ref.invalidate(roomsProvider);
+    ref.invalidate(supabaseClientProvider);
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
+    );
   }
 }
