@@ -8,6 +8,7 @@ import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/request/question_save_request.dart';
 import 'package:phoosar/src/data/response/city_list_response.dart';
 import 'package:phoosar/src/data/response/country_list_response.dart';
+import 'package:phoosar/src/data/response/find_list_response.dart';
 import 'package:phoosar/src/data/response/find_response.dart';
 import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
@@ -24,11 +25,11 @@ import 'package:phoosar/src/data/response/whats_new_list_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 
 final findListProvider =
-    FutureProvider.family<ProfileData?, BuildContext>((ref, context) async {
+    FutureProvider.family<List<ProfileData>?, BuildContext>((ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.findList(jsonEncode({}), context);
   if (response.statusCode == 200) {
-    return FindResponse.fromJson(jsonDecode(response.body)).data;
+    return FindListResponse.fromJson(jsonDecode(response.body)).data;
   } else {
     throw Exception('Failed to load find list');
   }

@@ -16,7 +16,7 @@ class WhatsNewScreen extends ConsumerWidget {
         data: (data) => SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: Text(data[0].titleEn ?? ''),
+            child: Text(data.isEmpty ? '' : data[0].titleEn ?? ''),
           ),
         ),
         loading: () => Center(child: CircularProgressIndicator()),
