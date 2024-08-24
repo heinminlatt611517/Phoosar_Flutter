@@ -61,8 +61,8 @@ class UnlockDailog extends ConsumerWidget {
               onTap: () async {
                 var response = await ref.watch(repositoryProvider).buyWithPoint(
                     jsonEncode({"point_buying_id": buyId}), context);
-                Navigator.pop(context);
                 if (response.statusCode.toString().startsWith("2")) {
+                  Navigator.pop(context);
                   showDialog(
                       context: context,
                       builder: (context) => UnlockSuccessDailog());
