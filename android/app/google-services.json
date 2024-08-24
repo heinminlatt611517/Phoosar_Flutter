@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:386971559769:android:51e542450bc94ce1344e48",
+        "mobilesdk_app_id": "1:386971559769:android:ed551014781ef7dd344e48",
         "android_client_info": {
-          "package_name": "com.moc.phoo_sar"
+          "package_name": "com.moc.phoosar"
         }
       },
       "oauth_client": [],

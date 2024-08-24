@@ -64,10 +64,11 @@ class DashboardHeader extends ConsumerWidget {
           Expanded(
             child: Center(
               child: Image.asset(
-                (selfProfileData!.data!.isPremium ?? false)
+                selfProfileData != null &&
+                        (selfProfileData.data!.isPremium ?? false)
                     ? 'assets/images/ic_premium_launcher.png'
                     : 'assets/images/ic_launcher.png',
-                width: (selfProfileData.data!.isPremium ?? false) ? 60 : 42,
+                width: (selfProfileData!.data!.isPremium ?? false) ? 60 : 42,
                 fit: BoxFit.fill,
               ),
             ),

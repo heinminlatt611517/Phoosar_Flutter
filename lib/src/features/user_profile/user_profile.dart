@@ -34,12 +34,13 @@ class UserProfileScreen extends ConsumerWidget {
               MediaQuery.of(context).padding.top.vGap,
               Center(
                 child: Image.asset(
-                (selfProfileData!.data!.isPremium ?? false)
-                    ? 'assets/images/ic_premium_launcher.png'
-                    : 'assets/images/ic_launcher.png',
-                width: (selfProfileData.data!.isPremium ?? false) ? 60 : 42,
-                fit: BoxFit.fill,
-              ),
+                  selfProfileData != null &&
+                          (selfProfileData.data?.isPremium ?? false)
+                      ? 'assets/images/ic_premium_launcher.png'
+                      : 'assets/images/ic_launcher.png',
+                  width: (selfProfileData?.data?.isPremium ?? false) ? 60 : 42,
+                  fit: BoxFit.fill,
+                ),
               ),
               12.vGap,
               Divider(
@@ -70,7 +71,8 @@ class UserProfileScreen extends ConsumerWidget {
                         12.hGap,
                         CoinCount(
                           coinCount: selfProfileData != null
-                              ? (selfProfileData.data!.pointTotal.toString())
+                              ? (selfProfileData.data?.pointTotal.toString() ??
+                                  "0")
                               : "0",
                           backgroundColor: greyColor,
                         ),
@@ -97,8 +99,8 @@ class UserProfileScreen extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width - 32,
                       height: MediaQuery.of(context).size.height * 0.5,
                       fit: BoxFit.cover,
-                      imageUrl: (selfProfileData!.data!.profileImages != null &&
-                              selfProfileData.data!.profileImages!.isNotEmpty)
+                      imageUrl: (selfProfileData?.data?.profileImages != null &&
+                              selfProfileData!.data!.profileImages!.isNotEmpty)
                           ? selfProfileData.data?.profileImages![0] ??
                               errorImageUrl
                           : errorImageUrl,
@@ -131,7 +133,7 @@ class UserProfileScreen extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              selfProfileData.data?.name ?? '',
+                              selfProfileData?.data?.name ?? '',
                               style: GoogleFonts.roboto(
                                 fontSize: largeFontSize,
                                 color: whiteColor,
@@ -141,7 +143,7 @@ class UserProfileScreen extends ConsumerWidget {
                             12.hGap,
                             Text(
                               calculateAge(
-                                  selfProfileData.data?.birthdate ?? ''),
+                                  selfProfileData?.data?.birthdate ?? ''),
                               style: GoogleFonts.roboto(
                                 fontSize: mediumLargeFontSize,
                                 color: whiteColor,

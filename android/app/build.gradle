@@ -27,7 +27,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.moc.phoo_sar"
+    namespace = "com.moc.phoosar"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -37,9 +37,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.moc.phoo_sar"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        applicationId = "com.moc.phoosar"
+        minSdk = 21
+        targetSdk = 33
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
@@ -52,6 +52,12 @@ android {
         }
     }
 }
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+}
+
 
 flutter {
     source = "../.."

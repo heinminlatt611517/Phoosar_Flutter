@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
@@ -55,30 +56,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   PhoneNumber phone = PhoneNumber(isoCode: 'MM');
   TextEditingController _phoneController = TextEditingController();
   bool isLoading = false;
-  late final StreamSubscription<AuthState> authSubscription;
   String? recentOnBoarding;
   bool haveNavigated = false;
+  String? recentOnboardingStatus;
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Listen to auth state to redirect user when the user clicks on confirmation link
-    authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      //final session = data.session;
-      saveSupabaseUserId(data);
-      // if (session != null && !haveNavigated) {
-      //   haveNavigated = true;
-      //   navigateToNextScreen(recentOnBoarding ?? '');
-      // }
-    });
   }
 
   Future<void> saveSupabaseUserId(AuthState data) async {
@@ -92,7 +78,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final session = data.session;
       if (session != null && !haveNavigated) {
         haveNavigated = true;
-        navigateToNextScreen(recentOnBoarding ?? '');
+        setState(() {
+          recentOnboardingStatus = recentOnBoarding ?? '';
+        });
+        navigateToNextScreen();
       }
     } else {
       // Handle error response
@@ -349,6 +338,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           .getProfile(jsonEncode({}), context);
       var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
       ref.read(selfProfileProvider.notifier).state = data;
+      setState(() {
+        recentOnboardingStatus = authResponse.recentOnBoarding ?? '';
+      });
 
       //Supabase Login
       try {
@@ -358,6 +350,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               : ('user' + e164PhoneNo + '@gmail.com'),
           password: passwordController.text,
         );
+        navigateToNextScreen();
       } on AuthException catch (error) {
         setState(() {
           _isLoading = false;
@@ -384,17 +377,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  navigateToNextScreen(String recentOnboardingStatus) {
+  navigateToNextScreen() {
     ref.invalidate(profilesProvider);
     ref.invalidate(profileProvider);
     ref.invalidate(roomsProvider);
     ref.invalidate(supabaseClientProvider);
+    ref
+        .watch(sharedPrefProvider)
+        .setString(kRecentOnboardingKey, recentOnboardingStatus ?? '');
     if (recentOnboardingStatus == kProfileStatus) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
       );
-    }
-    if (recentOnboardingStatus == kQuestionStatus) {
+    } else if (recentOnboardingStatus == kQuestionStatus) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => OnBoardingScreen()),
       );
@@ -425,11 +420,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       var avator = result!.photoUrl;
       var name = result.displayName;
       var email = result.email;
+      log(result.toString());
       result.authentication.then((googleKey) {
         loginWithSocialToken(
             googleKey.accessToken!, "google", avator ?? "", name ?? "", email);
-      }).catchError((err) {});
-    }).catchError((err) {});
+      }).catchError((err) {
+        log(err.toString());
+      });
+    }).catchError((err) {
+      log(err.toString());
+    });
+  }
+
+  supabaseSocialRegister(String email, String name) async {
+    // Supabase Register
+    try {
+      await supabase.auth.signUp(
+        email: email,
+        password: email,
+        data: {
+          'username': name,
+          'device_token': 'device_token',
+        },
+        emailRedirectTo: 'io.supabase.chat://login',
+      );
+      navigateToNextScreen();
+    } on AuthException catch (error) {
+      debugPrint(error.toString());
+      context.showErrorSnackBar(message: error.message);
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+      context.showErrorSnackBar(message: unexpectedErrorMessage);
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   facebookSignIn(BuildContext context) async {
@@ -479,16 +516,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString(kTokenKey, authResponse.token ?? '');
-      navigateToNextScreen(authResponse.recentOnBoarding ?? '');
+
+      if (authResponse.type == "old") {
+        setState(() {
+          recentOnboardingStatus = authResponse.recentOnBoarding ?? '';
+        });
+        supabaseSocialLogin(email);
+      } else {
+        setState(() {
+          recentOnboardingStatus = kProfileStatus;
+        });
+        supabaseSocialRegister(email, sanitizedName);
+      }
     }
   }
 
-  supabaseLogin() async {
+  supabaseSocialLogin(String email) async {
     try {
       await supabase.auth.signInWithPassword(
-        email: emailController.text,
-        password: passwordController.text,
+        email: email,
+        password: email,
       );
+      navigateToNextScreen();
     } on AuthException catch (error) {
       setState(() {
         _isLoading = false;

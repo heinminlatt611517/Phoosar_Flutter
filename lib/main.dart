@@ -65,7 +65,15 @@ void registerErrorHandlers() {
         backgroundColor: Colors.red,
         title: Text('An error occurred'),
       ),
-      body: Center(child: Text(details.toString())),
+      body: Center(
+        child: SingleChildScrollView(
+          // Added to provide bounded constraints
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(details.toString()),
+          ),
+        ),
+      ),
     );
   };
 }
