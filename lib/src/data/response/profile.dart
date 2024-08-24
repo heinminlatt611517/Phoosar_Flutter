@@ -19,6 +19,7 @@ class ProfileData {
   List<String>? interests;
   List<MoreDetails>? moreDetails;
   List<String>? profileImages;
+  List<UploadPhotoData>? uploadPhotoData;
 
   ProfileData(
       {this.id,
@@ -40,7 +41,8 @@ class ProfileData {
       this.speakLanguages,
       this.interests,
       this.moreDetails,
-      this.profileImages});
+      this.profileImages,
+      this.uploadPhotoData});
 
   ProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +67,12 @@ class ProfileData {
       moreDetails = <MoreDetails>[];
       json['more_details'].forEach((v) {
         moreDetails!.add(new MoreDetails.fromJson(v));
+      });
+    }
+    if (json['uploadPhotoData'] != null) {
+      uploadPhotoData = <UploadPhotoData>[];
+      json['uploadPhotoData'].forEach((v) {
+        uploadPhotoData!.add(new UploadPhotoData.fromJson(v));
       });
     }
     profileImages = json['profile_images'].cast<String>();
@@ -93,6 +101,10 @@ class ProfileData {
     if (this.moreDetails != null) {
       data['more_details'] = this.moreDetails!.map((v) => v.toJson()).toList();
     }
+    if (this.uploadPhotoData != null) {
+      data['uploadPhotoData'] =
+          this.uploadPhotoData!.map((v) => v.toJson()).toList();
+    }
     data['profile_images'] = this.profileImages;
     return data;
   }
@@ -119,3 +131,26 @@ class MoreDetails {
     return data;
   }
 }
+class UploadPhotoData {
+  String? id;
+  String? url;
+  bool? canUpload;
+
+  UploadPhotoData({this.id, this.url, this.canUpload});
+
+  UploadPhotoData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    url = json['url'];
+    canUpload = json['can_upload'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['url'] = this.url;
+    data['can_upload'] = this.canUpload;
+    return data;
+  }
+}
+
+

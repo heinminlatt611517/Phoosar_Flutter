@@ -38,10 +38,10 @@ class UnlockDailog extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.heart_broken,
-                      size: 24,
-                      color: Colors.red,
+                    Image.asset(
+                      'assets/images/coin.png',
+                      height: 16,
+                      fit: BoxFit.cover,
                     ),
                     4.hGap,
                     Text(

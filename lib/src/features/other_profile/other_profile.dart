@@ -29,8 +29,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            OtherUserProfileSlider(
-              profileImages: widget.findData.profileImages ?? [],
+            Stack(
+              children: [
+                OtherUserProfileSlider(
+                  profileImages: widget.findData.profileImages ?? [],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,top: 40),
+                  child: InkWell(
+                      onTap: (){ Navigator.of(context).pop();},
+                      child: Icon(Icons.arrow_back,color: Colors.grey.withOpacity(0.5),size: 40,)),
+                )
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(16),

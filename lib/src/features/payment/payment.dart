@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/data/response/payment_success_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen(
@@ -46,7 +47,9 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whitePaleColor,
       appBar: AppBar(
+        backgroundColor: whitePaleColor,
         title: Text('Payment'),
       ),
       body: Center(

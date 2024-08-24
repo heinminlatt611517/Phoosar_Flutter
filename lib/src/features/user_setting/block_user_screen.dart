@@ -1,17 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
-import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
-import '../../common/widgets/icon_button.dart';
 import '../../utils/colors.dart';
 
-class BlockUserScreen extends StatelessWidget {
+class BlockUserScreen extends ConsumerStatefulWidget {
   const BlockUserScreen({super.key});
 
   @override
+  ConsumerState<BlockUserScreen> createState() => _BlockUserScreenState();
+}
+
+class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
+  @override
   Widget build(BuildContext context) {
+    var blockUserData = ref.watch(blockedUserDataProvider(context));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -20,42 +27,43 @@ class BlockUserScreen extends StatelessWidget {
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
-      body: GridView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(12),
-        itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: CachedNetworkImage(
-                  fit: BoxFit.contain,
-                    imageUrl:
-                        'https://reputationtoday.in/wp-content/uploads/2019/11/110-1102775_download-empty-profile-hd-png-download.jpg',
-                    errorWidget: (context, url, error) => Image.network(
-                        errorImageUrl)),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: IntrinsicHeight(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-                    padding: EdgeInsets.symmetric(horizontal: kMarginMedium,vertical: kMarginSmall),
-                    decoration: BoxDecoration(color: Colors.pinkAccent,borderRadius: BorderRadius.circular(12),),
-                    child: Center(child: Text('Unlock',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),),
-                  ),
+      body:blockUserData.when(data: (data){
+        return GridView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(12),
+          itemBuilder: (context, index) {
+            return Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                      fit: BoxFit.contain,
+                      imageUrl: data[index].profile?.profileImages?[0] ?? errorImageUrl,
+                      errorWidget: (context, url, error) => Image.network(
+                          errorImageUrl)),
                 ),
-              )
-            ],
-          );
-        },
-        itemCount: 6,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, // number of items in each row
-          mainAxisSpacing: 20.0,
-          crossAxisSpacing: 12,
-        ),
-      ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: IntrinsicHeight(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+                      padding: EdgeInsets.symmetric(horizontal: kMarginMedium,vertical: kMarginSmall),
+                      decoration: BoxDecoration(color: Colors.pinkAccent,borderRadius: BorderRadius.circular(12),),
+                      child: Center(child: Text('Unlock',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+          itemCount: data.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3, // number of items in each row
+            mainAxisSpacing: 20.0,
+            crossAxisSpacing: 12,
+          ),
+        );
+      }, error: (error,stack)=>Container(), loading: () => SpinKitThreeBounce(color: Colors.pinkAccent,))
     );
   }
 }

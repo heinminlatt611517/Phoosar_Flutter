@@ -337,4 +337,24 @@ class Repository {
     return response;
   }
 
+  Future<Response> deleteUploadPhoto(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/delete-profile-photo"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> uploadPhoto(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/upload-profile-photo"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

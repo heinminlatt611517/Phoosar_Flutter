@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/heart_count.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -44,7 +45,7 @@ class RewindRow extends StatelessWidget {
           ),
           Row(
             children: [
-              HeartCount(heartCount: heartCount),
+              CoinCount(coinCount: heartCount),
               10.hGap,
               InkWell(
                 onTap: () {

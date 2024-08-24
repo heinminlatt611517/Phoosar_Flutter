@@ -1,14 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/common/widgets/selectable_button.dart';
 import 'package:phoosar/src/data/dummy_data/upload_photo_data.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
+import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_coin_dialog.dart';
 import 'package:phoosar/src/features/user_profile/add_interests_screen.dart';
 import 'package:phoosar/src/features/user_profile/more_details_screen.dart';
@@ -22,6 +28,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/drop_down_widget.dart';
+import '../../common/widgets/select_photo_options_widget.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
 import 'more_details_writing_prompt_screen.dart';
@@ -53,6 +60,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     years.insert(0, 'Year');
   }
 
+  ///cropImage
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      uiSettings: [
+        AndroidUiSettings(
+            hideBottomControls: true,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+      ],
+    );
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
   @override
   Widget build(BuildContext context) {
     var profileData = ref.watch(profileDataProvider(context));
@@ -76,20 +98,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 shrinkWrap: true,
                 padding: EdgeInsets.all(12),
                 itemBuilder: (context, index) {
-                  if (uploadPhotoData[index]['can_upload'] == true) {
-                    return uploadPhotoData[index]['url'].toString() == "" ?
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                        color: greyColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child:Icon(
-                          Icons.add,
-                          color: blackColor,
-                          size: 24,
-                        )
+                  if (data?.uploadPhotoData?[index].canUpload == true) {
+                    return data?.uploadPhotoData?[index].url.toString() == "" ?
+                    InkWell(
+                      onTap: (){
+                        showChooseImageBottomSheet(context, data, index);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: greyColor,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child:Icon(
+                            Icons.add,
+                            color: blackColor,
+                            size: 24,
+                          )
+                        ),
                       ),
                     )
                         :Stack(
@@ -100,8 +127,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedNetworkImage(
                                     height: 200,
+                                      width: double.infinity,
                                       fit: BoxFit.cover,
-                                    imageUrl: uploadPhotoData[index]['url'].toString(),
+                                    imageUrl: data?.uploadPhotoData?[index].url.toString() ?? "",
                                     errorWidget: (context, url, error) =>
                                        Image.network(errorImageUrl)
                                   ),
@@ -110,7 +138,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               Align(
                                 alignment: Alignment.bottomCenter,
                                 child: CommonIconButton(
-                                  onTap: () {},
+                                  onTap: () async{
+                                    var request = {
+                                      "image_id": data?.uploadPhotoData?[index].id.toString()
+                                    };
+                                    var response =
+                                        await ref.read(repositoryProvider).deleteUploadPhoto(request, context);
+                                    if (response.statusCode.toString().startsWith('2')) {
+                                      ref.invalidate(profileDataProvider);
+                                    }
+                                  },
                                   backgroundColor: blueColor,
                                   icon: Icon(
                                     Icons.delete,
@@ -147,7 +184,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     );
                   }
                 },
-                itemCount: uploadPhotoData.length,
+                itemCount: data?.uploadPhotoData?.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, // number of items in each row
                   mainAxisSpacing: 8.0, // spacing between rows
@@ -730,5 +767,56 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             ),
           );
         }));
+  }
+
+  void showChooseImageBottomSheet(BuildContext context, ProfileData? data, int index) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10.0),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          initialChildSize: 0.28,
+          maxChildSize: 0.4,
+          minChildSize: 0.28,
+          expand: false,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: SelectPhotoOptionsWidget(
+                onTap: (source) async {
+                  Navigator.of(context).pop();
+                  try {
+                    final image = await ImagePicker(
+                      // imageQuality: 25,
+                    )
+                        .pickImage(
+                      source: source,
+                    );
+                    if (image == null) return;
+                    File? img = File(image.path);
+                    img = await _cropImage(imageFile: img);
+                    var base64ImageString =  base64Encode(
+                        File(image.path).readAsBytesSync());
+                    var request = {
+                      "image_id": data?.uploadPhotoData?[index].id.toString(),
+                      "image_data" : base64ImageString
+                    };
+                    var response =
+                    await ref.read(repositoryProvider).uploadPhoto(request, context);
+                    if (response.statusCode.toString().startsWith('2')) {
+                      ref.invalidate(profileDataProvider);
+                    }
+                  } catch (e) {
+                    debugPrint(e.toString());
+                  }
+                },
+              ),
+            );
+          }),
+    );
   }
 }

@@ -64,11 +64,11 @@ class GetMoreCoinsDialog extends ConsumerWidget {
             20.vGap,
             Center(
               child: Text(
-                'UNLIMITED Hearts',
+                'UNLIMITED Coins',
                 style: GoogleFonts.roboto(
                   fontSize: largeFontSize,
-                  color: blueColor,
-                  fontWeight: FontWeight.w400,
+                  color: Colors.pinkAccent,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -76,6 +76,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
+                bgColor: Colors.pinkAccent,
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMINUM",
                 onTap: () {

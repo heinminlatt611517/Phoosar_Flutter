@@ -61,11 +61,11 @@ class GetMoreLikesDialog extends ConsumerWidget {
             20.vGap,
             Center(
               child: Text(
-                'UNLIMITED',
+                'UNLIMITED Likes',
                 style: GoogleFonts.roboto(
                   fontSize: largeFontSize,
-                  color: blueColor,
-                  fontWeight: FontWeight.w400,
+                  color: Colors.pinkAccent,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -73,6 +73,7 @@ class GetMoreLikesDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
+                bgColor: Colors.pinkAccent,
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMINUM",
                 onTap: () {},

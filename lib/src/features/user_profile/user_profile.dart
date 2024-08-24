@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -87,15 +88,14 @@ class UserProfileScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
                   children: [
-                    Image.network(
-                      (selfProfileData!.data!.profileImages != null &&
-                              selfProfileData.data!.profileImages!.isNotEmpty)
-                          ? selfProfileData.data?.profileImages![0] ??
-                              errorImageUrl
-                          : errorImageUrl,
+                    CachedNetworkImage(
                       width: MediaQuery.of(context).size.width - 32,
                       height: MediaQuery.of(context).size.height * 0.5,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.cover, imageUrl: (selfProfileData!.data!.profileImages != null &&
+                        selfProfileData.data!.profileImages!.isNotEmpty)
+                        ? selfProfileData.data?.profileImages![0] ??
+                        errorImageUrl
+                        : errorImageUrl,
                     ),
                     Positioned(
                       bottom: 0,

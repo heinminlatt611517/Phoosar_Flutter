@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 class WhatsNewScreen extends ConsumerWidget {
   const WhatsNewScreen({super.key});
@@ -9,8 +10,11 @@ class WhatsNewScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var whatsNewList = ref.watch(whatsNewProvider(context));
     return Scaffold(
+      backgroundColor: whitePaleColor,
       appBar: AppBar(
+        backgroundColor: whitePaleColor,
         title: Text('What\'s New'),
+        centerTitle: true,
       ),
       body: whatsNewList.when(
         data: (data) => SingleChildScrollView(

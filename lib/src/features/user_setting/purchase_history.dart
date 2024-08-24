@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class PurchaseHistory extends ConsumerWidget {
@@ -10,8 +11,11 @@ class PurchaseHistory extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var purchaseHistory = ref.watch(purchaseHistoryProvider(context));
     return Scaffold(
+      backgroundColor: whitePaleColor,
       appBar: AppBar(
+        backgroundColor: whitePaleColor,
         title: Text('Purchase History'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

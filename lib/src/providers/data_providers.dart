@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/data/request/city_request.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/request/question_save_request.dart';
+import 'package:phoosar/src/data/response/blocked_list_response.dart';
 import 'package:phoosar/src/data/response/city_list_response.dart';
 import 'package:phoosar/src/data/response/country_list_response.dart';
 import 'package:phoosar/src/data/response/find_list_response.dart';
@@ -216,6 +217,17 @@ final moreDetailsQuestionListProvider =
         [];
   } else {
     throw Exception('Failed to load whats new');
+  }
+});
+
+final blockedUserDataProvider =
+FutureProvider.family<List<BlockUserData>, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.blockedProfilesList(jsonEncode({}), context);
+  if (response.statusCode == 200) {
+    return BlockedListResponse.fromJson(jsonDecode(response.body)).data ?? [];
+  } else {
+    throw Exception('Failed to load profile data');
   }
 });
 

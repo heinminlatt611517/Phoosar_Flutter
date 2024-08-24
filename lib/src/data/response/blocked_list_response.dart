@@ -3,7 +3,7 @@ import 'package:phoosar/src/data/response/profile.dart';
 class BlockedListResponse {
   int? status;
   String? message;
-  List<Data>? data;
+  List<BlockUserData>? data;
 
   BlockedListResponse({this.status, this.message, this.data});
 
@@ -11,9 +11,9 @@ class BlockedListResponse {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <BlockUserData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new BlockUserData.fromJson(v));
       });
     }
   }
@@ -29,7 +29,7 @@ class BlockedListResponse {
   }
 }
 
-class Data {
+class BlockUserData {
   int? id;
   ProfileData? profile;
   int? mTime;
@@ -39,7 +39,7 @@ class Data {
   String? createdAt;
   String? updatedAt;
 
-  Data(
+  BlockUserData(
       {this.id,
       this.profile,
       this.mTime,
@@ -49,7 +49,7 @@ class Data {
       this.createdAt,
       this.updatedAt});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  BlockUserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     profile = json['profile'] != null
         ? new ProfileData.fromJson(json['profile'])
