@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -44,40 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDSni1VyCXVd-JuNpq9VMS0Byqy-6GKpnw',
-    appId: '1:98376363970:web:5e72e7175228f64197f05b',
-    messagingSenderId: '98376363970',
-    projectId: 'newsdev-7afbf',
-    authDomain: 'newsdev-7afbf.firebaseapp.com',
-    storageBucket: 'newsdev-7afbf.appspot.com',
-    measurementId: 'G-3WHSTK9YEP',
+    apiKey: 'AIzaSyCoxd1jA0dOo3MVNmrN36f756Aj8ukWEsE',
+    appId: '1:386971559769:web:0c59ab7c0a1ad24a344e48',
+    messagingSenderId: '386971559769',
+    projectId: 'phoo-sar',
+    authDomain: 'phoo-sar.firebaseapp.com',
+    storageBucket: 'phoo-sar.appspot.com',
+    measurementId: 'G-68XD8X4HZG',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAm-Gdrmqi9_DdX4YiC6FMTSgZ1p9bhDn4',
-    appId: '1:98376363970:android:ed15c25ff9d0b40f97f05b',
-    messagingSenderId: '98376363970',
-    projectId: 'newsdev-7afbf',
-    storageBucket: 'newsdev-7afbf.appspot.com',
+    apiKey: 'AIzaSyCYyH5MLyZWaaFBnMMxA8V8XDR0zIIFoo0',
+    appId: '1:386971559769:android:51e542450bc94ce1344e48',
+    messagingSenderId: '386971559769',
+    projectId: 'phoo-sar',
+    storageBucket: 'phoo-sar.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB3yLgf1Wb_QauxC3jn7KITTjXbJoo8cuQ',
-    appId: '1:98376363970:ios:c6a8124003eaa7f697f05b',
-    messagingSenderId: '98376363970',
-    projectId: 'newsdev-7afbf',
-    storageBucket: 'newsdev-7afbf.appspot.com',
-    iosClientId: '98376363970-rhbkts7ddqbi09g9n2hp29v2n7bd8q8h.apps.googleusercontent.com',
-    iosBundleId: 'com.moc.phoosar',
+    apiKey: 'AIzaSyAvBFP32svo3Sn_tuOhV3_jutB0FnMRFv4',
+    appId: '1:386971559769:ios:5fbc19bbdd467ae0344e48',
+    messagingSenderId: '386971559769',
+    projectId: 'phoo-sar',
+    storageBucket: 'phoo-sar.appspot.com',
+    iosBundleId: 'com.moc.phoo-sar',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB3yLgf1Wb_QauxC3jn7KITTjXbJoo8cuQ',
-    appId: '1:98376363970:ios:71e21902d989728d97f05b',
-    messagingSenderId: '98376363970',
-    projectId: 'newsdev-7afbf',
-    storageBucket: 'newsdev-7afbf.appspot.com',
-    iosClientId: '98376363970-ocr9h4gjg8ku7tss2o34ckah601rmrb2.apps.googleusercontent.com',
-    iosBundleId: 'com.moc.phoosar.RunnerTests',
+    apiKey: 'AIzaSyAvBFP32svo3Sn_tuOhV3_jutB0FnMRFv4',
+    appId: '1:386971559769:ios:2cbcdabaf90b5d76344e48',
+    messagingSenderId: '386971559769',
+    projectId: 'phoo-sar',
+    storageBucket: 'phoo-sar.appspot.com',
+    iosBundleId: 'com.moc.phoosar',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCoxd1jA0dOo3MVNmrN36f756Aj8ukWEsE',
+    appId: '1:386971559769:web:fdc431d22e711bd0344e48',
+    messagingSenderId: '386971559769',
+    projectId: 'phoo-sar',
+    authDomain: 'phoo-sar.firebaseapp.com',
+    storageBucket: 'phoo-sar.appspot.com',
+    measurementId: 'G-85819QG86N',
+  );
+
 }

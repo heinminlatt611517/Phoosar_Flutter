@@ -142,8 +142,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               ),
                               CommonIconButton(
                                 onTap: () async {
-                                  increaseSwipeCount(data.length);
-
                                   var response = await ref
                                       .read(repositoryProvider)
                                       .saveProfileReact(
@@ -166,18 +164,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                       builder: (context) =>
                                           GetMoreLikesDialog(),
                                     );
-                                  } else if (profileReactResponse
-                                          .data?.matchData !=
-                                      null) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MatchScreen(
-                                          matchProfileData: profileReactResponse
-                                              .data?.matchData,
+                                  } else {
+                                    increaseSwipeCount(data.length);
+                                    if (profileReactResponse.data?.matchData !=
+                                        null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MatchScreen(
+                                            matchProfileData:
+                                                profileReactResponse
+                                                    .data?.matchData,
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    }
                                   }
                                 },
                                 icon: Image.asset(

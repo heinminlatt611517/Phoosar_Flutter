@@ -86,7 +86,6 @@ class _UploadProfileImageScreenState
                     text: AppLocalizations.of(context)!.kContinueLabel,
                     fontSize: 18,
                     onTap: () async {
-                      base64ImageString = "test";
                       if (base64ImageString == "") {
                         context.showErrorSnackBar(
                             message:

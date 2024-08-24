@@ -3,6 +3,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'common_button.dart';
 import 'common_dialog.dart';
 import 'package:sized_context/sized_context.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String? message;
@@ -19,7 +20,7 @@ class ErrorDialog extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 20,
           ),
           Padding(
             padding:
@@ -31,7 +32,7 @@ class ErrorDialog extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 42,
+            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -39,7 +40,8 @@ class ErrorDialog extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CommonButton(
-                  text: "Ok",
+                  containerHPadding: 40,
+                  text: AppLocalizations.of(context)!.kOkLabel,
                   bgColor: Colors.red,
                   onTap: () {
                     Navigator.pop(context);

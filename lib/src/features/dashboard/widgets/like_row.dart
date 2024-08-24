@@ -4,6 +4,8 @@ import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LikeRow extends StatelessWidget {
   const LikeRow({super.key, required this.likeCount, required this.heartCount,required this.buyId});
@@ -77,7 +79,7 @@ class LikeRow extends StatelessWidget {
                           UnlockDailog(heartCount: heartCount,buyId: buyId,));
                 },
                 child: Text(
-                  'UNLOCK',
+                  AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                   style: GoogleFonts.roboto(
                     fontSize: mediumFontSize,
                     color: blueColor,

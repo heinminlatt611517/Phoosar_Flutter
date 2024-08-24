@@ -1,4 +1,4 @@
-package com.moc.phoosar
+package com.moc.phoo_sar
 
 import io.flutter.embedding.android.FlutterActivity
 

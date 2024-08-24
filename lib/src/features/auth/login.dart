@@ -57,6 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool isLoading = false;
   late final StreamSubscription<AuthState> authSubscription;
   String? recentOnBoarding;
+  bool haveNavigated = false;
 
   @override
   void dispose() {
@@ -69,15 +70,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void initState() {
     super.initState();
 
-    bool haveNavigated = false;
     // Listen to auth state to redirect user when the user clicks on confirmation link
     authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      //final session = data.session;
+      saveSupabaseUserId(data);
+      // if (session != null && !haveNavigated) {
+      //   haveNavigated = true;
+      //   navigateToNextScreen(recentOnBoarding ?? '');
+      // }
+    });
+  }
+
+  Future<void> saveSupabaseUserId(AuthState data) async {
+    var response = await ref.read(repositoryProvider).saveSupabaseUserId(
+      {
+        "supabase_user_id": data.session!.user.id.toString(),
+      },
+      context,
+    );
+    if (response.statusCode.toString().startsWith("2")) {
       final session = data.session;
       if (session != null && !haveNavigated) {
         haveNavigated = true;
         navigateToNextScreen(recentOnBoarding ?? '');
       }
-    });
+    } else {
+      // Handle error response
+    }
   }
 
   @override
@@ -331,35 +350,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
       ref.read(selfProfileProvider.notifier).state = data;
 
-      // To Add Supabase Login
-      // try {
-      //   await supabase.auth.signInWithPassword(
-      //     email: selectedText == "Email"
-      //         ? emailController.text.toString()
-      //         : ('user' + e164PhoneNo + '@gmail.com'),
-      //     password: passwordController.text,
-      //   );
-      // } on AuthException catch (error) {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      //   context.showErrorSnackBar(message: error.message);
-      // } catch (_) {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      //   context.showErrorSnackBar(message: unexpectedErrorMessage);
-      // }
-      // if (mounted) {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      // }
-      // setState(() {
-      //   recentOnBoarding = authResponse.recentOnBoarding;
-      // });
-
-      navigateToNextScreen(authResponse.recentOnBoarding ?? '');
+      //Supabase Login
+      try {
+        await supabase.auth.signInWithPassword(
+          email: selectedText == "Email"
+              ? emailController.text.toString()
+              : ('user' + e164PhoneNo + '@gmail.com'),
+          password: passwordController.text,
+        );
+      } on AuthException catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
+        context.showErrorSnackBar(message: error.message);
+      } catch (_) {
+        setState(() {
+          _isLoading = false;
+        });
+        context.showErrorSnackBar(message: unexpectedErrorMessage);
+      }
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+      setState(() {
+        recentOnBoarding = authResponse.recentOnBoarding;
+      });
     } else {
       setState(() {
         _isLoading = false;

@@ -51,7 +51,8 @@ class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
               Text(
                 AppLocalizations.of(context)!
                     .kAnswerFollowingQuestionToFindPerfectMatch,
-                style: TextStyle(color: Colors.black, fontSize: kTextSmall),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black, fontSize: kTextRegular),
               ),
 
               120.vGap,

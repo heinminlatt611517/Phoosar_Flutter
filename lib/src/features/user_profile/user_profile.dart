@@ -34,9 +34,12 @@ class UserProfileScreen extends ConsumerWidget {
               MediaQuery.of(context).padding.top.vGap,
               Center(
                 child: Image.asset(
-                  'assets/images/ic_launcher.png',
-                  width: 42,
-                ),
+                (selfProfileData!.data!.isPremium ?? false)
+                    ? 'assets/images/ic_premium_launcher.png'
+                    : 'assets/images/ic_launcher.png',
+                width: (selfProfileData.data!.isPremium ?? false) ? 60 : 42,
+                fit: BoxFit.fill,
+              ),
               ),
               12.vGap,
               Divider(
@@ -66,7 +69,9 @@ class UserProfileScreen extends ConsumerWidget {
                         ),
                         12.hGap,
                         CoinCount(
-                          coinCount: '200',
+                          coinCount: selfProfileData != null
+                              ? (selfProfileData.data!.pointTotal.toString())
+                              : "0",
                           backgroundColor: greyColor,
                         ),
                       ],
@@ -91,11 +96,12 @@ class UserProfileScreen extends ConsumerWidget {
                     CachedNetworkImage(
                       width: MediaQuery.of(context).size.width - 32,
                       height: MediaQuery.of(context).size.height * 0.5,
-                      fit: BoxFit.cover, imageUrl: (selfProfileData!.data!.profileImages != null &&
-                        selfProfileData.data!.profileImages!.isNotEmpty)
-                        ? selfProfileData.data?.profileImages![0] ??
-                        errorImageUrl
-                        : errorImageUrl,
+                      fit: BoxFit.cover,
+                      imageUrl: (selfProfileData!.data!.profileImages != null &&
+                              selfProfileData.data!.profileImages!.isNotEmpty)
+                          ? selfProfileData.data?.profileImages![0] ??
+                              errorImageUrl
+                          : errorImageUrl,
                     ),
                     Positioned(
                       bottom: 0,

@@ -49,19 +49,16 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
   ///Email or Phone number
   String selectedText = "Email";
   late final StreamSubscription<AuthState> authSubscription;
+  bool haveNavigated = false;
 
   @override
   void initState() {
     super.initState();
     errorController = StreamController<ErrorAnimationType>();
-    bool haveNavigated = false;
+
     // Listen to auth state to redirect user when the user clicks on confirmation link
     authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      final session = data.session;
-      if (session != null && !haveNavigated) {
-        haveNavigated = true;
-        navigateToNextScreen();
-      }
+      saveSupabaseUserId(data);
     });
   }
 
@@ -70,6 +67,24 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
     super.dispose();
 
     errorController?.close();
+  }
+
+  Future<void> saveSupabaseUserId(AuthState data) async {
+    var response = await ref.read(repositoryProvider).saveSupabaseUserId(
+      {
+        "supabase_user_id": data.session!.user.id.toString(),
+      },
+      context,
+    );
+    if (response.statusCode.toString().startsWith("2")) {
+      final session = data.session;
+      if (session != null && !haveNavigated) {
+        haveNavigated = true;
+        navigateToNextScreen();
+      }
+    } else {
+      // Handle error response
+    }
   }
 
   @override
@@ -126,7 +141,8 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                       text: AppLocalizations.of(context)!.kConfirmLabel,
                       fontSize: 18,
                       onTap: () {
-                        _signUp();
+                        supabaseRegister();
+                        //_signUp();
                       },
                       bgColor: Colors.lightBlueAccent,
                     ),
@@ -207,48 +223,51 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
       var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
       ref.read(selfProfileProvider.notifier).state = data;
 
-      // Supabase Register
-      // try {
-      //   await supabase.auth.signUp(
-      //     email: widget.type == "email"
-      //         ? widget.email
-      //         : ('user' + widget.phoneNumber + '@gmail.com'),
-      //     password: password,
-      //     data: {
-      //       'username': widget.userName,
-      //       'device_token': 'device_token',
-      //     },
-      //     emailRedirectTo: 'io.supabase.chat://login',
-      //   );
-      // } on AuthException catch (error) {
-      //   context.showErrorSnackBar(message: error.message);
-      //   if (mounted) {
-      //     setState(() {
-      //       isLoading = false;
-      //     });
-      //   }
-      // } catch (error) {
-      //   debugPrint(error.toString());
-      //   context.showErrorSnackBar(message: unexpectedErrorMessage);
-      //   if (mounted) {
-      //     setState(() {
-      //       isLoading = false;
-      //     });
-      //   }
-      // }
-      // if (mounted) {
-      //   setState(() {
-      //     isLoading = false;
-      //   });
-      // }
-
-      navigateToNextScreen();
+      // navigateToNextScreen();
     } else {
       if (mounted) {
         setState(() {
           isLoading = false;
         });
       }
+    }
+  }
+
+  supabaseRegister() async {
+    // Supabase Register
+    try {
+      await supabase.auth.signUp(
+        email: widget.type == "email"
+            ? widget.email
+            : ('user' + widget.phoneNumber + '@gmail.com'),
+        password: _passwordController.text,
+        data: {
+          'username': widget.userName,
+          'device_token': 'device_token',
+        },
+        emailRedirectTo: 'io.supabase.chat://login',
+      );
+    } on AuthException catch (error) {
+      debugPrint(error.toString());
+      context.showErrorSnackBar(message: error.message);
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+      context.showErrorSnackBar(message: unexpectedErrorMessage);
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 

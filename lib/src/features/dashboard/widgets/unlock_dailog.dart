@@ -9,6 +9,7 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UnlockDailog extends ConsumerWidget {
   const UnlockDailog(
@@ -19,7 +20,7 @@ class UnlockDailog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return CommonDialog(
-      title: 'Unlock Feature',
+      title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -59,8 +60,10 @@ class UnlockDailog extends ConsumerWidget {
             20.vGap,
             InkWell(
               onTap: () async {
+                //Navigator.pop(context);
                 var response = await ref.watch(repositoryProvider).buyWithPoint(
                     jsonEncode({"point_buying_id": buyId}), context);
+
                 if (response.statusCode.toString().startsWith("2")) {
                   Navigator.pop(context);
                   showDialog(
@@ -69,7 +72,7 @@ class UnlockDailog extends ConsumerWidget {
                 }
               },
               child: Text(
-                'UNLOCK',
+                AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
                   color: blueColor,
