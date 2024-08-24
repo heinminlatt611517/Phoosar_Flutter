@@ -65,6 +65,16 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     }
   }
 
+  Future<void> deleteAllMessages() async {
+    final client = _ref.read(supabaseClientProvider);
+    try {
+      await client.from('messages').delete().eq('room_id', _roomId);
+      state = const AsyncValue.data([]);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
   @override
   void dispose() {
     _messagesSubscription?.cancel();
