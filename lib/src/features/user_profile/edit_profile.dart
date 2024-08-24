@@ -15,6 +15,7 @@ import 'package:phoosar/src/common/widgets/selectable_button.dart';
 import 'package:phoosar/src/data/dummy_data/upload_photo_data.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
+import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_coin_dialog.dart';
 import 'package:phoosar/src/features/user_profile/add_interests_screen.dart';
 import 'package:phoosar/src/features/user_profile/more_details_screen.dart';
@@ -33,7 +34,6 @@ import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
 import 'more_details_writing_prompt_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -81,7 +81,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: whitePaleColor,
-          title: Text(AppLocalizations.of(context)!.kEditProfileLowerCase,),
+          title: Text(
+            AppLocalizations.of(context)!.kEditProfileLowerCase,
+          ),
           centerTitle: true,
         ),
         backgroundColor: whitePaleColor,
@@ -99,52 +101,58 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 padding: EdgeInsets.all(12),
                 itemBuilder: (context, index) {
                   if (data?.uploadPhotoData?[index].canUpload == true) {
-                    return data?.uploadPhotoData?[index].url.toString() == "" ?
-                    InkWell(
-                      onTap: (){
-                        showChooseImageBottomSheet(context, data, index);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        decoration: BoxDecoration(
-                          color: greyColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                          child:Icon(
-                            Icons.add,
-                            color: blackColor,
-                            size: 24,
+                    return data?.uploadPhotoData?[index].url.toString() == ""
+                        ? InkWell(
+                            onTap: () {
+                              showChooseImageBottomSheet(context, data, index);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              decoration: BoxDecoration(
+                                color: greyColor,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Center(
+                                  child: Icon(
+                                Icons.add,
+                                color: blackColor,
+                                size: 24,
+                              )),
+                            ),
                           )
-                        ),
-                      ),
-                    )
-                        :Stack(
+                        : Stack(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedNetworkImage(
-                                    height: 200,
+                                      height: 200,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
-                                    imageUrl: data?.uploadPhotoData?[index].url.toString() ?? "",
-                                    errorWidget: (context, url, error) =>
-                                       Image.network(errorImageUrl)
-                                  ),
+                                      imageUrl: data
+                                              ?.uploadPhotoData?[index].url
+                                              .toString() ??
+                                          "",
+                                      errorWidget: (context, url, error) =>
+                                          Image.network(errorImageUrl)),
                                 ),
                               ),
                               Align(
                                 alignment: Alignment.bottomCenter,
                                 child: CommonIconButton(
-                                  onTap: () async{
+                                  onTap: () async {
                                     var request = {
-                                      "image_id": data?.uploadPhotoData?[index].id.toString()
+                                      "image_id": data
+                                          ?.uploadPhotoData?[index].id
+                                          .toString()
                                     };
-                                    var response =
-                                        await ref.read(repositoryProvider).deleteUploadPhoto(request, context);
-                                    if (response.statusCode.toString().startsWith('2')) {
+                                    var response = await ref
+                                        .read(repositoryProvider)
+                                        .deleteUploadPhoto(request, context);
+                                    if (response.statusCode
+                                        .toString()
+                                        .startsWith('2')) {
                                       ref.invalidate(profileDataProvider);
                                     }
                                   },
@@ -168,18 +176,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       ),
                       child: Center(
                         child: InkWell(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => UnlockCoinDialog(
-                                            coinCount: "10",
-                                          ));
-                                },
-                                child: CoinCount(
-                                  width: 80,
-                                  coinCount: '10',
-                                ),
-                              ),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => UnlockCoinDialog(
+                                      coinCount: "10",
+                                    ));
+                          },
+                          child: CoinCount(
+                            width: 80,
+                            coinCount: '10',
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -199,14 +207,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               SelfInformation(
                 title: AppLocalizations.of(context)!.kNameLabel,
                 description: data?.name ?? "",
-                onChangeDescription: (value) async{
+                onChangeDescription: (value) async {
                   var request = {"name": value};
                   var response = await ref
                       .read(repositoryProvider)
                       .saveProfile(request, context);
-                  if (response.statusCode
-                      .toString()
-                      .startsWith('2')) {
+                  if (response.statusCode.toString().startsWith('2')) {
                     ref.invalidate(profileDataProvider);
                   }
                 },
@@ -242,12 +248,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       Flexible(
                         child: DropDownWidget(
                             items: days,
-                            onSelect: (value) async{
+                            onSelect: (value) async {
                               var selectedDayBirthDate =
                                   "$value, ${DateFormat("MMMM").format(DateTime.parse(data?.birthdate))}, ${DateTime.parse(data?.birthdate).year.toString()}";
-                              var request = {"birthdate": DateFormat('yyyy-MM-dd').format(
-                                  DateFormat('d, MMMM, yyyy')
-                                      .parse(selectedDayBirthDate))};
+                              var request = {
+                                "birthdate": DateFormat('yyyy-MM-dd').format(
+                                    DateFormat('d, MMMM, yyyy')
+                                        .parse(selectedDayBirthDate))
+                              };
                               var response = await ref
                                   .read(repositoryProvider)
                                   .saveProfile(request, context);
@@ -266,12 +274,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       Flexible(
                         child: DropDownWidget(
                             items: months,
-                            onSelect: (value) async{
+                            onSelect: (value) async {
                               var selectedMonthBirthDate =
                                   "${DateTime.parse(data?.birthdate).day.toString()}, ${value}, ${DateTime.parse(data?.birthdate).year.toString()}";
-                              var request = {"birthdate": DateFormat('yyyy-MM-dd').format(
-                                  DateFormat('d, MMMM, yyyy')
-                                      .parse(selectedMonthBirthDate))};
+                              var request = {
+                                "birthdate": DateFormat('yyyy-MM-dd').format(
+                                    DateFormat('d, MMMM, yyyy')
+                                        .parse(selectedMonthBirthDate))
+                              };
                               var response = await ref
                                   .read(repositoryProvider)
                                   .saveProfile(request, context);
@@ -290,13 +300,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       Flexible(
                         child: DropDownWidget(
                             items: years,
-                            onSelect: (value) async{
+                            onSelect: (value) async {
                               var selectedMonthBirthDate =
-                                  "${DateTime.parse(data?.birthdate).day.toString()}, ${DateFormat("MMMM")
-                                  .format(DateTime.parse(data?.birthdate))}, ${value}";
-                              var request = {"birthdate": DateFormat('yyyy-MM-dd').format(
-                                  DateFormat('d, MMMM, yyyy')
-                                      .parse(selectedMonthBirthDate))};
+                                  "${DateTime.parse(data?.birthdate).day.toString()}, ${DateFormat("MMMM").format(DateTime.parse(data?.birthdate))}, ${value}";
+                              var request = {
+                                "birthdate": DateFormat('yyyy-MM-dd').format(
+                                    DateFormat('d, MMMM, yyyy')
+                                        .parse(selectedMonthBirthDate))
+                              };
                               var response = await ref
                                   .read(repositoryProvider)
                                   .saveProfile(request, context);
@@ -316,16 +327,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
-                title: '${AppLocalizations.of(context)!.kAboutLabel} ${data?.name ?? ""}',
+                title:
+                    '${AppLocalizations.of(context)!.kAboutLabel} ${data?.name ?? ""}',
                 description: data?.about ?? "",
-                onChangeDescription: (value) async{
+                onChangeDescription: (value) async {
                   var request = {"about": value};
                   var response = await ref
                       .read(repositoryProvider)
                       .saveProfile(request, context);
-                  if (response.statusCode
-                      .toString()
-                      .startsWith('2')) {
+                  if (response.statusCode.toString().startsWith('2')) {
                     ref.invalidate(profileDataProvider);
                   }
                 },
@@ -338,14 +348,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               SelfInformation(
                 title: AppLocalizations.of(context)!.kJobTitleLabel,
                 description: data?.jobTitle ?? "",
-                onChangeDescription: (value) async{
+                onChangeDescription: (value) async {
                   var request = {"job_title": value};
                   var response = await ref
                       .read(repositoryProvider)
                       .saveProfile(request, context);
-                  if (response.statusCode
-                      .toString()
-                      .startsWith('2')) {
+                  if (response.statusCode.toString().startsWith('2')) {
                     ref.invalidate(profileDataProvider);
                   }
                 },
@@ -358,14 +366,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               SelfInformation(
                 title: AppLocalizations.of(context)!.kSchoolLabel,
                 description: data?.school ?? "",
-                onChangeDescription: (value) async{
+                onChangeDescription: (value) async {
                   var request = {"school": value};
                   var response = await ref
                       .read(repositoryProvider)
                       .saveProfile(request, context);
-                  if (response.statusCode
-                      .toString()
-                      .startsWith('2')) {
+                  if (response.statusCode.toString().startsWith('2')) {
                     ref.invalidate(profileDataProvider);
                   }
                 },
@@ -769,7 +775,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         }));
   }
 
-  void showChooseImageBottomSheet(BuildContext context, ProfileData? data, int index) {
+  void showChooseImageBottomSheet(
+      BuildContext context, ProfileData? data, int index) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -791,24 +798,31 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   Navigator.of(context).pop();
                   try {
                     final image = await ImagePicker(
-                      // imageQuality: 25,
-                    )
+                            // imageQuality: 25,
+                            )
                         .pickImage(
                       source: source,
                     );
                     if (image == null) return;
                     File? img = File(image.path);
                     img = await _cropImage(imageFile: img);
-                    var base64ImageString =  base64Encode(
-                        File(image.path).readAsBytesSync());
+                    var base64ImageString =
+                        base64Encode(File(image.path).readAsBytesSync());
                     var request = {
                       "image_id": data?.uploadPhotoData?[index].id.toString(),
-                      "image_data" : base64ImageString
+                      "image_data": base64ImageString
                     };
-                    var response =
-                    await ref.read(repositoryProvider).uploadPhoto(request, context);
+                    var response = await ref
+                        .read(repositoryProvider)
+                        .uploadPhoto(request, context);
                     if (response.statusCode.toString().startsWith('2')) {
                       ref.invalidate(profileDataProvider);
+                      final profileRes = await ref
+                          .watch(repositoryProvider)
+                          .getProfile(jsonEncode({}), context);
+                      var data = SelfProfileResponse.fromJson(
+                          jsonDecode(profileRes.body));
+                      ref.read(selfProfileProvider.notifier).state = data;
                     }
                   } catch (e) {
                     debugPrint(e.toString());

@@ -357,4 +357,14 @@ class Repository {
     return response;
   }
 
+  Future<Response> saveSupabaseUserId(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/save-supabase-user-id"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

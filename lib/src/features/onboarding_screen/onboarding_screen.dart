@@ -68,7 +68,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                 /// Body view
                 Expanded(
                   child: AnimatedSwitcher(
-                    duration: const Duration(seconds: 1),
+                    duration: const Duration(milliseconds: 800),
                     child: Center(
                       child: PageView(
                         controller: _pageController,
@@ -185,7 +185,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
           } else {
             _pageController.animateToPage(
               index + 1,
-              duration: const Duration(seconds: 1),
+              duration: const Duration(milliseconds: 800),
               curve: Curves.easeInOut,
             );
           }

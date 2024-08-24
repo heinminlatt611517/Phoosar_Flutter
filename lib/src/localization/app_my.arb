@@ -89,5 +89,8 @@
       "kEditProfileLowerCase" : "Edit Profile",
       "kMatchesLabel" : "Matches",
          "kLikedYouLabel" : "Liked You",
-         "kLikedProfilesLabel" : "Liked Profiles"
+         "kLikedProfilesLabel" : "Liked Profiles",
+         "kUnlockLabel":"Unlock",
+   "kUnlockFeatureLabel":"Unlock Label",
+   "kOkLabel":"အိုကေ"
 }

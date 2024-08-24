@@ -6,6 +6,7 @@ import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/features/user_setting/purchase_history.dart';
 import 'package:phoosar/src/features/user_setting/whats_new.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -18,17 +19,21 @@ class UserSettingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var selfProfileData = ref.watch(selfProfileProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: whitePaleColor,
-        title: Text(AppLocalizations.of(context)!.kSettingLowerCaseLabel,),
+        title: Text(
+          AppLocalizations.of(context)!.kSettingLowerCaseLabel,
+        ),
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: kMarginMedium2,horizontal: kMarginMedium2),
+          padding: const EdgeInsets.symmetric(
+              vertical: kMarginMedium2, horizontal: kMarginMedium2),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,8 +50,10 @@ class UserSettingScreen extends ConsumerWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: kMarginMedium),
                     child: Container(
-                      decoration: BoxDecoration(color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: PhoosarPremiumCarouselWidget(),
                     )),
               ),
@@ -58,14 +65,16 @@ class UserSettingScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                  AppLocalizations.of(context)!.kAccountSettingLabel,
+                    AppLocalizations.of(context)!.kAccountSettingLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: AppLocalizations.of(context)!.kLocationLabel, isIcon: false,
+                  LabelWithIconOrText(
+                    label: AppLocalizations.of(context)!.kLocationLabel,
+                    isIcon: false,
                     text: 'Yangon',
-                    ),
+                  ),
                 ],
               ),
 
@@ -78,10 +87,14 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kActiveSubscriptionLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: 'None', isIcon: false,
+                  LabelWithIconOrText(
+                    label: (selfProfileData?.data?.isPremium ?? false)
+                        ? 'Phoosar Premium'
+                        : 'None',
+                    isIcon: false,
                   ),
                 ],
               ),
@@ -95,13 +108,17 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kBillingLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: AppLocalizations.of(context)!.kPurchaseHistoryLabel, isIcon: true,
-                    onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => PurchaseHistory()));
+                  LabelWithIconOrText(
+                    label: AppLocalizations.of(context)!.kPurchaseHistoryLabel,
+                    isIcon: true,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PurchaseHistory()));
                     },
                   ),
                 ],
@@ -116,13 +133,17 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kPrivacyLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label:AppLocalizations.of(context)!.kBlockingLabel, isIcon: false,
-                    onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => BlockUserScreen()));
+                  LabelWithIconOrText(
+                    label: AppLocalizations.of(context)!.kBlockingLabel,
+                    isIcon: false,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BlockUserScreen()));
                     },
                   ),
                 ],
@@ -137,12 +158,13 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kNotificationLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
-                  LabelWithIconOrText(label: AppLocalizations.of(context)!.kPushNotificationLabel, isIcon: false,
-                    onTap: (){
-                    },
+                  LabelWithIconOrText(
+                    label: AppLocalizations.of(context)!.kPushNotificationLabel,
+                    isIcon: false,
+                    onTap: () {},
                   ),
                 ],
               ),
@@ -198,17 +220,22 @@ class HelpAndWhatNewView extends StatelessWidget {
         10.vGap,
 
         ///term and conditions
-        LabelWithIconOrText(label: AppLocalizations.of(context)!.kTermAndConditionLabel, isIcon: true,
-          ),
+        LabelWithIconOrText(
+          label: AppLocalizations.of(context)!.kTermAndConditionLabel,
+          isIcon: true,
+        ),
 
         10.vGap,
 
         ///what news container
-        LabelWithIconOrText(label: AppLocalizations.of(context)!.kWhatNewLabel, isIcon: true,
-        onTap: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => WhatsNewScreen()));
-        },),
+        LabelWithIconOrText(
+          label: AppLocalizations.of(context)!.kWhatNewLabel,
+          isIcon: true,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => WhatsNewScreen()));
+          },
+        ),
       ],
     );
   }
@@ -219,7 +246,8 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
   const LogoutAndDeleteAccountView({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var selfProfileData = ref.watch(selfProfileProvider);
     return Column(
       children: [
         ///logout container
@@ -252,8 +280,11 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
 
         ///app icon
         Image.asset(
-          'assets/images/ic_launcher.png',
-          width: 42,
+          (selfProfileData!.data!.isPremium ?? false)
+              ? 'assets/images/ic_premium_launcher.png'
+              : 'assets/images/ic_launcher.png',
+          width: (selfProfileData.data!.isPremium ?? false) ? 60 : 42,
+          fit: BoxFit.fill,
         ),
 
         16.vGap,
@@ -299,7 +330,12 @@ class LabelWithIconOrText extends StatelessWidget {
   final String? text;
   final bool isIcon;
   final Function()? onTap;
-  const LabelWithIconOrText({super.key,required this.label,required this.isIcon,this.text,this.onTap});
+  const LabelWithIconOrText(
+      {super.key,
+      required this.label,
+      required this.isIcon,
+      this.text,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -319,28 +355,28 @@ class LabelWithIconOrText extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
-                  color: Colors.grey, fontWeight: FontWeight.normal),
+              style:
+                  TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
             ),
             Spacer(),
 
             ///arrow forward
             Visibility(
-              visible: isIcon,
+                visible: isIcon,
                 child: Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: kMarginMedium2, vertical: kMarginSmall),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.grey.withOpacity(0.5)),
-              child: Center(
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-              ),
-            )),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: kMarginMedium2, vertical: kMarginSmall),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.withOpacity(0.5)),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )),
 
             Visibility(
               visible: !isIcon,
@@ -350,11 +386,9 @@ class LabelWithIconOrText extends StatelessWidget {
                     color: Colors.grey, fontWeight: FontWeight.normal),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
-

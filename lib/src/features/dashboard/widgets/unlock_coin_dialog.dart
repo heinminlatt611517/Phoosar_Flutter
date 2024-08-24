@@ -5,6 +5,8 @@ import 'package:phoosar/src/features/user_setting/get_more_coins_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class UnlockCoinDialog extends StatelessWidget {
   const UnlockCoinDialog({super.key, required this.coinCount});
@@ -13,7 +15,7 @@ class UnlockCoinDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
-      title: 'Unlock Feature',
+      title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -60,7 +62,7 @@ class UnlockCoinDialog extends StatelessWidget {
                         builder: (context) => GetMoreCoinsScreen()));
               },
               child: Text(
-                'UNLOCK',
+                AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
                   color: Colors.pinkAccent,

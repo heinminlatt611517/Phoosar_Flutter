@@ -9,7 +9,9 @@ class SelfProfileResponse {
   SelfProfileResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new SelfProfileData.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? new SelfProfileData.fromJson(json['data'])
+        : null;
     genderList = json['gender_list'] != null
         ? new GenderList.fromJson(json['gender_list'])
         : null;
@@ -36,6 +38,7 @@ class SelfProfileData {
   dynamic email;
   String? phone;
   int? isOnline;
+  bool? isPremium;
   int? gender;
   String? birthdate;
   String? about;
@@ -65,6 +68,7 @@ class SelfProfileData {
       this.email,
       this.phone,
       this.isOnline,
+      this.isPremium,
       this.gender,
       this.birthdate,
       this.about,
@@ -94,6 +98,7 @@ class SelfProfileData {
     email = json['email'];
     phone = json['phone'];
     isOnline = json['is_online'];
+    isPremium = json['is_premium'];
     gender = json['gender'];
     birthdate = json['birthdate'];
     about = json['about'];
@@ -131,6 +136,7 @@ class SelfProfileData {
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['is_online'] = this.isOnline;
+    data['is_premium'] = this.isPremium;
     data['gender'] = this.gender;
     data['birthdate'] = this.birthdate;
     data['about'] = this.about;

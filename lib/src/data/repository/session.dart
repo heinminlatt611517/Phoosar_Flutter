@@ -91,7 +91,7 @@ class Session {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
-          'Authorization':  "Bearer $token",
+          'Authorization': "Bearer $token",
         },
         body: data,
       );
@@ -101,6 +101,7 @@ class Session {
         if (response.statusCode == 401) {
           unauthenticatedState(prefs, context);
         } else {
+          print('should call here');
           showDialog(
             context: context,
             builder: (context) => ErrorDialog(

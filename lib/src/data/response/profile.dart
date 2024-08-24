@@ -5,6 +5,7 @@ class ProfileData {
   String? email;
   String? phone;
   int? isOnline;
+  bool? isPremium;
   int? gender;
   dynamic birthdate;
   String? about;
@@ -28,6 +29,7 @@ class ProfileData {
       this.email,
       this.phone,
       this.isOnline,
+      this.isPremium,
       this.gender,
       this.birthdate,
       this.about,
@@ -51,6 +53,7 @@ class ProfileData {
     email = json['email'];
     phone = json['phone'];
     isOnline = json['is_online'];
+    isPremium = json['is_premium'];
     gender = json['gender'];
     birthdate = json['birthdate'];
     about = json['about'];
@@ -86,6 +89,7 @@ class ProfileData {
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['is_online'] = this.isOnline;
+    data['is_premium'] = this.isPremium;
     data['gender'] = this.gender;
     data['birthdate'] = this.birthdate;
     data['about'] = this.about;
@@ -131,6 +135,7 @@ class MoreDetails {
     return data;
   }
 }
+
 class UploadPhotoData {
   String? id;
   String? url;
@@ -152,5 +157,3 @@ class UploadPhotoData {
     return data;
   }
 }
-
-

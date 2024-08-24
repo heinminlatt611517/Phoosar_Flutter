@@ -6,10 +6,15 @@ import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RewindRow extends StatelessWidget {
   const RewindRow(
-      {super.key, required this.rewindCount, required this.heartCount,required this.buyId});
+      {super.key,
+      required this.rewindCount,
+      required this.heartCount,
+      required this.buyId});
   final String rewindCount;
   final String heartCount;
   final String buyId;
@@ -52,11 +57,13 @@ class RewindRow extends StatelessWidget {
                   Navigator.pop(context);
                   showDialog(
                       context: context,
-                      builder: (context) =>
-                          UnlockDailog(heartCount: heartCount,buyId: buyId,));
+                      builder: (context) => UnlockDailog(
+                            heartCount: heartCount,
+                            buyId: buyId,
+                          ));
                 },
                 child: Text(
-                  'UNLOCK',
+                  AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                   style: GoogleFonts.roboto(
                     fontSize: mediumFontSize,
                     color: blueColor,
