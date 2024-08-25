@@ -68,15 +68,14 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                       SlidableAction(
                         onPressed: (_) async {
                           if (room != null) {
-                            await ref
-                                .read(repositoryProvider)
-                                .saveProfileReact(
+                            await ref.read(repositoryProvider).saveProfileReact(
                                   jsonEncode({
                                     "reacted_user_id": filterUsers
                                         .firstWhere((user) =>
                                             user.profile!.supabaseUserId ==
                                             room.otherUserId)
-                                        .id,
+                                        .id
+                                        .toString(),
                                     "reacted_type": "block"
                                   }),
                                   context,
@@ -150,11 +149,14 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    trailing: Text(room != null
-                        ? format(
-                            room.lastMessage?.createdAt ?? room.createdAt,
-                            locale: 'en_short')
-                        : ''),
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Text(room != null
+                          ? format(
+                              room.lastMessage?.createdAt ?? room.createdAt,
+                              locale: 'en_short')
+                          : ''),
+                    ),
                   ),
                 );
               },
@@ -162,94 +164,6 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                 height: 1,
                 color: Colors.black,
               ),
-            );
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MatchUsers(matchUsers: matchUsers, type: 'Liked Profiles'),
-                Expanded(
-                  child: ListView.separated(
-                    padding: EdgeInsets.zero,
-                    itemCount: rooms.length,
-                    itemBuilder: (context, index) {
-                      final room = rooms[index];
-                      final otherUser =
-                          profiles.firstWhere((p) => p.id == room.otherUserId);
-                      return Slidable(
-                        key: ValueKey(index),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              onPressed: (_) async {
-                                await ref
-                                    .read(repositoryProvider)
-                                    .saveProfileReact(
-                                      jsonEncode({
-                                        "reacted_user_id": filterUsers
-                                            .firstWhere((user) =>
-                                                user.profile!.supabaseUserId ==
-                                                room.otherUserId)
-                                            .id,
-                                        "reacted_type": "block"
-                                      }),
-                                      context,
-                                    );
-                                ref.invalidate(matchListProvider);
-                                ref.invalidate(likeListProvider);
-                                ref.invalidate(likedProfilesListProvider);
-                              },
-                              backgroundColor: Colors.grey,
-                              foregroundColor: Colors.white,
-                              icon: Icons.block,
-                            ),
-                            SlidableAction(
-                              onPressed: (_) async {
-                                await ref
-                                    .read(chatProvider(room.id).notifier)
-                                    .deleteAllMessages();
-                                ref.invalidate(roomsProvider);
-                              },
-                              backgroundColor: Colors.pinkAccent,
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                            ),
-                          ],
-                        ),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ChatPage(
-                                      roomId: room.id,
-                                      otherUserName: otherUser.username))),
-                          leading: UserAvatar(
-                            userId: otherUser.id,
-                            fromChat: true,
-                            profileImage: '',
-                          ),
-                          title: Text(otherUser.username),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              room.lastMessage?.content ?? 'Chat Room Created',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          trailing: Text(format(
-                              room.lastMessage?.createdAt ?? room.createdAt,
-                              locale: 'en_short')),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const Divider(
-                      height: 1,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
             );
           },
           loading: () => Container(),

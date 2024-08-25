@@ -68,15 +68,14 @@ class LikedYouRoomsScreen extends ConsumerWidget {
                       SlidableAction(
                         onPressed: (_) async {
                           if (room != null) {
-                            await ref
-                                .read(repositoryProvider)
-                                .saveProfileReact(
+                            await ref.read(repositoryProvider).saveProfileReact(
                                   jsonEncode({
                                     "reacted_user_id": filterUsers
                                         .firstWhere((user) =>
                                             user.profile!.supabaseUserId ==
                                             room.otherUserId)
-                                        .id,
+                                        .id
+                                        .toString(),
                                     "reacted_type": "block"
                                   }),
                                   context,
@@ -150,11 +149,14 @@ class LikedYouRoomsScreen extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    trailing: Text(room != null
-                        ? format(
-                            room.lastMessage?.createdAt ?? room.createdAt,
-                            locale: 'en_short')
-                        : ''),
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Text(room != null
+                          ? format(
+                              room.lastMessage?.createdAt ?? room.createdAt,
+                              locale: 'en_short')
+                          : ''),
+                    ),
                   ),
                 );
               },

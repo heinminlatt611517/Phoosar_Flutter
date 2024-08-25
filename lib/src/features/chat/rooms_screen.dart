@@ -47,7 +47,7 @@ class RoomsScreen extends ConsumerWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MatchUsers(matchUsers: matchUsers,type: 'Matches'),
+                MatchUsers(matchUsers: matchUsers, type: 'Matches'),
                 Expanded(
                   child: ListView.separated(
                     padding: EdgeInsets.zero,
@@ -114,9 +114,12 @@ class RoomsScreen extends ConsumerWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          trailing: Text(format(
-                              room.lastMessage?.createdAt ?? room.createdAt,
-                              locale: 'en_short')),
+                          trailing: Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: Text(format(
+                                room.lastMessage?.createdAt ?? room.createdAt,
+                                locale: 'en_short')),
+                          ),
                         ),
                       );
                     },
