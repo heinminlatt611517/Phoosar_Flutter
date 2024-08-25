@@ -8,7 +8,6 @@ import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/models/room.dart';
-import 'package:phoosar/src/features/chat/widgets/match_users.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/chat_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -95,7 +94,7 @@ class LikedYouRoomsScreen extends ConsumerWidget {
                           if (room != null) {
                             await ref
                                 .read(chatProvider(room.id).notifier)
-                                .deleteAllMessages();
+                                .deleteRoom();
                             ref.invalidate(roomsProvider);
                           }
                         },

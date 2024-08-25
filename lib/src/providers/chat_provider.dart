@@ -69,13 +69,7 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     final client = _ref.read(supabaseClientProvider);
 
     try {
-      // Delete the room itself
-      final deleteRoomResponse =
-          await client.from('rooms').delete().eq('id', _roomId);
-
-      if (deleteRoomResponse == null || deleteRoomResponse.error != null) {
-        throw Exception('Failed to delete room');
-      }
+      await client.from('rooms').delete().eq('id', _roomId);
 
       // Update the state to reflect the deletion
       state = const AsyncValue.data([]);
@@ -93,21 +87,7 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     print('My user ID: ' + userId);
 
     try {
-      final response =
-          await client.from('messages').delete().eq('room_id', _roomId);
-
-      if (response == null) {
-        print('Response is null');
-        throw Exception('Failed to delete messages: response is null');
-      }
-
-      if (response.error != null) {
-        print('Response error: ${response.error!.message}');
-        throw response.error!;
-      }
-
-      print('Response data: ${response.data}');
-
+      await client.from('messages').delete().eq('room_id', _roomId);
       // Update the state to reflect the deletion
       state = const AsyncValue.data([]);
     } catch (e, stackTrace) {

@@ -95,7 +95,7 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                           if (room != null) {
                             await ref
                                 .read(chatProvider(room.id).notifier)
-                                .deleteAllMessages();
+                                .deleteRoom();
                             ref.invalidate(roomsProvider);
                           }
                         },

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class MatchScreen extends StatefulWidget {
-  const MatchScreen({super.key,required this.matchProfileData});
+  const MatchScreen({super.key, required this.matchProfileData});
   final ProfileData? matchProfileData;
 
   @override
