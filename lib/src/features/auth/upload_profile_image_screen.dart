@@ -11,6 +11,7 @@ import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../providers/app_provider.dart';
@@ -67,10 +68,6 @@ class _UploadProfileImageScreenState
                           .read(profileSaveRequestProvider)
                           .profileImages
                           ?.add(value);
-                      ref.read(profileSaveRequestProvider).name = "Si thu";
-                      ref.read(profileSaveRequestProvider).profileImages = [];
-                      ref.read(profileSaveRequestProvider).moreDetails = [];
-                      ref.read(profileSaveRequestProvider).interests = [];
                     });
                   },
                 ),
@@ -101,6 +98,9 @@ class _UploadProfileImageScreenState
                             .read(repositoryProvider)
                             .saveProfile(request, context);
                         if (response.statusCode.toString().startsWith('2')) {
+                          ref
+                              .watch(sharedPrefProvider)
+                              .setString(kRecentOnboardingKey, kQuestionStatus);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

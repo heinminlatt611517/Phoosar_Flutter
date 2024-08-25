@@ -51,7 +51,6 @@ class MyApp extends ConsumerWidget {
                     return AuthScreen();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
-
                   case HomeScreen.routeName:
                     return HomeScreen();
                   default:

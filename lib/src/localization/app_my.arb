@@ -71,7 +71,6 @@
       "kLogoutLabel" : "Log out",
       "kDeleteAccountLabel" : "Delete Account",
       "kNameLabel" : "Name",
-      "kBirthdayLabel" : "Birthday",
       "kAboutLabel" : "About",
       "kJobTitleLabel" : "Job Title",
       "kSchoolLabel" : "School",
@@ -92,5 +91,7 @@
          "kLikedProfilesLabel" : "Liked Profiles",
          "kUnlockLabel":"Unlock",
    "kUnlockFeatureLabel":"Unlock Label",
-   "kOkLabel":"အိုကေ"
+   "kOkLabel":"အိုကေ",
+   "kLastProfile":"You have reached the last profile!",
+   "kStartOver":"Start Over"
 }

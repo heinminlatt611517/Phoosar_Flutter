@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/common/empty_find_dialog.dart';
 import 'package:phoosar/src/data/request/city_request.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/request/question_save_request.dart';
@@ -25,16 +26,49 @@ import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/data/response/whats_new_list_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 
-final findListProvider =
-    FutureProvider.family<List<ProfileData>?, BuildContext>((ref, context) async {
-  final repository = ref.watch(repositoryProvider);
-  final response = await repository.findList(jsonEncode({}), context);
-  if (response.statusCode == 200) {
-    return FindListResponse.fromJson(jsonDecode(response.body)).data;
-  } else {
-    throw Exception('Failed to load find list');
-  }
+final findListNotifierProvider = StateNotifierProvider.family<FindListNotifier,
+    AsyncValue<List<ProfileData>?>, BuildContext>((ref, context) {
+  return FindListNotifier(ref, context);
 });
+
+class FindListNotifier extends StateNotifier<AsyncValue<List<ProfileData>?>> {
+  final Ref _ref;
+  final BuildContext context;
+
+  FindListNotifier(this._ref, this.context)
+      : super(const AsyncValue.loading()) {
+    _fetchFindList();
+  }
+
+  Future<void> _fetchFindList() async {
+    try {
+      final repository = _ref.read(repositoryProvider);
+      final response = await repository.findList(jsonEncode({}), context);
+      if (response.statusCode == 200) {
+        var data = FindListResponse.fromJson(jsonDecode(response.body)).data;
+        if (data == null || data.isEmpty) {
+          showDialog(
+              context: context,
+              builder: (context) => EmptyFindDialog(
+                    onTap: () {
+                      _fetchFindList(); // Refresh the list on tap
+                    },
+                  ));
+        }
+        state = AsyncValue.data(data);
+      } else {
+        throw Exception('Failed to load find list');
+      }
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    }
+  }
+}
+
+// Update the findListProvider to use the notifier
+// final findListProvider = Provider<AsyncValue<List<ProfileData>?>>((ref) {
+//   return ref.watch(findListNotifierProvider,);
+// });
 
 final matchListProvider =
     FutureProvider.family<List<MatchData>, BuildContext>((ref, context) async {
@@ -221,9 +255,11 @@ final moreDetailsQuestionListProvider =
 });
 
 final blockedUserDataProvider =
-FutureProvider.family<List<BlockUserData>, BuildContext>((ref, context) async {
+    FutureProvider.family<List<BlockUserData>, BuildContext>(
+        (ref, context) async {
   final repository = ref.watch(repositoryProvider);
-  final response = await repository.blockedProfilesList(jsonEncode({}), context);
+  final response =
+      await repository.blockedProfilesList(jsonEncode({}), context);
   if (response.statusCode == 200) {
     return BlockedListResponse.fromJson(jsonDecode(response.body)).data ?? [];
   } else {

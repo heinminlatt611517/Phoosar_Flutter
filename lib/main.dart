@@ -23,7 +23,6 @@ void main() async {
   setPathUrlStrategy();
   registerErrorHandlers();
   final sharedPref = await SharedPreferences.getInstance();
-
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);

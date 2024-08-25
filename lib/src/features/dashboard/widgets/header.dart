@@ -47,7 +47,7 @@ class DashboardHeader extends ConsumerWidget {
                   4.hGap,
                   Container(
                     child: Text(
-                      selfProfileData != null
+                      selfProfileData != null && selfProfileData.data != null
                           ? (selfProfileData.data!.pointTotal.toString())
                           : "0",
                       textAlign: TextAlign.end,
@@ -68,7 +68,11 @@ class DashboardHeader extends ConsumerWidget {
                         (selfProfileData.data!.isPremium ?? false)
                     ? 'assets/images/ic_premium_launcher.png'
                     : 'assets/images/ic_launcher.png',
-                width: (selfProfileData!.data!.isPremium ?? false) ? 60 : 42,
+                width: selfProfileData != null
+                    ? (selfProfileData.data!.isPremium ?? false)
+                        ? 60
+                        : 42
+                    : 0,
                 fit: BoxFit.fill,
               ),
             ),

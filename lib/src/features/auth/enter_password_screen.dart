@@ -141,8 +141,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                       text: AppLocalizations.of(context)!.kConfirmLabel,
                       fontSize: 18,
                       onTap: () {
-                        supabaseRegister();
-                        //_signUp();
+                        _signUp();
                       },
                       bgColor: Colors.lightBlueAccent,
                     ),
@@ -217,13 +216,12 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
       ref
           .watch(sharedPrefProvider)
           .setString("token", authResponse.token ?? '');
-      final profileRes = await ref
-          .watch(repositoryProvider)
-          .getProfile(jsonEncode({}), context);
-      var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
-      ref.read(selfProfileProvider.notifier).state = data;
-
-      // navigateToNextScreen();
+      // final profileRes = await ref
+      //     .watch(repositoryProvider)
+      //     .getProfile(jsonEncode({}), context);
+      // var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
+      // ref.read(selfProfileProvider.notifier).state = data;
+      supabaseRegister();
     } else {
       if (mounted) {
         setState(() {

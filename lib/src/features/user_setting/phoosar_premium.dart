@@ -7,11 +7,9 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:phoosar/src/utils/strings.dart';
 import 'package:sized_context/sized_context.dart';
 
 import '../../common/widgets/phoosar_premium_carousel_widget.dart';
-import '../../common/widgets/phoosar_premium_view.dart';
 
 class PhoosarPremiumScreen extends ConsumerStatefulWidget {
   @override
