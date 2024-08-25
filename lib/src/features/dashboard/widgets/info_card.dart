@@ -10,6 +10,8 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class InfoCard extends StatelessWidget {
   const InfoCard({super.key, required this.findData});
@@ -50,12 +52,12 @@ class InfoCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.circle,
-                        color: Colors.green,
+                        color:findData.isOnline == 1 ? Colors.green : Colors.red,
                         size: 12,
                       ),
                       4.hGap,
                       Text(
-                        'Online',
+                        findData.isOnline == 1 ? AppLocalizations.of(context)!.kOnlineLabel : AppLocalizations.of(context)!.kOfflineLabel,
                         style: GoogleFonts.roboto(
                           fontSize: smallFontSize,
                           color: whiteColor,

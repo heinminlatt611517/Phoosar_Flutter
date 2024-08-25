@@ -46,7 +46,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       final response = await repository.getProfile(jsonEncode({}), context);
       var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
       ref.read(selfProfileProvider.notifier).state = data;
-    });
+      ref.read(locationProvider.notifier).state = data.data?.city ?? "";});
   }
 
   @override

@@ -5,6 +5,8 @@ import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class UserInformation extends StatelessWidget {
   const UserInformation({
@@ -22,12 +24,12 @@ class UserInformation extends StatelessWidget {
           children: [
             Icon(
               Icons.circle,
-              color: Colors.green,
+              color:findData.isOnline == 1 ? Colors.green : Colors.red,
               size: 10,
             ),
             4.hGap,
             Text(
-              'Online',
+             findData.isOnline == 1 ? AppLocalizations.of(context)!.kOnlineLabel : AppLocalizations.of(context)!.kOfflineLabel,
               style: GoogleFonts.roboto(
                 fontSize: smallFontSize,
                 color: blackColor,
@@ -120,7 +122,7 @@ class UserInformation extends StatelessWidget {
         ),
         20.vGap,
         Text(
-          'Work hard, be kind, amazing things in life. Love dancing,singing,reading and generally have a good time.',
+          findData.about ?? "",
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(
             fontSize: smallFontSize,

@@ -54,44 +54,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     color: greyColor,
                   ),
                   20.vGap,
-                  UserHobbies(),
-                  20.vGap,
-                  Divider(
-                    height: 1,
-                    color: greyColor,
-                  ),
-                  20.vGap,
-                  MoreInformation(
-                    title: 'Two truths on lie',
-                    description:
-                        'I\'ve climbed the highest mountain in the world, I\'ve been to the moon and I\'ve been to the sun.',
-                  ),
-                  20.vGap,
-                  Divider(
-                    height: 1,
-                    color: greyColor,
-                  ),
-                  20.vGap,
-                  MoreInformation(
-                    title: 'After work, you can find me',
-                    description: 'At drinks with friends.',
-                  ),
-                  20.vGap,
-                  Divider(
-                    height: 1,
-                    color: greyColor,
-                  ),
-                  20.vGap,
-                  MoreInformation(
-                    title: 'I could donate a million dollar, it\'d be',
-                    description:
-                        'Helping the poor, helping the needy and making a difference.',
-                  ),
-                  20.vGap,
-                  Divider(
-                    height: 1,
-                    color: greyColor,
-                  ),
+                  UserHobbies(findData: widget.findData,),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: widget.findData.moreDetails?.length,
+                      itemBuilder: (context,index){
+                    return MoreInformation(title: widget.findData.moreDetails?[index].question ?? "", description: widget.findData.moreDetails?[index].answerText ?? "");
+                  }),
                   20.vGap,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

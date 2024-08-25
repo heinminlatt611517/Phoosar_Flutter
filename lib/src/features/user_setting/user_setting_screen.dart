@@ -73,7 +73,7 @@ class UserSettingScreen extends ConsumerWidget {
                   LabelWithIconOrText(
                     label: AppLocalizations.of(context)!.kLocationLabel,
                     isIcon: false,
-                    text: 'Yangon',
+                    text: ref.watch(locationProvider),
                   ),
                 ],
               ),

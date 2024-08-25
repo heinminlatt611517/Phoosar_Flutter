@@ -63,6 +63,7 @@ class Repository {
   }
 
   Future<Response> saveProfile(dynamic request, BuildContext context) async {
+    debugPrint("SaveProfileRequest::$request");
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-profile"),
       jsonEncode(request),
