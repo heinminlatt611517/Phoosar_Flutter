@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 /// Widget that will display a user's avatar
 class UserAvatar extends ConsumerWidget {
   final String userId;
   final bool fromChat;
+  final String profileImage;
 
   const UserAvatar({
     Key? key,
     required this.userId,
+    required this.profileImage,
     this.fromChat = false,
   }) : super(key: key);
 
@@ -23,28 +26,41 @@ class UserAvatar extends ConsumerWidget {
         child: Container(
           width: 50, // Specify the width
           height: 50, // Specify the height
-          color: Colors.blue, // Background color for the container
         ),
       ),
       error: (error, _) => ClipRRect(
-        borderRadius: BorderRadius.circular(12), // Set the corner radius to 20
-        child: Container(
-          width: 50, // Specify the width
-          height: 50, // Specify the height
-          color: Colors.blue, // Background color for the container
-        ),
-      ),
+          borderRadius:
+              BorderRadius.circular(12), // Set the corner radius to 20
+          child: Image.network(
+            errorImageUrl, width: 46, // Specify the width
+            height: 50, // Specify the height
+            fit: BoxFit.cover,
+          )),
       data: (profile) {
-        if (profile == null) {
-          return ClipRRect(
-            borderRadius:
-                BorderRadius.circular(12), // Set the corner radius to 20
-            child: Container(
+        if (profileImage.isEmpty) {
+          return Container(
               width: 50, // Specify the width
               height: 50, // Specify the height
-              color: Colors.blue, // Background color for the container
-            ),
-          );
+
+              //child: Image.network(profile.profileUrl),
+              color: fromChat
+                  ? Colors.transparent
+                  : Color(0xffe0e0e0), // Background color for the container
+              child: fromChat
+                  ? Image.network(
+                      errorImageUrl, width: 46, // Specify the width
+                      height: 50, // Specify the height
+                      fit: BoxFit.cover,
+                    )
+                  : Center(
+                      child: Text(
+                        profile!.username.length > 3
+                            ? profile.username.substring(0, 4)
+                            : profile.username, // Display the initials
+                        style: const TextStyle(
+                            color: Colors.black, fontSize: 14), // Text color
+                      ),
+                    ));
         }
         return ClipRRect(
           borderRadius:
@@ -59,23 +75,14 @@ class UserAvatar extends ConsumerWidget {
                 : Color(0xffe0e0e0), // Background color for the container
             child: Center(
               child: fromChat
-                  ? profile.username.startsWith('S') ||
-                          profile.username.startsWith('A') ||
-                          profile.username.startsWith('H')
-                      ? Image.asset(
-                          'assets/images/sample_profile2.jpeg',
-                          width: 46, // Specify the width
-                          height: 50, // Specify the height
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          'assets/images/sample_profile.png',
-                          width: 46, // Specify the width
-                          height: 50, // Specify the height
-                          fit: BoxFit.cover,
-                        )
+                  ? Image.network(
+                      profileImage.isEmpty ? errorImageUrl : profileImage,
+                      width: 46, // Specify the width
+                      height: 50, // Specify the height
+                      fit: BoxFit.cover,
+                    )
                   : Text(
-                      profile.username.length > 3
+                      profile!.username.length > 3
                           ? profile.username.substring(0, 4)
                           : profile.username, // Display the initials
                       style: const TextStyle(

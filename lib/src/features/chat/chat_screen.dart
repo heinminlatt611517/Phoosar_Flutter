@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/chat/rooms_screen.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_profiles.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_you.dart';
+import 'package:phoosar/src/features/chat/widgets/matches.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import '../../utils/colors.dart';
@@ -83,28 +84,28 @@ class _ChatState extends ConsumerState<ChatScreen> {
           // ),
 
           //new matches view
-          Visibility(
-            visible: selectedIndex == 0,
-            child: Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(kMarginMedium2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ///new match horizontal list
-
-                    Expanded(child: RoomsScreen())
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          ///Matches View
           // Visibility(
           //   visible: selectedIndex == 0,
-          //   child: MatchesView(),
+          //   child: Expanded(
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(kMarginMedium2),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           ///new match horizontal list
+
+          //           Expanded(child: RoomsScreen())
+          //         ],
+          //       ),
+          //     ),
+          //   ),
           // ),
+
+          //Matches View
+          Visibility(
+            visible: selectedIndex == 0,
+            child: MatchesView(),
+          ),
 
           ///liked you view
           Visibility(

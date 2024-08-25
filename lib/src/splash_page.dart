@@ -42,7 +42,8 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
         var recentOnboardingStatus =
             ref.watch(sharedPrefProvider).getString(kRecentOnboardingKey);
         log("Status " + recentOnboardingStatus.toString());
-        if (recentOnboardingStatus == null || recentOnboardingStatus == kProfileStatus) {
+        if (recentOnboardingStatus == null ||
+            recentOnboardingStatus == kProfileStatus) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => ChooseGenderScreen()),
           );
@@ -51,11 +52,11 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
             MaterialPageRoute(builder: (context) => OnBoardingScreen()),
           );
         } else {
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => false,
           );
         }
-        
       }
     } catch (_) {
       context.showErrorSnackBar(

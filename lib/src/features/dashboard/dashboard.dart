@@ -74,6 +74,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             child: Text(
                                 AppLocalizations.of(context)!.kLastProfile)));
                   }
+                  // Ensure selectedIndex is within bounds
+                  if (selectedIndex >= profiles.length) {
+                    selectedIndex = profiles.length - 1;
+                  }
                   return Column(
                     children: [
                       InfoCard(findData: profiles[selectedIndex]),
@@ -207,7 +211,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ],
                   );
                 },
-                loading: () => Center(child: CircularProgressIndicator()),
+                loading: () => Container(
+                    height: context.heightPx * 0.6,
+                    child: Center(child: CircularProgressIndicator())),
                 error: (error, stack) => Center(child: Text('Error: $error')),
               ),
 
@@ -220,16 +226,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   increaseSwipeCount(int total) {
-    var sharedPrefs = ref.watch(sharedPrefProvider);
-    var oldSwipeCount = sharedPrefs.getInt("swipeCount");
-    sharedPrefs.setInt("swipeCount", (oldSwipeCount ?? 0) + 1);
-    ref.invalidate(swipeCountProvider);
     if (total > selectedIndex) {
+      log('Increate index');
       setState(() {
         selectedIndex++;
       });
     } else {
       log('Last Index');
     }
+    var sharedPrefs = ref.watch(sharedPrefProvider);
+    var oldSwipeCount = sharedPrefs.getInt("swipeCount");
+    sharedPrefs.setInt("swipeCount", (oldSwipeCount ?? 0) + 1);
+    ref.invalidate(swipeCountProvider);
   }
 }

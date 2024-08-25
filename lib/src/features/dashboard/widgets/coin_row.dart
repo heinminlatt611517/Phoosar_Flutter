@@ -73,7 +73,7 @@ class CoinRow extends StatelessWidget {
                 ),
               ),
               Text(
-                ' Coins',
+                ' MMK',
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
                   fontWeight: FontWeight.w400,

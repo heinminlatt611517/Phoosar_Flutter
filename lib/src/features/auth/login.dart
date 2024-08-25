@@ -394,8 +394,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         MaterialPageRoute(builder: (context) => OnBoardingScreen()),
       );
     } else {
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => HomeScreen()),
+        (Route<dynamic> route) => false,
       );
     }
   }

@@ -1,6 +1,7 @@
 class ProfileData {
   int? id;
   String? profileId;
+  String? supabaseUserId;
   String? name;
   String? email;
   String? phone;
@@ -25,6 +26,7 @@ class ProfileData {
   ProfileData(
       {this.id,
       this.profileId,
+      this.supabaseUserId,
       this.name,
       this.email,
       this.phone,
@@ -49,6 +51,7 @@ class ProfileData {
   ProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     profileId = json['profile_id'];
+    supabaseUserId = json['supabase_user_id'];
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
@@ -85,6 +88,7 @@ class ProfileData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['profile_id'] = this.profileId;
+    data['supbase_user_id'] = this.supabaseUserId;
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;

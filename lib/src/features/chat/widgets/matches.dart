@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/features/chat/match_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:sized_context/sized_context.dart';
 
 class MatchesView extends ConsumerWidget {
   const MatchesView({super.key});
@@ -13,55 +15,25 @@ class MatchesView extends ConsumerWidget {
     final matchListList = ref.watch(matchListProvider(context));
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(kMarginMedium2),
+        padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ///blur grid image view
             matchListList.when(
               data: (data) {
-                return GridView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              "assets/images/sample_profile.png",
-                              width: 100,
-                              height: 125,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Container(
-                            height: 200,
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: ExactAssetImage(
-                                    "assets/images/sample_profile2.jpeg"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  color: Colors.grey.withOpacity(0.1),
-                                ),
-                              ),
-                            ),
-                          );
-                  },
-                  itemCount: data.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // number of items in each row
-                    mainAxisSpacing: 18.0, // spacing between rows
-                    crossAxisSpacing: 8.0, // spacing between columns
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(kMarginMedium2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: MatchRoomsScreen(
+                          filterUsers: data,
+                        ))
+                      ],
+                    ),
                   ),
                 );
               },
@@ -69,7 +41,9 @@ class MatchesView extends ConsumerWidget {
                 return Text(error.toString());
               },
               loading: () {
-                return const CircularProgressIndicator();
+                return Container(
+                    height: context.heightPx * 0.5,
+                    child: Center(child: const CircularProgressIndicator()));
               },
             ),
 

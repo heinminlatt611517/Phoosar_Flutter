@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/features/chat/liked_profiles_rooms_screen.dart';
+import 'package:phoosar/src/features/chat/liked_you_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 
@@ -20,48 +22,18 @@ class LikedYouView extends ConsumerWidget {
             ///blur grid image view
             likedYouList.when(
               data: (data) {
-                return GridView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              "assets/images/sample_profile.png",
-                              width: 100,
-                              height: 125,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Container(
-                            height: 200,
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: ExactAssetImage(
-                                    "assets/images/sample_profile2.jpeg"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  color: Colors.grey.withOpacity(0.1),
-                                ),
-                              ),
-                            ),
-                          );
-                  },
-                  itemCount: data.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // number of items in each row
-                    mainAxisSpacing: 18.0, // spacing between rows
-                    crossAxisSpacing: 8.0, // spacing between columns
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(kMarginMedium2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: LikedYouRoomsScreen(
+                          filterUsers: data,
+                        ))
+                      ],
+                    ),
                   ),
                 );
               },
@@ -69,7 +41,7 @@ class LikedYouView extends ConsumerWidget {
                 return Text(error.toString());
               },
               loading: () {
-                return const CircularProgressIndicator();
+                return Container();
               },
             ),
 

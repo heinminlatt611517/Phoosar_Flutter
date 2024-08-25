@@ -43,7 +43,7 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
           .map(Room.fromRoomParticipants)
           .where((room) => room.otherUserId != _myUserId)
           .toList();
-      
+
       for (final room in _rooms) {
         _getNewestMessage(room.id);
       }
@@ -85,10 +85,8 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
     log("Creating room with user ID: $otherUserId");
     final response = await client
         .rpc('create_new_room', params: {'other_user_id': otherUserId});
-    if (response.error != null) {
-      throw Exception('Failed to create room');
-    }
-    return response.data;
+
+    return response.toString();
   }
 
   @override

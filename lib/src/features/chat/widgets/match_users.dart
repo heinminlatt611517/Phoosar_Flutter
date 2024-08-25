@@ -12,18 +12,23 @@ class MatchUsers extends ConsumerWidget {
   const MatchUsers({
     Key? key,
     required this.matchUsers,
+    required this.type,
   }) : super(key: key);
 
   final List<Profile> matchUsers;
+  final String type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'New Matches',
-          style: TextStyle(color: Colors.grey, fontSize: kTextRegular3x),
+        Visibility(
+          visible: matchUsers.isNotEmpty,
+          child: Text(
+            'New ' + type,
+            style: TextStyle(color: Colors.grey, fontSize: kTextRegular3x),
+          ),
         ),
         SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -45,18 +50,19 @@ class MatchUsers extends ConsumerWidget {
                                   roomId: roomId,
                                   otherUserName: user.username)));
                         } catch (e) {
-                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Text(
-                          //         'Failed to create a new room: ${e.toString()}')));
                           log("Failed to create a new room: ${e.toString()}");
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding:
+                            const EdgeInsets.only(right: 12, bottom: 8, top: 8),
                         child: SizedBox(
                           height: 140,
                           width: 140,
-                          child: UserAvatar(userId: user.id),
+                          child: UserAvatar(
+                            userId: user.id,
+                            profileImage: '',
+                          ),
                         ),
                       ),
                     ))

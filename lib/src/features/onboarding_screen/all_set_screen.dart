@@ -69,9 +69,11 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                     ref
                         .watch(sharedPrefProvider)
                         .setString(kRecentOnboardingKey, kCompleteStatus);
+
                     ///do navigation login
-                    Navigator.of(context).pushReplacement(
+                    Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (Route<dynamic> route) => false,
                     );
                   },
                   bgColor: Colors.pinkAccent,

@@ -67,11 +67,32 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
 
   Future<void> deleteAllMessages() async {
     final client = _ref.read(supabaseClientProvider);
+    final userId = client.auth.currentUser!.id;
+    print('Call Here ' + _roomId);
+    print('My user ID: ' + userId);
+
     try {
-      await client.from('messages').delete().eq('room_id', _roomId);
+      final response =
+          await client.from('messages').delete().eq('room_id', _roomId);
+
+      if (response == null) {
+        print('Response is null');
+        throw Exception('Failed to delete messages: response is null');
+      }
+
+      if (response.error != null) {
+        print('Response error: ${response.error!.message}');
+        throw response.error!;
+      }
+
+      print('Response data: ${response.data}');
+
+      // Update the state to reflect the deletion
       state = const AsyncValue.data([]);
-    } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (e, stackTrace) {
+      print('Error deleting messages: $e');
+      print('Stack trace: $stackTrace');
+      state = AsyncValue.error(e, stackTrace);
     }
   }
 

@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/widgets/match_users.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/chat_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -11,9 +16,11 @@ import 'package:timeago/timeago.dart';
 
 /// Displays the list of chat threads
 class RoomsScreen extends ConsumerWidget {
-  const RoomsScreen({
-    Key? key,
-  }) : super(key: key);
+  const RoomsScreen(
+      {Key? key, required this.filterUserIds, required this.filterUserImages})
+      : super(key: key);
+  final List<String> filterUserIds;
+  final List<String> filterUserImages;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,14 +40,17 @@ class RoomsScreen extends ConsumerWidget {
         return profilesState.when(
           data: (profiles) {
             final currentUserId = supabase.auth.currentUser!.id;
-            final matchUsers =
-                profiles.where((p) => p.id != currentUserId).toList();
+            final matchUsers = profiles
+                .where((p) =>
+                    p.id != currentUserId && filterUserIds.contains(p.id))
+                .toList();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MatchUsers(matchUsers: matchUsers),
+                MatchUsers(matchUsers: matchUsers,type: 'Matches'),
                 Expanded(
                   child: ListView.separated(
+                    padding: EdgeInsets.zero,
                     itemCount: rooms.length,
                     itemBuilder: (context, index) {
                       final room = rooms[index];
@@ -52,13 +62,31 @@ class RoomsScreen extends ConsumerWidget {
                           motion: const ScrollMotion(),
                           children: [
                             SlidableAction(
-                              onPressed: (_) {},
+                              onPressed: (_) async {
+                                await ref
+                                    .read(repositoryProvider)
+                                    .saveProfileReact(
+                                      jsonEncode({
+                                        "reacted_user_id": room.otherUserId,
+                                        "reacted_type": "block"
+                                      }),
+                                      context,
+                                    );
+                                ref.invalidate(matchListProvider);
+                                ref.invalidate(likeListProvider);
+                                ref.invalidate(likedProfilesListProvider);
+                              },
                               backgroundColor: Colors.grey,
                               foregroundColor: Colors.white,
                               icon: Icons.block,
                             ),
                             SlidableAction(
-                              onPressed: (_) {},
+                              onPressed: (_) async {
+                                await ref
+                                    .read(chatProvider(room.id).notifier)
+                                    .deleteAllMessages();
+                                ref.invalidate(roomsProvider);
+                              },
                               backgroundColor: Colors.pinkAccent,
                               foregroundColor: Colors.white,
                               icon: Icons.delete,
@@ -66,6 +94,7 @@ class RoomsScreen extends ConsumerWidget {
                           ],
                         ),
                         child: ListTile(
+                          contentPadding: EdgeInsets.zero,
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ChatPage(
@@ -74,6 +103,7 @@ class RoomsScreen extends ConsumerWidget {
                           leading: UserAvatar(
                             userId: otherUser.id,
                             fromChat: true,
+                            profileImage: '',
                           ),
                           title: Text(otherUser.username),
                           subtitle: Padding(
@@ -99,11 +129,7 @@ class RoomsScreen extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(
-            child: CircularProgressIndicator(
-              color: Colors.red,
-            ),
-          ),
+          loading: () => Container(),
           error: (error, _) =>
               Center(child: Text('Error loading profiles: $error')),
         );

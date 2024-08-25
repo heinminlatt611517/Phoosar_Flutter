@@ -159,6 +159,7 @@ class _ChatBubble extends StatelessWidget {
       UserAvatar(
         userId: message.profileId,
         fromChat: true,
+        profileImage: '',
       ),
       const SizedBox(width: 12),
       Flexible(
