@@ -46,13 +46,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       final response = await repository.getProfile(jsonEncode({}), context);
       var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
       ref.read(selfProfileProvider.notifier).state = data;
-      ref.read(locationProvider.notifier).state = data.data?.city ?? "";});
+      ref.read(locationProvider.notifier).state = data.data?.city ?? "";
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final findListState = ref.watch(findListNotifierProvider(context));
-    var swipeCount = ref.watch(swipeCountProvider);
     var lastFindIds = ref.watch(lastFindIdsProvider);
 
     return Container(
@@ -236,7 +236,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     }
     var sharedPrefs = ref.watch(sharedPrefProvider);
     var oldSwipeCount = sharedPrefs.getInt("swipeCount");
-    sharedPrefs.setInt("swipeCount", (oldSwipeCount ?? 0) + 1);
+    var newSwipeCount = (oldSwipeCount ?? 0) + 1;
+
+    if (newSwipeCount == 5) {
+      sharedPrefs.setInt("swipeCount", 0);
+      setState(() {
+        isProfileBuilder = true;
+      });
+    } else {
+      sharedPrefs.setInt("swipeCount", newSwipeCount);
+    }
     ref.invalidate(swipeCountProvider);
   }
 }

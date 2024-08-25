@@ -62,7 +62,7 @@ class CoinRow extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                width: 40,
+                // width: 40,
                 child: Text(
                   likeHeartCount,
                   textAlign: TextAlign.end,

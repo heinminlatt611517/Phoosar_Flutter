@@ -6,9 +6,12 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class LikeRow extends StatelessWidget {
-  const LikeRow({super.key, required this.likeCount, required this.heartCount,required this.buyId});
+  const LikeRow(
+      {super.key,
+      required this.likeCount,
+      required this.heartCount,
+      required this.buyId});
   final String likeCount;
   final String heartCount;
   final String buyId;
@@ -23,7 +26,7 @@ class LikeRow extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                width: 20,
+                //width: 20,
                 child: Text(
                   likeCount,
                   textAlign: TextAlign.end,
@@ -75,8 +78,10 @@ class LikeRow extends StatelessWidget {
                   Navigator.pop(context);
                   showDialog(
                       context: context,
-                      builder: (context) =>
-                          UnlockDailog(heartCount: heartCount,buyId: buyId,));
+                      builder: (context) => UnlockDailog(
+                            heartCount: heartCount,
+                            buyId: buyId,
+                          ));
                 },
                 child: Text(
                   AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),

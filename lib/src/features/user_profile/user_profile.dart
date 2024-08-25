@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/text_icon_button.dart';
+import 'package:phoosar/src/features/dashboard/widgets/get_more_coins_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/user_profile/edit_profile.dart';
 import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
@@ -13,6 +14,7 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
+import 'package:phoosar/src/utils/utils.dart';
 
 class UserProfileScreen extends ConsumerWidget {
   const UserProfileScreen({
@@ -51,9 +53,8 @@ class UserProfileScreen extends ConsumerWidget {
               InkWell(
                 onTap: () {
                   showDialog(
-                    context: context,
-                    builder: (context) => GetMoreLikesDialog(),
-                  );
+                      context: context,
+                      builder: (context) => GetMoreCoinsDialog());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,7 +143,7 @@ class UserProfileScreen extends ConsumerWidget {
                             ),
                             12.hGap,
                             Text(
-                              calculateAge(
+                              Utils.calculateAge(
                                   selfProfileData?.data?.birthdate ?? ''),
                               style: GoogleFonts.roboto(
                                 fontSize: mediumLargeFontSize,
@@ -201,17 +202,5 @@ class UserProfileScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  String calculateAge(String birthdate) {
-    if (birthdate.isEmpty) return '';
-    DateTime birthDate = DateTime.parse(birthdate);
-    DateTime today = DateTime.now();
-    int age = today.year - birthDate.year;
-    if (today.month < birthDate.month ||
-        (today.month == birthDate.month && today.day < birthDate.day)) {
-      age--;
-    }
-    return age.toString();
   }
 }
