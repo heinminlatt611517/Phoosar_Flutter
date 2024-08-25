@@ -34,3 +34,9 @@ final lastFindIdsProvider = StateProvider<List<String>>((ref) {
   var lastFindIds = sharedPrefs.getStringList("lastFindIds");
   return lastFindIds ?? [];
 });
+
+final locationProvider = StateProvider<String>((ref) {
+  var sharedPrefs = ref.watch(sharedPrefProvider);
+  var userLocation = sharedPrefs.getString("userLocation");
+  return userLocation ?? "";
+});

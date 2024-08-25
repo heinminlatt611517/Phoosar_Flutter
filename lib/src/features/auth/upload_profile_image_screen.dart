@@ -64,10 +64,6 @@ class _UploadProfileImageScreenState
                   base64ImageString: (value) {
                     setState(() {
                       base64ImageString = value;
-                      ref
-                          .read(profileSaveRequestProvider)
-                          .profileImages
-                          ?.add(value);
                     });
                   },
                 ),
@@ -83,6 +79,9 @@ class _UploadProfileImageScreenState
                     text: AppLocalizations.of(context)!.kContinueLabel,
                     fontSize: 18,
                     onTap: () async {
+                      ref
+                          .read(profileSaveRequestProvider)
+                          .profileImages = [base64ImageString];
                       if (base64ImageString == "") {
                         context.showErrorSnackBar(
                             message:
@@ -90,7 +89,7 @@ class _UploadProfileImageScreenState
                       } else {
                         var request = ref.read(profileSaveRequestProvider);
                         debugPrint(
-                            "UserBirthday:::${ref.read(profileSaveRequestProvider.notifier).state.birthdate}");
+                            "UserBirthday:::${ref.read(profileSaveRequestProvider.notifier).state.profileImages?.length}");
                         setState(() {
                           _isLoading = true;
                         });

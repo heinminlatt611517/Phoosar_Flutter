@@ -93,6 +93,8 @@
    "kUnlockFeatureLabel":"Unlock Feature",
    "kOkLabel":"Ok",
    "kLastProfile":"You have reached the last profile!",
-   "kStartOver":"Start Over"
+   "kStartOver":"Start Over",
+   "kOnlineLabel" : "Online",
+   "kOfflineLabel" : "Offline"
 
 }
