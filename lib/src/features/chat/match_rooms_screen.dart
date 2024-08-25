@@ -75,6 +75,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                                         .firstWhere((user) =>
                                             user.profile!.supabaseUserId ==
                                             room.otherUserId)
+                                        .profile!
                                         .id
                                         .toString(),
                                     "reacted_type": "block"
