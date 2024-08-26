@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.19.0
   flutter_slidable: ^3.1.1
   intl_phone_number_input: ^0.7.4
+  step_progress_indicator: ^1.0.2
   gif_view: ^0.4.4
   
 

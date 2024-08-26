@@ -39,24 +39,29 @@ class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
                 itemBuilder: (context, index) {
                   return Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                            fit: BoxFit.contain,
-                            imageUrl: data[index].profile?.profileImages?[0] ??
-                                errorImageUrl,
-                            errorWidget: (context, url, error) =>
-                                Image.network(errorImageUrl)),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: CachedNetworkImage(
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              imageUrl: data[index].profile?.profileImages?[0] ??
+                                  errorImageUrl,
+                              errorWidget: (context, url, error) =>
+                                  Image.network(errorImageUrl)),
+                        ),
                       ),
-
                       ///unlock button
-                      Align(
-                        alignment: Alignment.bottomCenter,
+                      Positioned(
+                        bottom: 10,
+                        left: 0,
+                        right: 0,
                         child: InkWell(
                           onTap: () async{
                             await ref.read(repositoryProvider).saveProfileReact(
                               jsonEncode({
-                                "reacted_user_id": data[index].id,
+                                "reacted_user_id": data[index].profile?.id.toString(),
                                 "reacted_type": "unlock"
                               }),
                               context,
@@ -94,6 +99,7 @@ class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
                   crossAxisCount: 3, // number of items in each row
                   mainAxisSpacing: 20.0,
                   crossAxisSpacing: 12,
+                  childAspectRatio: 1/1.2
                 ),
               );
             },

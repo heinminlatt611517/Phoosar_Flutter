@@ -3,13 +3,17 @@ import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'dart:math' as math;
 
 class DashboardProfileSlider extends StatefulWidget {
   const DashboardProfileSlider({
     super.key,
     required this.profileImages,
+    required this.score
   });
   final List<String> profileImages;
+  final int score;
 
   @override
   State<DashboardProfileSlider> createState() => _DashboardProfileSliderState();
@@ -17,8 +21,22 @@ class DashboardProfileSlider extends StatefulWidget {
 
 class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
   int _currentIndex = 0;
+  int stepSize = 10;
+  int totalScore = 100;
+  int maxScore = 100;
+  int desiredSteps = 10;
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    double arcFraction = widget.score / totalScore;
+    double startingAngle = -math.pi * 2 / 3;
+    double arcSize = 2 * math.pi * arcFraction;
+    double stepSize = maxScore / desiredSteps;
+    int maxSteps = (widget.score / stepSize).ceil();
+    maxSteps = maxSteps > desiredSteps ? desiredSteps : maxSteps;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
       child: ClipRRect(
@@ -67,6 +85,34 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                               ),
                             ),
                           ),
+                          Positioned(
+                            left: 20,
+                            top: 20,
+                            child: Stack(
+                              children: [
+                                CircularStepProgressIndicator(
+                                totalSteps: maxSteps,
+                                currentStep: maxSteps,
+                                stepSize: stepSize.toDouble(),
+                                selectedColor: Colors.red,
+                                unselectedColor: Colors.purple[400],
+                                padding: math.pi / 100,
+                                width: 60,
+                                height: 60,
+                                  startingAngle: startingAngle,
+                                  arcSize: arcSize,
+                                gradientColor: LinearGradient(
+                                  colors: [Colors.pinkAccent, Colors.pinkAccent.withOpacity(0.3)],
+                                ),
+                                                            ),
+                                Positioned(
+                                  top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Center(child: Text("${widget.score.toString()} %",style: TextStyle(color: Colors.pinkAccent,fontWeight: FontWeight.bold),)))
+                              ],
+                            ),)
                         ],
                       ),
                     );
