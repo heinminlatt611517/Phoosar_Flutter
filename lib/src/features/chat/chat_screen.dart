@@ -152,7 +152,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.kMatchesLabel,
+                      'Matches',//AppLocalizations.of(context)!.kMatchesLabel,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
 
@@ -181,7 +181,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.kLikedYouLabel,
+                      'Liked You',//AppLocalizations.of(context)!.kLikedYouLabel,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
 
@@ -209,7 +209,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.kLikedProfilesLabel,
+                      'Liked Profiles',//AppLocalizations.of(context)!.kLikedProfilesLabel,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
 

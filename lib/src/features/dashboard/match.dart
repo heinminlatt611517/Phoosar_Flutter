@@ -1,138 +1,189 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gif_view/gif_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/data/response/profile.dart';
+import 'package:phoosar/src/features/chat/chat_page.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
-class MatchScreen extends StatefulWidget {
+class MatchScreen extends ConsumerStatefulWidget {
   const MatchScreen({super.key, required this.matchProfileData});
   final ProfileData? matchProfileData;
 
   @override
-  State<MatchScreen> createState() => _MatchScreenState();
+  ConsumerState<MatchScreen> createState() => _MatchScreenState();
 }
 
-class _MatchScreenState extends State<MatchScreen> {
+class _MatchScreenState extends ConsumerState<MatchScreen> {
+  GifController controller = GifController(loop: false);
+  bool showUI = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      showSnackBarFun(context);
+      Future.delayed(Duration(seconds: 7), () {
+        setState(() {
+          showUI = true;
+        });
+        showSnackBarFun(context);
+      });
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var selfProfileData = ref.watch(selfProfileProvider);
     return Scaffold(
       backgroundColor: whitePaleColor,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Image.asset(
-              'assets/images/ic_launcher.png',
-              width: MediaQuery.of(context).size.width * 0.3,
+            GifView.asset(
+              'assets/images/match_1125_1436.gif',
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.fill,
+              controller: controller,
             ),
-            20.vGap,
-            Center(
-              child: Text(
-                'It\'s a match',
-                style: GoogleFonts.roboto(
-                  fontSize: largeFontSize,
-                  color: blueColor,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            Text(
-              "Seem like you two like each other!",
-              textAlign: TextAlign.left,
-              style: GoogleFonts.roboto(
-                fontSize: mediumFontSize,
-                color: blackColor,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            12.vGap,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    "assets/images/sample_profile.png",
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: MediaQuery.of(context).size.width * 0.4,
-                    fit: BoxFit.cover,
+            // Image.asset(
+            //   'assets/images/match_1125_1436.gif',
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height,
+            //   fit: BoxFit.fill,
+            // ),
+            Visibility(
+              visible: showUI,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  20.vGap,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipOval(
+                        child: CachedNetworkImage(
+                          width: MediaQuery.of(context).size.width * 0.28,
+                          height: MediaQuery.of(context).size.width * 0.28,
+                          fit: BoxFit.cover,
+                          imageUrl:
+                              (selfProfileData?.data?.profileImages != null &&
+                                      selfProfileData!
+                                          .data!.profileImages!.isNotEmpty)
+                                  ? selfProfileData.data?.profileImages![0] ??
+                                      errorImageUrl
+                                  : errorImageUrl,
+                        ),
+                      ),
+                      14.hGap,
+                      ClipOval(
+                        child: CachedNetworkImage(
+                          width: MediaQuery.of(context).size.width * 0.28,
+                          height: MediaQuery.of(context).size.width * 0.28,
+                          fit: BoxFit.cover,
+                          imageUrl:
+                              (widget.matchProfileData?.profileImages != null &&
+                                      widget.matchProfileData!.profileImages!
+                                          .isNotEmpty)
+                                  ? widget.matchProfileData!.profileImages![0]
+                                  : errorImageUrl,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                8.hGap,
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    "assets/images/sample_profile2.jpeg",
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: MediaQuery.of(context).size.width * 0.4,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
-            30.vGap,
-            Center(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'MESSAGE',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.roboto(
-                      fontSize: smallFontSize,
-                      color: whiteColor,
-                      fontWeight: FontWeight.w400,
+                  30.vGap,
+                  Center(
+                    child: Text(
+                      'Let\'s the show begin',
+                      style: GoogleFonts.roboto(
+                        fontSize: largeFontSize,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            12.vGap,
-            Center(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: whitePaleColor,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: greyColor, width: 1),
-                  ),
-                  child: Text(
-                    'CONTINUE PLAYING',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.roboto(
-                      fontSize: smallFontSize,
-                      color: blackColor,
-                      fontWeight: FontWeight.w400,
+                  24.vGap,
+                  Center(
+                    child: InkWell(
+                      onTap: () async {
+                        Navigator.pop(context);
+                        try {
+                          // Accessing RoomProvider to create a room
+                          final roomId = await ref
+                              .read(roomsProvider.notifier)
+                              .createRoom(widget
+                                  .matchProfileData!.supabaseUserId
+                                  .toString());
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                  roomId: roomId,
+                                  otherUserName: widget.matchProfileData!.name
+                                      .toString())));
+                        } catch (e) {
+                          log("Failed to create a new room: ${e.toString()}");
+                        }
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'MESSAGE',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.roboto(
+                            fontSize: smallFontSize,
+                            color: whiteColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  20.vGap,
+                  Center(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: whitePaleColor,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: greyColor, width: 1),
+                        ),
+                        child: Text(
+                          'CONTINUE PLAYING',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.roboto(
+                            fontSize: smallFontSize,
+                            color: blackColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),
