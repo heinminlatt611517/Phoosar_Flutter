@@ -1,19 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_textfield.dart';
+import 'package:phoosar/src/common/widgets/error_dialog.dart';
+import 'package:phoosar/src/data/response/profile_builder_response.dart';
+import 'package:phoosar/src/data/response/profile_builder_save_response.dart';
+import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-class ProfileBuilder extends StatefulWidget {
-  const ProfileBuilder({super.key});
+class ProfileBuilder extends ConsumerStatefulWidget {
+  const ProfileBuilder(
+      {super.key, required this.profileBuilderData, required this.onSave});
+  final ProfileBuilderData profileBuilderData;
+  final Function() onSave;
 
   @override
-  State<ProfileBuilder> createState() => _ProfileBuilderState();
+  ConsumerState<ProfileBuilder> createState() => _ProfileBuilderState();
 }
 
-class _ProfileBuilderState extends State<ProfileBuilder> {
+class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -43,13 +53,13 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
                 padding: const EdgeInsets.only(top: 4),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.heart_broken,
-                      size: 15,
+                    Image.asset(
+                      'assets/images/ic_love.png',
+                      width: 15,
                       color: Colors.red,
                     ),
                     Text(
-                      '+10',
+                      ' ++',
                       style: GoogleFonts.roboto(
                         fontSize: smallFontSize,
                         color: blueColor,
@@ -60,18 +70,19 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
               ),
             ],
           ),
+          12.vGap,
           Text(
             "Answer the question below and increase your likelihood of finding a better match. A full profile gets 3x matches.",
             textAlign: TextAlign.left,
             style: GoogleFonts.roboto(
-              fontSize: smallFontSize,
+              fontSize: mediumFontSize,
               color: blackColor,
               fontWeight: FontWeight.w100,
             ),
           ),
-          12.vGap,
+          20.vGap,
           Text(
-            "After work, you can find me ..",
+            widget.profileBuilderData.question ?? '',
             textAlign: TextAlign.left,
             style: GoogleFonts.roboto(
               fontSize: mediumFontSize,
@@ -86,13 +97,26 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
             hintText: "Tap here to answer",
             maxLines: 8,
           ),
-          12.vGap,
+          20.vGap,
           Center(
             child: CommonButton(
               text: "Save",
+              containerVPadding: 12,
+              containerHPadding: 20,
               onTap: () {
-                showSnackBarFun(context);
-                showSuccessUpdated(context);
+                if (_controller.text.isEmpty) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => ErrorDialog(
+                            title: "Empty Answer",
+                            message: "Please enter your answer",
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                          ));
+                } else {
+                  saveProfileBuilderQuestion();
+                }
               },
             ),
           ),
@@ -101,18 +125,32 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
     );
   }
 
-  showSnackBarFun(context) {
+  saveProfileBuilderQuestion() async {
+    var response =
+        await ref.read(repositoryProvider).saveProfileBuiderQuestion({
+      "question_id": widget.profileBuilderData.id.toString(),
+      "answer_text": _controller.text.toString()
+    }, context);
+    if (response.statusCode == 200) {
+      var profileBuilderSaveResponse =
+          ProfileBuilderSaveResponse.fromJson(jsonDecode(response.body));
+      showSuccessUpdated(context);
+      showSnackBarFun(
+          context, profileBuilderSaveResponse.data?.questionBuilderPoint ?? 0);
+
+      widget.onSave();
+    }
+  }
+
+  showSnackBarFun(context, count) {
     SnackBar snackBar = SnackBar(
       content: Row(
         children: [
-          Icon(
-            Icons.heart_broken,
-            size: 15,
-            color: Colors.red,
-          ),
+          Image.asset("assets/images/ic_love.png",
+              width: 15, color: Colors.red),
           4.hGap,
           Text(
-            'You received 10 💕 for updating your profile',
+            'You received $count 💕 for updating your profile',
             style: GoogleFonts.roboto(
               fontSize: smallFontSize,
               color: whiteColor,
@@ -124,7 +162,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
       dismissDirection: DismissDirection.up,
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 150,
+          bottom: MediaQuery.of(context).size.height - 120,
           left: 10,
           right: 10),
     );

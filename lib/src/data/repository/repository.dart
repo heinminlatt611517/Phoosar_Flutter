@@ -368,4 +368,24 @@ class Repository {
     return response;
   }
 
+  Future<Response> getProfileBuiderQuestion(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/get-question-builder"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> saveProfileBuiderQuestion(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/save-question-builder"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

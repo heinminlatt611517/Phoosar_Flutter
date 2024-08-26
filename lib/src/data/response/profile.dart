@@ -17,6 +17,7 @@ class ProfileData {
   String? city;
   String? matchCountry;
   String? matchCity;
+  int? score;
   List<String>? speakLanguages;
   List<String>? interests;
   List<MoreDetails>? moreDetails;
@@ -42,6 +43,7 @@ class ProfileData {
       this.city,
       this.matchCountry,
       this.matchCity,
+      this.score,
       this.speakLanguages,
       this.interests,
       this.moreDetails,
@@ -67,6 +69,7 @@ class ProfileData {
     city = json['city'];
     matchCountry = json['match_country'];
     matchCity = json['match_city'];
+    score = json['score'];
     speakLanguages = json['speak_languages'].cast<String>();
     interests = json['interests'].cast<String>();
     if (json['more_details'] != null) {
@@ -104,6 +107,7 @@ class ProfileData {
     data['city'] = this.city;
     data['match_country'] = this.matchCountry;
     data['match_city'] = this.matchCity;
+    data['score'] = this.score;
     data['speak_languages'] = this.speakLanguages;
     data['interests'] = this.interests;
     if (this.moreDetails != null) {
