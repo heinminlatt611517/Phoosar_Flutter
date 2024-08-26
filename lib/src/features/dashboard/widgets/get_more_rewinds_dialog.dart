@@ -36,7 +36,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                   height: data.length * 60,
                   child: ListView.builder(
                       itemCount: data.length,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
