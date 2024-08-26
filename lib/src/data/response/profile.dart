@@ -22,6 +22,8 @@ class ProfileData {
   List<MoreDetails>? moreDetails;
   List<String>? profileImages;
   List<UploadPhotoData>? uploadPhotoData;
+  ShowAge? showAge;
+  DistanceInvisible? distanceInvisible;
 
   ProfileData(
       {this.id,
@@ -46,7 +48,9 @@ class ProfileData {
       this.interests,
       this.moreDetails,
       this.profileImages,
-      this.uploadPhotoData});
+      this.uploadPhotoData,
+        this.showAge,
+        this.distanceInvisible});
 
   ProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -82,6 +86,12 @@ class ProfileData {
       });
     }
     profileImages = json['profile_images'].cast<String>();
+    showAge = json['show_age'] != null
+        ? new ShowAge.fromJson(json['show_age'])
+        : null;
+    distanceInvisible = json['distance_invisible'] != null
+        ? new DistanceInvisible.fromJson(json['distance_invisible'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -114,6 +124,12 @@ class ProfileData {
           this.uploadPhotoData!.map((v) => v.toJson()).toList();
     }
     data['profile_images'] = this.profileImages;
+    if (this.showAge != null) {
+      data['show_age'] = this.showAge!.toJson();
+    }
+    if (this.distanceInvisible != null) {
+      data['distance_invisible'] = this.distanceInvisible!.toJson();
+    }
     return data;
   }
 }
@@ -158,6 +174,45 @@ class UploadPhotoData {
     data['id'] = this.id;
     data['url'] = this.url;
     data['can_upload'] = this.canUpload;
+    return data;
+  }
+}
+
+class ShowAge {
+  bool? showAgeStatus;
+  int? pointProfileShowAge;
+
+  ShowAge({this.showAgeStatus, this.pointProfileShowAge});
+
+  ShowAge.fromJson(Map<String, dynamic> json) {
+    showAgeStatus = json['show_age_status'];
+    pointProfileShowAge = json['point_profile_show_age'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['show_age_status'] = this.showAgeStatus;
+    data['point_profile_show_age'] = this.pointProfileShowAge;
+    return data;
+  }
+}
+
+class DistanceInvisible {
+  bool? distanceInvisibleStatus;
+  int? pointDistanceInvisible;
+
+  DistanceInvisible(
+      {this.distanceInvisibleStatus, this.pointDistanceInvisible});
+
+  DistanceInvisible.fromJson(Map<String, dynamic> json) {
+    distanceInvisibleStatus = json['distance_invisible_status'];
+    pointDistanceInvisible = json['point_distance_invisible'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['distance_invisible_status'] = this.distanceInvisibleStatus;
+    data['point_distance_invisible'] = this.pointDistanceInvisible;
     return data;
   }
 }

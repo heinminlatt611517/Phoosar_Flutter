@@ -23,7 +23,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
   List<Color> indicatorColors = [];
-  List<Questions> selectedQuestionList = [];
+  Map<int, Questions> selectedQuestionsMap = {};
   var isLoading = false;
 
   @override
@@ -53,7 +53,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
             if (indicatorColors.length != data.length) {
               indicatorColors = List.generate(
                 data.length,
-                (_) => Colors.grey.withOpacity(0.4),
+                    (_) => Colors.grey.withOpacity(0.4),
               );
               indicatorColors.first = Colors.blue;
             }
@@ -79,12 +79,20 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                           });
                         },
                         children: data
-                            .map((questions) => QuestionWidgetView(
-                                  questionData: (questionsData) {
-                                    selectedQuestionList.add(questionsData);
-                                  },
-                                  data: questions,
-                                ))
+                            .asMap()
+                            .map((index, questions) => MapEntry(
+                          index,
+                          QuestionWidgetView(
+                            questionData: (questionsData) {
+                              setState(() {
+                                selectedQuestionsMap[index] = questionsData;
+                              });
+                            },
+                            data: questions,
+                            selectedQuestion: selectedQuestionsMap[index],
+                          ),
+                        ))
+                            .values
                             .toList(),
                       ),
                     ),
@@ -124,7 +132,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         questionList.length,
-        (index) => buildIndicator(index),
+            (index) => buildIndicator(index),
       ),
     );
   }
@@ -147,8 +155,8 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     setState(() {
       indicatorColors = List.generate(
         indicatorColors.length,
-        (index) =>
-            index <= _currentPage ? Colors.blue : Colors.grey.withOpacity(0.4),
+            (index) =>
+        index <= _currentPage ? Colors.blue : Colors.grey.withOpacity(0.4),
       );
     });
   }
@@ -164,14 +172,15 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
         fontSize: 18,
         onTap: () async {
           ref.read(questionSaveRequestProvider).questions =
-              selectedQuestionList;
+              selectedQuestionsMap.values.toList();
+          debugPrint("request:::${selectedQuestionsMap.values.toList().toString()}");
           if (index == pageLength - 1) {
             setState(() {
               isLoading = true;
             });
             var request = ref.read(questionSaveRequestProvider);
             var response =
-                await ref.read(repositoryProvider).saveUserQA(request, context);
+            await ref.read(repositoryProvider).saveUserQA(request, context);
             if (response.statusCode.toString().startsWith('2')) {
               Navigator.pushReplacement(
                 context,
@@ -199,18 +208,31 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
 class QuestionWidgetView extends StatefulWidget {
   final QuestionData data;
   final Function(Questions) questionData;
+  final Questions? selectedQuestion;
 
-  const QuestionWidgetView(
-      {super.key, required this.data, required this.questionData});
+  const QuestionWidgetView({
+    super.key,
+    required this.data,
+    required this.questionData,
+    this.selectedQuestion,
+  });
 
   @override
   State<QuestionWidgetView> createState() => _QuestionWidgetViewState();
 }
 
 class _QuestionWidgetViewState extends State<QuestionWidgetView> {
-  var selectedText = "";
+  late String selectedText;
   TextEditingController shortDescriptionTextController =
-      TextEditingController();
+  TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize selectedText based on the passed selectedQuestion
+    selectedText = widget.selectedQuestion?.answerText ?? "";
+    shortDescriptionTextController.text = widget.selectedQuestion?.answerText ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,66 +257,66 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                 SizedBox(height: 80),
                 widget.data.answerType.toString() == "1"
                     ? TextFormField(
-                        maxLines: 10,
-                        controller: shortDescriptionTextController,
-                        onChanged: (value) {
+                    maxLines: 10,
+                    controller: shortDescriptionTextController,
+                    onChanged: (value) {
+                      var craftQuestionVo = Questions(
+                        id: widget.data.id,
+                        answerId: "",
+                        answerText: value,
+                      );
+                      widget.questionData(craftQuestionVo);
+                    },
+                    decoration: InputDecoration(
+                      hintMaxLines: 2,
+                      hintStyle: TextStyle(
+                          fontSize: kTextRegular,
+                          color: Colors.grey.withOpacity(0.8)),
+                      hintText: AppLocalizations.of(context)!
+                          .kHowWouldYourFamilyOrBestFriendDescribeYou,
+                      fillColor: Colors.white,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 0.5,
+                        ),
+                      ),
+                    ))
+                    : ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: SelectableButton(
+                        label: widget.data.answers?[index].answer ?? "",
+                        isSelected: selectedText ==
+                            widget.data.answers?[index].answer,
+                        onTapButton: (value) {
                           var craftQuestionVo = Questions(
                             id: widget.data.id,
-                            answerId: "",
-                            answerText: value,
+                            answerId:
+                            widget.data.answers?[index].id.toString(),
+                            answerText: widget.data.answers?[index].answer
+                                .toString(),
                           );
                           widget.questionData(craftQuestionVo);
+                          setState(() {
+                            selectedText = value;
+                          });
                         },
-                        decoration: InputDecoration(
-                          hintMaxLines: 2,
-                          hintStyle: TextStyle(
-                              fontSize: kTextRegular,
-                              color: Colors.grey.withOpacity(0.8)),
-                          hintText: AppLocalizations.of(context)!
-                              .kHowWouldYourFamilyOrBestFriendDescribeYou,
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                        ))
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: SelectableButton(
-                              label: widget.data.answers?[index].answer ?? "",
-                              isSelected: selectedText ==
-                                  widget.data.answers?[index].answer,
-                              onTapButton: (value) {
-                                var craftQuestionVo = Questions(
-                                  id: widget.data.id,
-                                  answerId:
-                                      widget.data.answers?[index].id.toString(),
-                                  answerText: widget.data.answers?[index].answer
-                                      .toString(),
-                                );
-                                widget.questionData(craftQuestionVo);
-                                setState(() {
-                                  selectedText = value;
-                                });
-                              },
-                            ),
-                          );
-                        },
-                        itemCount: widget.data.answers?.length ?? 0,
                       ),
+                    );
+                  },
+                  itemCount: widget.data.answers?.length ?? 0,
+                ),
               ],
             ),
           ),
@@ -303,3 +325,6 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
     );
   }
 }
+
+
+

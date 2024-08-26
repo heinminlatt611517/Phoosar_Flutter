@@ -169,7 +169,8 @@ class _ChooseImageViewState extends State<ChooseImageView> {
               left: 0,
               right: 0,
               child: _image != null
-                  ? Image.file(_image ?? File(""))
+                  ? Image.file(_image ?? File(""),height: 240,
+                width: 240,fit: BoxFit.cover,)
                   : Image.asset(
                       'assets/images/upload_profile_img.png',
                       height: 240,

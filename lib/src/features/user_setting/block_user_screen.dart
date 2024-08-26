@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,7 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../providers/app_provider.dart';
 import '../../utils/colors.dart';
 
 class BlockUserScreen extends ConsumerStatefulWidget {
@@ -45,25 +48,39 @@ class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
                             errorWidget: (context, url, error) =>
                                 Image.network(errorImageUrl)),
                       ),
+
+                      ///unlock button
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: IntrinsicHeight(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: kMarginMedium2),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: kMarginMedium,
-                                vertical: kMarginSmall),
-                            decoration: BoxDecoration(
-                              color: Colors.pinkAccent,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Center(
-                              child: Text(
-                                AppLocalizations.of(context)!.kUnlockLabel,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                        child: InkWell(
+                          onTap: () async{
+                            await ref.read(repositoryProvider).saveProfileReact(
+                              jsonEncode({
+                                "reacted_user_id": data[index].id,
+                                "reacted_type": "unlock"
+                              }),
+                              context,
+                            );
+                            ref.invalidate(blockedUserDataProvider);
+                          },
+                          child: IntrinsicHeight(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: kMarginMedium2),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: kMarginMedium,
+                                  vertical: kMarginSmall),
+                              decoration: BoxDecoration(
+                                color: Colors.pinkAccent,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  AppLocalizations.of(context)!.kUnlockLabel,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ),

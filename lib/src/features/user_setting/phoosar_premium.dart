@@ -43,26 +43,31 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                 )),
             20.vGap,
             packageList.when(
-              data: (data) => Container(
-                height: 140,
-                width: context.widthPx,
-                child: ListView.builder(
-                    itemCount: data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return SelectableCard(
-                        duration: data[index].name ?? '',
-                        price: "${data[index].value} kyats" ?? '',
-                        label: '',
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = index;
-                            selectedPackageData = data[index];
-                          });
-                        },
-                        isSelected: selectedIndex == index,
-                      );
-                    }),
+              data: (data) => GridView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(12),
+                itemBuilder: (context, index) {
+                  return SelectableCard(
+                    month: data[index].month.toString(),
+                    price: "${data[index].value} kyats" ?? '',
+                    isPopular: data[index].isPopular,
+                    label: '',
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                        selectedPackageData = data[index];
+                      });
+                    },
+                    isSelected: selectedIndex == index,
+                  );
+                },
+                itemCount: data.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // number of items in each row
+                    mainAxisSpacing: 20.0, // spacing between rows
+                    crossAxisSpacing: 0.0,
+                    childAspectRatio: 1/1.2
+                ),
               ),
               error: (error, stack) => Text(error.toString()),
               loading: () => CircularProgressIndicator(),
