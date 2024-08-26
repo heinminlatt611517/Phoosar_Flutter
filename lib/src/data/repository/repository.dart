@@ -270,6 +270,7 @@ class Repository {
 
   Future<Response> saveProfileReact(
       dynamic request, BuildContext context) async {
+    debugPrint("Request:::$request");
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-react"),
       request,

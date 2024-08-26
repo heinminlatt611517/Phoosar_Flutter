@@ -26,6 +26,7 @@ class InfoCard extends StatelessWidget {
       child: Stack(
         children: [
           DashboardProfileSlider(
+            score: findData.score ?? 0,
             profileImages: (findData.profileImages == null ||
                     findData.profileImages!.isEmpty)
                 ? [errorImageUrl]
