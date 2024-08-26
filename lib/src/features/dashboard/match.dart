@@ -50,7 +50,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         child: Stack(
           children: [
             GifView.asset(
-              'assets/images/match_1125_1436.gif',
+              'assets/images/match_728_1280.gif',
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               fit: BoxFit.fill,
@@ -117,7 +117,6 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   Center(
                     child: InkWell(
                       onTap: () async {
-                        Navigator.pop(context);
                         try {
                           // Accessing RoomProvider to create a room
                           final roomId = await ref
@@ -125,11 +124,13 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               .createRoom(widget
                                   .matchProfileData!.supabaseUserId
                                   .toString());
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                  roomId: roomId,
-                                  otherUserName: widget.matchProfileData!.name
-                                      .toString())));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                      roomId: roomId,
+                                      otherUserName: widget
+                                          .matchProfileData!.name
+                                          .toString())));
                         } catch (e) {
                           log("Failed to create a new room: ${e.toString()}");
                         }
