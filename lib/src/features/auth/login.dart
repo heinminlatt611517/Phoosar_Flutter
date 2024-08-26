@@ -67,22 +67,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> saveSupabaseUserId(AuthState data) async {
+  Future<void> saveSupabaseUserId(String userId) async {
     var response = await ref.read(repositoryProvider).saveSupabaseUserId(
       {
-        "supabase_user_id": data.session!.user.id.toString(),
+        "supabase_user_id": userId.toString(),
       },
       context,
     );
     if (response.statusCode.toString().startsWith("2")) {
-      final session = data.session;
-      if (session != null && !haveNavigated) {
-        haveNavigated = true;
-        setState(() {
-          recentOnboardingStatus = recentOnBoarding ?? '';
-        });
-        navigateToNextScreen();
-      }
+      navigateToNextScreen();
     } else {
       // Handle error response
     }
@@ -522,6 +515,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         setState(() {
           recentOnboardingStatus = authResponse.recentOnBoarding ?? '';
         });
+
         supabaseSocialLogin(email);
       } else {
         setState(() {
@@ -534,11 +528,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   supabaseSocialLogin(String email) async {
     try {
-      await supabase.auth.signInWithPassword(
+      var authState = await supabase.auth.signInWithPassword(
         email: email,
         password: email,
       );
-      navigateToNextScreen();
+      saveSupabaseUserId(authState.session!.user.id.toString());
     } on AuthException catch (error) {
       setState(() {
         _isLoading = false;
