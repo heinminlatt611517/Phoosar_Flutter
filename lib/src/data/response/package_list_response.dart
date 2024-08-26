@@ -30,24 +30,27 @@ class PackageListResponse {
 class PackageData {
   int? id;
   String? name;
+  int? month;
   String? value;
-  String? point;
+  bool? isPopular;
 
-  PackageData({this.id, this.name, this.value, this.point});
+  PackageData({this.id, this.name, this.month, this.value, this.isPopular});
 
   PackageData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    month = json['month'];
     value = json['value'];
-    point = json['point'];
+    isPopular = json['is_popular'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['month'] = this.month;
     data['value'] = this.value;
-    data['point'] = this.point;
+    data['is_popular'] = this.isPopular;
     return data;
   }
 }

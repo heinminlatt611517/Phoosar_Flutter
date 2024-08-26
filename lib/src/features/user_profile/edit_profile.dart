@@ -12,7 +12,6 @@ import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/common/widgets/selectable_button.dart';
-import 'package:phoosar/src/data/dummy_data/upload_photo_data.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/data/response/self_profile_response.dart';
@@ -44,13 +43,25 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   var isSmoke = "";
-
   var selectedDay = "";
   var selectedMonth = "";
   var selectedYear = "";
   List<String> days = List.generate(31, (i) => (i + 1).toString());
   int currentYear = DateTime.now().year;
   List<String> years = [];
+  final FocusNode _focusNodeName = FocusNode();
+  final FocusNode _focusNodeAbout = FocusNode();
+  final FocusNode _focusNodeJobTitle = FocusNode();
+  final FocusNode _focusNodeSchool = FocusNode();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController aboutController = TextEditingController();
+  final TextEditingController jobTitleController = TextEditingController();
+  final TextEditingController schoolController = TextEditingController();
+  final TextEditingController livingInController = TextEditingController();
+  String _nameText = '';
+  String _aboutText = '';
+  String _jobTitleText = '';
+  String _schoolText = '';
 
   @override
   void initState() {
@@ -58,6 +69,60 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     days.insert(0, 'Day');
     years = List.generate(61, (i) => (currentYear - i).toString());
     years.insert(0, 'Year');
+
+    _focusNodeName.addListener(() {
+      if (!_focusNodeName.hasFocus) {
+        _onFieldNameFocusLost();
+      }
+    });
+
+    _focusNodeAbout.addListener(() {
+      if (!_focusNodeAbout.hasFocus) {
+        _onFieldAboutFocusLost();
+      }
+    });
+
+    _focusNodeJobTitle.addListener(() {
+      if (!_focusNodeAbout.hasFocus) {
+        _onFieldJobTitleFocusLost();
+      }
+    });
+
+    _focusNodeSchool.addListener(() {
+      if (!_focusNodeSchool.hasFocus) {
+        _onFieldSchoolFocusLost();
+      }
+    });
+  }
+
+  void _onFieldNameFocusLost() {
+    if (nameController.text != _nameText) {
+      var request = {"name": nameController.text};
+       callSaveProfile(request, context);
+      _nameText = nameController.text;
+    }
+  }
+
+  void _onFieldAboutFocusLost() {
+    if (aboutController.text != _aboutText) {
+      var request = {"about": aboutController.text};
+      callSaveProfile(request, context);
+      _aboutText = aboutController.text;
+    }
+  }
+  void _onFieldJobTitleFocusLost() {
+    if (jobTitleController.text != _jobTitleText) {
+      var request = {"job_title": jobTitleController.text};
+      callSaveProfile(request, context);
+      _jobTitleText = jobTitleController.text;
+    }
+  }
+  void _onFieldSchoolFocusLost() {
+    if (schoolController.text != _schoolText) {
+      var request = {"school": schoolController.text};
+      callSaveProfile(request, context);
+      _schoolText = schoolController.text;
+    }
   }
 
   ///cropImage
@@ -205,16 +270,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
+                descriptionController : nameController,
                 title: AppLocalizations.of(context)!.kNameLabel,
                 description: data?.name ?? "",
+                focusNode: _focusNodeName,
                 onChangeDescription: (value) async {
-                  var request = {"name": value};
-                  var response = await ref
-                      .read(repositoryProvider)
-                      .saveProfile(request, context);
-                  if (response.statusCode.toString().startsWith('2')) {
-                    ref.invalidate(profileDataProvider);
-                  }
                 },
               ),
               Divider(
@@ -256,14 +316,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                     DateFormat('d, MMMM, yyyy')
                                         .parse(selectedDayBirthDate))
                               };
-                              var response = await ref
-                                  .read(repositoryProvider)
-                                  .saveProfile(request, context);
-                              if (response.statusCode
-                                  .toString()
-                                  .startsWith('2')) {
-                                ref.invalidate(profileDataProvider);
-                              }
+                              await callSaveProfile(request, context);
                             },
                             initValue:
                                 DateTime.parse(data?.birthdate).day.toString()),
@@ -282,14 +335,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                     DateFormat('d, MMMM, yyyy')
                                         .parse(selectedMonthBirthDate))
                               };
-                              var response = await ref
-                                  .read(repositoryProvider)
-                                  .saveProfile(request, context);
-                              if (response.statusCode
-                                  .toString()
-                                  .startsWith('2')) {
-                                ref.invalidate(profileDataProvider);
-                              }
+                              await callSaveProfile(request, context);
                             },
                             initValue: DateFormat("MMMM")
                                 .format(DateTime.parse(data?.birthdate))),
@@ -308,14 +354,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                     DateFormat('d, MMMM, yyyy')
                                         .parse(selectedMonthBirthDate))
                               };
-                              var response = await ref
-                                  .read(repositoryProvider)
-                                  .saveProfile(request, context);
-                              if (response.statusCode
-                                  .toString()
-                                  .startsWith('2')) {
-                                ref.invalidate(profileDataProvider);
-                              }
+                              await callSaveProfile(request, context);
                             },
                             initValue: DateTime.parse(data?.birthdate)
                                 .year
@@ -327,17 +366,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
+                focusNode: _focusNodeAbout,
+                descriptionController : aboutController,
                 title:
                     '${AppLocalizations.of(context)!.kAboutLabel} ${data?.name ?? ""}',
                 description: data?.about ?? "",
                 onChangeDescription: (value) async {
-                  var request = {"about": value};
-                  var response = await ref
-                      .read(repositoryProvider)
-                      .saveProfile(request, context);
-                  if (response.statusCode.toString().startsWith('2')) {
-                    ref.invalidate(profileDataProvider);
-                  }
                 },
               ),
               Divider(
@@ -346,16 +380,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
+                descriptionController: jobTitleController,
+                focusNode: _focusNodeJobTitle,
                 title: AppLocalizations.of(context)!.kJobTitleLabel,
                 description: data?.jobTitle ?? "",
                 onChangeDescription: (value) async {
-                  var request = {"job_title": value};
-                  var response = await ref
-                      .read(repositoryProvider)
-                      .saveProfile(request, context);
-                  if (response.statusCode.toString().startsWith('2')) {
-                    ref.invalidate(profileDataProvider);
-                  }
                 },
               ),
               Divider(
@@ -364,16 +393,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
+                descriptionController: schoolController,
+                focusNode: _focusNodeSchool,
                 title: AppLocalizations.of(context)!.kSchoolLabel,
                 description: data?.school ?? "",
                 onChangeDescription: (value) async {
-                  var request = {"school": value};
-                  var response = await ref
-                      .read(repositoryProvider)
-                      .saveProfile(request, context);
-                  if (response.statusCode.toString().startsWith('2')) {
-                    ref.invalidate(profileDataProvider);
-                  }
                 },
               ),
               Divider(
@@ -382,6 +406,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               12.vGap,
               SelfInformation(
+                descriptionController: livingInController,
                 title: AppLocalizations.of(context)!.kLivingInLabel,
                 description: '${data?.city ?? ""}, ${data?.city ?? ""}',
               ),
@@ -664,14 +689,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 data?.gender.toString() == "1" ? true : false,
                             onTapButton: (value) async {
                               var request = {"gender": "1"};
-                              var response = await ref
-                                  .read(repositoryProvider)
-                                  .saveProfile(request, context);
-                              if (response.statusCode
-                                  .toString()
-                                  .startsWith('2')) {
-                                ref.invalidate(profileDataProvider);
-                              }
+                              await callSaveProfile(request, context);
                             })),
                     20.hGap,
                     SizedBox(
@@ -683,14 +701,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 data?.gender.toString() == "2" ? true : false,
                             onTapButton: (value) async {
                               var request = {"gender": "2"};
-                              var response = await ref
-                                  .read(repositoryProvider)
-                                  .saveProfile(request, context);
-                              if (response.statusCode
-                                  .toString()
-                                  .startsWith('2')) {
-                                ref.invalidate(profileDataProvider);
-                              }
+                              await callSaveProfile(request, context);
                             })),
                   ],
                 ),
@@ -729,7 +740,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       ),
                     ),
                     Spacer(),
-                    CoinCount(coinCount: "10")
+                    Visibility(
+                      visible: !data!.showAge!.showAgeStatus!,
+                      child: InkWell(
+                        onTap: (){
+                          showDialog(
+                              context: context,
+                              builder: (context) => UnlockCoinDialog(
+                                coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",
+                              ));
+                        },
+                          child: CoinCount(coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",)),
+                    )
                   ],
                 ),
               ),
@@ -755,7 +777,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       ),
                     ),
                     Spacer(),
-                    CoinCount(coinCount: "10")
+                    Visibility(
+                      visible: !data.distanceInvisible!.distanceInvisibleStatus!,
+                      child: InkWell(
+                        onTap: (){
+                          showDialog(
+                              context: context,
+                              builder: (context) => UnlockCoinDialog(
+                                coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",
+                              ));
+                        },
+                          child: CoinCount(coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",)),
+                    )
                   ],
                 ),
               ),
@@ -773,6 +806,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             ),
           );
         }));
+  }
+
+  Future<void> callSaveProfile(Map<String, String> request, BuildContext context) async {
+    debugPrint("CallSaveProfileApi>>>>>>>>>>>>");
+    var response = await ref
+        .read(repositoryProvider)
+        .saveProfile(request, context);
+    if (response.statusCode.toString().startsWith('2')) {
+      ref.invalidate(profileDataProvider);
+    }
   }
 
   void showChooseImageBottomSheet(

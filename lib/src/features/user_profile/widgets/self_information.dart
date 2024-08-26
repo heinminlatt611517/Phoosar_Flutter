@@ -9,11 +9,15 @@ class SelfInformation extends StatefulWidget {
     super.key,
     required this.title,
     required this.description,
-    this.onChangeDescription
+    this.onChangeDescription,
+    this.focusNode,
+    this.descriptionController
   });
 
   final String title;
   final String description;
+  final FocusNode? focusNode;
+  final TextEditingController? descriptionController;
   final Function(String value)? onChangeDescription;
 
   @override
@@ -21,12 +25,11 @@ class SelfInformation extends StatefulWidget {
 }
 
 class _SelfInformationState extends State<SelfInformation> {
-  TextEditingController descriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    descriptionController.text = widget.description;
+    widget.descriptionController?.text = widget.description;
   }
   @override
   Widget build(BuildContext context) {
@@ -58,9 +61,10 @@ class _SelfInformationState extends State<SelfInformation> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextFormField(
-              controller: descriptionController,
+              controller: widget.descriptionController,
               textAlign: TextAlign.left,
-              onFieldSubmitted: (value){
+              focusNode: widget.focusNode,
+              onChanged: (value){
                 widget.onChangeDescription!(value);
               },
               decoration: InputDecoration(border: InputBorder.none),

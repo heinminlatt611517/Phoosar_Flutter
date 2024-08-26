@@ -32,14 +32,16 @@ class PointData {
   String? name;
   String? value;
   String? point;
+  bool? isPopular;
 
-  PointData({this.id, this.name, this.value, this.point});
+  PointData({this.id, this.name, this.value, this.point, this.isPopular});
 
   PointData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     value = json['value'];
     point = json['point'];
+    isPopular = json['is_popular'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +50,8 @@ class PointData {
     data['name'] = this.name;
     data['value'] = this.value;
     data['point'] = this.point;
+    data['is_popular'] = this.isPopular;
     return data;
   }
 }
+

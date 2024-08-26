@@ -140,6 +140,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                       containerVPadding: 10,
                       text: AppLocalizations.of(context)!.kConfirmLabel,
                       fontSize: 18,
+                      isLoading: isLoading,
                       onTap: () {
                         _signUp();
                       },
