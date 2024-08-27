@@ -24,6 +24,7 @@ class UserProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var selfProfileData = ref.watch(selfProfileProvider);
+
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -117,7 +118,7 @@ class UserProfileScreen extends ConsumerWidget {
                             height: 50,
                             fit: BoxFit.cover,
                           ),
-                          Text(DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? "")),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
+                          Text(selfProfileData?.data?.isPremium == false ? " " : DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? "")),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
                         ],),
                       ),
                       Container(height: double.infinity,color: Colors.grey.withOpacity(0.5),width: 1,),
