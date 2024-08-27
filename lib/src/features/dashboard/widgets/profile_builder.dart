@@ -8,16 +8,22 @@ import 'package:phoosar/src/common/widgets/common_textfield.dart';
 import 'package:phoosar/src/common/widgets/error_dialog.dart';
 import 'package:phoosar/src/data/response/profile_builder_response.dart';
 import 'package:phoosar/src/data/response/profile_builder_save_response.dart';
+import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class ProfileBuilder extends ConsumerStatefulWidget {
   const ProfileBuilder(
-      {super.key, required this.profileBuilderData, required this.onSave});
+      {super.key,
+      required this.profileBuilderData,
+      required this.onSave,
+      required this.onCancel});
   final ProfileBuilderData profileBuilderData;
   final Function() onSave;
+  final Function() onCancel;
 
   @override
   ConsumerState<ProfileBuilder> createState() => _ProfileBuilderState();
@@ -107,7 +113,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                 containerVPadding: 12,
                 containerHPadding: 20,
                 onTap: () {
-                  Navigator.pop(context);
+                  widget.onCancel();
                 },
               ),
               12.hGap,
@@ -147,6 +153,18 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
     if (response.statusCode == 200) {
       var profileBuilderSaveResponse =
           ProfileBuilderSaveResponse.fromJson(jsonDecode(response.body));
+
+      final repository = ref.watch(repositoryProvider);
+      repository.saveOnlineStatus(
+        jsonEncode({"is_online": true}),
+        context,
+      );
+
+      final profileesponse =
+          await repository.getProfile(jsonEncode({}), context);
+      var data = SelfProfileResponse.fromJson(jsonDecode(profileesponse.body));
+      ref.read(selfProfileProvider.notifier).state = data;
+      ref.read(locationProvider.notifier).state = data.data?.city ?? "";
       showSuccessUpdated(context);
       showSnackBarFun(
           context, profileBuilderSaveResponse.data?.questionBuilderPoint ?? 0);

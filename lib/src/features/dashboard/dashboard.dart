@@ -57,6 +57,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(BuildContext context) {
     final findListState = ref.watch(findListNotifierProvider(context));
     var lastFindIds = ref.watch(lastFindIdsProvider);
+    log('lastFindIds -  $lastFindIds');
 
     return Container(
       height: double.infinity,
@@ -90,6 +91,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               isProfileBuilder = false;
                             });
                           },
+                          onCancel: () {
+                            setState(() {
+                              profileBuilderData = null;
+                              isProfileBuilder = false;
+                            });
+                          },
                         )
                       : Column(
                           children: [
@@ -100,8 +107,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               children: [
                                 CommonIconButton(
                                   onTap: () async {
-                                    increaseSwipeCount(profiles.length);
-
                                     var latestLastFindIds = lastFindIds.last;
 
                                     var response = await ref
@@ -140,6 +145,28 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         ),
                                       );
                                     }
+
+                                    setState(() {
+                                      selectedIndex--;
+                                    });
+
+                                    var sharedPrefs =
+                                        ref.watch(sharedPrefProvider);
+                                    var oldSwipeCount =
+                                        sharedPrefs.getInt("swipeCount");
+                                    var newSwipeCount =
+                                        (oldSwipeCount ?? 0) + 1;
+
+                                    log("newSwipeCount $newSwipeCount");
+
+                                    if (newSwipeCount == 5) {
+                                      sharedPrefs.setInt("swipeCount", 0);
+                                      getProfileBuilderQuestion();
+                                    } else {
+                                      sharedPrefs.setInt(
+                                          "swipeCount", newSwipeCount);
+                                    }
+                                    ref.invalidate(swipeCountProvider);
                                   },
                                   backgroundColor: Color(0xfff8f8f8),
                                   icon: SvgPicture.asset(
@@ -149,7 +176,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 ),
                                 CommonIconButton(
                                   onTap: () {
-                                    increaseSwipeCount(profiles.length);
+                                    // var sharedPrefs =
+                                    //     ref.watch(sharedPrefProvider);
+                                    // var lastFindIds = sharedPrefs
+                                    //         .getStringList("lastFindIds") ??
+                                    //     [];
+                                    // if (lastFindIds.contains(
+                                    //     profiles[selectedIndex]
+                                    //         .id
+                                    //         .toString())) {
+                                    //   lastFindIds.add(profiles[selectedIndex]
+                                    //       .id
+                                    //       .toString());
+                                    //   sharedPrefs.setStringList(
+                                    //       "lastFindIds", lastFindIds);
+                                    //   ref.invalidate(lastFindIdsProvider);
+                                    // }
 
                                     ref
                                         .read(repositoryProvider)
@@ -163,6 +205,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                           }),
                                           context,
                                         );
+                                    increaseSwipeCount(profiles.length);
                                   },
                                   icon: SvgPicture.asset(
                                     'assets/svgs/ic_delete.svg',
@@ -253,6 +296,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   increaseSwipeCount(int total) {
+    log('total $total');
+    log('selectedIndex $selectedIndex');
     if (total > selectedIndex) {
       log('Increate index');
       setState(() {
