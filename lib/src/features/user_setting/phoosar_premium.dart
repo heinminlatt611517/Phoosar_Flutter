@@ -66,7 +66,6 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                     crossAxisCount: 3, // number of items in each row
                     mainAxisSpacing: 20.0, // spacing between rows
                     crossAxisSpacing: 0.0,
-                    childAspectRatio: 1/1.2
                 ),
               ),
               error: (error, stack) => Text(error.toString()),
@@ -82,7 +81,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PaymentScreen(
-                              planType: selectedPackageData?.name ?? '',
+                              planType: 'package',
                               planTypeId:
                                   selectedPackageData?.id.toString() ?? '',
                               amount: selectedPackageData?.value ?? '')));

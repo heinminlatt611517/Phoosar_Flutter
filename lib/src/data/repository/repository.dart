@@ -290,6 +290,16 @@ class Repository {
     return response;
   }
 
+  Future<Response> buySettingWithPoint(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/buy-setting-with-point"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
   Future<Response> getMoreDetailsQuestions(BuildContext context) async {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/moredetails"),
@@ -383,6 +393,16 @@ class Repository {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-question-builder"),
       jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> saveReport(dynamic request, BuildContext context) async {
+    var response = await Session.post(
+      Uri.parse("${Env.baseurl}/save-report"),
+      request,
       context,
       ref,
     );

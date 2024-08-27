@@ -39,6 +39,7 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
           Padding(
             padding: const EdgeInsets.only(top: 6),
             child: Container(
+              width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
@@ -50,28 +51,30 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                 ),
               ),
               child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CoinCount(coinCount: widget.point),
-                    8.vGap,
-                    Text(
-                      "${widget.price} Kyat",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: widget.isSelected ? Colors.white : Colors.black,
+                child: FittedBox(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CoinCount(coinCount: widget.point),
+                      8.vGap,
+                      Text(
+                        "${widget.price} Kyat",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: widget.isSelected ? Colors.white : Colors.black,
+                        ),
                       ),
-                    ),
-                    8.vGap,
-                    Text(
-                      kBuyNowLabel,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: widget.isSelected ? Colors.white : Colors.pinkAccent,
+                      8.vGap,
+                      Text(
+                        kBuyNowLabel,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: widget.isSelected ? Colors.white : Colors.pinkAccent,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -88,7 +91,7 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                 decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(12)),
                 child: Center(child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 11),),
+                  child: FittedBox(child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 11),)),
                 ),),),
             ),
           )
