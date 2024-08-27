@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/text_icon_button.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_coins_dialog.dart';
-import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/user_profile/edit_profile.dart';
 import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/extensions.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -49,44 +49,105 @@ class UserProfileScreen extends ConsumerWidget {
                 height: 1,
                 color: greyColor,
               ),
-              12.vGap,
-              InkWell(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => GetMoreCoinsDialog());
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+
+              ///normal view
+              Visibility(
+                visible: selfProfileData?.data?.isPremium == true ? false : true,
+                child: InkWell(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => GetMoreCoinsDialog());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          AppLocalizations.of(context)!.kYourCoinsLabel,
-                          style: GoogleFonts.roboto(
-                            fontSize: smallLargeFontSize,
-                            color: blackColor,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.kYourCoinsLabel,
+                              style: GoogleFonts.roboto(
+                                fontSize: smallLargeFontSize,
+                                color: blackColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            12.hGap,
+                            CoinCount(
+                              coinCount: selfProfileData != null
+                                  ? (selfProfileData.data?.pointTotal.toString() ??
+                                      "0")
+                                  : "0",
+                              backgroundColor: greyColor,
+                            ),
+                          ],
                         ),
-                        12.hGap,
-                        CoinCount(
-                          coinCount: selfProfileData != null
-                              ? (selfProfileData.data?.pointTotal.toString() ??
-                                  "0")
-                              : "0",
-                          backgroundColor: greyColor,
-                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: greyColor,
+                        )
                       ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: greyColor,
-                    )
-                  ],
+                  ),
                 ),
               ),
-              12.vGap,
+
+              ///premium view
+              Visibility(
+                visible: selfProfileData?.data?.isPremium == true ? true : false,
+                  child: Container(
+                    height: 100,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                          Image.asset(
+                            'assets/images/phoosar_premium_img.png',
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width / 3,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                          Text(DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? "")),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
+                        ],),
+                      ),
+                      Container(height: double.infinity,color: Colors.grey.withOpacity(0.5),width: 1,),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                          Text(
+                            AppLocalizations.of(context)!.kYourCoinsLabel,
+                            style: GoogleFonts.roboto(
+                              fontSize: smallLargeFontSize,
+                              color: blackColor,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          12.hGap,
+                          IntrinsicWidth(
+                            child: CoinCount(
+                              coinCount: selfProfileData != null
+                                  ? (selfProfileData.data?.pointTotal.toString() ??
+                                  "0")
+                                  : "0",
+                              backgroundColor: greyColor,
+                            ),
+                          ),
+                        ],),
+                      )
+                    ],),
+                  )),
+
               Divider(
                 height: 1,
                 color: greyColor,
