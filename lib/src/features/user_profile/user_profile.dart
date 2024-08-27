@@ -6,6 +6,7 @@ import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/common/widgets/text_icon_button.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_coins_dialog.dart';
 import 'package:phoosar/src/features/user_profile/edit_profile.dart';
+import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/features/user_setting/user_setting_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -106,20 +107,30 @@ class UserProfileScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                       Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                          Image.asset(
-                            'assets/images/phoosar_premium_img.png',
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width / 3,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                          Text(selfProfileData?.data?.isPremium == false ? " " : DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? "")),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
-                        ],),
+                        child: InkWell(
+                          onTap : (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PhoosarPremiumScreen(),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                            Image.asset(
+                              'assets/images/phoosar_premium_img.png',
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            Text(selfProfileData?.data?.isPremium == false ? " " : DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? "")),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
+                          ],),
+                        ),
                       ),
                       Container(height: double.infinity,color: Colors.grey.withOpacity(0.5),width: 1,),
                       Expanded(
