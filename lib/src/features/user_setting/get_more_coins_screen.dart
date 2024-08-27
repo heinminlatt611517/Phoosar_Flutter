@@ -45,34 +45,32 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
                 )),
             20.vGap,
             pointList.when(
-              data: (data) => Container(
-                width: context.widthPx,
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(12),
-                  itemBuilder: (context, index) {
-                    return SelectableCoinCard(
-                      duration: data[index].name ?? '',
-                      price: data[index].value ?? '',
-                      point: data[index].point ?? '',
-                      isPopular: data[index].isPopular,
-                      label: '',
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                          selectedPointData = data[index];
-                        });
-                      },
-                      isSelected: selectedIndex == index,
-                    );
-                  },
-                  itemCount: data.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, // number of items in each row
-                      mainAxisSpacing: 20.0, // spacing between rows
-                      crossAxisSpacing: 10.0,
-                      childAspectRatio: 1/1.2
-                  ),
+              data: (data) => GridView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(12),
+                itemBuilder: (context, index) {
+                  return SelectableCoinCard(
+                    duration: data[index].name ?? '',
+                    price: data[index].value ?? '',
+                    point: data[index].point ?? '',
+                    isPopular: data[index].isPopular,
+                    label: '',
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                        selectedPointData = data[index];
+                      });
+                    },
+                    isSelected: selectedIndex == index,
+                  );
+                },
+                itemCount: data.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // number of items in each row
+                    mainAxisSpacing: 20.0, // spacing between rows
+                    crossAxisSpacing: 0.0,
+
+
                 ),
               ),
               error: (error, stack) => Text(error.toString()),

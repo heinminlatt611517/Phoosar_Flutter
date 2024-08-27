@@ -31,6 +31,7 @@ import '../../common/widgets/drop_down_widget.dart';
 import '../../common/widgets/select_photo_options_widget.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
+import '../dashboard/widgets/unlock_success_dailog.dart';
 import 'more_details_writing_prompt_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -241,12 +242,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       ),
                       child: Center(
                         child: InkWell(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => UnlockCoinDialog(
-                                      coinCount: "10",
-                                    ));
+                          onTap: () async{
+                            var response = await ref.watch(repositoryProvider).buySettingWithPoint(
+                                jsonEncode({"setting_type" : "profile_image",}), context);
+
+                            if (response.statusCode.toString().startsWith("2")) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => UnlockSuccessDailog());
+                              ref.invalidate(profileDataProvider);
+                            }
                           },
                           child: CoinCount(
                             width: 80,
@@ -743,12 +748,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     Visibility(
                       visible: !data!.showAge!.showAgeStatus!,
                       child: InkWell(
-                        onTap: (){
-                          showDialog(
-                              context: context,
-                              builder: (context) => UnlockCoinDialog(
-                                coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",
-                              ));
+                        onTap: () async{
+                          var response = await ref.watch(repositoryProvider).buySettingWithPoint(
+                              jsonEncode({"setting_type" : "profile_show_age",}), context);
+
+                          if (response.statusCode.toString().startsWith("2")) {
+                            showDialog(
+                                context: context,
+                                builder: (context) => UnlockSuccessDailog());
+                            ref.invalidate(profileDataProvider);
+                          }
                         },
                           child: CoinCount(coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",)),
                     )
@@ -780,12 +789,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     Visibility(
                       visible: !data.distanceInvisible!.distanceInvisibleStatus!,
                       child: InkWell(
-                        onTap: (){
-                          showDialog(
-                              context: context,
-                              builder: (context) => UnlockCoinDialog(
-                                coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",
-                              ));
+                        onTap: () async{
+                          var response = await ref.watch(repositoryProvider).buySettingWithPoint(
+                              jsonEncode({"setting_type" : "profile_distance_invisible",}), context);
+
+                          if (response.statusCode.toString().startsWith("2")) {
+                            showDialog(
+                                context: context,
+                                builder: (context) => UnlockSuccessDailog());
+                            ref.invalidate(profileDataProvider);
+                          }
                         },
                           child: CoinCount(coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",)),
                     )

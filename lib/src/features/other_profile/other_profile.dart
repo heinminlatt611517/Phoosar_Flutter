@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/data/response/profile.dart';
+import 'package:phoosar/src/features/dashboard/widgets/report_success_dailog.dart';
 import 'package:phoosar/src/features/other_profile/widgets/more_information.dart';
 import 'package:phoosar/src/features/other_profile/widgets/profile_slider.dart';
 import 'package:phoosar/src/features/other_profile/widgets/user_hobbies.dart';
@@ -9,6 +12,8 @@ import 'package:phoosar/src/features/other_profile/widgets/user_information.dart
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+
+import '../../providers/app_provider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({
@@ -71,12 +76,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         color: greyColor,
                       ),
                       12.hGap,
-                      Text(
-                        'Report Julia',
-                        style: GoogleFonts.roboto(
-                          fontSize: smallLargeFontSize,
-                          color: greyColor,
-                          fontWeight: FontWeight.w700,
+                      InkWell(
+                        onTap: () async{
+                          var response = await ref.watch(repositoryProvider).saveReport(
+                              jsonEncode({"report_user_id" : widget.findData.id.toString(),}), context);
+
+                          if (response.statusCode.toString().startsWith("2")) {
+                            showDialog(
+                                context: context,
+                                builder: (context) => ReportSuccessDailog());
+                          }
+                        },
+                        child: Text(
+                          'Report Julia',
+                          style: GoogleFonts.roboto(
+                            fontSize: smallLargeFontSize,
+                            color: greyColor,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ],
