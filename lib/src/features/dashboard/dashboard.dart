@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:phoosar/src/common/empty_find_dialog.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/data/response/profile_builder_response.dart';
 import 'package:phoosar/src/data/response/profile_react_response.dart';
@@ -148,9 +149,20 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                       );
                                     }
 
-                                    setState(() {
-                                      selectedIndex--;
-                                    });
+                                    if (selectedIndex > 0) {
+                                      setState(() {
+                                        selectedIndex--;
+                                      });
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => EmptyFindDialog(
+                                                onTap: () {
+                                                  ref.invalidate(
+                                                      findListNotifierProvider);
+                                                },
+                                              ));
+                                    }
 
                                     var sharedPrefs =
                                         ref.watch(sharedPrefProvider);
