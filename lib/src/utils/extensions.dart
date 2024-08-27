@@ -29,3 +29,18 @@ extension DebounceAndCancelExtension on Ref {
     return client;
   }
 }
+
+extension DateTimeDaysRemaining on DateTime {
+  String daysRemainingUntil(DateTime targetDate) {
+    Duration difference = targetDate.difference(this);
+    int daysRemaining = difference.inDays;
+
+    if (daysRemaining > 0) {
+      return '$daysRemaining Day${daysRemaining != 1 ? 's' : ''} remaining';
+    } else if (daysRemaining == 0) {
+      return 'Expires today!';
+    } else {
+      return 'Expired';
+    }
+  }
+}

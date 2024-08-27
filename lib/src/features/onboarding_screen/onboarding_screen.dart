@@ -24,6 +24,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
   int _currentPage = 0;
   List<Color> indicatorColors = [];
   Map<int, Questions> selectedQuestionsMap = {};
+  Map<int, bool> pageSelectionStatus = {}; // Track selection status per page
   var isLoading = false;
 
   @override
@@ -62,10 +63,10 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
               children: [
                 SizedBox(height: 50),
 
-                /// Build horizontal indicator
+                // Build horizontal indicator
                 buildPageIndicator(data),
 
-                /// Body view
+                // Body view
                 Expanded(
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 800),
@@ -90,6 +91,11 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                             },
                             data: questions,
                             selectedQuestion: selectedQuestionsMap[index],
+                            onSelectionChanged: (hasSelection) {
+                              setState(() {
+                                pageSelectionStatus[index] = hasSelection;
+                              });
+                            },
                           ),
                         ))
                             .values
@@ -108,7 +114,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                   ),
                 ),
 
-                /// Continue button
+                // Continue button
                 _buildContinueButton(_currentPage, data.length),
 
                 SizedBox(height: 60),
@@ -126,7 +132,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 
-  /// Build page indicator
+  // Build page indicator
   Widget buildPageIndicator(List<QuestionData> questionList) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +143,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 
-  /// Build indicator
+  // Build indicator
   Widget buildIndicator(int index) {
     return Container(
       width: 22,
@@ -150,7 +156,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 
-  /// Update the indicator colors based on the current page
+  // Update the indicator colors based on the current page
   void updateIndicatorColors() {
     setState(() {
       indicatorColors = List.generate(
@@ -161,7 +167,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     });
   }
 
-  /// Continue button
+  // Continue button
   Widget _buildContinueButton(int index, int pageLength) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
@@ -174,28 +180,34 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
           ref.read(questionSaveRequestProvider).questions =
               selectedQuestionsMap.values.toList();
           debugPrint("request:::${selectedQuestionsMap.values.toList().toString()}");
-          if (index == pageLength - 1) {
-            setState(() {
-              isLoading = true;
-            });
-            var request = ref.read(questionSaveRequestProvider);
-            var response =
-            await ref.read(repositoryProvider).saveUserQA(request, context);
-            if (response.statusCode.toString().startsWith('2')) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => AllSetScreen()),
-              );
-            } else {
+          if (pageSelectionStatus[_currentPage] ?? false) {
+            if (index == pageLength - 1) {
               setState(() {
-                isLoading = false;
+                isLoading = true;
               });
+              var request = ref.read(questionSaveRequestProvider);
+              var response =
+              await ref.read(repositoryProvider).saveUserQA(request, context);
+              if (response.statusCode.toString().startsWith('2')) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllSetScreen()),
+                );
+              } else {
+                setState(() {
+                  isLoading = false;
+                });
+              }
+            } else {
+              _pageController.animateToPage(
+                index + 1,
+                duration: const Duration(milliseconds: 800),
+                curve: Curves.easeInOut,
+              );
             }
           } else {
-            _pageController.animateToPage(
-              index + 1,
-              duration: const Duration(milliseconds: 800),
-              curve: Curves.easeInOut,
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(index == 0 ? 'Please enter description before continuing' : 'Please make a selection before continuing.')),
             );
           }
         },
@@ -205,16 +217,19 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
   }
 }
 
+
 class QuestionWidgetView extends StatefulWidget {
   final QuestionData data;
   final Function(Questions) questionData;
   final Questions? selectedQuestion;
+  final Function(bool) onSelectionChanged; // Callback for selection
 
   const QuestionWidgetView({
     super.key,
     required this.data,
     required this.questionData,
     this.selectedQuestion,
+    required this.onSelectionChanged, // Initialize this callback
   });
 
   @override
@@ -223,19 +238,26 @@ class QuestionWidgetView extends StatefulWidget {
 
 class _QuestionWidgetViewState extends State<QuestionWidgetView> {
   late String selectedText;
-  TextEditingController shortDescriptionTextController =
-  TextEditingController();
+  TextEditingController shortDescriptionTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Initialize selectedText based on the passed selectedQuestion
     selectedText = widget.selectedQuestion?.answerText ?? "";
     shortDescriptionTextController.text = widget.selectedQuestion?.answerText ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
+    bool hasSelection = widget.data.answerType.toString() == "1"
+        ? shortDescriptionTextController.text.isNotEmpty
+        : selectedText.isNotEmpty;
+
+    // Avoid calling setState during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.onSelectionChanged(hasSelection);
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -257,38 +279,42 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                 SizedBox(height: 80),
                 widget.data.answerType.toString() == "1"
                     ? TextFormField(
-                    maxLines: 10,
-                    controller: shortDescriptionTextController,
-                    onChanged: (value) {
-                      var craftQuestionVo = Questions(
-                        id: widget.data.id,
-                        answerId: "",
-                        answerText: value,
-                      );
-                      widget.questionData(craftQuestionVo);
-                    },
-                    decoration: InputDecoration(
-                      hintMaxLines: 2,
-                      hintStyle: TextStyle(
-                          fontSize: kTextRegular,
-                          color: Colors.grey.withOpacity(0.8)),
-                      hintText: AppLocalizations.of(context)!
-                          .kHowWouldYourFamilyOrBestFriendDescribeYou,
-                      fillColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                        ),
+                  maxLines: 10,
+                  controller: shortDescriptionTextController,
+                  onChanged: (value) {
+                    var craftQuestionVo = Questions(
+                      id: widget.data.id,
+                      answerId: "",
+                      answerText: value,
+                    );
+                    widget.questionData(craftQuestionVo);
+                    // Notify parent about selection change
+                    widget.onSelectionChanged(value.isNotEmpty);
+                  },
+                  decoration: InputDecoration(
+                    hintMaxLines: 2,
+                    hintStyle: TextStyle(
+                      fontSize: kTextRegular,
+                      color: Colors.grey.withOpacity(0.8),
+                    ),
+                    hintText: AppLocalizations.of(context)!
+                        .kHowWouldYourFamilyOrBestFriendDescribeYou,
+                    fillColor: Colors.white,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: BorderSide(
+                        color: Colors.blue,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 0.5,
-                        ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: 0.5,
                       ),
-                    ))
+                    ),
+                  ),
+                )
                     : ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -302,15 +328,15 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                         onTapButton: (value) {
                           var craftQuestionVo = Questions(
                             id: widget.data.id,
-                            answerId:
-                            widget.data.answers?[index].id.toString(),
-                            answerText: widget.data.answers?[index].answer
-                                .toString(),
+                            answerId: widget.data.answers?[index].id.toString(),
+                            answerText: widget.data.answers?[index].answer.toString(),
                           );
                           widget.questionData(craftQuestionVo);
                           setState(() {
                             selectedText = value;
                           });
+                          // Notify parent about selection change
+                          widget.onSelectionChanged(value.isNotEmpty);
                         },
                       ),
                     );
@@ -325,6 +351,8 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
     );
   }
 }
+
+
 
 
 
