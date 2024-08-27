@@ -98,28 +98,41 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
             maxLines: 8,
           ),
           20.vGap,
-          Center(
-            child: CommonButton(
-              text: "Save",
-              containerVPadding: 12,
-              containerHPadding: 20,
-              onTap: () {
-                if (_controller.text.isEmpty) {
-                  showDialog(
-                      context: context,
-                      builder: (context) => ErrorDialog(
-                            title: "Empty Answer",
-                            message: "Please enter your answer",
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                          ));
-                } else {
-                  saveProfileBuilderQuestion();
-                }
-              },
-            ),
-          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CommonButton(
+                text: "Cancel",
+                containerVPadding: 12,
+                containerHPadding: 20,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              12.hGap,
+              CommonButton(
+                text: "Save",
+                containerVPadding: 12,
+                containerHPadding: 20,
+                onTap: () {
+                  if (_controller.text.isEmpty) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => ErrorDialog(
+                              title: "Empty Answer",
+                              message: "Please enter your answer",
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                            ));
+                  } else {
+                    saveProfileBuilderQuestion();
+                  }
+                },
+              ),
+            ],
+          )
         ],
       ),
     );
