@@ -56,8 +56,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final findListState = ref.watch(findListNotifierProvider(context));
-    var lastFindIds = ref.watch(lastFindIdsProvider);
-    log('lastFindIds -  $lastFindIds');
+    // var lastFindIds = ref.watch(lastFindIdsProvider);
+    // log('lastFindIds -  $lastFindIds');
 
     return Container(
       height: double.infinity,
@@ -107,14 +107,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               children: [
                                 CommonIconButton(
                                   onTap: () async {
-                                    var latestLastFindIds = lastFindIds.last;
+                                    // var latestLastFindIds = lastFindIds.last;
 
                                     var response = await ref
                                         .read(repositoryProvider)
                                         .saveProfileReact(
                                           jsonEncode({
                                             "reacted_user_id":
-                                                latestLastFindIds.toString(),
+                                                profiles[selectedIndex]
+                                                    .id
+                                                    .toString(),
                                             "reacted_type": "rewind"
                                           }),
                                           context,
