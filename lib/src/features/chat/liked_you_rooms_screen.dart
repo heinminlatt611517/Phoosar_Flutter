@@ -144,7 +144,7 @@ class LikedYouRoomsScreen extends ConsumerWidget {
                       child: Text(
                         room != null
                             ? room.lastMessage?.content ?? 'Chat Room Created'
-                            : 'Start Messaging',
+                            : '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
