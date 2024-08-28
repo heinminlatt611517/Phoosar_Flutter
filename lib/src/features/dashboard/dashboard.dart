@@ -134,53 +134,66 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         builder: (context) =>
                                             GetMoreRewindsDialog(),
                                       );
-                                    } else if (profileReactResponse
-                                            .data?.matchData !=
-                                        null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MatchScreen(
-                                            matchProfileData:
-                                                profileReactResponse
-                                                    .data?.matchData,
+                                    } else {
+                                      if (profileReactResponse
+                                              .data?.matchData !=
+                                          null) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MatchScreen(
+                                              matchProfileData:
+                                                  profileReactResponse
+                                                      .data?.matchData,
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      } else {
+                                        if (selectedIndex > 0) {
+                                          setState(() {
+                                            selectedIndex--;
+                                          });
+                                          if (selectedIndex == 0) {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    EmptyFindDialog(
+                                                      onTap: () {
+                                                        ref.invalidate(
+                                                            findListNotifierProvider);
+                                                      },
+                                                    ));
+                                          }
+                                        } else {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  EmptyFindDialog(
+                                                    onTap: () {
+                                                      ref.invalidate(
+                                                          findListNotifierProvider);
+                                                    },
+                                                  ));
+                                        }
+                                        var sharedPrefs =
+                                            ref.watch(sharedPrefProvider);
+                                        var oldSwipeCount =
+                                            sharedPrefs.getInt("swipeCount");
+                                        var newSwipeCount =
+                                            (oldSwipeCount ?? 0) + 1;
+
+                                        log("newSwipeCount $newSwipeCount");
+
+                                        if (newSwipeCount == 5) {
+                                          sharedPrefs.setInt("swipeCount", 0);
+                                          getProfileBuilderQuestion();
+                                        } else {
+                                          sharedPrefs.setInt(
+                                              "swipeCount", newSwipeCount);
+                                        }
+                                        ref.invalidate(swipeCountProvider);
+                                      }
                                     }
-
-                                    if (selectedIndex > 0) {
-                                      setState(() {
-                                        selectedIndex--;
-                                      });
-                                    } else {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => EmptyFindDialog(
-                                                onTap: () {
-                                                  ref.invalidate(
-                                                      findListNotifierProvider);
-                                                },
-                                              ));
-                                    }
-
-                                    var sharedPrefs =
-                                        ref.watch(sharedPrefProvider);
-                                    var oldSwipeCount =
-                                        sharedPrefs.getInt("swipeCount");
-                                    var newSwipeCount =
-                                        (oldSwipeCount ?? 0) + 1;
-
-                                    log("newSwipeCount $newSwipeCount");
-
-                                    if (newSwipeCount == 5) {
-                                      sharedPrefs.setInt("swipeCount", 0);
-                                      getProfileBuilderQuestion();
-                                    } else {
-                                      sharedPrefs.setInt(
-                                          "swipeCount", newSwipeCount);
-                                    }
-                                    ref.invalidate(swipeCountProvider);
                                   },
                                   backgroundColor: Color(0xfff8f8f8),
                                   icon: SvgPicture.asset(

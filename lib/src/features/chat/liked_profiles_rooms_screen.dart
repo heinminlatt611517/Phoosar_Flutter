@@ -109,24 +109,24 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                     contentPadding: EdgeInsets.zero,
                     onTap: () async {
                       if (room == null) {
-                        try {
-                          // Accessing RoomProvider to create a room
-                          final roomId = await ref
-                              .read(roomsProvider.notifier)
-                              .createRoom(filterUsers[index]
-                                  .profile!
-                                  .supabaseUserId
-                                  .toString());
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                  roomId: roomId,
-                                  otherUserName: filterUsers[index]
-                                      .profile!
-                                      .name
-                                      .toString())));
-                        } catch (e) {
-                          log("Failed to create a new room: ${e.toString()}");
-                        }
+                        // try {
+                        //   // Accessing RoomProvider to create a room
+                        //   final roomId = await ref
+                        //       .read(roomsProvider.notifier)
+                        //       .createRoom(filterUsers[index]
+                        //           .profile!
+                        //           .supabaseUserId
+                        //           .toString());
+                        //   Navigator.of(context).push(MaterialPageRoute(
+                        //       builder: (context) => ChatPage(
+                        //           roomId: roomId,
+                        //           otherUserName: filterUsers[index]
+                        //               .profile!
+                        //               .name
+                        //               .toString())));
+                        // } catch (e) {
+                        //   log("Failed to create a new room: ${e.toString()}");
+                        // }
                       } else {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
