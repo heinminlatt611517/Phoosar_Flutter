@@ -12,11 +12,13 @@ class DynamicDropDownWidget<T> extends ConsumerStatefulWidget {
       required this.items,
       required this.onSelect,
       this.defaultBgColor = true,
+        this.hintText,
       this.initValue});
   final List<dynamic> items;
   final void Function(dynamic) onSelect;
   final bool defaultBgColor;
   final dynamic initValue;
+  final String? hintText;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DropDownWidgetState();
@@ -31,6 +33,7 @@ class _DropDownWidgetState extends ConsumerState<DynamicDropDownWidget> {
       ),
       child: DropdownButtonFormField2<dynamic>(
         value: widget.initValue,
+        hint: Text(widget.hintText ?? '',style: TextStyle(color: Colors.grey),),
         isExpanded: true,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(

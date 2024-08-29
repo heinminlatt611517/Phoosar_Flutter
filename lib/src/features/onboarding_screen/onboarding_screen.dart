@@ -278,43 +278,53 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                 ),
                 SizedBox(height: 80),
                 widget.data.answerType.toString() == "1"
-                    ? TextFormField(
-                  maxLines: 10,
-                  controller: shortDescriptionTextController,
-                  onChanged: (value) {
-                    var craftQuestionVo = Questions(
-                      id: widget.data.id,
-                      answerId: "",
-                      answerText: value,
-                    );
-                    widget.questionData(craftQuestionVo);
-                    // Notify parent about selection change
-                    widget.onSelectionChanged(value.isNotEmpty);
-                  },
-                  decoration: InputDecoration(
-                    hintMaxLines: 2,
-                    hintStyle: TextStyle(
-                      fontSize: kTextRegular,
-                      color: Colors.grey.withOpacity(0.8),
-                    ),
-                    hintText: AppLocalizations.of(context)!
-                        .kHowWouldYourFamilyOrBestFriendDescribeYou,
-                    fillColor: Colors.white,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 0.5,
-                      ),
-                    ),
-                  ),
-                )
+                    ? Column(
+                      children: [
+                        TextFormField(
+                                          maxLines: 10,
+                                          controller: shortDescriptionTextController,
+                                          onChanged: (value) {
+                        var craftQuestionVo = Questions(
+                          id: widget.data.id,
+                          answerId: "",
+                          answerText: value,
+                        );
+                        widget.questionData(craftQuestionVo);
+                        // Notify parent about selection change
+                        widget.onSelectionChanged(value.isNotEmpty);
+                                          },
+                                          decoration: InputDecoration(
+                        hintMaxLines: 2,
+                        hintStyle: TextStyle(
+                          fontSize: kTextRegular,
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        hintText: AppLocalizations.of(context)!
+                            .kHowWouldYourFamilyOrBestFriendDescribeYou,
+                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 0.5,
+                          ),
+                        ),
+                                          ),
+                                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: Text('Tip :Keep it short and sweet.',style: TextStyle(fontSize: 12,color: Colors.grey),),
+                            ))
+                      ],
+                    )
                     : ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),

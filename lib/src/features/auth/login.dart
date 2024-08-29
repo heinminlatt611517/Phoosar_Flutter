@@ -251,9 +251,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onTap: () {
                           googleSignIn();
                         },
-                        icon: Icon(
-                          Icons.mail,
-                          color: Colors.red,
+                        icon: Image.asset(
+                          'assets/images/google.jpg',
+                          height: 24,
+                          fit: BoxFit.cover,
                         ),
                         text: AppLocalizations.of(context)!.kSignInLabel),
                   ],

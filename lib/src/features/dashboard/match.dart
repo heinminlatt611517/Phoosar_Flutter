@@ -171,7 +171,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           border: Border.all(color: greyColor, width: 1),
                         ),
                         child: Text(
-                          'CONTINUE PLAYING',
+                          'CONTINUE',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.roboto(
                             fontSize: smallFontSize,

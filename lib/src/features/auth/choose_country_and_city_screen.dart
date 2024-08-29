@@ -126,8 +126,8 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
         ),
         20.vGap,
         DynamicDropDownWidget(
-          initValue: widget.countryList.first,
           items: widget.countryList,
+          hintText: 'Country',
           onSelect: (value) {
             ref.read(profileSaveRequestProvider.notifier).state.country =
                 value.code.toString();
@@ -141,12 +141,13 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
           ref.read(profileSaveRequestProvider.notifier).state.city =
               cityList.first.code.toString();
           return DynamicDropDownWidget(
+            hintText: 'City',
               items: cityList,
               onSelect: (value) {
                 ref.read(profileSaveRequestProvider.notifier).state.city =
                     value.code.toString();
               },
-              initValue: cityList.first);
+          );
         }, error: (error, stack) {
           return Container(
             child: Text(error.toString()),
@@ -189,7 +190,7 @@ class _MatchCityAndCountryDropdownViewState
         ),
         20.vGap,
         DynamicDropDownWidget(
-          initValue: widget.countryList.first,
+          hintText: 'Country',
           items: widget.countryList,
           onSelect: (value) {
             ref.read(profileSaveRequestProvider.notifier).state.matchCountry =
@@ -209,7 +210,7 @@ class _MatchCityAndCountryDropdownViewState
                 ref.read(profileSaveRequestProvider.notifier).state.matchCity =
                     value.code.toString();
               },
-              initValue: cityList.first);
+              hintText: 'City',);
         }, error: (error, stack) {
           return Container(
             child: Text(error.toString()),

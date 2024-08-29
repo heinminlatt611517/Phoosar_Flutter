@@ -2,11 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phoosar/src/features/chat/rooms_screen.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_profiles.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_you.dart';
 import 'package:phoosar/src/features/chat/widgets/matches.dart';
-import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import '../../utils/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -52,6 +50,7 @@ class _ChatState extends ConsumerState<ChatScreen> {
         children: [
           ///match and like you view
           MatchAndLikeYouView(
+            selectedIndex: selectedIndex,
             onTapMatches: () {
               setState(() {
                 selectedIndex = 0;
@@ -129,11 +128,12 @@ class MatchAndLikeYouView extends StatelessWidget {
   final Function() onTapMatches;
   final Function() onTapLikedYou;
   final Function() onTapLikedProfiles;
+  final int selectedIndex;
   const MatchAndLikeYouView(
       {super.key,
       required this.onTapMatches,
       required this.onTapLikedYou,
-      required this.onTapLikedProfiles});
+      required this.onTapLikedProfiles,required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                   children: [
                     Text(
                       'Matches',//AppLocalizations.of(context)!.kMatchesLabel,
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: TextStyle(color:selectedIndex == 0 ? Colors.pinkAccent : Colors.grey, fontSize: 16),
                     ),
 
                     ///spacer
@@ -182,7 +182,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                   children: [
                     Text(
                       'Liked You',//AppLocalizations.of(context)!.kLikedYouLabel,
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: TextStyle(color: selectedIndex == 1 ? Colors.pinkAccent : Colors.grey, fontSize: 16),
                     ),
 
                     ///spacer
@@ -210,7 +210,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                   children: [
                     Text(
                       'Liked Profiles',//AppLocalizations.of(context)!.kLikedProfilesLabel,
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: TextStyle(color: selectedIndex == 2 ? Colors.pinkAccent : Colors.grey, fontSize: 16),
                     ),
 
                     ///spacer

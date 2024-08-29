@@ -31,6 +31,12 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
     }
   }
 
+  void _removeLanguage(int index) {
+    setState(() {
+      _languages.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,12 +96,18 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                           ),
                         ),
                         Positioned(
-                          child: Container(
-                            height: 26,
-                            width: 26,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
-                                color: Colors.cyanAccent),
+                          child: InkWell(
+                            onTap : (){
+                             _removeLanguage(index);
+                            },
+                            child: Container(
+                              height: 26,
+                              width: 26,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(13),
+                                  color: Colors.cyanAccent),
+                              child: Center(child: Icon(Icons.delete_outline,color: Colors.white,size: 15,),),
+                            ),
                           ),
                           left: 2,
                           top: 4,

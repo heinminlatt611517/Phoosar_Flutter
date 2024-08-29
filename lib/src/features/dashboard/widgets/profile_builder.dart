@@ -119,6 +119,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
               12.hGap,
               CommonButton(
                 text: "Save",
+                bgColor: Colors.pinkAccent,
                 containerVPadding: 12,
                 containerHPadding: 20,
                 onTap: () {
@@ -129,7 +130,6 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                               title: "Empty Answer",
                               message: "Please enter your answer",
                               onTap: () {
-                                Navigator.pop(context);
                               },
                             ));
                   } else {

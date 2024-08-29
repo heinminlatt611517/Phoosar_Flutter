@@ -76,7 +76,7 @@ class GetMoreLikesDialog extends ConsumerWidget {
               child: CommonButton(
                 bgColor: Colors.pinkAccent,
                 fontSize: mediumFontSize,
-                text: "PHOOSAR PREMINUM",
+                text: "PHOOSAR PREMIUM",
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(

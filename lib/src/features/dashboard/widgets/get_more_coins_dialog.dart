@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/coin_row.dart';
+import 'package:phoosar/src/features/user_setting/get_more_coins_screen.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -78,13 +79,13 @@ class GetMoreCoinsDialog extends ConsumerWidget {
               child: CommonButton(
                 bgColor: Colors.pinkAccent,
                 fontSize: mediumFontSize,
-                text: "PHOOSAR PREMINUM",
+                text: "PHOOSAR PREMIUM",
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PhoosarPremiumScreen(),
+                      builder: (context) => GetMoreCoinsScreen(),
                     ),
                   );
                 },

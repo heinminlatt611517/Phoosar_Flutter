@@ -13,7 +13,7 @@ class GetPremiumDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
-      title: 'Get Phoosar Preminum',
+      title: 'Get Phoosar Premium',
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -34,7 +34,7 @@ class GetPremiumDialog extends StatelessWidget {
               ),
             ),
             Text(
-              'And many more preminum features',
+              'And many more premium features',
               style: GoogleFonts.roboto(
                 fontSize: smallFontSize,
                 color: greyColor,

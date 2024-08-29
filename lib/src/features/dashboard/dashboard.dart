@@ -83,25 +83,28 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if (selectedIndex >= profiles.length) {
                     selectedIndex = profiles.length - 1;
                   }
-                  return isProfileBuilder
-                      ? ProfileBuilder(
-                          profileBuilderData: profileBuilderData!,
-                          onSave: () {
-                            setState(() {
-                              profileBuilderData = null;
-                              isProfileBuilder = false;
-                            });
-                          },
-                          onCancel: () {
-                            setState(() {
-                              profileBuilderData = null;
-                              isProfileBuilder = false;
-                            });
-                          },
-                        )
-                      : Column(
+                  return Column(
                           children: [
-                            InfoCard(findData: profiles[selectedIndex]),
+                            Visibility(
+                                visible : !isProfileBuilder,
+                                child: InfoCard(findData: profiles[selectedIndex])),
+                            Visibility(
+                                visible : isProfileBuilder,
+                                child: ProfileBuilder(
+                              profileBuilderData: profileBuilderData ?? ProfileBuilderData(),
+                              onSave: () {
+                                setState(() {
+                                  profileBuilderData = null;
+                                  isProfileBuilder = false;
+                                });
+                              },
+                              onCancel: () {
+                                setState(() {
+                                  profileBuilderData = null;
+                                  isProfileBuilder = false;
+                                });
+                              },
+                            )),
                             20.vGap,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -195,10 +198,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                       }
                                     }
                                   },
-                                  backgroundColor: Color(0xfff8f8f8),
+                                  backgroundColor: Colors.grey.withOpacity(0.1),
                                   icon: SvgPicture.asset(
                                     'assets/svgs/ic_backward.svg',
                                     width: 18,
+                                    color: Colors.grey,
                                   ),
                                 ),
                                 CommonIconButton(
@@ -237,7 +241,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                   icon: SvgPicture.asset(
                                     'assets/svgs/ic_delete.svg',
                                     color: Colors.red,
-                                    width: 28,
+                                    width: 32,
                                   ),
                                 ),
                                 CommonIconButton(
@@ -286,7 +290,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                   },
                                   icon: Image.asset(
                                     'assets/images/ic_love.png',
-                                    width: 28,
+                                    width: 32,
                                   ),
                                 ),
                                 CommonIconButton(
@@ -296,11 +300,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         builder: (context) =>
                                             GetPremiumDialog());
                                   },
-                                  backgroundColor: Color(0xfff8f8f8),
-                                  icon: SvgPicture.asset(
-                                    'assets/svgs/ic_information.svg',
-                                    width: 18,
-                                    height: 18,
+                                  backgroundColor: Colors.grey.withOpacity(0.1),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svgs/ic_information.svg',
+                                      width: 18,
+                                      height: 18,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ),
                               ],

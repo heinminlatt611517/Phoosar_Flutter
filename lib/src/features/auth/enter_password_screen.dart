@@ -138,7 +138,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: AppLocalizations.of(context)!.kConfirmLabel,
+                      text: AppLocalizations.of(context)!.kSignUpLabel,
                       fontSize: 18,
                       isLoading: isLoading,
                       onTap: () {

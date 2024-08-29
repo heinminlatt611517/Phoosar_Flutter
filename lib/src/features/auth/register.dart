@@ -257,12 +257,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   30.vGap,
 
                   ///forgot password
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      AppLocalizations.of(context)!.kForgotPasswordLabel,
-                      style: TextStyle(
-                          fontSize: kTextRegular3x, color: Colors.grey),
+                  Visibility(
+                    visible: false,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        AppLocalizations.of(context)!.kForgotPasswordLabel,
+                        style: TextStyle(
+                            fontSize: kTextRegular3x, color: Colors.grey),
+                      ),
                     ),
                   ),
 
