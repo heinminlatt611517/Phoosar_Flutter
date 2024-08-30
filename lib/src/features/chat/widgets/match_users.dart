@@ -48,6 +48,7 @@ class MatchUsers extends ConsumerWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ChatPage(
                                   roomId: roomId,
+                                  otherProfileImage: user.profileUrl,
                                   otherUserName: user.username)));
                         } catch (e) {
                           log("Failed to create a new room: ${e.toString()}");

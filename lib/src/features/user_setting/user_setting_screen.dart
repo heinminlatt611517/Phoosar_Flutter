@@ -315,6 +315,7 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
   Future<void> logout(BuildContext context, WidgetRef ref) async {
     // Clear shared preferences
     await ref.read(sharedPrefProvider).clear();
+    ref.invalidate(dashboardProvider);
 
     // Navigate to the login screen
     Navigator.of(context).pushAndRemoveUntil(

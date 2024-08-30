@@ -95,6 +95,9 @@
    "kLastProfile":"You have reached the last profile!",
    "kStartOver":"Start Over",
    "kOnlineLabel" : "Online",
-   "kOfflineLabel" : "Offline"
+   "kOfflineLabel" : "Offline",
+   "kMaleLabel" : "Male",
+   "kFemaleLabel" : "Female",
+   "kDontShowMyAgeLabel" : "Don't Show My Age"
 
 }

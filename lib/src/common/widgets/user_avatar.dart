@@ -77,8 +77,8 @@ class UserAvatar extends ConsumerWidget {
               child: fromChat
                   ? Image.network(
                       profileImage.isEmpty ? errorImageUrl : profileImage,
-                      width: 46, // Specify the width
-                      height: 50, // Specify the height
+                      width: 106, // Specify the width
+                      height: 100, // Specify the height
                       fit: BoxFit.cover,
                     )
                   : Text(

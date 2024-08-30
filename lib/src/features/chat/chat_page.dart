@@ -3,8 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
 import 'package:phoosar/src/providers/chat_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/gap.dart';
 import 'package:timeago/timeago.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
+import '../../common/widgets/common_button.dart';
+import '../../providers/data_providers.dart';
 
 /// Page to chat with someone.
 ///
@@ -12,7 +19,8 @@ import 'package:timeago/timeago.dart';
 class ChatPage extends ConsumerWidget {
   final String roomId;
   final String otherUserName;
-  const ChatPage({Key? key, required this.roomId, required this.otherUserName})
+  final String otherProfileImage;
+  const ChatPage({Key? key, required this.roomId, required this.otherUserName,required this.otherProfileImage})
       : super(key: key);
 
   // static Route<void> route(String roomId, String otherUserName) {
@@ -31,9 +39,16 @@ class ChatPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chatState = ref.watch(chatProvider(roomId));
+    var selfProfileData = ref.watch(selfProfileProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(otherUserName)),
+      backgroundColor: whitePaleColor,
+      appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: whitePaleColor,
+          title: Text(otherUserName),
+        elevation: 0.5,
+      ),
       body: chatState.when(
         loading: () => preloader,
         error: (error, _) => Center(child: Text('Error: $error')),
@@ -41,9 +56,20 @@ class ChatPage extends ConsumerWidget {
           if (messages.isEmpty) {
             return Column(
               children: [
-                const Expanded(
+                 Expanded(
                   child: Center(
-                    child: Text('Start your conversation now :)'),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Say "Hello" to $otherUserName',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.withOpacity(0.5),fontSize: 18),),
+                        20.vGap,
+                        CommonButton(
+                            bgColor: Colors.pinkAccent,
+                            text: 'Tap to Say "Hello"', onTap: (){
+                          final notifier = ref.read(chatProvider(roomId).notifier);
+                          notifier.sendMessage("Hello");
+                        })
+                      ],),
                   ),
                 ),
                 _MessageBar(roomId: roomId),
@@ -59,7 +85,8 @@ class ChatPage extends ConsumerWidget {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index];
-                      return _ChatBubble(message: message);
+                      return _ChatBubble(message: message,otherProfileImage: otherProfileImage,profileImage: selfProfileData?.data?.profileImages?.first ?? ""
+                          "",);
                     },
                   ),
                 ),
@@ -127,7 +154,7 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
                 autofocus: true,
                 controller: _textController,
                 decoration: const InputDecoration(
-                  hintText: 'Type a message',
+                  hintText: 'Type a message...',
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   contentPadding: EdgeInsets.all(8),
@@ -136,11 +163,12 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
             ),
             TextButton(
               onPressed: _submitMessage,
-              child: const Text('Send'),
+              child: const Icon(Icons.arrow_forward),
             ),
           ],
         ),
       ),
+
     );
   }
 }
@@ -149,9 +177,13 @@ class _ChatBubble extends StatelessWidget {
   const _ChatBubble({
     Key? key,
     required this.message,
+    required this.otherProfileImage,
+    required this.profileImage
   }) : super(key: key);
 
   final Message message;
+  final String otherProfileImage;
+  final String profileImage;
 
   @override
   Widget build(BuildContext context) {
@@ -159,37 +191,43 @@ class _ChatBubble extends StatelessWidget {
       UserAvatar(
         userId: message.profileId,
         fromChat: true,
-        profileImage: '',
+        profileImage: message.isMine ? profileImage : otherProfileImage,
       ),
       const SizedBox(width: 12),
       Flexible(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            color: message.isMine ? Colors.blue : Colors.grey[300],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            message.content,
-            style: TextStyle(
-              fontSize: 16,
-              color: message.isMine ? Colors.white : Colors.black,
+        child: Column(
+          crossAxisAlignment:message.isMine ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 12,
+              ),
+              decoration: BoxDecoration(
+                color: message.isMine ? Colors.pinkAccent : Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                message.content,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: message.isMine ? Colors.white : Colors.black,
+                ),
+              ),
             ),
-          ),
+            Text(
+              style: TextStyle(color: Colors.grey),
+                format(message.createdAt, locale: 'en_short',)),
+          ],
         ),
       ),
-      const SizedBox(width: 12),
-      Text(format(message.createdAt, locale: 'en_short')),
-      const SizedBox(width: 60),
+      //const SizedBox(width: 60),
     ];
     if (message.isMine) {
       chatContents = chatContents.reversed.toList();
     }
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       child: Row(
         mainAxisAlignment:
             message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,

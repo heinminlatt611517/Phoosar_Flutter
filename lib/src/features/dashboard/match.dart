@@ -128,6 +128,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               MaterialPageRoute(
                                   builder: (context) => ChatPage(
                                       roomId: roomId,
+                                      otherProfileImage: widget.matchProfileData?.profileImages?.first ?? "",
                                       otherUserName: widget
                                           .matchProfileData!.name
                                           .toString())));
