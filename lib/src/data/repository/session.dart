@@ -42,6 +42,7 @@ class Session {
     var prefs = ref.watch(sharedPrefProvider);
     var token = prefs.getString("token") ?? "";
     developer.log("Token : " + token.toString());
+    var locale = ref.watch(localeProvider);
 
     final client = await ref.getDebouncedHttpClient();
 
@@ -51,6 +52,7 @@ class Session {
         'Accept': '*/*',
         'Content-Type': 'application/json',
         'Authorization': "Bearer " + token,
+        'language': locale,
       },
     );
 
@@ -82,6 +84,7 @@ class Session {
     var prefs = ref.watch(sharedPrefProvider);
     var token = prefs.getString("token") ?? "";
     developer.log("Token : $token");
+    var locale = ref.watch(localeProvider);
 
     final client = await ref.getDebouncedHttpClient();
 
@@ -92,6 +95,7 @@ class Session {
           'Accept': '*/*',
           'Content-Type': 'application/json',
           'Authorization': "Bearer $token",
+          'language': locale,
         },
         body: data,
       );
@@ -127,7 +131,7 @@ class Session {
   static Future<Response> postWithoutAuth(
       Uri url, dynamic data, BuildContext context, Ref ref) async {
     final client = await ref.getDebouncedHttpClient();
-
+    var locale = ref.watch(localeProvider);
     var prefs = ref.watch(sharedPrefProvider);
 
     try {
@@ -136,6 +140,7 @@ class Session {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
+          'language': locale,
         },
         body: data,
       );
@@ -171,7 +176,7 @@ class Session {
     var prefs = ref.watch(sharedPrefProvider);
     var token = prefs.getString("token") ?? "";
     developer.log("Token : $token");
-
+    var locale = ref.watch(localeProvider);
     final client = await ref.getDebouncedHttpClient();
 
     try {
@@ -181,6 +186,7 @@ class Session {
           'Accept': '*/*',
           'Content-Type': 'application/json',
           'Authorization': "Bearer $token",
+          'language': locale,
         },
       );
 
@@ -215,6 +221,7 @@ class Session {
     var token = prefs.getString("token") ?? "";
     developer.log("Token : $token");
 
+var locale =ref.watch(localeProvider);
     final client = await ref.getDebouncedHttpClient();
 
     try {
@@ -224,6 +231,7 @@ class Session {
           'Accept': '*/*',
           'Content-Type': 'application/json',
           'Authorization': "Bearer $token",
+          'language': locale,
         },
         body: data,
       );
