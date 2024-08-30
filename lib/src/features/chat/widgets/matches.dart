@@ -2,10 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/chat/match_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../providers/app_provider.dart';
+
 
 class MatchesView extends ConsumerWidget {
   const MatchesView({super.key});
@@ -25,7 +31,19 @@ class MatchesView extends ConsumerWidget {
                 return Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(kMarginMedium2),
-                    child: Column(
+                    child:data.isEmpty ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                        Text('No Matches Yet!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.withOpacity(0.5),fontSize: 18),),
+                          20.vGap,
+                          CommonButton(
+                            bgColor: Colors.pinkAccent,
+                              text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){
+                            ref.read(dashboardProvider.notifier).setPosition(0);
+                          })
+                      ],),
+                    ) : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(

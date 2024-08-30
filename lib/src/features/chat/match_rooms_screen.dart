@@ -16,6 +16,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/gap.dart';
 import 'package:timeago/timeago.dart';
 
 /// Displays the list of chat threads
@@ -121,6 +122,8 @@ class MatchRoomsScreen extends ConsumerWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ChatPage(
                                   roomId: roomId,
+                                  otherProfileImage: filterUsers[index]
+                                      .profile!.profileImages?.first.toString() ?? "",
                                   otherUserName: filterUsers[index]
                                       .profile!
                                       .name
@@ -132,15 +135,22 @@ class MatchRoomsScreen extends ConsumerWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
                                 roomId: room.id,
+                                otherProfileImage: otherUser.profileImages?.first.toString() ?? "",
                                 otherUserName: otherUser.name.toString())));
                       }
                     },
                     leading: UserAvatar(
                       userId: otherUser.supabaseUserId.toString(),
                       fromChat: true,
-                      profileImage: '',
+                      profileImage: otherUser.profileImages?.first ?? "",
                     ),
-                    title: Text(otherUser.name.toString()),
+                    title: Row(
+                      children: [
+                        Text(otherUser.name.toString(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                        15.hGap,
+                        Text(otherUser.isOnline == 1 ? 'online' : '',style: TextStyle(fontSize: 13,color: Colors.grey),)
+                      ],
+                    ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
@@ -163,8 +173,8 @@ class MatchRoomsScreen extends ConsumerWidget {
                 );
               },
               separatorBuilder: (context, index) => const Divider(
-                height: 1,
-                color: Colors.black,
+                height: 10,
+                color: Colors.transparent,
               ),
             );
           },
