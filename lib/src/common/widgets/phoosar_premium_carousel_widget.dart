@@ -27,18 +27,22 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                 _current = index;
               });
             },
-            aspectRatio: 2 / 1,
             viewportFraction: 1,
-            height: 180),
+            height: 140),
         items: premiumSliderData.map((i) {
           return  Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/phoosar_premium_img.png',
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width / 2,
+                    Visibility(
+                      visible : i['id'] == "1",
+                      child: Image.asset(
+                        'assets/images/phoosar_premium_img.png',
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width / 2,
+                      ),
                     ),
                     10.vGap,
                     Text(
@@ -49,10 +53,13 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                     ),
 
                     10.vGap,
-                    Text(
-                      textAlign: TextAlign.center,
-                      i['description'] ?? "",
-                      style: TextStyle(color: Colors.grey.withOpacity(0.7)),
+                    Visibility(
+                      visible : i['id'] != "1",
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        i['description'] ?? "",
+                        style: TextStyle(color: Colors.grey.withOpacity(0.7),fontSize: 17),
+                      ),
                     ),
                   ],
                 );

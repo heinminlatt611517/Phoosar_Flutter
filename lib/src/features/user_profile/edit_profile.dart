@@ -688,7 +688,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     SizedBox(
                         width: 100,
                         child: SelectableButton(
-                            label: 'Male',
+                            label: AppLocalizations.of(context)!.kMaleLabel,
                             bgColor: primaryColor,
                             isSelected:
                                 data?.gender.toString() == "1" ? true : false,
@@ -700,7 +700,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     SizedBox(
                         width: 100,
                         child: SelectableButton(
-                            label: 'Female',
+                            label: AppLocalizations.of(context)!.kFemaleLabel,
                             bgColor: primaryColor,
                             isSelected:
                                 data?.gender.toString() == "2" ? true : false,
@@ -736,7 +736,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 child: Row(
                   children: [
                     Text(
-                      kDontShowMyAgeLabel,
+                      AppLocalizations.of(context)!.kDontShowMyAgeLabel,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular2x,

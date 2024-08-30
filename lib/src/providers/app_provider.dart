@@ -40,3 +40,18 @@ final locationProvider = StateProvider<String>((ref) {
   var userLocation = sharedPrefs.getString("userLocation");
   return userLocation ?? "";
 });
+
+
+///dashboard provider
+final dashboardProvider = StateNotifierProvider<DashboardController,int>((ref) {
+  return DashboardController(0);
+});
+
+class DashboardController extends StateNotifier<int> {
+  DashboardController(super.state);
+
+  void setPosition(int value) {
+    state = value;
+  }
+
+}

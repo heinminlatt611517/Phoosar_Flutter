@@ -99,6 +99,7 @@ class RoomsScreen extends ConsumerWidget {
                               MaterialPageRoute(
                                   builder: (context) => ChatPage(
                                       roomId: room.id,
+                                      otherProfileImage: otherUser.profileUrl,
                                       otherUserName: otherUser.username))),
                           leading: UserAvatar(
                             userId: otherUser.id,

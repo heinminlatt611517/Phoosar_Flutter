@@ -6,6 +6,7 @@ import 'package:phoosar/src/features/chat/widgets/liked_profiles.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_you.dart';
 import 'package:phoosar/src/features/chat/widgets/matches.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import '../../providers/data_providers.dart';
 import '../../utils/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,6 +24,7 @@ class _ChatState extends ConsumerState<ChatScreen> {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    var selfProfileData = ref.watch(selfProfileProvider);
     return Scaffold(
       backgroundColor: whitePaleColor,
       appBar: AppBar(
@@ -165,7 +167,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                       height: 8,
                       margin: EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(4)),
                     )
                   ],
@@ -194,7 +196,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                       height: 8,
                       margin: EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(4)),
                     )
                   ],
@@ -222,7 +224,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                       height: 8,
                       margin: EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(4)),
                     )
                   ],

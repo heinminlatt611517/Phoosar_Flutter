@@ -93,5 +93,8 @@
     "kUnlockFeatureLabel": "featureအသစ်ဖွင့်ရန်",
     "kOkLabel": "ok",
     "kLastProfile": "နောက်ဆုံးပရိုဖိုင်သို့ရောက်ရှိပါပြီ",
-    "kStartOver":  "ပြန်လည်စတင်ပါ"
+    "kStartOver":  "ပြန်လည်စတင်ပါ",
+    "kMaleLabel" : "ကျား",
+       "kFemaleLabel" : "မ",
+       "kDontShowMyAgeLabel" : "အသက်ကို ဖျောက်ထားပါ"
  }
