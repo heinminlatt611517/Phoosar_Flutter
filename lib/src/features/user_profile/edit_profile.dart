@@ -27,10 +27,13 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
+import '../../common/widgets/common_button.dart';
+import '../../common/widgets/common_dialog.dart';
 import '../../common/widgets/drop_down_widget.dart';
 import '../../common/widgets/select_photo_options_widget.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
+import '../../utils/utils.dart';
 import '../dashboard/widgets/unlock_success_dailog.dart';
 import 'more_details_writing_prompt_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -243,15 +246,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       child: Center(
                         child: InkWell(
                           onTap: () async{
-                            var response = await ref.watch(repositoryProvider).buySettingWithPoint(
-                                jsonEncode({"setting_type" : "profile_image",}), context);
-
-                            if (response.statusCode.toString().startsWith("2")) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => UnlockSuccessDailog());
-                              ref.invalidate(profileDataProvider);
-                            }
+                            _handleAction(context);
                           },
                           child: CoinCount(
                             width: 80,
@@ -757,10 +752,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 context: context,
                                 builder: (context) => UnlockSuccessDailog());
                             ref.invalidate(profileDataProvider);
+                            await updateSeftProfileData();
                           }
                         },
                           child: CoinCount(coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",)),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -798,6 +794,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 context: context,
                                 builder: (context) => UnlockSuccessDailog());
                             ref.invalidate(profileDataProvider);
+                            await updateSeftProfileData();
                           }
                         },
                           child: CoinCount(coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",)),
@@ -888,5 +885,103 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             );
           }),
     );
+  }
+
+
+  void _handleAction(BuildContext context) {
+    _showDialog(context);
+  }
+
+  void _showDialog(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return  CommonDialog(
+          title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
+          width: 400,
+          isExpand: true,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                20.vGap,
+                Center(
+                  child: Container(
+                    width: 80,
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/coin.png',
+                          height: 16,
+                          fit: BoxFit.cover,
+                        ),
+                        4.hGap,
+                        Text(
+                          '10',
+                          style: GoogleFonts.roboto(
+                            fontSize: normalFontSize,
+                            color: whiteColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                20.vGap,
+                InkWell(
+                  onTap: () async {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
+                    style: GoogleFonts.roboto(
+                      fontSize: mediumFontSize,
+                      color: blueColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    if (result == true) {
+      _callApi();
+    }
+  }
+
+  void _callApi() async {
+    try {
+      var response = await ref.watch(repositoryProvider).buySettingWithPoint(
+          jsonEncode({"setting_type" : "profile_image",}), context);
+
+      if (response.statusCode.toString().startsWith("2")) {
+        showDialog(
+            context: context,
+            builder: (context) => UnlockSuccessDailog());
+        ref.invalidate(profileDataProvider);
+
+        await updateSeftProfileData();
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> updateSeftProfileData() async {
+     final repository = ref.watch(repositoryProvider);
+    final response = await repository.getProfile(jsonEncode({}), context);
+    var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
+    ref.read(selfProfileProvider.notifier).state = data;
   }
 }
