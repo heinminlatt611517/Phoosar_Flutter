@@ -25,7 +25,7 @@ class UserProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var selfProfileData = ref.watch(selfProfileProvider);
-
+    debugPrint("Distance:::${selfProfileData?.data?.distanceInvisible?.distanceInvisibleStatus.toString()}");
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -128,7 +128,7 @@ class UserProfileScreen extends ConsumerWidget {
                               height: 50,
                               fit: BoxFit.cover,
                             ),
-                            Text(selfProfileData?.data?.isPremium == false ? " " : DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? "")),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
+                            Text(selfProfileData?.data?.isPremium == false ? " " : DateTime.now().daysRemainingUntil(DateTime.parse(selfProfileData?.data?.membershipExpire.toString() ?? DateTime.now().toString())),style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),)
                           ],),
                         ),
                       ),
@@ -215,13 +215,16 @@ class UserProfileScreen extends ConsumerWidget {
                               ),
                             ),
                             12.hGap,
-                            Text(
-                              Utils.calculateAge(
-                                  selfProfileData?.data?.birthdate ?? ''),
-                              style: GoogleFonts.roboto(
-                                fontSize: mediumLargeFontSize,
-                                color: whiteColor,
-                                fontWeight: FontWeight.w200,
+                            Visibility(
+                              visible: selfProfileData!.data!.showAge!.showAgeStatus! == true ? false : true,
+                              child: Text(
+                                Utils.calculateAge(
+                                    selfProfileData.data?.birthdate ?? ''),
+                                style: GoogleFonts.roboto(
+                                  fontSize: mediumLargeFontSize,
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w200,
+                                ),
                               ),
                             ),
                           ],

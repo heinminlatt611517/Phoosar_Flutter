@@ -23,16 +23,18 @@ class MoreDetailsListItemView extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                title,
-                textAlign: TextAlign.left,
-                style: GoogleFonts.roboto(
-                  fontSize: mediumFontSize,
-                  color: Colors.pinkAccent,
-                  fontWeight: FontWeight.w300,
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 2,
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.roboto(
+                    fontSize: mediumFontSize,
+                    color: Colors.pinkAccent,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
-              Spacer(),
               CommonIconButton(
                 onTap: () {
                    onTapDelete(id);
