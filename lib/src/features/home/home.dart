@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/features/chat/chat_screen.dart';
 import 'package:phoosar/src/features/dashboard/dashboard.dart';
 import 'package:phoosar/src/features/home/scaffold_with_navigation_bar.dart';
@@ -17,6 +18,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObserver {
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,39 +56,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
     }
   }
 
-  Future<bool> _showExitConfirmationDialog(BuildContext context) async {
-    bool shouldExit = await showDialog<bool>(
+  Future<void> _showLoadingDialog(BuildContext context) async {
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
           insetPadding: const EdgeInsets.all(20),
-          title: Text('Exit App'),
-          content: Text('Are you sure you want to exit the app?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
+          contentPadding: EdgeInsets.all(10),
+          content: Container(
+            height: 60,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SpinKitThreeBounce(color: Colors.pinkAccent),
+                SizedBox(width: 16),
+                Text('Exiting app, please wait..', style: TextStyle(fontSize: 16)),
+              ],
             ),
-            TextButton(
-              child: Text('Exit'),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
+          ),
         );
       },
-    ) ?? false;
+    );
+  }
 
-    if (shouldExit) {
-      await _updateOnlineStatus(false);
-    }
+  Future<bool> _onWillPop() async {
+    if (isLoading) return false;
 
-    return shouldExit;
+    setState(() {
+      isLoading = true;
+    });
+
+    await _showLoadingDialog(context);
+
+    await _updateOnlineStatus(false);
+
+    Navigator.of(context, rootNavigator: true).pop();
+
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+
+    return false;
   }
 
   @override
@@ -99,9 +110,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
     ];
 
     return WillPopScope(
-      onWillPop: () async {
-        return await _showExitConfirmationDialog(context);
-      },
+      onWillPop: _onWillPop,
       child: ScaffoldWithNavigationBar(
         selectedIndex: position,
         onDestinationSelected: (index) {
