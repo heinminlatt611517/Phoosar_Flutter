@@ -9,17 +9,14 @@ import 'package:phoosar/src/features/user_profile/user_profile.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({
-    super.key,
-  });
+  const HomeScreen({super.key});
   static const routeName = '/home';
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObserver{
-
+class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -35,16 +32,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      /// The app is going to the background
+    debugPrint("ApplicationState:::${state}");
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
       _updateOnlineStatus(false);
     } else if (state == AppLifecycleState.resumed) {
-      /// The app is coming to the foreground
       _updateOnlineStatus(true);
-    }
-    else if (state == AppLifecycleState.inactive) {
-      /// The app is coming to the foreground
-      _updateOnlineStatus(false);
     }
   }
 
@@ -52,14 +44,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
     debugPrint("IsOnline:::$isOnline");
     try {
       final repository = ref.watch(repositoryProvider);
-      repository.saveOnlineStatus(
+      await repository.saveOnlineStatus(
         jsonEncode({"is_online": isOnline}),
         context,
       );
-
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
+  }
+
+  Future<bool> _showExitConfirmationDialog(BuildContext context) async {
+    bool shouldExit = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          insetPadding: const EdgeInsets.all(20),
+          title: Text('Exit App'),
+          content: Text('Are you sure you want to exit the app?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text('Exit'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ) ?? false;
+
+    if (shouldExit) {
+      await _updateOnlineStatus(false);
+    }
+
+    return shouldExit;
   }
 
   @override
@@ -71,15 +97,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
       UserProfileScreen(),
       // SettingsView(controller: widget.settingsController),
     ];
-    return ScaffoldWithNavigationBar(
-      selectedIndex: position,
-      onDestinationSelected: (index) {
-        setState(() {
-          ref.read(dashboardProvider.notifier).setPosition(index);
-        });
+
+    return WillPopScope(
+      onWillPop: () async {
+        return await _showExitConfirmationDialog(context);
       },
-      key: const Key('home_scaffold'),
-      body: pages[position],
+      child: ScaffoldWithNavigationBar(
+        selectedIndex: position,
+        onDestinationSelected: (index) {
+          setState(() {
+            ref.read(dashboardProvider.notifier).setPosition(index);
+          });
+        },
+        key: const Key('home_scaffold'),
+        body: pages[position],
+      ),
     );
   }
 }
