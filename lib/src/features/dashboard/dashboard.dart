@@ -86,242 +86,239 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     selectedIndex = profiles.length - 1;
                   }
                   return Column(
+                    children: [
+                      Visibility(
+                          visible: !isProfileBuilder,
+                          child: InfoCard(findData: profiles[selectedIndex])),
+                      Visibility(
+                          visible: isProfileBuilder,
+                          child: ProfileBuilder(
+                            profileBuilderData:
+                                profileBuilderData ?? ProfileBuilderData(),
+                            onSave: () {
+                              setState(() {
+                                profileBuilderData = null;
+                                isProfileBuilder = false;
+                              });
+                            },
+                            onCancel: () {
+                              setState(() {
+                                profileBuilderData = null;
+                                isProfileBuilder = false;
+                              });
+                            },
+                          )),
+                      20.vGap,
+                      Visibility(
+                        visible: !isProfileBuilder,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Visibility(
-                                visible : !isProfileBuilder,
-                                child: InfoCard(findData: profiles[selectedIndex])),
-                            Visibility(
-                                visible : isProfileBuilder,
-                                child: ProfileBuilder(
-                              profileBuilderData: profileBuilderData ?? ProfileBuilderData(),
-                              onSave: () {
-                                setState(() {
-                                  profileBuilderData = null;
-                                  isProfileBuilder = false;
-                                });
-                              },
-                              onCancel: () {
-                                setState(() {
-                                  profileBuilderData = null;
-                                  isProfileBuilder = false;
-                                });
-                              },
-                            )),
-                            20.vGap,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CommonIconButton(
-                                  onTap: () async {
-                                    // var latestLastFindIds = lastFindIds.last;
+                            CommonIconButton(
+                              onTap: () async {
+                                // var latestLastFindIds = lastFindIds.last;
 
-                                    var response = await ref
-                                        .read(repositoryProvider)
-                                        .saveProfileReact(
-                                          jsonEncode({
-                                            "reacted_user_id":
-                                                profiles[selectedIndex]
-                                                    .id
-                                                    .toString(),
-                                            "reacted_type": "rewind"
-                                          }),
-                                          context,
-                                        );
+                                var response = await ref
+                                    .read(repositoryProvider)
+                                    .saveProfileReact(
+                                      jsonEncode({
+                                        "reacted_user_id":
+                                            profiles[selectedIndex]
+                                                .id
+                                                .toString(),
+                                        "reacted_type": "rewind"
+                                      }),
+                                      context,
+                                    );
 
-                                    var profileReactResponse =
-                                        ProfileReactResponse.fromJson(
-                                            jsonDecode(response.body));
+                                var profileReactResponse =
+                                    ProfileReactResponse.fromJson(
+                                        jsonDecode(response.body));
 
-                                    if (profileReactResponse.data?.buyRewind ??
-                                        false) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            GetMoreRewindsDialog(),
-                                      );
-                                    } else {
-                                      if (profileReactResponse
-                                              .data?.matchData !=
-                                          null) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MatchScreen(
-                                              matchProfileData:
-                                                  profileReactResponse
-                                                      .data?.matchData,
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        if (selectedIndex > 0) {
-                                          setState(() {
-                                            selectedIndex--;
-                                          });
-                                          if (selectedIndex == 0) {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    EmptyFindDialog(
-                                                      onTap: () {
-                                                        ref.invalidate(
-                                                            findListNotifierProvider);
-                                                      },
-                                                    ));
-                                          }
-                                        } else {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  EmptyFindDialog(
-                                                    onTap: () {
-                                                      ref.invalidate(
-                                                          findListNotifierProvider);
-                                                    },
-                                                  ));
-                                        }
-                                        var sharedPrefs =
-                                            ref.watch(sharedPrefProvider);
-                                        var oldSwipeCount =
-                                            sharedPrefs.getInt("swipeCount");
-                                        var newSwipeCount =
-                                            (oldSwipeCount ?? 0) + 1;
-
-                                        log("newSwipeCount $newSwipeCount");
-
-                                        if (newSwipeCount == 5) {
-                                          sharedPrefs.setInt("swipeCount", 0);
-                                          getProfileBuilderQuestion();
-                                        } else {
-                                          sharedPrefs.setInt(
-                                              "swipeCount", newSwipeCount);
-                                        }
-                                        ref.invalidate(swipeCountProvider);
-                                      }
-                                    }
-                                  },
-                                  backgroundColor: Colors.grey.withOpacity(0.1),
-                                  icon: SvgPicture.asset(
-                                    'assets/svgs/ic_backward.svg',
-                                    width: 18,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                CommonIconButton(
-                                  onTap: () {
-                                    // var sharedPrefs =
-                                    //     ref.watch(sharedPrefProvider);
-                                    // var lastFindIds = sharedPrefs
-                                    //         .getStringList("lastFindIds") ??
-                                    //     [];
-                                    // if (lastFindIds.contains(
-                                    //     profiles[selectedIndex]
-                                    //         .id
-                                    //         .toString())) {
-                                    //   lastFindIds.add(profiles[selectedIndex]
-                                    //       .id
-                                    //       .toString());
-                                    //   sharedPrefs.setStringList(
-                                    //       "lastFindIds", lastFindIds);
-                                    //   ref.invalidate(lastFindIdsProvider);
-                                    // }
-
-                                    ref
-                                        .read(repositoryProvider)
-                                        .saveProfileReact(
-                                          jsonEncode({
-                                            "reacted_user_id":
-                                                profiles[selectedIndex]
-                                                    .id
-                                                    .toString(),
-                                            "reacted_type": "skip"
-                                          }),
-                                          context,
-                                        );
-                                    increaseSwipeCount(profiles.length);
-                                  },
-                                  icon: SvgPicture.asset(
-                                    'assets/svgs/ic_delete.svg',
-                                    color: Colors.red,
-                                    width: 32,
-                                  ),
-                                ),
-                                CommonIconButton(
-                                  onTap: () async {
-                                    var response = await ref
-                                        .read(repositoryProvider)
-                                        .saveProfileReact(
-                                          jsonEncode({
-                                            "reacted_user_id":
-                                                profiles[selectedIndex]
-                                                    .id
-                                                    .toString(),
-                                            "reacted_type": "like"
-                                          }),
-                                          context,
-                                        );
-
-                                    var profileReactResponse =
-                                        ProfileReactResponse.fromJson(
-                                            jsonDecode(response.body));
-
-                                    if (profileReactResponse.data?.buyLike ??
-                                        false) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            GetMoreLikesDialog(),
-                                      );
-                                    } else {
-                                      increaseSwipeCount(profiles.length);
-                                      if (profileReactResponse
-                                              .data?.matchData !=
-                                          null) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MatchScreen(
-                                              matchProfileData:
-                                                  profileReactResponse
-                                                      .data?.matchData,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
-                                  icon: Image.asset(
-                                    'assets/images/ic_love.png',
-                                    width: 32,
-                                  ),
-                                ),
-                                CommonIconButton(
-                                  onTap: () {
+                                if (profileReactResponse.data?.buyRewind ??
+                                    false) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        GetMoreRewindsDialog(),
+                                  );
+                                } else {
+                                  if (profileReactResponse.data?.matchData !=
+                                      null) {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => MatchScreen(
+                                          matchProfileData: profileReactResponse
+                                              .data?.matchData,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    if (selectedIndex > 0) {
+                                      setState(() {
+                                        selectedIndex--;
+                                      });
+                                      if (selectedIndex == 0) {
+                                        showDialog(
+                                            context: context,
                                             builder: (context) =>
-                                                ProfileScreen(findData: profiles[selectedIndex])));
-                                    // showDialog(
-                                    //     context: context,
-                                    //     builder: (context) =>
-                                    //         GetPremiumDialog());
-                                  },
-                                  backgroundColor: Colors.grey.withOpacity(0.1),
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: SvgPicture.asset(
-                                      'assets/svgs/ic_information.svg',
-                                      width: 18,
-                                      height: 18,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                                                EmptyFindDialog(
+                                                  onTap: () {
+                                                    ref.invalidate(
+                                                        findListNotifierProvider);
+                                                  },
+                                                ));
+                                      }
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => EmptyFindDialog(
+                                                onTap: () {
+                                                  ref.invalidate(
+                                                      findListNotifierProvider);
+                                                },
+                                              ));
+                                    }
+                                    var sharedPrefs =
+                                        ref.watch(sharedPrefProvider);
+                                    var oldSwipeCount =
+                                        sharedPrefs.getInt("swipeCount");
+                                    var newSwipeCount =
+                                        (oldSwipeCount ?? 0) + 1;
+
+                                    log("newSwipeCount $newSwipeCount");
+
+                                    if (newSwipeCount == 5) {
+                                      sharedPrefs.setInt("swipeCount", 0);
+                                      getProfileBuilderQuestion();
+                                    } else {
+                                      sharedPrefs.setInt(
+                                          "swipeCount", newSwipeCount);
+                                    }
+                                    ref.invalidate(swipeCountProvider);
+                                  }
+                                }
+                              },
+                              backgroundColor: Colors.grey.withOpacity(0.1),
+                              icon: SvgPicture.asset(
+                                'assets/svgs/ic_backward.svg',
+                                width: 18,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            CommonIconButton(
+                              onTap: () {
+                                // var sharedPrefs =
+                                //     ref.watch(sharedPrefProvider);
+                                // var lastFindIds = sharedPrefs
+                                //         .getStringList("lastFindIds") ??
+                                //     [];
+                                // if (lastFindIds.contains(
+                                //     profiles[selectedIndex]
+                                //         .id
+                                //         .toString())) {
+                                //   lastFindIds.add(profiles[selectedIndex]
+                                //       .id
+                                //       .toString());
+                                //   sharedPrefs.setStringList(
+                                //       "lastFindIds", lastFindIds);
+                                //   ref.invalidate(lastFindIdsProvider);
+                                // }
+
+                                ref.read(repositoryProvider).saveProfileReact(
+                                      jsonEncode({
+                                        "reacted_user_id":
+                                            profiles[selectedIndex]
+                                                .id
+                                                .toString(),
+                                        "reacted_type": "skip"
+                                      }),
+                                      context,
+                                    );
+                                increaseSwipeCount(profiles.length);
+                              },
+                              icon: SvgPicture.asset(
+                                'assets/svgs/ic_delete.svg',
+                                color: Colors.red,
+                                width: 32,
+                              ),
+                            ),
+                            CommonIconButton(
+                              onTap: () async {
+                                var response = await ref
+                                    .read(repositoryProvider)
+                                    .saveProfileReact(
+                                      jsonEncode({
+                                        "reacted_user_id":
+                                            profiles[selectedIndex]
+                                                .id
+                                                .toString(),
+                                        "reacted_type": "like"
+                                      }),
+                                      context,
+                                    );
+
+                                var profileReactResponse =
+                                    ProfileReactResponse.fromJson(
+                                        jsonDecode(response.body));
+
+                                if (profileReactResponse.data?.buyLike ??
+                                    false) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => GetMoreLikesDialog(),
+                                  );
+                                } else {
+                                  increaseSwipeCount(profiles.length);
+                                  if (profileReactResponse.data?.matchData !=
+                                      null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => MatchScreen(
+                                          matchProfileData: profileReactResponse
+                                              .data?.matchData,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              icon: Image.asset(
+                                'assets/images/ic_love.png',
+                                width: 32,
+                              ),
+                            ),
+                            CommonIconButton(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen(
+                                            findData:
+                                                profiles[selectedIndex])));
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (context) =>
+                                //         GetPremiumDialog());
+                              },
+                              backgroundColor: Colors.grey.withOpacity(0.1),
+                              icon: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SvgPicture.asset(
+                                  'assets/svgs/ic_information.svg',
+                                  width: 18,
+                                  height: 18,
+                                  color: Colors.grey,
                                 ),
-                              ],
-                            )
+                              ),
+                            ),
                           ],
-                        );
+                        ),
+                      )
+                    ],
+                  );
                 },
                 loading: () => Container(
                     height: context.heightPx * 0.6,
