@@ -22,6 +22,8 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../other_profile/other_profile.dart';
+
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({
     super.key,
@@ -295,10 +297,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 ),
                                 CommonIconButton(
                                   onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            GetPremiumDialog());
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProfileScreen(findData: profiles[selectedIndex])));
+                                    // showDialog(
+                                    //     context: context,
+                                    //     builder: (context) =>
+                                    //         GetPremiumDialog());
                                   },
                                   backgroundColor: Colors.grey.withOpacity(0.1),
                                   icon: Padding(
