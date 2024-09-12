@@ -13,6 +13,7 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
+import 'package:video_player/video_player.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
   const MatchScreen({super.key, required this.matchProfileData});
@@ -23,12 +24,18 @@ class MatchScreen extends ConsumerStatefulWidget {
 }
 
 class _MatchScreenState extends ConsumerState<MatchScreen> {
-  GifController controller = GifController(loop: false);
   bool showUI = false;
+  VideoPlayerController? _videoController;
+
   @override
   void initState() {
+    _videoController = VideoPlayerController.asset('assets/images/728.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _videoController!.play();
+      });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(Duration(seconds: 7), () {
+      Future.delayed(Duration(seconds: 5), () {
         setState(() {
           showUI = true;
         });
@@ -49,19 +56,13 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            GifView.asset(
-              'assets/images/match_728_1280.gif',
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              fit: BoxFit.fill,
-              controller: controller,
-            ),
-            // Image.asset(
-            //   'assets/images/match_1125_1436.gif',
-            //   width: MediaQuery.of(context).size.width,
-            //   height: MediaQuery.of(context).size.height,
-            //   fit: BoxFit.fill,
-            // ),
+            _videoController != null && _videoController!.value.isInitialized
+                ? SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: VideoPlayer(_videoController!),
+                  )
+                : Container(),
             Visibility(
               visible: showUI,
               child: Column(
@@ -128,7 +129,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               MaterialPageRoute(
                                   builder: (context) => ChatPage(
                                       roomId: roomId,
-                                      otherProfileImage: widget.matchProfileData?.profileImages?.first ?? "",
+                                      otherProfileImage: widget.matchProfileData
+                                              ?.profileImages?.first ??
+                                          "",
                                       otherUserName: widget
                                           .matchProfileData!.name
                                           .toString())));
