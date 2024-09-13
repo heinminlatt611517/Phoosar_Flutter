@@ -24,14 +24,14 @@ class InterestListItemView extends ConsumerWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
             border: Border.all(width: 1,color: Colors.grey)),
-            child: Center(child: Flexible(child: Padding(
+            child: Center(child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 12),
                   value??""),
-            )),),
+            ),),
           ),
         ),
         Visibility(

@@ -39,7 +39,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
         right: 12,
         top: 12,
       ),
-      height: MediaQuery.of(context).size.height * 0.67,
+      height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -129,8 +129,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                         builder: (context) => ErrorDialog(
                               title: "Empty Answer",
                               message: "Please enter your answer",
-                              onTap: () {
-                              },
+                              onTap: () {},
                             ));
                   } else {
                     saveProfileBuilderQuestion();

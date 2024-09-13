@@ -9,6 +9,7 @@ import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/models/room.dart';
 import 'package:phoosar/src/features/chat/widgets/match_users.dart';
+import 'package:phoosar/src/features/other_profile/other_profile.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/chat_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -62,11 +63,16 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                 var otherUser = filterUsers[index].profile!;
                 return InkWell(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                            roomId: room?.id ?? "",
-                            otherProfileImage: otherUser.profileImages?.first ?? "",
-                            otherUserName: otherUser.name.toString())));
+                     Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProfileScreen(findData: otherUser)));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => ChatPage(
+                    //         roomId: room?.id ?? "",
+                    //         otherProfileImage: otherUser.profileImages?.first ?? "",
+                    //         otherUserName: otherUser.name.toString())));
                   },
                   child: UserAvatar(
                     userId: otherUser.supabaseUserId.toString(),

@@ -30,8 +30,8 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                   onTap: () {
                     onDestinationSelected(0);
                   },
-                  child: SvgPicture.asset(
-                    'assets/svgs/ic_home.svg',
+                  child :Image.asset(
+                    'assets/images/home_icon.png',
                     width: 22,
                     height: 22,
                     color: selectedIndex == 0 ? primaryColor : blackColor,
