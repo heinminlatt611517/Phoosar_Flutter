@@ -71,7 +71,7 @@ class DashboardHeader extends ConsumerWidget {
                 width: selfProfileData != null
                     ? (selfProfileData.data!.isPremium ?? false)
                         ? 60
-                        : 42
+                        : 60
                     : 0,
                 fit: BoxFit.fill,
               ),

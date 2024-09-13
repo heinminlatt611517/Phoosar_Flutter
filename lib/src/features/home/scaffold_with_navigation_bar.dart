@@ -21,6 +21,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
         body: body,
         endDrawerEnableOpenDragGesture: false,
         bottomNavigationBar: Container(
+          color: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             children: [

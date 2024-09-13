@@ -11,5 +11,5 @@ const yellowDark = Color(0xffafa676);
 const blackColor = Color(0xff000000);
 const blueColor = Color(0xFF2196F3);
 const whiteColor = Color(0xffffffff);
-const whitePaleColor = Color(0xffF0F0F0);
+const whitePaleColor = Color(0xfff7f8fc);
 const greyColor = Color(0xffE0E0E0);
