@@ -82,12 +82,15 @@ class InfoCard extends StatelessWidget {
                         ),
                       ),
                       12.hGap,
-                      Text(
-                        Utils.calculateAge(findData.birthdate ?? ''),
-                        style: GoogleFonts.roboto(
-                          fontSize: mediumLargeFontSize,
-                          color: whiteColor,
-                          fontWeight: FontWeight.w200,
+                      Visibility(
+                        visible: findData.showAge!.showAgeStatus! == true ? false : true,
+                        child: Text(
+                          Utils.calculateAge(findData.birthdate ?? ''),
+                          style: GoogleFonts.roboto(
+                            fontSize: mediumLargeFontSize,
+                            color: whiteColor,
+                            fontWeight: FontWeight.w200,
+                          ),
                         ),
                       ),
                     ],

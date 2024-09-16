@@ -50,12 +50,15 @@ class UserInformation extends StatelessWidget {
               ),
             ),
             12.hGap,
-            Text(
-              findData.birthdate ?? '',
-              style: GoogleFonts.roboto(
-                fontSize: smallLargeFontSize,
-                color: blackColor,
-                fontWeight: FontWeight.w200,
+            Visibility(
+               visible: findData.showAge!.showAgeStatus! == true ? false : true,
+              child: Text(
+                findData.birthdate ?? '',
+                style: GoogleFonts.roboto(
+                  fontSize: smallLargeFontSize,
+                  color: blackColor,
+                  fontWeight: FontWeight.w200,
+                ),
               ),
             ),
           ],
