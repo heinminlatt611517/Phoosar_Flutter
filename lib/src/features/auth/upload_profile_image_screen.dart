@@ -79,9 +79,9 @@ class _UploadProfileImageScreenState
                     text: AppLocalizations.of(context)!.kContinueLabel,
                     fontSize: 18,
                     onTap: () async {
-                      ref
-                          .read(profileSaveRequestProvider)
-                          .profileImages = [base64ImageString];
+                      ref.read(profileSaveRequestProvider).profileImages = [
+                        base64ImageString
+                      ];
                       if (base64ImageString == "") {
                         context.showErrorSnackBar(
                             message:
@@ -169,8 +169,12 @@ class _ChooseImageViewState extends State<ChooseImageView> {
               left: 0,
               right: 0,
               child: _image != null
-                  ? Image.file(_image ?? File(""),height: 240,
-                width: 240,fit: BoxFit.cover,)
+                  ? Image.file(
+                      _image ?? File(""),
+                      height: 240,
+                      width: 240,
+                      fit: BoxFit.cover,
+                    )
                   : Image.asset(
                       'assets/images/upload_profile_img.png',
                       height: 240,

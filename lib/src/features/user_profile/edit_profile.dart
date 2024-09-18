@@ -371,7 +371,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   focusNode: _focusNodeAbout,
                   descriptionController : aboutController,
                   title:
-                      '${AppLocalizations.of(context)!.kAboutLabel} ${data?.name ?? ""}',
+                      '${AppLocalizations.of(context)!.kAboutLabel}',
                   description: data?.about ?? "",
                   onChangeDescription: (value) async {
                   },
