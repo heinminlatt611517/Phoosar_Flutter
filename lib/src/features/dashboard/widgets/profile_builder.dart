@@ -31,6 +31,7 @@ class ProfileBuilder extends ConsumerStatefulWidget {
 
 class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
   TextEditingController _controller = TextEditingController();
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -122,6 +123,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                 bgColor: Colors.pinkAccent,
                 containerVPadding: 12,
                 containerHPadding: 20,
+                isLoading: _isLoading,
                 onTap: () {
                   if (_controller.text.isEmpty) {
                     showDialog(
@@ -132,7 +134,10 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                               onTap: () {},
                             ));
                   } else {
-                    saveProfileBuilderQuestion();
+                    if(!_isLoading){
+                      debugPrint("OnTapSave");
+                      saveProfileBuilderQuestion();
+                    }
                   }
                 },
               ),
@@ -144,6 +149,9 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
   }
 
   saveProfileBuilderQuestion() async {
+    setState(() {
+      _isLoading = true;
+    });
     var response =
         await ref.read(repositoryProvider).saveProfileBuiderQuestion({
       "question_id": widget.profileBuilderData.id.toString(),
@@ -164,11 +172,19 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
       var data = SelfProfileResponse.fromJson(jsonDecode(profileesponse.body));
       ref.read(selfProfileProvider.notifier).state = data;
       ref.read(locationProvider.notifier).state = data.data?.city ?? "";
+      setState(() {
+        _isLoading = false;
+      });
       showSuccessUpdated(context);
       showSnackBarFun(
           context, profileBuilderSaveResponse.data?.questionBuilderPoint ?? 0);
 
       widget.onSave();
+    }
+    else {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 

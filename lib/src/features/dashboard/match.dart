@@ -106,7 +106,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   30.vGap,
                   Center(
                     child: Text(
-                      'Let\'s the show begin',
+                      'Let the show begin!',
                       style: GoogleFonts.roboto(
                         fontSize: largeFontSize,
                         color: Colors.white,
@@ -144,7 +144,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                         decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: Colors.cyanAccent,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -170,17 +170,17 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                         decoration: BoxDecoration(
-                          color: whitePaleColor,
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: greyColor, width: 1),
+                          border: Border.all(color: Colors.white, width: 1.5),
                         ),
                         child: Text(
                           'CONTINUE',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.roboto(
                             fontSize: smallFontSize,
-                            color: blackColor,
-                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
