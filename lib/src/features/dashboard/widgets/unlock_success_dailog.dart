@@ -14,7 +14,9 @@ class UnlockSuccessDailog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
-      title: 'Unlocked',
+      title: '',
+      isLargeTitleSize: true,
+      isUnlockDialog: true,
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -22,11 +24,12 @@ class UnlockSuccessDailog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             20.vGap,
-            Center(
-              child: Icon(
-                Icons.check,
-                size: 60,
-                color: primaryColor,
+            Text(
+              'Unlocked',
+              style: GoogleFonts.roboto(
+                color: greyColor,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
               ),
             ),
             20.vGap,
@@ -34,6 +37,7 @@ class UnlockSuccessDailog extends StatelessWidget {
               alignment: Alignment.center,
               child: CommonButton(
                 fontSize: mediumFontSize,
+                bgColor: primaryColor,
                 text: "CONTINUE",
                 onTap: () {
                   Navigator.pop(context);

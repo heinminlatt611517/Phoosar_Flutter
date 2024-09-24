@@ -6,10 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_success_dailog.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../data/response/self_profile_response.dart';
 
 class UnlockDailog extends ConsumerWidget {
   const UnlockDailog(
@@ -20,6 +24,7 @@ class UnlockDailog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return CommonDialog(
+      isLargeTitleSize: true,
       title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
       width: 400,
       isExpand: true,
@@ -64,19 +69,25 @@ class UnlockDailog extends ConsumerWidget {
                 var response = await ref.watch(repositoryProvider).buyWithPoint(
                     jsonEncode({"point_buying_id": buyId}), context);
 
-                if (response.statusCode.toString().startsWith("2")) {
+                final profileesponse =
+                await ref.watch(repositoryProvider).getProfile(jsonEncode({}), context);
+                var data = SelfProfileResponse.fromJson(jsonDecode(profileesponse.body));
+
+                if (profileesponse.statusCode.toString().startsWith("2")) {
                   Navigator.pop(context);
                   showDialog(
                       context: context,
                       builder: (context) => UnlockSuccessDailog());
+
+                  ref.read(selfProfileProvider.notifier).state = data;
                 }
               },
               child: Text(
                 AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                 style: GoogleFonts.roboto(
-                  fontSize: mediumFontSize,
-                  color: blueColor,
-                  fontWeight: FontWeight.w400,
+                  fontSize: kTextRegular,
+                  color: Colors.pinkAccent,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

@@ -81,7 +81,7 @@ class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  AppLocalizations.of(context)!.kUnlockLabel,
+                                  'Unblock',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),

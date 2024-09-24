@@ -5,20 +5,24 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class CommonDialog extends StatelessWidget {
-  const CommonDialog({
-    super.key,
-    required this.title,
-    required this.width,
-    required this.child,
-    this.height,
-    this.isExpand = false,
-  });
+  const CommonDialog(
+      {super.key,
+      required this.title,
+      required this.width,
+      required this.child,
+      this.height,
+      this.isExpand = false,
+      this.isLargeTitleSize = false,
+      this.isUnlockDialog = false});
+
   final String title;
   final Widget child;
   final double width;
   final double? height;
-
+  final bool? isLargeTitleSize;
   final bool isExpand;
+  final bool? isUnlockDialog;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -40,14 +44,21 @@ class CommonDialog extends StatelessWidget {
           children: [
             20.vGap,
             Center(
-              child: Text(
-                title,
-                style: GoogleFonts.roboto(
-                  color: greyColor,
-                  fontSize: smallLargeFontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: isUnlockDialog == true
+                  ? Image.asset(
+                'assets/images/check_icon.png',
+                fit: BoxFit.cover,
+                height: 70,
+              )
+                  : Text(
+                      title,
+                      style: GoogleFonts.roboto(
+                        color: greyColor,
+                        fontSize:
+                            isLargeTitleSize == true ? 24 : smallLargeFontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
             ),
             Flexible(
               flex: isExpand ? 1 : 0,
