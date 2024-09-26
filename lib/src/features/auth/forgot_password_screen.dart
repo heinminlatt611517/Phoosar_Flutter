@@ -70,7 +70,9 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
               ///email input
               InputView(
                   controller: emailController,
-                  hintLabel: AppLocalizations.of(context)!.kEmailLabel),
+                  hintLabel: widget.type == 'Email'
+                      ? AppLocalizations.of(context)!.kEmailLabel
+                      : AppLocalizations.of(context)!.kPhoneNumberLabel),
               60.vGap,
 
               ///send button
