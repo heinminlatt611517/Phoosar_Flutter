@@ -19,7 +19,9 @@ import '../../utils/dimens.dart';
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({
     Key? key,
+    required this.type,
   }) : super(key: key);
+  final String? type;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -29,8 +31,6 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
 
-  ///Email or Phone number
-  String selectedText = "Email";
   String? recentOnboardingStatus;
 
   @override
@@ -87,7 +87,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                         _isLoading = true;
                       });
                       var request = ForgotPasswordRequest(
-                          value: emailController.text, type: 'email');
+                          value: emailController.text, type: widget.type);
                       var response = await ref
                           .read(repositoryProvider)
                           .forgotPassword(request, context);
