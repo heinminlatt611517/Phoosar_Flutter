@@ -321,7 +321,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                           alignment: Alignment.centerRight,
                             child: Padding(
                               padding: const EdgeInsets.only(top: 12),
-                              child: Text('Tip :Keep it short and sweet.',style: TextStyle(fontSize: 12,color: Colors.grey),),
+                              child: Text(AppLocalizations.of(context)!.kTipKeepItShortAndSweetLabel,style: TextStyle(fontSize: 12,color: Colors.grey),),
                             ))
                       ],
                     )

@@ -12,14 +12,14 @@
    "kContinueLabel": "ဆက်လုပ်ရန်",
    "kIamLabel": "ကျွန်ုပ်",
    "kCurrentLocateIn": "လက်ရှိနေရပ်လိပ်စာ",
-   "kWantMyMatch": "ကျွန်ုပ်လိုချင်သောလက်တွဲဖော်ပုံစံ",
+   "kWantMyMatch": "ကျွန်ုပ် လိုချင်သော လက်တွဲဖော် ၏တည်နေရာ",
    "kUploadYourProfileImage": "ပရိုဖိုင်ပုံတင်မည်",
    "kChooseImageLabel": "ပုံရွေးမည်",
    "kHelpUsGetToKnowLabel": "သင့်အကြောင်းအသေးစိတ်",
    "kAnswerFollowingQuestionToFindPerfectMatch": "လိုက်ဖက်သောလက်တွဲဖော်ရှာဖွေရန်အောက်ပါမေးခွန်းများကိုဖြေဆိုပါ",
    "kWhatAreYouLookingForInARelationship": "ဘယ်လိုrelationshipမျိုးလိုချင်ပါသလဲ?",
    "kShortDescriptionAboutYou": "သင့်အကြောင်းအကျဥ်းချုပ်",
-   "kHowWouldYourFamilyOrBestFriendDescribeYou": "သင့်မိသားစု (သို့) သင့်သူငယ်ချင်းများကသင့်ကိုဘလိုမြင်ကြသလဲ?",
+   "kHowWouldYourFamilyOrBestFriendDescribeYou": "သင့်မိသားစု (သို့) သင့်သူငယ်ချင်းများကသင့်ကိုဘယ်လိုမြင်ကြသလဲ?",
    "kCasualDatingLabel": "ချိန်းတွေ့ရုံသာ",
    "kMarriageLabel": "အိမ်ထောင်ပြု",
    "kDoYouBelieveHoroscopes": "ဇာတာခွင်များနှင့်ပက်သက်၍ယုံကြည်ပါသလား?",
@@ -96,5 +96,6 @@
     "kStartOver":  "ပြန်လည်စတင်ပါ",
     "kMaleLabel" : "ကျား",
        "kFemaleLabel" : "မ",
-       "kDontShowMyAgeLabel" : "အသက်ကို ဖျောက်ထားပါ"
+       "kDontShowMyAgeLabel" : "အသက်ကို ဖျောက်ထားပါ",
+       "kTipKeepItShortAndSweetLabel" : "အကြံပြုချက် : တိုတိုနှင့်လိုရင်းကိုသာရေးပါ"
  }

@@ -37,8 +37,10 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
+    debugPrint("ProfileSaveData:::${ref.read(profileSaveRequestProvider)}");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

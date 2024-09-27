@@ -12,7 +12,7 @@
   "kContinueLabel": "Continue",
   "kIamLabel": "I am",
   "kCurrentLocateIn": "I am currently located in",
-  "kWantMyMatch": "I want my match to be form",
+  "kWantMyMatch": "I want my match to be from",
   "kUploadYourProfileImage": "Upload your profile image",
   "kChooseImageLabel": "Choose Image",
   "kHelpUsGetToKnowLabel": "Help us get to know you better!",
@@ -98,6 +98,7 @@
    "kOfflineLabel" : "Offline",
    "kMaleLabel" : "Male",
    "kFemaleLabel" : "Female",
-   "kDontShowMyAgeLabel" : "Don't Show My Age"
+   "kDontShowMyAgeLabel" : "Don't Show My Age",
+   "kTipKeepItShortAndSweetLabel" : "Tip :Keep it short and sweet."
 
 }

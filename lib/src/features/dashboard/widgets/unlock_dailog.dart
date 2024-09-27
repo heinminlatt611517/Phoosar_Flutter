@@ -73,7 +73,7 @@ class UnlockDailog extends ConsumerWidget {
                 await ref.watch(repositoryProvider).getProfile(jsonEncode({}), context);
                 var data = SelfProfileResponse.fromJson(jsonDecode(profileesponse.body));
 
-                if (profileesponse.statusCode.toString().startsWith("2")) {
+                if (profileesponse.statusCode.toString().startsWith("2") && response.statusCode.toString().startsWith("2")) {
                   Navigator.pop(context);
                   showDialog(
                       context: context,

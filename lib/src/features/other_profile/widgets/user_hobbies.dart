@@ -21,11 +21,12 @@ class UserHobbies extends StatelessWidget {
       runSpacing: 8,
       children: findData.interests
           ?.map((interest) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.cyan,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -33,16 +34,16 @@ class UserHobbies extends StatelessWidget {
                       style: GoogleFonts.roboto(
                         fontSize: smallFontSize,
                         color: whiteColor,
-                        fontWeight: FontWeight.w100,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
               20.vGap,
-              Divider(
-                height: 1,
-                color: greyColor,
-              ),
-              20.vGap,
+              // Divider(
+              //   height: 1,
+              //   color: greyColor,
+              // ),
+              // 20.vGap,
             ],
           ))
           .toList() ?? [],

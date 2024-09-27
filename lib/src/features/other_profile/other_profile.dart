@@ -33,6 +33,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       backgroundColor: whitePaleColor,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
@@ -54,11 +55,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   UserInformation(findData: widget.findData),
                   20.vGap,
-                  Divider(
-                    height: 1,
-                    color: greyColor,
-                  ),
-                  20.vGap,
+                  // Divider(
+                  //   height: 0,
+                  //   color: greyColor,
+                  // ),
+                  // 20.vGap,
                   UserHobbies(findData: widget.findData,),
                   ListView.builder(
                     shrinkWrap: true,
@@ -88,7 +89,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           }
                         },
                         child: Text(
-                          'Report Julia',
+                          'Report ${widget.findData.name}',
                           style: GoogleFonts.roboto(
                             fontSize: smallLargeFontSize,
                             color: greyColor,

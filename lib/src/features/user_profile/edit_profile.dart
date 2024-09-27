@@ -410,7 +410,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 SelfInformation(
                   descriptionController: livingInController,
                   title: AppLocalizations.of(context)!.kLivingInLabel,
-                  description: '${data?.city ?? ""}, ${data?.city ?? ""}',
+                  description: '${data?.country ?? ""}, ${data?.city ?? ""}',
                 ),
                 24.vGap,
 
