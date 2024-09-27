@@ -216,7 +216,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ForgotPasswordScreen(),
+                        builder: (context) => ForgotPasswordScreen(
+                            type: selectedText.toLowerCase()),
                       ),
                     );
                   },
@@ -430,7 +431,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   supabaseSocialRegister(String email, String name) async {
     // Supabase Register
     try {
-     var authState =  await supabase.auth.signUp(
+      var authState = await supabase.auth.signUp(
         email: email,
         password: email,
         data: {
@@ -440,7 +441,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         emailRedirectTo: 'io.supabase.chat://login',
       );
       saveSupabaseUserId(authState.session!.user.id.toString());
-      
     } on AuthException catch (error) {
       debugPrint(error.toString());
       context.showErrorSnackBar(message: error.message);

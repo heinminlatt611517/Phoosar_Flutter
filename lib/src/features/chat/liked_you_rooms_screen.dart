@@ -8,6 +8,7 @@ import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
 import 'package:phoosar/src/features/chat/models/room.dart';
+import 'package:phoosar/src/features/other_profile/other_profile.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/chat_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -50,22 +51,28 @@ class LikedYouRoomsScreen extends ConsumerWidget {
                     p.id != currentUserId && filterUserIds.contains(p.id))
                 .toList();
 
-           return GridView.builder(
+            return GridView.builder(
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 Room? room = rooms
                     .where((room) =>
-                room.otherUserId ==
-                    filterUsers[index].profile!.supabaseUserId)
+                        room.otherUserId ==
+                        filterUsers[index].profile!.supabaseUserId)
                     .firstOrNull;
                 var otherUser = filterUsers[index].profile!;
                 return InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                            roomId: room?.id ?? "",
-                            otherProfileImage: otherUser.profileImages?.first ?? "",
-                            otherUserName: otherUser.name.toString())));
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ProfileScreen(findData: otherUser)));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => ChatPage(
+                    //         roomId: room?.id ?? "",
+                    //         otherProfileImage:
+                    //             otherUser.profileImages?.first ?? "",
+                    //         otherUserName: otherUser.name.toString())));
                   },
                   child: UserAvatar(
                     userId: otherUser.supabaseUserId.toString(),
