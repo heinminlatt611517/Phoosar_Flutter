@@ -54,7 +54,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
             if (indicatorColors.length != data.length) {
               indicatorColors = List.generate(
                 data.length,
-                    (_) => Colors.grey.withOpacity(0.4),
+                (_) => Colors.grey.withOpacity(0.4),
               );
               indicatorColors.first = Colors.blue;
             }
@@ -82,22 +82,25 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                         children: data
                             .asMap()
                             .map((index, questions) => MapEntry(
-                          index,
-                          QuestionWidgetView(
-                            questionData: (questionsData) {
-                              setState(() {
-                                selectedQuestionsMap[index] = questionsData;
-                              });
-                            },
-                            data: questions,
-                            selectedQuestion: selectedQuestionsMap[index],
-                            onSelectionChanged: (hasSelection) {
-                              setState(() {
-                                pageSelectionStatus[index] = hasSelection;
-                              });
-                            },
-                          ),
-                        ))
+                                  index,
+                                  QuestionWidgetView(
+                                    questionData: (questionsData) {
+                                      setState(() {
+                                        selectedQuestionsMap[index] =
+                                            questionsData;
+                                      });
+                                    },
+                                    data: questions,
+                                    selectedQuestion:
+                                        selectedQuestionsMap[index],
+                                    onSelectionChanged: (hasSelection) {
+                                      setState(() {
+                                        pageSelectionStatus[index] =
+                                            hasSelection;
+                                      });
+                                    },
+                                  ),
+                                ))
                             .values
                             .toList(),
                       ),
@@ -138,7 +141,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         questionList.length,
-            (index) => buildIndicator(index),
+        (index) => buildIndicator(index),
       ),
     );
   }
@@ -161,8 +164,8 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     setState(() {
       indicatorColors = List.generate(
         indicatorColors.length,
-            (index) =>
-        index <= _currentPage ? Colors.blue : Colors.grey.withOpacity(0.4),
+        (index) =>
+            index <= _currentPage ? Colors.blue : Colors.grey.withOpacity(0.4),
       );
     });
   }
@@ -179,15 +182,17 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
         onTap: () async {
           ref.read(questionSaveRequestProvider).questions =
               selectedQuestionsMap.values.toList();
-          debugPrint("request:::${selectedQuestionsMap.values.toList().toString()}");
+          debugPrint(
+              "request:::${selectedQuestionsMap.values.toList().toString()}");
           if (pageSelectionStatus[_currentPage] ?? false) {
             if (index == pageLength - 1) {
               setState(() {
                 isLoading = true;
               });
               var request = ref.read(questionSaveRequestProvider);
-              var response =
-              await ref.read(repositoryProvider).saveUserQA(request, context);
+              var response = await ref
+                  .read(repositoryProvider)
+                  .saveUserQA(request, context);
               if (response.statusCode.toString().startsWith('2')) {
                 Navigator.pushReplacement(
                   context,
@@ -207,7 +212,10 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(index == 0 ? 'Please enter description before continuing' : 'Please make a selection before continuing.')),
+              SnackBar(
+                  content: Text(index == 0
+                      ? 'Please enter description before continuing'
+                      : 'Please make a selection before continuing.')),
             );
           }
         },
@@ -216,7 +224,6 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 }
-
 
 class QuestionWidgetView extends StatefulWidget {
   final QuestionData data;
@@ -238,13 +245,15 @@ class QuestionWidgetView extends StatefulWidget {
 
 class _QuestionWidgetViewState extends State<QuestionWidgetView> {
   late String selectedText;
-  TextEditingController shortDescriptionTextController = TextEditingController();
+  TextEditingController shortDescriptionTextController =
+      TextEditingController();
 
   @override
   void initState() {
     super.initState();
     selectedText = widget.selectedQuestion?.answerText ?? "";
-    shortDescriptionTextController.text = widget.selectedQuestion?.answerText ?? "";
+    shortDescriptionTextController.text =
+        widget.selectedQuestion?.answerText ?? "";
   }
 
   @override
@@ -279,80 +288,87 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                 SizedBox(height: 80),
                 widget.data.answerType.toString() == "1"
                     ? Column(
-                      children: [
-                        TextFormField(
-                                          maxLines: 10,
-                                          controller: shortDescriptionTextController,
-                                          onChanged: (value) {
-                        var craftQuestionVo = Questions(
-                          id: widget.data.id,
-                          answerId: "",
-                          answerText: value,
-                        );
-                        widget.questionData(craftQuestionVo);
-                        // Notify parent about selection change
-                        widget.onSelectionChanged(value.isNotEmpty);
-                                          },
-                                          decoration: InputDecoration(
-                        hintMaxLines: 2,
-                        hintStyle: TextStyle(
-                          fontSize: kTextRegular,
-                          color: Colors.grey.withOpacity(0.8),
-                        ),
-                        hintText: AppLocalizations.of(context)!
-                            .kHowWouldYourFamilyOrBestFriendDescribeYou,
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue,
+                        children: [
+                          TextFormField(
+                            maxLines: 10,
+                            controller: shortDescriptionTextController,
+                            onChanged: (value) {
+                              var craftQuestionVo = Questions(
+                                id: widget.data.id,
+                                answerId: "",
+                                answerText: value,
+                              );
+                              widget.questionData(craftQuestionVo);
+                              // Notify parent about selection change
+                              widget.onSelectionChanged(value.isNotEmpty);
+                            },
+                            decoration: InputDecoration(
+                              hintMaxLines: 2,
+                              hintStyle: TextStyle(
+                                fontSize: kTextRegular,
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              hintText: AppLocalizations.of(context)!
+                                  .kHowWouldYourFamilyOrBestFriendDescribeYou,
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.5,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: 0.5,
-                          ),
-                        ),
-                                          ),
-                                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              child: Text(AppLocalizations.of(context)!.kTipKeepItShortAndSweetLabel,style: TextStyle(fontSize: 12,color: Colors.grey),),
-                            ))
-                      ],
-                    )
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .kTipKeepItShortAndSweetLabel,
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                ),
+                              ))
+                        ],
+                      )
                     : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: SelectableButton(
-                        label: widget.data.answers?[index].answer ?? "",
-                        isSelected: selectedText ==
-                            widget.data.answers?[index].answer,
-                        onTapButton: (value) {
-                          var craftQuestionVo = Questions(
-                            id: widget.data.id,
-                            answerId: widget.data.answers?[index].id.toString(),
-                            answerText: widget.data.answers?[index].answer.toString(),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: SelectableButton(
+                              label: widget.data.answers?[index].answer ?? "",
+                              isSelected: selectedText ==
+                                  widget.data.answers?[index].answer,
+                              onTapButton: (value) {
+                                var craftQuestionVo = Questions(
+                                  id: widget.data.id,
+                                  answerId:
+                                      widget.data.answers?[index].id.toString(),
+                                  answerText: widget.data.answers?[index].answer
+                                      .toString(),
+                                );
+                                widget.questionData(craftQuestionVo);
+                                setState(() {
+                                  selectedText = value;
+                                });
+                                // Notify parent about selection change
+                                widget.onSelectionChanged(value.isNotEmpty);
+                              },
+                            ),
                           );
-                          widget.questionData(craftQuestionVo);
-                          setState(() {
-                            selectedText = value;
-                          });
-                          // Notify parent about selection change
-                          widget.onSelectionChanged(value.isNotEmpty);
                         },
+                        itemCount: widget.data.answers?.length ?? 0,
                       ),
-                    );
-                  },
-                  itemCount: widget.data.answers?.length ?? 0,
-                ),
               ],
             ),
           ),
@@ -361,8 +377,3 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
     );
   }
 }
-
-
-
-
-
