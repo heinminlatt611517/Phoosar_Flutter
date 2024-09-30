@@ -342,6 +342,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       setState(() {
         selectedIndex++;
       });
+      if (selectedIndex == total) {
+        showDialog(
+            context: context,
+            builder: (context) => EmptyFindDialog(
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = 0;
+                    });
+                    ref.invalidate(findListNotifierProvider);
+                  },
+                ));
+      }
     } else {
       log('Last Index');
       ref.invalidate(findListNotifierProvider);
