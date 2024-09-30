@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/auth/login.dart';
@@ -50,7 +52,7 @@ class UserSettingScreen extends ConsumerWidget {
                 },
                 child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: kMarginMedium),
+                    const EdgeInsets.symmetric(horizontal: kMarginMedium),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -69,7 +71,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kAccountSettingLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -89,7 +91,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kActiveSubscriptionLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -110,7 +112,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kBillingLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -135,7 +137,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kPrivacyLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -160,7 +162,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kNotificationLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -212,7 +214,7 @@ class HelpAndWhatNewView extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.kHelpAndSupportLabel,
                 style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               Spacer(),
             ],
@@ -315,7 +317,7 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
   }
 
   Future<void> logout(BuildContext context, WidgetRef ref) async {
-   await _updateOnlineStatus(false, ref, context);
+    await _updateOnlineStatus(false, ref, context);
   }
 
   ///update online status
@@ -351,10 +353,10 @@ class LabelWithIconOrText extends StatelessWidget {
   final Function()? onTap;
   const LabelWithIconOrText(
       {super.key,
-      required this.label,
-      required this.isIcon,
-      this.text,
-      this.onTap});
+        required this.label,
+        required this.isIcon,
+        this.text,
+        this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -375,7 +377,7 @@ class LabelWithIconOrText extends StatelessWidget {
             Text(
               label,
               style:
-                  TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
+              TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
             ),
             Spacer(),
 
