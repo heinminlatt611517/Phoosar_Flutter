@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/auth/login.dart';
@@ -48,7 +50,7 @@ class UserSettingScreen extends ConsumerWidget {
                 },
                 child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: kMarginMedium),
+                    const EdgeInsets.symmetric(horizontal: kMarginMedium),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -67,7 +69,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kAccountSettingLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -87,7 +89,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kActiveSubscriptionLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -108,7 +110,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kBillingLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -133,7 +135,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kPrivacyLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -158,7 +160,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kNotificationLabel,
                     style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -210,7 +212,7 @@ class HelpAndWhatNewView extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.kHelpAndSupportLabel,
                 style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               Spacer(),
             ],
@@ -313,17 +315,33 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
   }
 
   Future<void> logout(BuildContext context, WidgetRef ref) async {
-    // Clear shared preferences
-    await ref.read(sharedPrefProvider).clear();
-    ref.invalidate(dashboardProvider);
-
-    // Navigate to the login screen
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => LoginScreen()),
-      (route) => false,
-    );
+    await _updateOnlineStatus(false, ref, context);
   }
+
+  ///update online status
+  Future<void> _updateOnlineStatus(bool isOnline,WidgetRef ref,BuildContext context) async {
+    debugPrint("IsOnline:::$isOnline");
+    try {
+      final repository = ref.watch(repositoryProvider);
+      await repository.saveOnlineStatus(
+        jsonEncode({"is_online": isOnline}),
+        context,
+      );
+      // Clear shared preferences
+      await ref.read(sharedPrefProvider).clear();
+      ref.invalidate(dashboardProvider);
+      /// Navigate to the login screen
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false,
+      );
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+  }
+
 }
+
 
 ///label with icon or text container view
 class LabelWithIconOrText extends StatelessWidget {
@@ -333,10 +351,10 @@ class LabelWithIconOrText extends StatelessWidget {
   final Function()? onTap;
   const LabelWithIconOrText(
       {super.key,
-      required this.label,
-      required this.isIcon,
-      this.text,
-      this.onTap});
+        required this.label,
+        required this.isIcon,
+        this.text,
+        this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +375,7 @@ class LabelWithIconOrText extends StatelessWidget {
             Text(
               label,
               style:
-                  TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
+              TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
             ),
             Spacer(),
 
