@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/auth/login.dart';
@@ -313,17 +315,33 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
   }
 
   Future<void> logout(BuildContext context, WidgetRef ref) async {
-    // Clear shared preferences
-    await ref.read(sharedPrefProvider).clear();
-    ref.invalidate(dashboardProvider);
-
-    // Navigate to the login screen
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => LoginScreen()),
-      (route) => false,
-    );
+   await _updateOnlineStatus(false, ref, context);
   }
+
+  ///update online status
+  Future<void> _updateOnlineStatus(bool isOnline,WidgetRef ref,BuildContext context) async {
+    debugPrint("IsOnline:::$isOnline");
+    try {
+      final repository = ref.watch(repositoryProvider);
+      await repository.saveOnlineStatus(
+        jsonEncode({"is_online": isOnline}),
+        context,
+      );
+      // Clear shared preferences
+      await ref.read(sharedPrefProvider).clear();
+      ref.invalidate(dashboardProvider);
+      /// Navigate to the login screen
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false,
+      );
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+  }
+
 }
+
 
 ///label with icon or text container view
 class LabelWithIconOrText extends StatelessWidget {
