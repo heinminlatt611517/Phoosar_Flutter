@@ -129,6 +129,7 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
           items: widget.countryList,
           hintText: 'Country',
           onSelect: (value) {
+            ref.invalidate(cityRequestProvider);
             ref.read(profileSaveRequestProvider.notifier).state.country =
                 value.code.toString();
             ref.read(cityRequestProvider.notifier).state.countryCode =
@@ -193,6 +194,7 @@ class _MatchCityAndCountryDropdownViewState
           hintText: 'Country',
           items: widget.countryList,
           onSelect: (value) {
+            ref.invalidate(matchCityRequestProvider);
             ref.read(profileSaveRequestProvider.notifier).state.matchCountry =
                 value.code.toString();
             ref.read(matchCityRequestProvider.notifier).state.countryCode =

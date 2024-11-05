@@ -22,6 +22,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../auth/login.dart';
 import '../other_profile/other_profile.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -47,7 +48,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       repository.saveOnlineStatus(
         jsonEncode({"is_online": true}),
         context,
-      );
+      ).then((value) async{
+        Map<String, dynamic> data = jsonDecode(value.body);
+        debugPrint("Value>>>>>>${data['is_active']}");
+        if(data['is_active'] == 0){
+          await ref.read(sharedPrefProvider).clear();
+          ref.invalidate(dashboardProvider);
+          /// Navigate to the login screen
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+                (route) => false,
+          );
+        }
+      });
 
       final response = await repository.getProfile(jsonEncode({}), context);
       var data = SelfProfileResponse.fromJson(jsonDecode(response.body));

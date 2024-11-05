@@ -180,6 +180,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
         isLoading: isLoading,
         fontSize: 18,
         onTap: () async {
+          FocusScope.of(context).unfocus();
           ref.read(questionSaveRequestProvider).questions =
               selectedQuestionsMap.values.toList();
           debugPrint(
