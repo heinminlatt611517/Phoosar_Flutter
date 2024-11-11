@@ -46,7 +46,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   TextEditingController _phoneController = TextEditingController();
 
   ///Email or Phone number
-  String selectedText = "Email";
+  String selectedText = "Phone";
   var countryCode = "";
 
   Future<void> _requestOTP(String type) async {
@@ -121,14 +121,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   50.vGap,
 
-                  ///email and phone number view
-                  EmailAndPhoneNumberView(
-                      selectedText: selectedText,
-                      onTapEmailOrPhoneNumber: (value) {
-                        setState(() {
-                          selectedText = value;
-                        });
-                      }),
+                  ///Phone number
+                  EmailAndPhoneNumberButtonView(
+                    isSelected: selectedText == "Phone",
+                    label: AppLocalizations.of(context)!.kPhoneNumberLabel,
+                    onTapButton: () {
+                    },
+                  ),
+
+                  // ///email and phone number view
+                  // EmailAndPhoneNumberView(
+                  //     selectedText: selectedText,
+                  //     onTapEmailOrPhoneNumber: (value) {
+                  //       setState(() {
+                  //         selectedText = value;
+                  //       });
+                  //     }),
 
                   20.vGap,
 
@@ -193,7 +201,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                   ///user name , email , password view
                   Visibility(
-                      visible: selectedText == "Email",
+                      //visible: selectedText == "Email",
+                      visible: false,
                       child: Column(
                         children: [
                           ///user name input

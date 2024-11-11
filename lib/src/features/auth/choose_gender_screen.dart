@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/select_birthday_screen.dart';
+import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -72,7 +73,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SelectBirthdayScreen(),
+                        builder: (context) => UploadProfileImageScreen(),
                       ),
                     );
                   }

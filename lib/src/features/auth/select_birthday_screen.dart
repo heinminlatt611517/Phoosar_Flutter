@@ -41,7 +41,7 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: Colors.white,
         title: Image.asset(
           'assets/images/ic_launcher.png',

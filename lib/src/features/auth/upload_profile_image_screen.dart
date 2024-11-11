@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phoosar/src/common/widgets/select_photo_options_widget.dart';
+import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -36,7 +37,7 @@ class _UploadProfileImageScreenState
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: Colors.white,
         title: Image.asset(
           'assets/images/ic_launcher.png',
@@ -126,15 +127,15 @@ class _UploadProfileImageScreenState
 }
 
 ///choose image container view
-class ChooseImageView extends StatefulWidget {
+class ChooseImageView extends ConsumerStatefulWidget {
   Function(String) base64ImageString;
   ChooseImageView({super.key, required this.base64ImageString});
 
   @override
-  State<ChooseImageView> createState() => _ChooseImageViewState();
+  ConsumerState<ChooseImageView> createState() => _ChooseImageViewState();
 }
 
-class _ChooseImageViewState extends State<ChooseImageView> {
+class _ChooseImageViewState extends ConsumerState<ChooseImageView> {
   File? _image;
 
   ///cropImage
@@ -154,6 +155,7 @@ class _ChooseImageViewState extends State<ChooseImageView> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         ///user image view
@@ -176,6 +178,9 @@ class _ChooseImageViewState extends State<ChooseImageView> {
                       fit: BoxFit.cover,
                     )
                   : Image.asset(
+                      ref.read(profileSaveRequestProvider.notifier)
+                          .state
+                          .gender == "2" ? 'assets/images/female.png' :
                       'assets/images/upload_profile_img.png',
                       height: 240,
                       width: 240,

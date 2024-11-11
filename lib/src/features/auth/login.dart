@@ -50,7 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   //final TextEditingController phoneNumberController = TextEditingController();
 
   ///Email or Phone number
-  String selectedText = "Email";
+  String selectedText = "Phone";
   //var countryCode = "+959";
   String e164PhoneNo = "";
   PhoneNumber phone = PhoneNumber(isoCode: 'MM');
@@ -99,20 +99,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 50.vGap,
 
-                ///email and phone number view
-                EmailAndPhoneNumberView(
-                    selectedText: selectedText,
-                    onTapEmailOrPhoneNumber: (value) {
-                      setState(() {
-                        selectedText = value;
-                      });
-                    }),
+                EmailAndPhoneNumberButtonView(
+                  isSelected: selectedText == "Phone",
+                  label: AppLocalizations.of(context)!.kPhoneNumberLabel,
+                  onTapButton: () {
+                  },
+                ),
+
+                // ///email and phone number view
+                // EmailAndPhoneNumberView(
+                //     selectedText: selectedText,
+                //     onTapEmailOrPhoneNumber: (value) {
+                //       setState(() {
+                //         selectedText = value;
+                //       });
+                //     }),
 
                 20.vGap,
 
                 ///phone number sign in view
                 Visibility(
-                  visible: selectedText == "Phone",
+                  // visible: selectedText == "Phone",
+                  visible: true,
                   child: Column(
                     children: [
                       Container(
@@ -171,7 +179,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 ///email sing in view
                 Visibility(
-                  visible: selectedText == "Email",
+                  // visible: selectedText == "Email",
+                  visible: false,
                   child: Column(
                     children: [
                       ///email input
@@ -231,34 +240,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 30.vGap,
 
                 ///facebook and google sign in view
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ///facebook signIn button
-                    HorizontalTextIconButton(
-                        onTap: () {
-                          facebookSignIn(context);
-                        },
-                        icon: Icon(
-                          Icons.facebook,
-                          color: Colors.blue,
-                        ),
-                        text: AppLocalizations.of(context)!.kSignInLabel),
+                Visibility(
+                  visible: false,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ///facebook signIn button
+                      HorizontalTextIconButton(
+                          onTap: () {
+                            facebookSignIn(context);
+                          },
+                          icon: Icon(
+                            Icons.facebook,
+                            color: Colors.blue,
+                          ),
+                          text: AppLocalizations.of(context)!.kSignInLabel),
 
-                    20.hGap,
+                      20.hGap,
 
-                    ///google signIn button
-                    HorizontalTextIconButton(
-                        onTap: () {
-                          googleSignIn();
-                        },
-                        icon: Image.asset(
-                          'assets/images/google.jpg',
-                          height: 24,
-                          fit: BoxFit.cover,
-                        ),
-                        text: AppLocalizations.of(context)!.kSignInLabel),
-                  ],
+                      ///google signIn button
+                      HorizontalTextIconButton(
+                          onTap: () {
+                            googleSignIn();
+                          },
+                          icon: Image.asset(
+                            'assets/images/google.jpg',
+                            height: 24,
+                            fit: BoxFit.cover,
+                          ),
+                          text: AppLocalizations.of(context)!.kSignInLabel),
+                    ],
+                  ),
                 ),
 
                 40.vGap,
@@ -311,9 +323,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     var response = await ref.read(repositoryProvider).login(
           jsonEncode({
-            "type": selectedText == "Email" ? "email" : "phone",
+            //"type": selectedText == "Email" ? "email" : "phone",
+            "type": "phone",
             "value":
-                selectedText == "Email" ? emailController.text : e164PhoneNo,
+            e164PhoneNo,
+            // "value":
+            //     selectedText == "Email" ? emailController.text : e164PhoneNo,
             //: "${countryCode}${phoneNumberController.text}",
             "password": "${passwordController.text}",
           }),
@@ -339,10 +354,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       //Supabase Login
       try {
+        // await supabase.auth.signInWithPassword(
+        //   email: selectedText == "Email"
+        //       ? emailController.text.toString()
+        //       : ('user' + e164PhoneNo + '@gmail.com'),
+        //   password: passwordController.text,
+        // );
         await supabase.auth.signInWithPassword(
-          email: selectedText == "Email"
-              ? emailController.text.toString()
-              : ('user' + e164PhoneNo + '@gmail.com'),
+          email: ('user' + e164PhoneNo + '@gmail.com'),
           password: passwordController.text,
         );
         navigateToNextScreen();
