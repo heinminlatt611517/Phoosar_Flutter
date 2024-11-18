@@ -96,8 +96,19 @@ class Repository {
 
   Future<Response> saveOnlineStatus(
       dynamic request, BuildContext context) async {
-    var response = await Session.post(
+    var response = await Session.postOnlineStatus(
       Uri.parse("${Env.baseurl}/save-online-status"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> deleteAccount(
+      dynamic request, BuildContext context) async {
+    var response = await Session.postDeleteAccount(
+      Uri.parse("${Env.baseurl}/account-delete"),
       request,
       context,
       ref,

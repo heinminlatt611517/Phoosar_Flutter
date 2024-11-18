@@ -50,7 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   //final TextEditingController phoneNumberController = TextEditingController();
 
   ///Email or Phone number
-  String selectedText = "Phone";
+  String selectedText = "Email";
   //var countryCode = "+959";
   String e164PhoneNo = "";
   PhoneNumber phone = PhoneNumber(isoCode: 'MM');
@@ -120,7 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ///phone number sign in view
                 Visibility(
                   // visible: selectedText == "Phone",
-                  visible: true,
+                  visible: false,
                   child: Column(
                     children: [
                       Container(
@@ -180,7 +180,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ///email sing in view
                 Visibility(
                   // visible: selectedText == "Email",
-                  visible: false,
+                  visible: true,
                   child: Column(
                     children: [
                       ///email input
@@ -324,9 +324,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     var response = await ref.read(repositoryProvider).login(
           jsonEncode({
             //"type": selectedText == "Email" ? "email" : "phone",
-            "type": "phone",
+            "type": "email",
             "value":
-            e164PhoneNo,
+            emailController.text,
             // "value":
             //     selectedText == "Email" ? emailController.text : e164PhoneNo,
             //: "${countryCode}${phoneNumberController.text}",
@@ -354,16 +354,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       //Supabase Login
       try {
-        // await supabase.auth.signInWithPassword(
-        //   email: selectedText == "Email"
-        //       ? emailController.text.toString()
-        //       : ('user' + e164PhoneNo + '@gmail.com'),
-        //   password: passwordController.text,
-        // );
         await supabase.auth.signInWithPassword(
-          email: ('user' + e164PhoneNo + '@gmail.com'),
+          email: selectedText == "Email"
+              ? emailController.text.toString()
+              : ('user' + e164PhoneNo + '@gmail.com'),
           password: passwordController.text,
         );
+        // await supabase.auth.signInWithPassword(
+        //   email: ('user' + e164PhoneNo + '@gmail.com'),
+        //   password: passwordController.text,
+        // );
         navigateToNextScreen();
       } on AuthException catch (error) {
         setState(() {

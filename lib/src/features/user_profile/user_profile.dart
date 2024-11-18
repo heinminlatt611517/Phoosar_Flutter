@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,16 +15,23 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/extensions.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:phoosar/src/utils/strings.dart';
 import 'package:phoosar/src/utils/utils.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
+import 'package:flutter/material.dart' hide CarouselController;
 
-class UserProfileScreen extends ConsumerWidget {
+class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<UserProfileScreen> createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
+  int _currentIndex = 0;
+  @override
+  Widget build(BuildContext context) {
     var selfProfileData = ref.watch(selfProfileProvider);
     debugPrint("Distance:::${selfProfileData?.data?.distanceInvisible?.distanceInvisibleStatus.toString()}");
     return Container(
@@ -32,7 +40,7 @@ class UserProfileScreen extends ConsumerWidget {
       color: whitePaleColor,
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               MediaQuery.of(context).padding.top.vGap,
@@ -169,34 +177,38 @@ class UserProfileScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
                   children: [
-                    CachedNetworkImage(
-                      width: MediaQuery.of(context).size.width - 32,
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      fit: BoxFit.cover,
-                      imageUrl: (selfProfileData?.data?.profileImages != null &&
-                              selfProfileData!.data!.profileImages!.isNotEmpty)
-                          ? selfProfileData.data?.profileImages![0] ??
-                              errorImageUrl
-                          : errorImageUrl,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 32,
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                            colors: [
-                              Colors.black.withOpacity(0.6),
-                              Colors.transparent,
-                              Colors.transparent,
-                            ],
-                          ),
-                        ),
-                      ),
+                    // CachedNetworkImage(
+                    //   width: MediaQuery.of(context).size.width - 32,
+                    //   height: MediaQuery.of(context).size.height * 0.5,
+                    //   fit: BoxFit.cover,
+                    //   imageUrl: (selfProfileData?.data?.profileImages != null &&
+                    //           selfProfileData!.data!.profileImages!.isNotEmpty)
+                    //       ? selfProfileData.data?.profileImages![0] ??
+                    //           errorImageUrl
+                    //       : errorImageUrl,
+                    // ),
+                    carousel_slider.CarouselSlider(
+                      options: carousel_slider.CarouselOptions(
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentIndex = index;
+                            });
+                          },
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 1,
+                          height: MediaQuery.of(context).size.height * 0.5),
+                      items: selfProfileData?.data?.profileImages?.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return CachedNetworkImage(
+                              width: MediaQuery.of(context).size.width - 32,
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              fit: BoxFit.cover,
+                              imageUrl: i,
+                            );
+                          },
+                        );
+                      }).toList(),
                     ),
                     Positioned(
                       bottom: 20,
@@ -229,6 +241,29 @@ class UserProfileScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 12,
+                      right: 6,
+                      child: DotsIndicator(
+                        dotsCount: selfProfileData.data!.profileImages!.length < 1
+                            ? 1
+                            : selfProfileData.data!.profileImages!.length,
+                        position:
+                        _currentIndex, // Ensure currentIndex is tracked in state
+                        decorator: DotsDecorator(
+                          activeColor: blackColor,
+                          colors:
+                          List.filled(selfProfileData.data!.profileImages!.length, Colors.white),
+                          size: const Size.square(7),
+                          activeSize: const Size(8, 8),
+                          activeShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              side: BorderSide(color: Colors.white, width: 2)),
+                          spacing: const EdgeInsets.all(4.0),
+                        ),
+                        axis: Axis.vertical,
                       ),
                     ),
                   ],

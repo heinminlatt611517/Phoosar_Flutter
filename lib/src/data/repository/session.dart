@@ -128,6 +128,101 @@ class Session {
     }
   }
 
+  static Future<Response> postOnlineStatus(
+      Uri url, dynamic data, BuildContext context, Ref ref) async {
+    var prefs = ref.watch(sharedPrefProvider);
+    var token = prefs.getString("token") ?? "";
+    developer.log("Token : $token");
+    var locale = ref.watch(localeProvider);
+
+    final client = await ref.getDebouncedHttpClient();
+
+    try {
+      Response response = await client.post(
+        url,
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $token",
+          'language': locale,
+        },
+        body: data,
+      );
+
+      if (!response.statusCode.toString().startsWith("2")) {
+        var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
+        if (response.statusCode == 401) {
+          unauthenticatedState(prefs, context);
+        } else {
+          // print('should call here');
+          // showDialog(
+          //   context: context,
+          //   builder: (context) => ErrorDialog(
+          //     title: "",
+          //     message: response.statusCode == 422
+          //         ? responseData.errors!.join("\n")
+          //         : responseData.message,
+          //   ),
+          // );
+        }
+      }
+      return response;
+    } catch (e) {
+      developer.log("Request error: $e");
+      return Response(
+        'Error',
+        408,
+        request: Request('POST', url),
+      );
+    }
+  }
+
+  static Future<Response> postDeleteAccount(
+      Uri url, dynamic data, BuildContext context, Ref ref) async {
+    var prefs = ref.watch(sharedPrefProvider);
+    var token = prefs.getString("token") ?? "";
+    developer.log("Token : $token");
+    var locale = ref.watch(localeProvider);
+
+    final client = await ref.getDebouncedHttpClient();
+
+    try {
+      Response response = await client.post(
+        url,
+        headers: {
+          'Accept': '*/*',
+          'Authorization': "Bearer $token",
+        },
+      );
+
+      if (!response.statusCode.toString().startsWith("2")) {
+        var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
+        if (response.statusCode == 401) {
+          unauthenticatedState(prefs, context);
+        } else {
+          // print('should call here');
+          // showDialog(
+          //   context: context,
+          //   builder: (context) => ErrorDialog(
+          //     title: "",
+          //     message: response.statusCode == 422
+          //         ? responseData.errors!.join("\n")
+          //         : responseData.message,
+          //   ),
+          // );
+        }
+      }
+      return response;
+    } catch (e) {
+      developer.log("Request error: $e");
+      return Response(
+        'Error',
+        408,
+        request: Request('POST', url),
+      );
+    }
+  }
+
   static Future<Response> postWithoutAuth(
       Uri url, dynamic data, BuildContext context, Ref ref) async {
     final client = await ref.getDebouncedHttpClient();

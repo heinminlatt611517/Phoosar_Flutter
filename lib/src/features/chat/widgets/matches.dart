@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/chat/match_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -61,7 +62,7 @@ class MatchesView extends ConsumerWidget {
               loading: () {
                 return Container(
                     height: context.heightPx * 0.5,
-                    child: Center(child: const CircularProgressIndicator()));
+                    child: Center(child:  SpinKitThreeBounce(color: Colors.pinkAccent,)));
               },
             ),
 

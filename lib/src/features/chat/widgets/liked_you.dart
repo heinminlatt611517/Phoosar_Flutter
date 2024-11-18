@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/features/chat/liked_you_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:sized_context/sized_context.dart';
 
 class LikedYouView extends ConsumerWidget {
   const LikedYouView({super.key});
@@ -40,7 +42,9 @@ class LikedYouView extends ConsumerWidget {
                 return Text(error.toString());
               },
               loading: () {
-                return Container();
+                return Container(
+                    height: context.heightPx * 0.5,
+                    child: Center(child:  SpinKitThreeBounce(color: Colors.pinkAccent,)));
               },
             ),
 

@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/user_setting/block_user_screen.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
@@ -246,19 +245,35 @@ class HelpAndWhatNewView extends StatelessWidget {
 }
 
 ///logout and delete account view
-class LogoutAndDeleteAccountView extends ConsumerWidget {
+class LogoutAndDeleteAccountView extends ConsumerStatefulWidget {
   const LogoutAndDeleteAccountView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LogoutAndDeleteAccountView> createState() => _LogoutAndDeleteAccountViewState();
+}
+
+class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAccountView> {
+  var isLoading = false;
+  var isDeleteLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
     var selfProfileData = ref.watch(selfProfileProvider);
     return Column(
       children: [
         ///logout container
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () {
-            logout(context, ref);
+          onTap: () async{
+            if(isLoading != true){
+              setState(() {
+                isLoading = true;
+              });
+             await logout(context, ref);
+              setState(() {
+                isLoading = false;
+              });
+            }
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -267,7 +282,14 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey.withOpacity(0.3))),
-            child: Row(
+            child:isLoading == true ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Please wait...',
+                    style: const TextStyle(color: Colors.pinkAccent)),
+                const SpinKitThreeBounce(size: 25, color: Colors.pinkAccent),
+              ],
+            )  : Row(
               children: [
                 Spacer(),
                 Text(
@@ -294,22 +316,42 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
         16.vGap,
 
         ///delete account container
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium2, vertical: kMarginMedium2),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.withOpacity(0.3))),
-          child: Row(
-            children: [
-              Spacer(),
-              Text(
-                AppLocalizations.of(context)!.kDeleteAccountLabel,
-                style: TextStyle(color: Colors.red),
-              ),
-              Spacer(),
-            ],
+        GestureDetector(
+          onTap: () async{
+            if(isDeleteLoading != true){
+              setState(() {
+                isDeleteLoading = true;
+              });
+              await deleteAccount(context, ref);
+              setState(() {
+                isDeleteLoading = false;
+              });
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: kMarginMedium2, vertical: kMarginMedium2),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey.withOpacity(0.3))),
+            child:isDeleteLoading ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Please wait...',
+                    style: const TextStyle(color: Colors.pinkAccent)),
+                const SpinKitThreeBounce(size: 25, color: Colors.pinkAccent),
+              ],
+            )  : Row(
+              children: [
+                Spacer(),
+                Text(
+                  AppLocalizations.of(context)!.kDeleteAccountLabel,
+                  style: TextStyle(color: Colors.red),
+                ),
+                Spacer(),
+              ],
+            ),
           ),
         ),
       ],
@@ -318,6 +360,32 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
 
   Future<void> logout(BuildContext context, WidgetRef ref) async {
     await _updateOnlineStatus(false, ref, context);
+  }
+
+  Future<void> deleteAccount(BuildContext context, WidgetRef ref) async {
+    await _deleteAccount(ref, context);
+  }
+
+
+  ///update online status
+  Future<void> _deleteAccount(WidgetRef ref,BuildContext context) async {
+    try {
+      final repository = ref.watch(repositoryProvider);
+      await repository.deleteAccount(
+        {},
+        context,
+      );
+      // Clear shared preferences
+      await ref.read(sharedPrefProvider).clear();
+      ref.invalidate(dashboardProvider);
+      /// Navigate to the login screen
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false,
+      );
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
   }
 
   ///update online status
@@ -341,7 +409,6 @@ class LogoutAndDeleteAccountView extends ConsumerWidget {
       debugPrint('Error: $e');
     }
   }
-
 }
 
 

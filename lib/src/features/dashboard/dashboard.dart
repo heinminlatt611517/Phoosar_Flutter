@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:phoosar/src/common/empty_find_dialog.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
@@ -335,7 +336,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 },
                 loading: () => Container(
                     height: context.heightPx * 0.6,
-                    child: Center(child: CircularProgressIndicator())),
+                    child: Center(child: SpinKitThreeBounce(color: Colors.pinkAccent,))),
                 error: (error, stack) => Center(child: Text('Error: $error')),
               ),
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/language_dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -20,14 +21,18 @@ class AddSpeakLanguageScreen extends ConsumerStatefulWidget {
 class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
   final TextEditingController _languageController = TextEditingController();
   final List<String> _languages = [];
+  var dropdownItems = [
+    {'name': 'Burmese'},
+    {'name': 'English'},
+  ];
 
-  void _addLanguage() {
-    final String language = _languageController.text.trim();
+  void _addLanguage(String value) {
+    final String language = value;
     if (language.isNotEmpty && !_languages.contains(language)) {
       setState(() {
         _languages.add(language);
       });
-      _languageController.clear();
+      //_languageController.clear();
     }
   }
 
@@ -36,7 +41,6 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
       _languages.removeAt(index);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +103,8 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                         ),
                         Positioned(
                           child: InkWell(
-                            onTap : (){
-                             _removeLanguage(index);
+                            onTap: () {
+                              _removeLanguage(index);
                             },
                             child: Container(
                               height: 26,
@@ -108,7 +112,13 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(13),
                                   color: Colors.cyanAccent),
-                              child: Center(child: Icon(Icons.delete_outline,color: Colors.white,size: 15,),),
+                              child: Center(
+                                child: Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                              ),
                             ),
                           ),
                           left: 2,
@@ -122,28 +132,40 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                 20.vGap,
 
                 ///Add language
-                TextFormField(
-                  controller: _languageController,
-                  decoration: InputDecoration(
+                // TextFormField(
+                //   controller: _languageController,
+                //   decoration: InputDecoration(
+                //     hintText: AppLocalizations.of(context)!.kAddLanguage,
+                //     suffixIcon: UnconstrainedBox(
+                //       child: InkWell(
+                //           onTap: () {
+                //             _addLanguage();
+                //           },
+                //           child: Container(
+                //             height: 30,
+                //             width: 30,
+                //             decoration: BoxDecoration(
+                //                 color: Colors.grey,
+                //                 borderRadius: BorderRadius.circular(15)),
+                //             child: Icon(
+                //               Icons.add,
+                //               color: Colors.white,
+                //             ),
+                //           )),
+                //     ),
+                //     border: OutlineInputBorder(),
+                //   ),
+                // ),
+                Container(
+                  height: 60,
+                  width: double.infinity,
+                  child: LanguageDynamicDropDownWidget(
                     hintText: AppLocalizations.of(context)!.kAddLanguage,
-                    suffixIcon: UnconstrainedBox(
-                      child: InkWell(
-                          onTap: () {
-                            _addLanguage();
-                          },
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                          )),
-                    ),
-                    border: OutlineInputBorder(),
+                    items: dropdownItems,
+                    selectedList: _languages,
+                    onSelect: (value) {
+                      _addLanguage(value['name']);
+                    },
                   ),
                 ),
 
