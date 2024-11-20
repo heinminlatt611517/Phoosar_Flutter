@@ -73,7 +73,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UploadProfileImageScreen(),
+                        builder: (context) => SelectBirthdayScreen(),
                       ),
                     );
                   }
