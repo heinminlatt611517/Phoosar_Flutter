@@ -12,7 +12,6 @@ import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/features/dashboard/match.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_rewinds_dialog.dart';
-import 'package:phoosar/src/features/dashboard/widgets/get_premium_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/header.dart';
 import 'package:phoosar/src/features/dashboard/widgets/info_card.dart';
 import 'package:phoosar/src/features/dashboard/widgets/profile_builder.dart';

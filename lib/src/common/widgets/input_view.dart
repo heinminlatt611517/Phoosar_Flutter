@@ -21,8 +21,10 @@ class InputView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
-          color: const Color.fromRGBO(0, 0, 0, 0),
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 0.5)),
+          color: Colors.white.withOpacity(0.2),
+        border: Border.all(
+            color: Colors.grey.withOpacity(0.5),
+            width: 2),),
       child: TextFormField(
         controller: controller,
         validator: validator,

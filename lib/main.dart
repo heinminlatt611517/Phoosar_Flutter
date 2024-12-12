@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/env/env.dart';
 import 'package:phoosar/firebase_options.dart';
+import 'package:phoosar/src/fcm/fcm_service.dart';
+import 'package:phoosar/src/fcm/fcm_token_generation.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +20,9 @@ import 'src/settings/settings_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final settingsController = SettingsController(SettingsService());
+  // await Firebase.initializeApp();
+  // debugPrint("FCMServerKey:::${await FirebaseAccessToken().getToken()}");
+  // FCMService().listenForMessages();
 
   await settingsController.loadSettings();
   setPathUrlStrategy();

@@ -48,6 +48,9 @@ dependencies:
   step_progress_indicator: ^1.0.2
   gif_view: ^0.4.4
   video_player: ^2.9.1
+  firebase_messaging: ^15.1.6
+  flutter_local_notifications: ^18.0.1
+  googleapis_auth: ^1.6.0
   
 
 dev_dependencies:

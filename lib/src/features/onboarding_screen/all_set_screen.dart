@@ -19,72 +19,82 @@ class AllSetScreen extends ConsumerStatefulWidget {
 class _AllSetScreenState extends ConsumerState<AllSetScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/ic_launcher.png',
-          height: 60,
+    return Column(
+      children: [
+        Image.asset(
+          'assets/images/bg_image_4.jpg',
+          height: double.infinity,
+          width: double.infinity,
+          fit: BoxFit.fill,
         ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(kMarginLarge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.kYourAreAllSetLabel,
-                      style: TextStyle(
-                          color: Colors.pinkAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: kTextRegular24),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            title: Image.asset(
+              'assets/images/ic_launcher.png',
+              height: 60,
+            ),
+          ),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(kMarginLarge),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.kYourAreAllSetLabel,
+                          style: TextStyle(
+                              color: Colors.pinkAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: kTextRegular24),
+                        ),
+                        20.vGap,
+                        Text(
+                          AppLocalizations.of(context)!.kFindYourMatch,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
                     ),
-                    20.vGap,
-                    Text(
-                      AppLocalizations.of(context)!.kFindYourMatch,
-                      style: TextStyle(color: Colors.black),
+                  ),
+
+                  ///let go button
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: CommonButton(
+                      containerVPadding: 10,
+                      text: AppLocalizations.of(context)!.kLetGoLabel,
+                      fontSize: 18,
+                      onTap: () {
+                        ref
+                            .watch(sharedPrefProvider)
+                            .setString(kRecentOnboardingKey, kCompleteStatus);
+
+                        ///do navigation login
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      bgColor: Colors.pinkAccent,
                     ),
-                  ],
-                ),
+                  ),
+
+                  40.vGap,
+                ],
               ),
-
-              ///let go button
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: CommonButton(
-                  containerVPadding: 10,
-                  text: AppLocalizations.of(context)!.kLetGoLabel,
-                  fontSize: 18,
-                  onTap: () {
-                    ref
-                        .watch(sharedPrefProvider)
-                        .setString(kRecentOnboardingKey, kCompleteStatus);
-
-                    ///do navigation login
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                  bgColor: Colors.pinkAccent,
-                ),
-              ),
-
-              40.vGap,
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

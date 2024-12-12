@@ -47,11 +47,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  //final TextEditingController phoneNumberController = TextEditingController();
 
   ///Email or Phone number
   String selectedText = "Phone";
-  //var countryCode = "+959";
   String e164PhoneNo = "";
   PhoneNumber phone = PhoneNumber(isoCode: 'MM');
   TextEditingController _phoneController = TextEditingController();
@@ -85,227 +83,215 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ///app icon
-                Image.asset(
-                  'assets/images/phoosar_img.png',
-                  height: 60,
-                ),
-                50.vGap,
-
-                EmailAndPhoneNumberButtonView(
-                  isSelected: selectedText == "Phone",
-                  label: AppLocalizations.of(context)!.kPhoneNumberLabel,
-                  onTapButton: () {
-                  },
-                ),
-
-                // ///email and phone number view
-                // EmailAndPhoneNumberView(
-                //     selectedText: selectedText,
-                //     onTapEmailOrPhoneNumber: (value) {
-                //       setState(() {
-                //         selectedText = value;
-                //       });
-                //     }),
-
-                20.vGap,
-
-                ///phone number sign in view
-                Visibility(
-                  // visible: selectedText == "Phone",
-                  visible: true,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Colors.grey.withOpacity(0.5),
-                                width: 0.5),
-                            borderRadius: BorderRadius.circular(4.0)),
-                        child: InternationalPhoneNumberInput(
-                          //countries: ['MM'],
-                          onInputChanged: (PhoneNumber number) {
-                            print(number.phoneNumber);
-                            setState(() {
-                              e164PhoneNo = number.phoneNumber.toString();
-                            });
-                          },
-                          onInputValidated: (bool value) {
-                            print(value);
-                          },
-                          selectorConfig: SelectorConfig(
-                            leadingPadding: 12,
-                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          ),
-                          ignoreBlank: false,
-                          initialValue: phone,
-                          hintText: '',
-                          autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-
-                          //initialValue: number,
-                          textFieldController: _phoneController,
-                          formatInput: true,
-                          keyboardType: TextInputType.number,
-                          keyboardAction: TextInputAction.done,
-                          // keyboardType: TextInputType.numberWithOptions(
-                          //     signed: true, decimal: true),
-                          inputBorder: InputBorder.none,
-                          onSaved: (PhoneNumber number) {
-                            print('On Saved: $number');
-                          },
-                        ),
-                      ),
-
-                      24.vGap,
-
-                      ///password input
-                      InputView(
-                          controller: passwordController,
-                          hintLabel:
-                              AppLocalizations.of(context)!.kPasswordLabel),
-                    ],
-                  ),
-                ),
-
-                ///email sing in view
-                Visibility(
-                  // visible: selectedText == "Email",
-                  visible: false,
-                  child: Column(
-                    children: [
-                      ///email input
-                      InputView(
-                          controller: emailController,
-                          hintLabel: AppLocalizations.of(context)!.kEmailLabel),
-                      24.vGap,
-
-                      ///password input
-                      InputView(
-                          controller: passwordController,
-                          hintLabel:
-                              AppLocalizations.of(context)!.kPasswordLabel),
-                    ],
-                  ),
-                ),
-
-                50.vGap,
-
-                ///Sign in button
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: CommonButton(
-                    containerVPadding: 10,
-                    text: AppLocalizations.of(context)!.kSignInLabel,
-                    fontSize: 18,
-                    isLoading: _isLoading,
-                    onTap: () {
-                      if (!_isLoading) {
-                        _signIn();
-                      }
-                    },
-                    bgColor: Colors.pinkAccent,
-                  ),
-                ),
-
-                30.vGap,
-
-                ///forgot password
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ForgotPasswordScreen(
-                            type: selectedText.toLowerCase()),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.kForgotPasswordLabel,
-                    style:
-                        TextStyle(fontSize: kTextRegular3x, color: Colors.grey),
-                  ),
-                ),
-
-                30.vGap,
-
-                ///facebook and google sign in view
-                Visibility(
-                  visible: false,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ///facebook signIn button
-                      HorizontalTextIconButton(
-                          onTap: () {
-                            facebookSignIn(context);
-                          },
-                          icon: Icon(
-                            Icons.facebook,
-                            color: Colors.blue,
-                          ),
-                          text: AppLocalizations.of(context)!.kSignInLabel),
-
-                      20.hGap,
-
-                      ///google signIn button
-                      HorizontalTextIconButton(
-                          onTap: () {
-                            googleSignIn();
-                          },
-                          icon: Image.asset(
-                            'assets/images/google.jpg',
-                            height: 24,
-                            fit: BoxFit.cover,
-                          ),
-                          text: AppLocalizations.of(context)!.kSignInLabel),
-                    ],
-                  ),
-                ),
-
-                40.vGap,
-
-                ///dont have account
-                RichText(
-                  text: new TextSpan(
-                    style: new TextStyle(
-                      fontSize: kTextRegular2x,
-                      color: Colors.grey,
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/bg_image_1.jpg',
+            height: double.infinity,
+            width: double.infinity,
+            fit: BoxFit.fill,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ///app icon
+                    Image.asset(
+                      'assets/images/white_logo.png',
+                      height: 60,
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: AppLocalizations.of(context)!.kDontHaveAccount),
-                      TextSpan(
-                        text: AppLocalizations.of(context)!.kSignUpLabel,
-                        style: new TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.red),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RegisterScreen(),
-                              ),
-                            );
-                          },
+                    8.vGap,
+
+                    Text(
+                      'Find Myanmar Connections',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
                       ),
-                    ],
-                  ),
-                )
-              ],
+                    ),
+                    60.vGap,
+
+                    EmailAndPhoneNumberButtonView(
+                      isSelected: selectedText == "Phone",
+                      label: AppLocalizations.of(context)!.kPhoneNumberLabel,
+                      onTapButton: () {
+                      },
+                    ),
+
+                    20.vGap,
+
+                    ///phone number sign in view
+                    Visibility(
+                      // visible: selectedText == "Phone",
+                      visible: true,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    width: 2),
+                                borderRadius: BorderRadius.circular(4.0)),
+                            child: InternationalPhoneNumberInput(
+                              //countries: ['MM'],
+                              onInputChanged: (PhoneNumber number) {
+                                print(number.phoneNumber);
+                                setState(() {
+                                  e164PhoneNo = number.phoneNumber.toString();
+                                });
+                              },
+                              onInputValidated: (bool value) {
+                                print(value);
+                              },
+                              selectorConfig: SelectorConfig(
+                                leadingPadding: 12,
+                                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                              ),
+                              ignoreBlank: false,
+                              initialValue: phone,
+                              hintText: '',
+                              autoValidateMode: AutovalidateMode.disabled,
+                              selectorTextStyle: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.grey),
+                              textFieldController: _phoneController,
+                              formatInput: true,
+                              textStyle: TextStyle(color: Colors.grey),
+                              keyboardType: TextInputType.number,
+                              keyboardAction: TextInputAction.done,
+                              inputBorder: InputBorder.none,
+                              onSaved: (PhoneNumber number) {
+                                print('On Saved: $number');
+                              },
+                            ),
+                          ),
+
+                          24.vGap,
+
+                          ///password input
+                          InputView(
+                              controller: passwordController,
+                              hintLabel:
+                                  AppLocalizations.of(context)!.kPasswordLabel),
+                        ],
+                      ),
+                    ),
+
+                    50.vGap,
+
+                    ///Sign in button
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: CommonButton(
+                        containerVPadding: 10,
+                        text: AppLocalizations.of(context)!.kSignInLabel,
+                        fontSize: 18,
+                        buttonTextColor: Colors.black,
+                        isLoading: _isLoading,
+                        onTap: () {
+                          if (!_isLoading) {
+                            _signIn();
+                          }
+                        },
+                        bgColor: Colors.white,
+                      ),
+                    ),
+
+                    30.vGap,
+
+                    ///forgot password
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen(
+                                type: selectedText.toLowerCase()),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.kForgotPasswordLabel,
+                        style:
+                            TextStyle(fontSize: kTextRegular3x, color: Colors.grey),
+                      ),
+                    ),
+
+                    30.vGap,
+
+                    ///facebook and google sign in view
+                    Visibility(
+                      visible: false,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ///facebook signIn button
+                          HorizontalTextIconButton(
+                              onTap: () {
+                                facebookSignIn(context);
+                              },
+                              icon: Icon(
+                                Icons.facebook,
+                                color: Colors.blue,
+                              ),
+                              text: AppLocalizations.of(context)!.kSignInLabel),
+
+                          20.hGap,
+
+                          ///google signIn button
+                          HorizontalTextIconButton(
+                              onTap: () {
+                                googleSignIn();
+                              },
+                              icon: Image.asset(
+                                'assets/images/google.jpg',
+                                height: 24,
+                                fit: BoxFit.cover,
+                              ),
+                              text: AppLocalizations.of(context)!.kSignInLabel),
+                        ],
+                      ),
+                    ),
+
+                    40.vGap,
+
+                    ///dont have account
+                    RichText(
+                      text: new TextSpan(
+                        style: new TextStyle(
+                          fontSize: kTextRegular2x,
+                          color: Colors.grey,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: AppLocalizations.of(context)!.kDontHaveAccount),
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.kSignUpLabel,
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.cyan),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RegisterScreen(),
+                                  ),
+                                );
+                              },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

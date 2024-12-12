@@ -7,6 +7,7 @@ import 'package:phoosar/src/common/empty_find_dialog.dart';
 import 'package:phoosar/src/data/request/city_request.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/request/question_save_request.dart';
+import 'package:phoosar/src/data/response/background_video_response.dart';
 import 'package:phoosar/src/data/response/blocked_list_response.dart';
 import 'package:phoosar/src/data/response/city_list_response.dart';
 import 'package:phoosar/src/data/response/country_list_response.dart';
@@ -264,6 +265,17 @@ final blockedUserDataProvider =
     return BlockedListResponse.fromJson(jsonDecode(response.body)).data ?? [];
   } else {
     throw Exception('Failed to load profile data');
+  }
+});
+
+final backgroundVideoDataProvider =
+FutureProvider.family<BackgroundVideoData?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getBackgroundVideo(context);
+  if (response.statusCode == 200) {
+    return BackgroundVideoResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load background video data');
   }
 });
 

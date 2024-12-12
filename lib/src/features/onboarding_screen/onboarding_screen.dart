@@ -38,99 +38,109 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     var questionList = ref.watch(questionListProvider(context));
     return WillPopScope(
       onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          title: Image.asset(
-            'assets/images/ic_launcher.png',
-            height: 60,
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/bg_image_4.jpg',
+            height: double.infinity,
+            width: double.infinity,
+            fit: BoxFit.fill,
           ),
-        ),
-        body: questionList.when(
-          data: (data) {
-            if (indicatorColors.length != data.length) {
-              indicatorColors = List.generate(
-                data.length,
-                (_) => Colors.grey.withOpacity(0.4),
-              );
-              indicatorColors.first = Colors.blue;
-            }
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 50),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              title: Image.asset(
+                'assets/images/ic_launcher.png',
+                height: 60,
+              ),
+            ),
+            body: questionList.when(
+              data: (data) {
+                if (indicatorColors.length != data.length) {
+                  indicatorColors = List.generate(
+                    data.length,
+                    (_) => Colors.grey.withOpacity(0.4),
+                  );
+                  indicatorColors.first = Colors.blue;
+                }
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 50),
 
-                // Build horizontal indicator
-                buildPageIndicator(data),
+                    // Build horizontal indicator
+                    buildPageIndicator(data),
 
-                // Body view
-                Expanded(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 800),
-                    child: Center(
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (index) {
-                          setState(() {
-                            _currentPage = index;
-                            updateIndicatorColors();
-                          });
+                    // Body view
+                    Expanded(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 800),
+                        child: Center(
+                          child: PageView(
+                            controller: _pageController,
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentPage = index;
+                                updateIndicatorColors();
+                              });
+                            },
+                            children: data
+                                .asMap()
+                                .map((index, questions) => MapEntry(
+                                      index,
+                                      QuestionWidgetView(
+                                        questionData: (questionsData) {
+                                          setState(() {
+                                            selectedQuestionsMap[index] =
+                                                questionsData;
+                                          });
+                                        },
+                                        data: questions,
+                                        selectedQuestion:
+                                            selectedQuestionsMap[index],
+                                        onSelectionChanged: (hasSelection) {
+                                          setState(() {
+                                            pageSelectionStatus[index] =
+                                                hasSelection;
+                                          });
+                                        },
+                                      ),
+                                    ))
+                                .values
+                                .toList(),
+                          ),
+                        ),
+                        transitionBuilder: (child, animation) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1.0, 0.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
                         },
-                        children: data
-                            .asMap()
-                            .map((index, questions) => MapEntry(
-                                  index,
-                                  QuestionWidgetView(
-                                    questionData: (questionsData) {
-                                      setState(() {
-                                        selectedQuestionsMap[index] =
-                                            questionsData;
-                                      });
-                                    },
-                                    data: questions,
-                                    selectedQuestion:
-                                        selectedQuestionsMap[index],
-                                    onSelectionChanged: (hasSelection) {
-                                      setState(() {
-                                        pageSelectionStatus[index] =
-                                            hasSelection;
-                                      });
-                                    },
-                                  ),
-                                ))
-                            .values
-                            .toList(),
                       ),
                     ),
-                    transitionBuilder: (child, animation) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(1.0, 0.0),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: child,
-                      );
-                    },
-                  ),
+
+                    // Continue button
+                    _buildContinueButton(_currentPage, data.length),
+
+                    SizedBox(height: 60),
+                  ],
+                );
+              },
+              error: (error, stack) => Container(),
+              loading: () => Center(
+                child: SpinKitThreeBounce(
+                  color: Colors.pinkAccent,
                 ),
-
-                // Continue button
-                _buildContinueButton(_currentPage, data.length),
-
-                SizedBox(height: 60),
-              ],
-            );
-          },
-          error: (error, stack) => Container(),
-          loading: () => Center(
-            child: SpinKitThreeBounce(
-              color: Colors.pinkAccent,
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
