@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../common/widgets/selectable_button.dart';
@@ -149,7 +150,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
               error: (error, stack) => Container(),
               loading: () => Center(
                 child: SpinKitThreeBounce(
-                  color: Colors.pinkAccent,
+                  color: primaryColor,
                 ),
               ),
             ),
@@ -189,7 +190,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
       indicatorColors = List.generate(
         indicatorColors.length,
         (index) =>
-            index <= _currentPage ? Colors.pinkAccent : Colors.grey.withOpacity(0.4),
+            index <= _currentPage ? primaryColor : Colors.grey.withOpacity(0.4),
       );
     });
   }
@@ -244,7 +245,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
             );
           }
         },
-        bgColor: Colors.pinkAccent,
+        bgColor: primaryColor,
       ),
     );
   }

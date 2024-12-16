@@ -7,6 +7,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/enter_password_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -103,7 +104,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                             borderRadius: BorderRadius.circular(10),
                             fieldHeight: 50,
                             fieldWidth: 50,
-                            activeFillColor: Colors.pinkAccent,
+                            activeFillColor: primaryColor,
                           ),
                           animationDuration: const Duration(milliseconds: 300),
                           enableActiveFill: true,
@@ -162,7 +163,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                             TextSpan(
                               text: AppLocalizations.of(context)!.kSignInLabel,
                               style: new TextStyle(
-                                  fontWeight: FontWeight.bold, color: Colors.pinkAccent),
+                                  fontWeight: FontWeight.bold, color: primaryColor),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.pushReplacement(

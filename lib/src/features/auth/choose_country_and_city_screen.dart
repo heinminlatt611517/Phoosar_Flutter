@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/add_speak_language_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/common_button.dart';
@@ -80,7 +81,7 @@ class _ChooseCountryAndCityScreenState
                                 ),
                               );
                             },
-                            bgColor: Colors.pinkAccent,
+                            bgColor: primaryColor,
                           ),
                         ),
                       ],
@@ -90,7 +91,7 @@ class _ChooseCountryAndCityScreenState
                   }, loading: () {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.pinkAccent,
+                        color: primaryColor,
                       ),
                     );
                   })),

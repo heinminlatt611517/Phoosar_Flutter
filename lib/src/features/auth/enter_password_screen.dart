@@ -12,6 +12,7 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -185,7 +186,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                             TextSpan(
                               text: AppLocalizations.of(context)!.kSignInLabel,
                               style: new TextStyle(
-                                  fontWeight: FontWeight.bold, color: Colors.pinkAccent),
+                                  fontWeight: FontWeight.bold, color: primaryColor),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.pushReplacement(

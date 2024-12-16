@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/select_birthday_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -84,7 +85,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                         );
                       }
                     },
-                    bgColor:selectedGender == "" ? Colors.grey : Colors.pinkAccent,
+                    bgColor:selectedGender == "" ? Colors.grey : primaryColor,
                   ),
                 ),
               ],
@@ -115,7 +116,7 @@ class ChooseGenderCircleContainer extends StatelessWidget {
           onTapButton: () {
             onTap("Male");
           },
-          borderColor: Colors.pinkAccent,
+          borderColor: primaryColor,
         ),
 
         20.hGap,

@@ -74,14 +74,14 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                             width: 14,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.pinkAccent,
+                              color: primaryColor,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Text(
                               'EZ Dinger',
-                              style: TextStyle(color: Colors.pinkAccent),
+                              style: TextStyle(color: primaryColor),
                             ),
                           )
                         ],

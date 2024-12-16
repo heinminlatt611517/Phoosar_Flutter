@@ -8,6 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phoosar/src/common/widgets/select_photo_options_widget.dart';
 import 'package:phoosar/src/features/auth/help_us_screen.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -120,7 +121,7 @@ class _UploadProfileImageScreenState
                             }
                           }
                         },
-                        bgColor: Colors.pinkAccent,
+                        bgColor: primaryColor,
                       ),
                     ),
                   ],

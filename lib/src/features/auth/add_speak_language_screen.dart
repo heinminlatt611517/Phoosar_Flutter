@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/language_dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/interests_screen.dart';
-import 'package:phoosar/src/features/auth/looking_for_connection_screen.dart';
-import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -205,7 +204,7 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                             );
                           }
                         },
-                        bgColor: Colors.pinkAccent,
+                        bgColor: primaryColor,
                       ),
                     ),
                   ],

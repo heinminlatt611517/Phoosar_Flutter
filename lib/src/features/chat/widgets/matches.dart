@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/chat/match_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
@@ -39,7 +40,7 @@ class MatchesView extends ConsumerWidget {
                         Text('No Matches Yet!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.withOpacity(0.5),fontSize: 18),),
                           20.vGap,
                           CommonButton(
-                            bgColor: Colors.pinkAccent,
+                            bgColor: primaryColor,
                               text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){
                             ref.read(dashboardProvider.notifier).setPosition(0);
                           })
@@ -62,7 +63,7 @@ class MatchesView extends ConsumerWidget {
               loading: () {
                 return Container(
                     height: context.heightPx * 0.5,
-                    child: Center(child:  SpinKitThreeBounce(color: Colors.pinkAccent,)));
+                    child: Center(child:  SpinKitThreeBounce(color: primaryColor,)));
               },
             ),
 

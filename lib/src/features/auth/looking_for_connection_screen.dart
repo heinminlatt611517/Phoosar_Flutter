@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/data/dummy_data/looking_for_connection_dummy_data.dart';
 import 'package:phoosar/src/features/auth/interests_screen.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -104,7 +105,7 @@ class _ChooseGenderScreenState extends ConsumerState<LookingForConnectionScreen>
                           );
                         }
                       },
-                      bgColor: Colors.pinkAccent,
+                      bgColor: primaryColor,
                     ),
                   ),
                 ],

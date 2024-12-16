@@ -9,6 +9,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -245,7 +246,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               text: AppLocalizations.of(context)!.kSignInLabel,
                               style: new TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.pinkAccent),
+                                  color: primaryColor),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.pushReplacement(

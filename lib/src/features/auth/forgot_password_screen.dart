@@ -7,6 +7,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/request/forgot_password_request.dart';
 import 'package:phoosar/src/features/auth/login.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -111,7 +112,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                                 json.decode(response.body);
                             context.showSnackBar(
                                 message: data['message'],
-                                backgroundColor: Colors.pinkAccent);
+                                backgroundColor: primaryColor);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

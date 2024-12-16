@@ -68,7 +68,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
                 'UNLIMITED Coins',
                 style: GoogleFonts.roboto(
                   fontSize: largeFontSize,
-                  color: Colors.pinkAccent,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -77,7 +77,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                bgColor: Colors.pinkAccent,
+                bgColor: primaryColor,
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMIUM",
                 onTap: () {

@@ -286,8 +286,8 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Please wait...',
-                    style: const TextStyle(color: Colors.pinkAccent)),
-                const SpinKitThreeBounce(size: 25, color: Colors.pinkAccent),
+                    style: const TextStyle(color: primaryColor)),
+                const SpinKitThreeBounce(size: 25, color: primaryColor),
               ],
             )  : Row(
               children: [
@@ -339,8 +339,8 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Please wait...',
-                    style: const TextStyle(color: Colors.pinkAccent)),
-                const SpinKitThreeBounce(size: 25, color: Colors.pinkAccent),
+                    style: const TextStyle(color: primaryColor)),
+                const SpinKitThreeBounce(size: 25, color: primaryColor),
               ],
             )  : Row(
               children: [

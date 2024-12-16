@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 
 class SelectableCard extends StatefulWidget {
@@ -88,7 +89,7 @@ class _SelectableCardState extends State<SelectableCard> {
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.pinkAccent,
+                            color: primaryColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -115,7 +116,7 @@ class _SelectableCardState extends State<SelectableCard> {
               left: 0,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-                decoration: BoxDecoration(color: Colors.pinkAccent,borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: primaryColor,borderRadius: BorderRadius.circular(12)),
               child: Center(child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: FittedBox(child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 11),)),

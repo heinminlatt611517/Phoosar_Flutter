@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -49,7 +50,7 @@ class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
                     AppLocalizations.of(context)!.kHelpUsGetToKnowLabel,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.pinkAccent,
+                        color: primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: kTextRegular24),
                   ),
@@ -83,7 +84,7 @@ class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
                           ),
                         );
                       },
-                      bgColor: Colors.pinkAccent,
+                      bgColor: primaryColor,
                     ),
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,7 +32,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
                 'Find stronger matches!',
                 style: GoogleFonts.roboto(
                   fontSize: largeFontSize,
-                  color: Colors.pinkAccent,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -49,7 +50,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
               40.vGap,
 
               CommonButton(
-                  bgColor: Colors.pinkAccent,
+                  bgColor: primaryColor,
                   text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){}),
 
               40.vGap,

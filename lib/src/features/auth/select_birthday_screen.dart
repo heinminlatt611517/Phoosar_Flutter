@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -157,7 +158,7 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                         );
                       }
                     },
-                    bgColor: Colors.pinkAccent,
+                    bgColor: primaryColor,
                   ),
                 ),
               ],

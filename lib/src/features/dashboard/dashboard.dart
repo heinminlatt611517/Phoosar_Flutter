@@ -389,7 +389,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 },
                 loading: () => Container(
                     height: context.heightPx * 0.6,
-                    child: Center(child: SpinKitThreeBounce(color: Colors.pinkAccent,))),
+                    child: Center(child: SpinKitThreeBounce(color: primaryColor,))),
                 error: (error, stack) => Center(child: Text('Error: $error')),
               ),
 

@@ -67,7 +67,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                   'UNLIMITED',
                   style: GoogleFonts.roboto(
                     fontSize: largeFontSize,
-                    color: Colors.pinkAccent,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -76,7 +76,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                   'Rewinds',
                   style: GoogleFonts.roboto(
                     fontSize: mediumLargeFontSize,
-                    color: Colors.pinkAccent,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -86,7 +86,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                bgColor: Colors.pinkAccent,
+                bgColor: primaryColor,
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMIUM",
                 onTap: () {

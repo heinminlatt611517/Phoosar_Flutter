@@ -159,7 +159,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                     }
                   }
                 },
-                bgColor: Colors.pinkAccent,
+                bgColor: primaryColor,
               ),
             ),
           ),

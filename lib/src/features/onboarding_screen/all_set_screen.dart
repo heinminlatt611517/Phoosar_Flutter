@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -53,7 +54,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                         Text(
                           "All done!",
                           style: TextStyle(
-                              color: Colors.pinkAccent,
+                              color: primaryColor,
                               fontWeight: FontWeight.bold,
                               fontSize: kTextRegular24),
                         ),
@@ -84,7 +85,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                           (Route<dynamic> route) => false,
                         );
                       },
-                      bgColor: Colors.pinkAccent,
+                      bgColor: primaryColor,
                     ),
                   ),
 
