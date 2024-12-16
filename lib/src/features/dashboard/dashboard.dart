@@ -10,6 +10,7 @@ import 'package:phoosar/src/data/response/profile_builder_response.dart';
 import 'package:phoosar/src/data/response/profile_react_response.dart';
 import 'package:phoosar/src/data/response/self_profile_response.dart';
 import 'package:phoosar/src/features/dashboard/match.dart';
+import 'package:phoosar/src/features/dashboard/widgets/find_stronger_matches_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_likes_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/get_more_rewinds_dialog.dart';
 import 'package:phoosar/src/features/dashboard/widgets/header.dart';
@@ -127,6 +128,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            ///previous buton
                             CommonIconButton(
                               onTap: () async {
                                 // var latestLastFindIds = lastFindIds.last;
@@ -220,6 +222,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 color: Colors.grey,
                               ),
                             ),
+
+                            ///skip button
                             CommonIconButton(
                               onTap: () {
                                 // var sharedPrefs =
@@ -257,24 +261,72 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 width: 32,
                               ),
                             ),
-                            CommonIconButton(
-                              onTap: () async {
+                            // CommonIconButton(
+                            //   onTap: () async {
+                            //     var response = await ref
+                            //         .read(repositoryProvider)
+                            //         .saveProfileReact(
+                            //           jsonEncode({
+                            //             "reacted_user_id":
+                            //                 profiles[selectedIndex]
+                            //                     .id
+                            //                     .toString(),
+                            //             "reacted_type": "like"
+                            //           }),
+                            //           context,
+                            //         );
+                            //
+                            //     var profileReactResponse =
+                            //         ProfileReactResponse.fromJson(
+                            //             jsonDecode(response.body));
+                            //
+                            //     if (profileReactResponse.data?.buyLike ??
+                            //         false) {
+                            //       showDialog(
+                            //         context: context,
+                            //         builder: (context) => GetMoreLikesDialog(),
+                            //       );
+                            //     } else {
+                            //       increaseSwipeCount(profiles.length);
+                            //       if (profileReactResponse.data?.matchData !=
+                            //           null) {
+                            //         Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //             builder: (context) => MatchScreen(
+                            //               matchProfileData: profileReactResponse
+                            //                   .data?.matchData,
+                            //             ),
+                            //           ),
+                            //         );
+                            //       }
+                            //     }
+                            //   },
+                            //   icon: Image.asset(
+                            //     'assets/images/ok.png',
+                            //     width: 32,
+                            //   ),
+                            // ),
+
+                            ///ok button
+                            InkWell(
+                              onTap:() async{
                                 var response = await ref
                                     .read(repositoryProvider)
                                     .saveProfileReact(
-                                      jsonEncode({
-                                        "reacted_user_id":
-                                            profiles[selectedIndex]
-                                                .id
-                                                .toString(),
-                                        "reacted_type": "like"
-                                      }),
-                                      context,
-                                    );
+                                  jsonEncode({
+                                    "reacted_user_id":
+                                    profiles[selectedIndex]
+                                        .id
+                                        .toString(),
+                                    "reacted_type": "like"
+                                  }),
+                                  context,
+                                );
 
                                 var profileReactResponse =
-                                    ProfileReactResponse.fromJson(
-                                        jsonDecode(response.body));
+                                ProfileReactResponse.fromJson(
+                                    jsonDecode(response.body));
 
                                 if (profileReactResponse.data?.buyLike ??
                                     false) {
@@ -298,11 +350,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                   }
                                 }
                               },
-                              icon: Image.asset(
-                                'assets/images/ic_love.png',
-                                width: 32,
+                              child: Image.asset(
+                                'assets/images/ok.png',
+                                width: 65,
                               ),
                             ),
+
+                            ///info button
                             CommonIconButton(
                               onTap: () {
                                 Navigator.push(
@@ -379,7 +433,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
     if (newSwipeCount == 5) {
       sharedPrefs.setInt("swipeCount", 0);
-      getProfileBuilderQuestion();
+      showDialog(
+          context: context,
+          builder: (context) => FindStrongerMatchesDialog());
+
+      //getProfileBuilderQuestion();
     } else {
       sharedPrefs.setInt("swipeCount", newSwipeCount);
     }

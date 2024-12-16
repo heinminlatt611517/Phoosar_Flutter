@@ -52,8 +52,8 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
             automaticallyImplyLeading: true,
             backgroundColor: Colors.transparent,
             title: Image.asset(
-              'assets/images/ic_launcher.png',
-              height: 60,
+              'assets/images/phoosar_img.png',
+              height: 40,
             ),
           ),
           body: Center(

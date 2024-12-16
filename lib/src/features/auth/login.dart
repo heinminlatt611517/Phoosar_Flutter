@@ -134,8 +134,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.2),
                                 border: Border.all(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    width: 2),
+                                    color: Colors.white,
+                                    width: 1),
                                 borderRadius: BorderRadius.circular(4.0)),
                             child: InternationalPhoneNumberInput(
                               //countries: ['MM'],
@@ -157,10 +157,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               hintText: '',
                               autoValidateMode: AutovalidateMode.disabled,
                               selectorTextStyle: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.grey),
+                                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.white),
                               textFieldController: _phoneController,
                               formatInput: true,
-                              textStyle: TextStyle(color: Colors.grey),
+                              textStyle: TextStyle(color: Colors.white),
                               keyboardType: TextInputType.number,
                               keyboardAction: TextInputAction.done,
                               inputBorder: InputBorder.none,
@@ -217,7 +217,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Text(
                         AppLocalizations.of(context)!.kForgotPasswordLabel,
                         style:
-                            TextStyle(fontSize: kTextRegular3x, color: Colors.grey),
+                            TextStyle(fontSize: kTextRegular3x, color: Colors.white),
                       ),
                     ),
 
@@ -268,7 +268,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                              text: AppLocalizations.of(context)!.kDontHaveAccount),
+                              text: AppLocalizations.of(context)!.kDontHaveAccount,style: TextStyle(color: Colors.white)),
                           TextSpan(
                             text: AppLocalizations.of(context)!.kSignUpLabel,
                             style: new TextStyle(

@@ -10,6 +10,7 @@ import '../../data/request/question_save_request.dart';
 import '../../data/response/questions_response.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
+import '../home/home.dart';
 import 'all_set_screen.dart';
 
 class OnBoardingScreen extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     var questionList = ref.watch(questionListProvider(context));
     return WillPopScope(
       onWillPop: () async => false,
-      child: Column(
+      child: Stack(
         children: [
           Image.asset(
             'assets/images/bg_image_4.jpg',
@@ -53,8 +54,8 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               title: Image.asset(
-                'assets/images/ic_launcher.png',
-                height: 60,
+                'assets/images/phoosar_img.png',
+                height: 40,
               ),
             ),
             body: questionList.when(
@@ -69,17 +70,14 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 50),
 
-                    // Build horizontal indicator
-                    buildPageIndicator(data),
-
-                    // Body view
+                    /// Body view
                     Expanded(
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 800),
                         child: Center(
                           child: PageView(
+                            physics: NeverScrollableScrollPhysics(),
                             controller: _pageController,
                             onPageChanged: (index) {
                               setState(() {
@@ -128,7 +126,23 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                     // Continue button
                     _buildContinueButton(_currentPage, data.length),
 
-                    SizedBox(height: 60),
+                    SizedBox(height: 30),
+
+                    /// Build horizontal indicator
+                    buildPageIndicator(data),
+
+                    SizedBox(height: 10),
+
+                    ///skip for now button
+                    TextButton(onPressed: (){
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                            (Route<dynamic> route) => false,
+                      );
+                    }, child: Text('Skip For now',style: TextStyle(color: Colors.black.withOpacity(0.5),decoration: TextDecoration.underline),)),
+
+                    SizedBox(height: 10),
+
                   ],
                 );
               },
@@ -145,7 +159,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 
-  // Build page indicator
+  /// Build page indicator
   Widget buildPageIndicator(List<QuestionData> questionList) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -156,7 +170,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 
-  // Build indicator
+  /// Build indicator
   Widget buildIndicator(int index) {
     return Container(
       width: 22,
@@ -169,18 +183,18 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 
-  // Update the indicator colors based on the current page
+  /// Update the indicator colors based on the current page
   void updateIndicatorColors() {
     setState(() {
       indicatorColors = List.generate(
         indicatorColors.length,
         (index) =>
-            index <= _currentPage ? Colors.blue : Colors.grey.withOpacity(0.4),
+            index <= _currentPage ? Colors.pinkAccent : Colors.grey.withOpacity(0.4),
       );
     });
   }
 
-  // Continue button
+  /// Continue button
   Widget _buildContinueButton(int index, int pageLength) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
@@ -279,7 +293,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(kMarginLarge),
@@ -293,10 +307,10 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.5),
                     fontWeight: FontWeight.bold,
-                    fontSize: kTextRegular24,
+                    fontSize: 22,
                   ),
                 ),
-                SizedBox(height: 80),
+                SizedBox(height: 30),
                 widget.data.answerType.toString() == "1"
                     ? Column(
                         children: [

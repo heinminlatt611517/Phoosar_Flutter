@@ -111,7 +111,20 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                         'assets/images/phoosar_img.png',
                         height: 60,
                       ),
-                      100.vGap,
+                      60.vGap,
+
+                      Text(
+                        "Make it memorable",
+                        style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
+                      ),
+                      10.vGap,
+                      Text(
+                        "Enter a password 8 characters or longer",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                      ),
+
+                      30.vGap,
 
                       /// text field
                       InputView(

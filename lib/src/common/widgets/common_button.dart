@@ -46,8 +46,8 @@ class CommonButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('processing',
-                      style: const TextStyle(color: Colors.white)),
-                  const SpinKitThreeBounce(size: 25, color: Colors.white),
+                      style: const TextStyle(color: Colors.black)),
+                  const SpinKitThreeBounce(size: 25, color: Colors.black),
                 ],
               )
             : Text(

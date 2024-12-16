@@ -8,7 +8,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phoosar/src/common/widgets/select_photo_options_widget.dart';
 import 'package:phoosar/src/features/auth/help_us_screen.dart';
-import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -32,7 +31,7 @@ class _UploadProfileImageScreenState
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
         Image.asset(
           'assets/images/bg_image_4.jpg',
@@ -47,14 +46,14 @@ class _UploadProfileImageScreenState
             automaticallyImplyLeading: true,
             backgroundColor: Colors.transparent,
             title: Image.asset(
-              'assets/images/ic_launcher.png',
-              height: 60,
+              'assets/images/phoosar_img.png',
+              height: 40,
             ),
           ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(kMarginLarge),
-              child: SingleChildScrollView(
+          body: Padding(
+            padding: const EdgeInsets.all(kMarginLarge),
+            child: SingleChildScrollView(
+              child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +64,7 @@ class _UploadProfileImageScreenState
                           TextStyle(color: Colors.grey, fontSize: kTextRegular24),
                     ),
 
-                    60.vGap,
+                    20.vGap,
 
                     ///choose image view
                     ChooseImageView(
@@ -173,27 +172,37 @@ class _ChooseImageViewState extends ConsumerState<ChooseImageView> {
             Container(
               height: 240,
               width: 240,
-              decoration: BoxDecoration(color: whitePaleColor),
+              decoration: BoxDecoration(color: Colors.transparent,
+              ),
             ),
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: _image != null
-                  ? Image.file(
-                      _image ?? File(""),
-                      height: 240,
-                      width: 240,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      ref.read(profileSaveRequestProvider.notifier)
-                          .state
-                          .gender == "2" ? 'assets/images/female.png' :
-                      'assets/images/upload_profile_img.png',
-                      height: 240,
-                      width: 240,
-                    ),
+                  ? ClipRRect(
+                   borderRadius: BorderRadius.circular(120),
+                    child: Image.file(
+                        _image ?? File(""),
+                        height: 240,
+                        width: 240,
+                        fit: BoxFit.cover,
+                      ),
+                  )
+                  // : Image.asset(
+                  //     ref.read(profileSaveRequestProvider.notifier)
+                  //         .state
+                  //         .gender == "2" ? 'assets/images/female.png' :
+                  //     'assets/images/upload_profile_img.png',
+                  //     height: 240,
+                  //     width: 240,
+                  //   ),
+              : Container(height: 240,
+                width: 240,decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.2),
+                    shape: BoxShape.circle),
+              child: Center(child: Icon(Icons.camera_alt_outlined,color: Colors.grey,
+              size: 70,),),)
             )
           ],
         ),

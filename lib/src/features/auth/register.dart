@@ -120,15 +120,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       60.vGap,
 
-                      ///Phone number
-                      EmailAndPhoneNumberButtonView(
-                        isSelected: selectedText == "Phone",
-                        label: AppLocalizations.of(context)!.kPhoneNumberLabel,
-                        onTapButton: () {
-                        },
+                      Text(
+                        "Can we get your number,par?",
+                        style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
+                      ),
+                      10.vGap,
+                      Text(
+                        "We only use phone numbers to\nmake sure everyone on",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
                       ),
 
-                      20.vGap,
+                      30.vGap,
 
                       ///phone number sign up view
                       Visibility(
@@ -138,17 +141,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ///password input
                             InputView(
                                 controller: _usernameController,
-                                hintLabel:
-                                    AppLocalizations.of(context)!.kUserNameLabel),
+                                hintLabel: AppLocalizations.of(context)!
+                                    .kUserNameLabel),
 
                             24.vGap,
 
                             Container(
                               decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.2),
-                                  border: Border.all(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      width: 2),
+                                  border:
+                                      Border.all(color: Colors.white, width: 1),
                                   borderRadius: BorderRadius.circular(4.0)),
                               child: InternationalPhoneNumberInput(
                                 //countries: ['MM'],
@@ -163,20 +165,23 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 },
                                 selectorConfig: SelectorConfig(
                                   leadingPadding: 12,
-                                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                                  selectorType:
+                                      PhoneInputSelectorType.BOTTOM_SHEET,
                                 ),
                                 ignoreBlank: false,
                                 initialValue: phone,
                                 hintText: '',
                                 autoValidateMode: AutovalidateMode.disabled,
                                 selectorTextStyle: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold,color: Colors.grey),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
 
                                 textFieldController: _phoneController,
                                 formatInput: true,
                                 keyboardType: TextInputType.number,
                                 keyboardAction: TextInputAction.done,
-                                textStyle: TextStyle(color: Colors.grey),
+                                textStyle: TextStyle(color: Colors.white),
                                 inputBorder: InputBorder.none,
                                 onSaved: (PhoneNumber number) {
                                   print('On Saved: $number');
@@ -239,7 +244,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             TextSpan(
                               text: AppLocalizations.of(context)!.kSignInLabel,
                               style: new TextStyle(
-                                  fontWeight: FontWeight.bold, color: Colors.pinkAccent),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.pinkAccent),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.pushReplacement(

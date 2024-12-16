@@ -23,8 +23,8 @@ class InputView extends StatelessWidget {
           borderRadius: BorderRadius.circular(4.0),
           color: Colors.white.withOpacity(0.2),
         border: Border.all(
-            color: Colors.grey.withOpacity(0.5),
-            width: 2),),
+            color: Colors.white,
+            width: 1),),
       child: TextFormField(
         controller: controller,
         validator: validator,
@@ -33,9 +33,9 @@ class InputView extends StatelessWidget {
             hintText: hintLabel,
             hintStyle: TextStyle(
               letterSpacing: 2,
-              color: Colors.grey,
+              color: Colors.white,
             )),
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

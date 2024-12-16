@@ -19,69 +19,79 @@ class HelpUsScreen extends ConsumerStatefulWidget {
 class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/ic_launcher.png',
-          height: 60,
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/images/bg_image_4.jpg',
+          height: double.infinity,
+          width: double.infinity,
+          fit: BoxFit.fill,
         ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(kMarginLarge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.kHelpUsGetToKnowLabel,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.pinkAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: kTextRegular24),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            title: Image.asset(
+              'assets/images/phoosar_img.png',
+              height: 40,
+            ),
+          ),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(kMarginLarge),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.kHelpUsGetToKnowLabel,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.pinkAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: kTextRegular24),
+                  ),
+
+                  20.vGap,
+
+                  Text(
+                    AppLocalizations.of(context)!
+                        .kAnswerFollowingQuestionToFindPerfectMatch,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black, fontSize: kTextRegular),
+                  ),
+
+                  120.vGap,
+
+                  ///continue button
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: CommonButton(
+                      containerVPadding: 10,
+                      text: AppLocalizations.of(context)!.kContinueLabel,
+                      fontSize: 18,
+                      onTap: () {
+                        ref
+                            .watch(sharedPrefProvider)
+                            .setString(kRecentOnboardingKey, kQuestionStatus);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OnBoardingScreen(),
+                          ),
+                        );
+                      },
+                      bgColor: Colors.pinkAccent,
+                    ),
+                  ),
+                ],
               ),
-
-              20.vGap,
-
-              Text(
-                AppLocalizations.of(context)!
-                    .kAnswerFollowingQuestionToFindPerfectMatch,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black, fontSize: kTextRegular),
-              ),
-
-              120.vGap,
-
-              ///continue button
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: CommonButton(
-                  containerVPadding: 10,
-                  text: AppLocalizations.of(context)!.kContinueLabel,
-                  fontSize: 18,
-                  onTap: () {
-                    ref
-                        .watch(sharedPrefProvider)
-                        .setString(kRecentOnboardingKey, kQuestionStatus);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OnBoardingScreen(),
-                      ),
-                    );
-                  },
-                  bgColor: Colors.pinkAccent,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

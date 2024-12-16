@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
-import 'package:phoosar/src/features/auth/enter_password_screen.dart';
-import 'package:phoosar/src/features/auth/enter_pin_code_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -98,7 +96,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EnterPasswordScreen(email: "", type: '', userName: "", phoneNumber: ""),
+                              builder: (context) => LoginScreen(),
                             ),
                           );
                         },
@@ -174,7 +172,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                   height: 1,
                                   margin: EdgeInsets.only(top: 8),
                                   width: double.infinity,
-                                  color: Colors.black,
+                                  color: Colors.cyan,
                                 ),
                               )
                             ],
@@ -218,7 +216,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                   height: 1,
                                   margin: EdgeInsets.only(top: 8),
                                   width: double.infinity,
-                                  color: Colors.black,
+                                  color: Colors.cyan,
                                 ),
                               )
                             ],

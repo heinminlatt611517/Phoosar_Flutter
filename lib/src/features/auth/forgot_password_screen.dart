@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
@@ -65,15 +63,21 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                   ),
 
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 5,
+                    height: MediaQuery.of(context).size.height / 6,
                   ),
 
                   Text(
-                    kForgetPasswordLabel,
-                    style: TextStyle(color: Colors.white, fontSize: kTextRegular2x),
+                    "Opps... but no problem",
+                    style: TextStyle(color: Colors.white, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
+                  ),
+                  10.vGap,
+                  Text(
+                    "Enter your phone number to\nrecovery your password",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey, fontSize: kTextRegular,fontWeight: FontWeight.w500),
                   ),
 
-                  30.vGap,
+                  40.vGap,
 
                   ///email input
                   InputView(

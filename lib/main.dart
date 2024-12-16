@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,4 +82,63 @@ void registerErrorHandlers() {
       ),
     );
   };
+}
+
+
+class NotificationSettingsPage extends StatefulWidget {
+  @override
+  _NotificationSettingsPageState createState() => _NotificationSettingsPageState();
+}
+
+class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+    requestNotificationPermission(); // Request permission when the app starts
+  }
+
+  // Requesting Notification Permission
+  Future<void> requestNotificationPermission() async {
+    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("Permission granted for notifications.");
+    } else {
+      print("Permission denied for notifications.");
+    }
+  }
+
+  // Function to open notification settings
+  void openNotificationSettings() {
+    //AppSettings.openNotificationSettings();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notification Settings'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Want to manage push notifications?',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: openNotificationSettings,
+              child: Text('Go to Notification Settings'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

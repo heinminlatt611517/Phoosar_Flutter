@@ -19,7 +19,7 @@ class AllSetScreen extends ConsumerStatefulWidget {
 class _AllSetScreenState extends ConsumerState<AllSetScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
         Image.asset(
           'assets/images/bg_image_4.jpg',
@@ -34,8 +34,8 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             title: Image.asset(
-              'assets/images/ic_launcher.png',
-              height: 60,
+              'assets/images/phoosar_img.png',
+              height: 40,
             ),
           ),
           body: Center(
@@ -51,16 +51,16 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.kYourAreAllSetLabel,
+                          "All done!",
                           style: TextStyle(
                               color: Colors.pinkAccent,
                               fontWeight: FontWeight.bold,
                               fontSize: kTextRegular24),
                         ),
-                        20.vGap,
+                        15.vGap,
                         Text(
-                          AppLocalizations.of(context)!.kFindYourMatch,
-                          style: TextStyle(color: Colors.black),
+                          "Your profile is complete",
+                          style: TextStyle(color: Colors.black.withOpacity(0.5)),
                         ),
                       ],
                     ),
@@ -71,7 +71,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: AppLocalizations.of(context)!.kLetGoLabel,
+                      text: "Find matches",
                       fontSize: 18,
                       onTap: () {
                         ref

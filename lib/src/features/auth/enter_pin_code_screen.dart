@@ -94,7 +94,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                           animationType: AnimationType.fade,
                           pinTheme: PinTheme(
                             selectedFillColor: Colors.white,
-                            inactiveColor: Colors.grey,
+                            inactiveColor: Colors.white,
                             activeColor: Colors.transparent,
                             inactiveFillColor: Colors.white.withOpacity(0.2),
                             shape: PinCodeFieldShape.box,

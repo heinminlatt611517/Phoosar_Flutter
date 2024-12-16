@@ -34,8 +34,8 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             title: Image.asset(
-              'assets/images/ic_launcher.png',
-              height: 60,
+              'assets/images/phoosar_img.png',
+              height: 40,
             ),
           ),
           body: Center(
@@ -159,8 +159,8 @@ class GenderCircleContainerView extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50)),
         child: isMale
-            ? Image.asset('assets/images/male.png',)
-            : Image.asset('assets/images/female.png'),
+            ? isSelected ? Image.asset('assets/images/male.png',) : Image.asset('assets/images/male_dim.png',)
+            : isSelected ? Image.asset('assets/images/female.png',) :Image.asset('assets/images/female_dim.png'),
       ),
     );
   }
