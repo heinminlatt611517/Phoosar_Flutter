@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../common/widgets/selectable_button.dart';
@@ -71,7 +72,6 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
                     /// Body view
                     Expanded(
                       child: AnimatedSwitcher(
@@ -135,15 +135,30 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                     SizedBox(height: 10),
 
                     ///skip for now button
-                    TextButton(onPressed: (){
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                            (Route<dynamic> route) => false,
-                      );
-                    }, child: Text('Skip For now',style: TextStyle(color: Colors.black.withOpacity(0.5),decoration: TextDecoration.underline),)),
+                    Visibility(
+                      visible: ref
+                                  .watch(sharedPrefProvider)
+                                  .getString(kSkipQuestion) ==
+                              "0"
+                          ? false
+                          : true,
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Text(
+                            'Skip For now',
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.5),
+                                decoration: TextDecoration.underline),
+                          )),
+                    ),
 
                     SizedBox(height: 10),
-
                   ],
                 );
               },
@@ -208,8 +223,6 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
           FocusScope.of(context).unfocus();
           ref.read(questionSaveRequestProvider).questions =
               selectedQuestionsMap.values.toList();
-          debugPrint(
-              "request:::${selectedQuestionsMap.values.toList().toString()}");
           if (pageSelectionStatus[_currentPage] ?? false) {
             if (index == pageLength - 1) {
               setState(() {
@@ -230,11 +243,27 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                 });
               }
             } else {
-              _pageController.animateToPage(
-                index + 1,
-                duration: const Duration(milliseconds: 800),
-                curve: Curves.easeInOut,
-              );
+              setState(() {
+                isLoading = true;
+              });
+              var request = ref.read(questionSaveRequestProvider);
+              var response = await ref
+                  .read(repositoryProvider)
+                  .saveUserQA(request, context);
+              if (response.statusCode.toString().startsWith('2')) {
+                setState(() {
+                  isLoading = false;
+                });
+                _pageController.animateToPage(
+                  index + 1,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.easeInOut,
+                );
+              } else {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -250,6 +279,9 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     );
   }
 }
+
+
+
 
 class QuestionWidgetView extends StatefulWidget {
   final QuestionData data;

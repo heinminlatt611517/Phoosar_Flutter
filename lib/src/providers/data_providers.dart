@@ -10,6 +10,7 @@ import 'package:phoosar/src/data/request/question_save_request.dart';
 import 'package:phoosar/src/data/response/background_video_response.dart';
 import 'package:phoosar/src/data/response/blocked_list_response.dart';
 import 'package:phoosar/src/data/response/city_list_response.dart';
+import 'package:phoosar/src/data/response/config_response.dart';
 import 'package:phoosar/src/data/response/country_list_response.dart';
 import 'package:phoosar/src/data/response/find_list_response.dart';
 import 'package:phoosar/src/data/response/find_response.dart';
@@ -288,6 +289,17 @@ FutureProvider.family<List<InterestData>?, BuildContext>((ref, context) async {
     return InterestsResponse.fromJson(jsonDecode(response.body)).data;
   } else {
     throw Exception('Failed to load interests data');
+  }
+});
+
+final configDataProvider =
+FutureProvider.family<ConfigData?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getConfig(context);
+  if (response.statusCode == 200) {
+    return ConfigResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load config data');
   }
 });
 

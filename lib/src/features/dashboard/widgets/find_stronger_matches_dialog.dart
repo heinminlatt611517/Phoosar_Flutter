@@ -7,6 +7,8 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../onboarding_screen/onboarding_screen.dart';
+
 class FindStrongerMatchesDialog extends StatelessWidget {
   const FindStrongerMatchesDialog({
     super.key,
@@ -51,7 +53,11 @@ class FindStrongerMatchesDialog extends StatelessWidget {
 
               CommonButton(
                   bgColor: primaryColor,
-                  text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){}),
+                  text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+                );
+              }),
 
               40.vGap,
               InkWell(

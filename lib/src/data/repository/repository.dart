@@ -72,7 +72,7 @@ class Repository {
   }
 
   Future<Response> saveProfile(dynamic request, BuildContext context) async {
-    debugPrint("SaveProfileRequest::$request");
+    debugPrint("SaveProfileRequest::${request}");
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-profile"),
       jsonEncode(request),
@@ -432,6 +432,15 @@ class Repository {
   Future<Response> getInterests(BuildContext context) async {
     var response = await Session.get(
       Uri.parse("${Env.baseurl}/interests"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> getConfig(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/config"),
       context,
       ref,
     );
