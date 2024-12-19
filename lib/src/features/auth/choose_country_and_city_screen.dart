@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/add_speak_language_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/common_button.dart';
@@ -23,71 +24,81 @@ class _ChooseCountryAndCityScreenState
   @override
   Widget build(BuildContext context) {
     var countryList = ref.watch(countryListProvider(context));
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/ic_launcher.png',
-          height: 60,
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/images/bg_image_4.jpg',
+          height: double.infinity,
+          width: double.infinity,
+          fit: BoxFit.fill,
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-              padding: const EdgeInsets.all(kMarginLarge),
-              child: countryList.when(data: (countryList) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ///currently located city and country dropdown view
-                    CurrentlyLocatedCityAndCountryDropdownView(
-                      countryList: countryList,
-                    ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            backgroundColor: Colors.transparent,
+            title: Image.asset(
+              'assets/images/phoosar_img.png',
+              height: 40,
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                  padding: const EdgeInsets.all(kMarginLarge),
+                  child: countryList.when(data: (countryList) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ///currently located city and country dropdown view
+                        CurrentlyLocatedCityAndCountryDropdownView(
+                          countryList: countryList,
+                        ),
 
-                    30.vGap,
+                        30.vGap,
 
-                    ///match city and country dropdown view
-                    MatchCityAndCountryDropdownView(
-                      countryList: countryList,
-                    ),
+                        ///match city and country dropdown view
+                        MatchCityAndCountryDropdownView(
+                          countryList: countryList,
+                        ),
 
-                    60.vGap,
+                        60.vGap,
 
-                    ///continue button
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: CommonButton(
-                        containerVPadding: 10,
-                        text: AppLocalizations.of(context)!.kContinueLabel,
-                        fontSize: 18,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddSpeakLanguageScreen(),
-                            ),
-                          );
-                        },
-                        bgColor: Colors.pinkAccent,
+                        ///continue button
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: CommonButton(
+                            containerVPadding: 10,
+                            text: AppLocalizations.of(context)!.kContinueLabel,
+                            fontSize: 18,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddSpeakLanguageScreen(),
+                                ),
+                              );
+                            },
+                            bgColor: primaryColor,
+                          ),
+                        ),
+                      ],
+                    );
+                  }, error: (error, stack) {
+                    return Container();
+                  }, loading: () {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
                       ),
-                    ),
-                  ],
-                );
-              }, error: (error, stack) {
-                return Container();
-              }, loading: () {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.pinkAccent,
-                  ),
-                );
-              })),
+                    );
+                  })),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

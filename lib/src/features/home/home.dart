@@ -8,6 +8,7 @@ import 'package:phoosar/src/features/dashboard/dashboard.dart';
 import 'package:phoosar/src/features/home/scaffold_with_navigation_bar.dart';
 import 'package:phoosar/src/features/user_profile/user_profile.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -70,7 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SpinKitThreeBounce(color: Colors.pinkAccent),
+                SpinKitThreeBounce(color: primaryColor),
                 SizedBox(width: 16),
                 Text('Exiting app, please wait..', style: TextStyle(fontSize: 16)),
               ],

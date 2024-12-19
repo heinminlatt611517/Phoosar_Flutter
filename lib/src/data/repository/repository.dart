@@ -11,6 +11,15 @@ class Repository {
   final Ref ref;
   Repository(this.ref);
 
+  Future<Response> getBackgroundVideo(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/background-video"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
   Future<Response> sendOTP(dynamic request, BuildContext context) async {
     debugPrint("Request:::$request");
     var response = await Session.postWithoutAuth(
@@ -414,6 +423,15 @@ class Repository {
     var response = await Session.post(
       Uri.parse("${Env.baseurl}/save-report"),
       request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> getInterests(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/interests"),
       context,
       ref,
     );

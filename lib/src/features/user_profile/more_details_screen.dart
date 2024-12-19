@@ -95,7 +95,7 @@ class MoreDetailsScreen extends ConsumerWidget {
             }, error: (error,stack){
               return Container();
             }, loading: (){
-              return Center(child: SpinKitThreeBounce(color: Colors.pinkAccent,),);
+              return Center(child: SpinKitThreeBounce(color: primaryColor,),);
             })
 
         ]),

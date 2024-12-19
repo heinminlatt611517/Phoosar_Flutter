@@ -154,7 +154,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
             20.vGap,
             Visibility(
                 visible: isLoading == true,
-                child: SpinKitThreeBounce(color: Colors.pinkAccent,)),
+                child: SpinKitThreeBounce(color: primaryColor,)),
             Visibility(
               visible: isLoading == false,
               child: Row(children: [

@@ -103,8 +103,8 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                                   arcSize: arcSize,
                                   gradientColor: LinearGradient(
                                     colors: [
-                                      Colors.pinkAccent,
-                                      Colors.pinkAccent.withOpacity(0.3)
+                                      primaryColor,
+                                      primaryColor.withOpacity(0.3)
                                     ],
                                   ),
                                 ),
@@ -117,7 +117,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                                         child: Text(
                                       "${widget.score.toString()} %",
                                       style: TextStyle(
-                                          color: Colors.pinkAccent,
+                                          color: primaryColor,
                                           fontWeight: FontWeight.bold),
                                     )))
                               ],
