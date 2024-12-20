@@ -31,7 +31,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
               ),
               10.vGap,
               Text(
-                'Find stronger matches!',
+                AppLocalizations.of(context)!.kFindStrongerMatches,
                 style: GoogleFonts.roboto(
                   fontSize: largeFontSize,
                   color: primaryColor,
@@ -40,7 +40,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
               ),
               10.vGap,
               Text(
-                'Answer the following questions to\ncomplete your profile.',
+                AppLocalizations.of(context)!.kAnswerTheFollowingQuestion,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: smallFontSize,

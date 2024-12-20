@@ -115,12 +115,12 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                       60.vGap,
 
                       Text(
-                        "Make it memorable",
+                        AppLocalizations.of(context)!.kMakeItMemorable,
                         style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
                       ),
                       10.vGap,
                       Text(
-                        "Enter a password 8 characters or longer",
+                        AppLocalizations.of(context)!.kEnter8Characters,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
                       ),

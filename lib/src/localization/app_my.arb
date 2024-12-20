@@ -97,5 +97,19 @@
     "kMaleLabel" : "ကျား",
        "kFemaleLabel" : "မ",
        "kDontShowMyAgeLabel" : "အသက်ကို ဖျောက်ထားပါ",
-       "kTipKeepItShortAndSweetLabel" : "အကြံပြုချက် : တိုတိုနှင့်လိုရင်းကိုသာရေးပါ"
+       "kTipKeepItShortAndSweetLabel" : "အကြံပြုချက် : တိုတိုနှင့်လိုရင်းကိုသာရေးပါ",
+       "kCanWeGetYorNumber" : "သင့်ဖုန်းနံပါတ်ရနိုင်မလား?",
+          "kWeOnlyUsePhoneNumber" : "Phoosar အသုံးပြုသူများသည် အစစ်အမှန်ဖြစ်ကြောင်း၏\nသိရှိစေရန်အတွက် ဖုန်းနံပါတ်ကိုသာအသုံးပြုထားပါသည်။",
+          "kNoProblem" : "Opps…ဒါပေမဲ့ပြသနာမရှိပါဘူး",
+          "kEnterYourPhoneNumber" : "စကားဝှက်အသစ်ပြုလုပ်ရန်\nဖုန်းနံပါတ်ထည့်သွင်းပါ",
+          "kEnter8Characters" : "၈လုံး (သို့)  ၈လုံးထက်ပိုသောစကားဝှက်ထည့်သွင်းပါ",
+          "kMakeItMemorable" : "မှတ်သားရလွယ်ကူမည့်စကားဝှက်ပြုလုပ်ပါ",
+          "kYourCodeIsComing" : "ကုဒ် ပေးပို့ထားပါသည်",
+          "kCheckYourMessage" : "SMS မှ ကုဒ် ၆ လုံးအား\n ရိုက်ထည့်ပါ",
+          "kInterests" : "ဝါသနာများ",
+          "kPickOneToSix" : "၁ခုမှ၆ခုထိရွေးပါ",
+          "kSkipForNow" : "ကျော်မည်",
+          "kFindStrongerMatches" : "အလိုက်ဖက်ဆုံးလက်တွဲဖော်ကိုရှာဖွေပါ",
+          "kAnswerTheFollowingQuestion" : "သင့်ပရိုဖိုင်ပြည့်စုံစေရန်\nအောက်ပါမေးခွန်းများကိုဖြေဆိုပါ",
+          "kSend" : "ပို့မည်"
  }

@@ -72,12 +72,12 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Add interests',
+                          AppLocalizations.of(context)!.kInterests,
                           style: TextStyle(
                               color: Colors.grey, fontSize: kTextRegular24),
                         ),
                         Text(
-                          '(Pick 1 to 6)',
+                          AppLocalizations.of(context)!.kPickOneToSix,
                           style: TextStyle(color: Colors.grey, fontSize: kTextSmall),
                         ),
                         20.vGap,

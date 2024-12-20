@@ -78,7 +78,21 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         'assets/images/phoosar_img.png',
                         height: 60,
                       ),
-                      100.vGap,
+
+                      60.vGap,
+
+                      Text(
+                        AppLocalizations.of(context)!.kYourCodeIsComing,
+                        style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
+                      ),
+                      10.vGap,
+                      Text(
+                        AppLocalizations.of(context)!.kCheckYourMessage,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                      ),
+
+                      30.vGap,
 
                       ///Pin code text field
                       Padding(

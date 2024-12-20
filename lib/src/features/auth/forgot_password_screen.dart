@@ -68,12 +68,12 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                   ),
 
                   Text(
-                    "Opps... but no problem",
+                      AppLocalizations.of(context)!.kNoProblem,
                     style: TextStyle(color: Colors.white, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
                   ),
                   10.vGap,
                   Text(
-                    "Enter your phone number to\nrecovery your password",
+                    AppLocalizations.of(context)!.kEnterYourPhoneNumber,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey, fontSize: kTextRegular,fontWeight: FontWeight.w500),
                   ),
@@ -93,7 +93,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: kSendLabel,
+                      text: AppLocalizations.of(context)!.kSend,
                       buttonTextColor: Colors.black,
                       fontSize: 18,
                       isLoading: _isLoading,

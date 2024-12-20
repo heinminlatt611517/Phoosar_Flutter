@@ -122,12 +122,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       60.vGap,
 
                       Text(
-                        "Can we get your number,par?",
+                        AppLocalizations.of(context)!.kCanWeGetYorNumber,
                         style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
                       ),
                       10.vGap,
                       Text(
-                        "We only use phone numbers to\nmake sure everyone on",
+                        AppLocalizations.of(context)!.kWeOnlyUsePhoneNumber,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
                       ),
