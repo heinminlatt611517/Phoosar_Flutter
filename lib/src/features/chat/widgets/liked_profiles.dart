@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/features/chat/liked_profiles_rooms_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:sized_context/sized_context.dart';
 
@@ -42,7 +43,7 @@ class LikedProfilesView extends ConsumerWidget {
               loading: () {
                 return Container(
                     height: context.heightPx * 0.5,
-                    child: Center(child:  SpinKitThreeBounce(color: Colors.pinkAccent,)));
+                    child: Center(child:  SpinKitThreeBounce(color: primaryColor,)));
               },
             ),
 

@@ -816,7 +816,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         }, loading: () {
           return Center(
             child: SpinKitThreeBounce(
-              color: Colors.pinkAccent,
+              color: primaryColor,
             ),
           );
         }));

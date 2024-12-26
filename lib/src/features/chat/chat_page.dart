@@ -73,7 +73,7 @@ class ChatPage extends ConsumerWidget {
                         ),
                         20.vGap,
                         CommonButton(
-                            bgColor: Colors.pinkAccent,
+                            bgColor: primaryColor,
                             text: 'Tap to Say "Hello"',
                             onTap: () {
                               final notifier =
@@ -225,7 +225,7 @@ class _ChatBubble extends StatelessWidget {
                 horizontal: 12,
               ),
               decoration: BoxDecoration(
-                color: message.isMine ? Colors.pinkAccent : Colors.white,
+                color: message.isMine ? primaryColor : Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

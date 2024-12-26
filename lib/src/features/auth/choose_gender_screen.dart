@@ -3,12 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/select_birthday_screen.dart';
-import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChooseGenderScreen extends ConsumerStatefulWidget {
   const ChooseGenderScreen({super.key});
@@ -21,69 +20,79 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
   var selectedGender = "";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/ic_launcher.png',
-          height: 60,
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/images/bg_image_4.jpg',
+          height: double.infinity,
+          width: double.infinity,
+          fit: BoxFit.fill,
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.kIamLabel,
-              style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            title: Image.asset(
+              'assets/images/phoosar_img.png',
+              height: 40,
             ),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.kIamLabel,
+                  style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+                ),
 
-            50.vGap,
+                50.vGap,
 
-            ///choose gender view
-            ChooseGenderCircleContainer(
-              selectedGender: selectedGender,
-              onTap: (value) {
-                setState(() {
-                  selectedGender = value;
-                });
-                ref.read(profileSaveRequestProvider.notifier).state.gender =
-                    value == "Male" ? "1" : "2";
-              },
+                ///choose gender view
+                ChooseGenderCircleContainer(
+                  selectedGender: selectedGender,
+                  onTap: (value) {
+                    setState(() {
+                      selectedGender = value;
+                    });
+                    ref.read(profileSaveRequestProvider.notifier).state.gender =
+                        value == "Male" ? "1" : "2";
+                  },
+                ),
+
+                80.vGap,
+
+                ///continue button
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: CommonButton(
+                    containerVPadding: 10,
+                    text: AppLocalizations.of(context)!.kContinueLabel,
+                    fontSize: 18,
+                    onTap: () {
+                      if (selectedGender == "") {
+                        context.showErrorSnackBar(
+                            message: AppLocalizations.of(context)!.kErrorMessage);
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SelectBirthdayScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    bgColor:selectedGender == "" ? Colors.grey : primaryColor,
+                  ),
+                ),
+              ],
             ),
-
-            80.vGap,
-
-            ///continue button
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: CommonButton(
-                containerVPadding: 10,
-                text: AppLocalizations.of(context)!.kContinueLabel,
-                fontSize: 18,
-                onTap: () {
-                  if (selectedGender == "") {
-                    context.showErrorSnackBar(
-                        message: AppLocalizations.of(context)!.kErrorMessage);
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SelectBirthdayScreen(),
-                      ),
-                    );
-                  }
-                },
-                bgColor: Colors.pinkAccent,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -107,7 +116,7 @@ class ChooseGenderCircleContainer extends StatelessWidget {
           onTapButton: () {
             onTap("Male");
           },
-          borderColor: Colors.pinkAccent,
+          borderColor: primaryColor,
         ),
 
         20.hGap,
@@ -149,13 +158,10 @@ class GenderCircleContainerView extends StatelessWidget {
         height: 100,
         width: 100,
         decoration: BoxDecoration(
-            border: Border.all(
-                color: isSelected ? borderColor : Colors.grey,
-                width: isSelected ? 3 : 1),
             borderRadius: BorderRadius.circular(50)),
         child: isMale
-            ? Image.asset('assets/images/male.png')
-            : Image.asset('assets/images/female.png'),
+            ? isSelected ? Image.asset('assets/images/male.png',) : Image.asset('assets/images/male_dim.png',)
+            : isSelected ? Image.asset('assets/images/female.png',) :Image.asset('assets/images/female_dim.png'),
       ),
     );
   }

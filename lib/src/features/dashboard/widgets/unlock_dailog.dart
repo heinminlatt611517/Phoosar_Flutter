@@ -86,7 +86,7 @@ class UnlockDailog extends ConsumerWidget {
                 AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                 style: GoogleFonts.roboto(
                   fontSize: kTextRegular,
-                  color: Colors.pinkAccent,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

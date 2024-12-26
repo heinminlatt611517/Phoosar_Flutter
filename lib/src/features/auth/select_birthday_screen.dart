@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
@@ -37,124 +38,134 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/ic_launcher.png',
-          height: 60,
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/images/bg_image_4.jpg',
+          height: double.infinity,
+          width: double.infinity,
+          fit: BoxFit.fill,
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ///day , month , year view
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: Column(
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.kBirthdayLabel,
-                    style:
-                        TextStyle(color: Colors.grey, fontSize: kTextRegular24),
-                  ),
-                  50.vGap,
-                  SizedBox(
-                    height: 60,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: kMarginLarge),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ///day button
-                          Flexible(
-                            child: DropDownWidget(
-                                items: days,
-                                onSelect: (value) {
-                                  setState(() {
-                                    selectedDay = value ?? "";
-                                  });
-                                },
-                                initValue: days.first),
-                          ),
-                          10.hGap,
-
-                          ///Month
-                          Flexible(
-                            child: DropDownWidget(
-                                items: months,
-                                onSelect: (value) {
-                                  setState(() {
-                                    selectedMonth = value ?? "";
-                                  });
-                                },
-                                initValue: months.first),
-                          ),
-                          10.hGap,
-
-                          ///Year
-                          Flexible(
-                            child: DropDownWidget(
-                                items: years,
-                                onSelect: (value) {
-                                  setState(() {
-                                    selectedYear = value ?? "";
-                                  });
-                                },
-                                initValue: years.first),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            backgroundColor: Colors.transparent,
+            title: Image.asset(
+              'assets/images/phoosar_img.png',
+              height: 40,
             ),
-
-            ///continue button
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: CommonButton(
-                containerVPadding: 10,
-                text: AppLocalizations.of(context)!.kContinueLabel,
-                fontSize: 18,
-                onTap: () {
-                  if (selectedDay == "" ||
-                      selectedMonth == "" ||
-                      selectedYear == "") {
-                    context.showErrorSnackBar(
-                        message: AppLocalizations.of(context)!.kErrorMessage);
-                  } else {
-                    var selectedBirthDate =
-                        "${selectedDay.toString()}, $selectedMonth, ${selectedYear.toString()}";
-                    debugPrint(selectedBirthDate);
-                    ref
-                            .read(profileSaveRequestProvider.notifier)
-                            .state
-                            .birthdate =
-                        DateFormat('yyyy-MM-dd').format(
-                            DateFormat('d, MMMM, yyyy')
-                                .parse(selectedBirthDate));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChooseCountryAndCityScreen(),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ///day , month , year view
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: Column(
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.kBirthdayLabel,
+                        style:
+                            TextStyle(color: Colors.grey, fontSize: kTextRegular24),
                       ),
-                    );
-                  }
-                },
-                bgColor: Colors.pinkAccent,
-              ),
+                      50.vGap,
+                      SizedBox(
+                        height: 60,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: kMarginLarge),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ///day button
+                              Flexible(
+                                child: DropDownWidget(
+                                    items: days,
+                                    onSelect: (value) {
+                                      setState(() {
+                                        selectedDay = value ?? "";
+                                      });
+                                    },
+                                    initValue: days.first),
+                              ),
+                              10.hGap,
+
+                              ///Month
+                              Flexible(
+                                child: DropDownWidget(
+                                    items: months,
+                                    onSelect: (value) {
+                                      setState(() {
+                                        selectedMonth = value ?? "";
+                                      });
+                                    },
+                                    initValue: months.first),
+                              ),
+                              10.hGap,
+
+                              ///Year
+                              Flexible(
+                                child: DropDownWidget(
+                                    items: years,
+                                    onSelect: (value) {
+                                      setState(() {
+                                        selectedYear = value ?? "";
+                                      });
+                                    },
+                                    initValue: years.first),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                ///continue button
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: CommonButton(
+                    containerVPadding: 10,
+                    text: AppLocalizations.of(context)!.kContinueLabel,
+                    fontSize: 18,
+                    onTap: () {
+                      if (selectedDay == "" ||
+                          selectedMonth == "" ||
+                          selectedYear == "") {
+                        context.showErrorSnackBar(
+                            message: AppLocalizations.of(context)!.kErrorMessage);
+                      } else {
+                        var selectedBirthDate =
+                            "${selectedDay.toString()}, $selectedMonth, ${selectedYear.toString()}";
+                        debugPrint(selectedBirthDate);
+                        ref
+                                .read(profileSaveRequestProvider.notifier)
+                                .state
+                                .birthdate =
+                            DateFormat('yyyy-MM-dd').format(
+                                DateFormat('d, MMMM, yyyy')
+                                    .parse(selectedBirthDate));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChooseCountryAndCityScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    bgColor: primaryColor,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
