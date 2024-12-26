@@ -26,7 +26,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/ic_launcher.png',
+                'assets/images/phoosar_img.png',
                 height: 60,
               ),
               10.vGap,
@@ -44,7 +44,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: smallFontSize,
-                  color: Colors.black,
+                  color: Colors.grey,
                   fontWeight: FontWeight.w400,
                 ),
               ),

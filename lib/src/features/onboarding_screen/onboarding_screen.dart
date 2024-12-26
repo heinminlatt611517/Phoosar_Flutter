@@ -67,7 +67,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                     data.length,
                     (_) => Colors.grey.withOpacity(0.4),
                   );
-                  indicatorColors.first = Colors.blue;
+                  indicatorColors.first = primaryColor;
                 }
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -151,7 +151,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                             );
                           },
                           child: Text(
-                            'Skip For now',
+                            AppLocalizations.of(context)!.kSkipForNow,
                             style: TextStyle(
                                 color: Colors.black.withOpacity(0.5),
                                 decoration: TextDecoration.underline),
@@ -347,42 +347,55 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                 widget.data.answerType.toString() == "1"
                     ? Column(
                         children: [
-                          TextFormField(
-                            maxLines: 10,
-                            controller: shortDescriptionTextController,
-                            onChanged: (value) {
-                              var craftQuestionVo = Questions(
-                                id: widget.data.id,
-                                answerId: "",
-                                answerText: value,
-                              );
-                              widget.questionData(craftQuestionVo);
-                              // Notify parent about selection change
-                              widget.onSelectionChanged(value.isNotEmpty);
-                            },
-                            decoration: InputDecoration(
-                              hintMaxLines: 2,
-                              hintStyle: TextStyle(
-                                fontSize: kTextRegular,
-                                color: Colors.grey.withOpacity(0.8),
-                              ),
-                              hintText: AppLocalizations.of(context)!
-                                  .kHowWouldYourFamilyOrBestFriendDescribeYou,
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Colors.blue,
+                          Stack(
+                            children: [
+                              TextFormField(
+                                maxLines: 10,
+                                controller: shortDescriptionTextController,
+                                onChanged: (value) {
+                                  var craftQuestionVo = Questions(
+                                    id: widget.data.id,
+                                    answerId: "",
+                                    answerText: value,
+                                  );
+                                  widget.questionData(craftQuestionVo);
+                                  // Notify parent about selection change
+                                  widget.onSelectionChanged(value.isNotEmpty);
+                                },
+                                decoration: InputDecoration(
+                                  hintMaxLines: 2,
+                                  hintStyle: TextStyle(
+                                    fontSize: kTextRegular,
+                                    color: Colors.grey.withOpacity(0.8),
+                                  ),
+                                  hintText: AppLocalizations.of(context)!
+                                      .kWriteShortDescription,
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.5,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                  width: 0.5,
+                              Positioned(
+                                bottom: 10,
+                                right: 10,
+                                child: Text(
+                                  '0/400 Characters',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                           Align(
                               alignment: Alignment.centerRight,

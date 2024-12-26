@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
 import 'package:phoosar/src/data/request/forgot_password_request.dart';
@@ -29,6 +30,9 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
+  String e164PhoneNo = "";
+  PhoneNumber phone = PhoneNumber(isoCode: 'MM');
+  TextEditingController _phoneController = TextEditingController();
 
   String? recentOnboardingStatus;
 
@@ -80,12 +84,62 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
 
                   40.vGap,
 
-                  ///email input
-                  InputView(
-                      controller: emailController,
-                      hintLabel: widget.type == 'Email'.toLowerCase()
-                          ? AppLocalizations.of(context)!.kEmailLabel
-                          : AppLocalizations.of(context)!.kPhoneNumberLabel),
+                  // ///email input
+                  // InputView(
+                  //     controller: emailController,
+                  //     hintLabel: widget.type == 'Email'.toLowerCase()
+                  //         ? AppLocalizations.of(context)!.kEmailLabel
+                  //         : AppLocalizations.of(context)!.kPhoneNumberLabel),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            border: Border.all(
+                                color: Colors.white,
+                                width: 1),
+                            borderRadius: BorderRadius.circular(4.0)),
+                        child: InternationalPhoneNumberInput(
+                          onInputChanged: (PhoneNumber number) {
+                            print(number.phoneNumber);
+                            setState(() {
+                              e164PhoneNo = number.phoneNumber.toString();
+                            });
+                          },
+                          onInputValidated: (bool value) {
+                            print(value);
+                          },
+                          selectorConfig: SelectorConfig(
+                            leadingPadding: 12,
+                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                          ),
+                          ignoreBlank: false,
+                          initialValue: phone,
+                          hintText: '',
+                          autoValidateMode: AutovalidateMode.disabled,
+                          selectorTextStyle: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold,color: Colors.white),
+                          textFieldController: _phoneController,
+                          formatInput: true,
+                          textStyle: TextStyle(color: Colors.white),
+                          keyboardType: TextInputType.number,
+                          keyboardAction: TextInputAction.done,
+                          inputBorder: InputBorder.none,
+                          onSaved: (PhoneNumber number) {
+                            print('On Saved: $number');
+                          },
+                        ),
+                      ),
+
+                      24.vGap,
+
+                      ///password input
+                      // InputView(
+                      //     controller: passwordController,
+                      //     hintLabel:
+                      //     AppLocalizations.of(context)!.kPasswordLabel),
+                    ],
+                  ),
                   60.vGap,
 
                   ///send button
@@ -103,7 +157,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                             _isLoading = true;
                           });
                           var request = ForgotPasswordRequest(
-                              value: emailController.text, type: widget.type);
+                              value: _phoneController.text, type: widget.type);
                           var response = await ref
                               .read(repositoryProvider)
                               .forgotPassword(request, context);

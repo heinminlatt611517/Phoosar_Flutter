@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/auth/register.dart';
+import 'package:phoosar/src/features/onboarding_screen/onboarding_screen.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -101,7 +102,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                  builder: (context) => OnBoardingScreen(),
                                 ),
                               );
                             },

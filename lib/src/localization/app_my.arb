@@ -111,5 +111,6 @@
           "kSkipForNow" : "ကျော်မည်",
           "kFindStrongerMatches" : "အလိုက်ဖက်ဆုံးလက်တွဲဖော်ကိုရှာဖွေပါ",
           "kAnswerTheFollowingQuestion" : "သင့်ပရိုဖိုင်ပြည့်စုံစေရန်\nအောက်ပါမေးခွန်းများကိုဖြေဆိုပါ",
-          "kSend" : "ပို့မည်"
+          "kSend" : "ပို့မည်",
+          "kWriteShortDescription" : "သင့်အကြောင်းအတိုချုုံးရေးသားပါ"
  }

@@ -101,7 +101,7 @@
    "kDontShowMyAgeLabel" : "Don't Show My Age",
    "kTipKeepItShortAndSweetLabel" : "Tip :Keep it short and sweet.",
    "kCanWeGetYorNumber" : "Can we get your number,par?",
-   "kWeOnlyUsePhoneNumber" : "We only use phone numbers to\nmake sure everyone on",
+   "kWeOnlyUsePhoneNumber" : "We only use phone numbers to\nmake sure everyone on Phoosar is real",
    "kNoProblem" : "Opps... but no problem",
    "kEnterYourPhoneNumber" : "Enter your phone number to\nrecovery your password",
    "kEnter8Characters" : "Enter a password 8 characters or longer",
@@ -113,7 +113,8 @@
    "kSkipForNow" : "Skip For Now",
    "kFindStrongerMatches" : "Find stronger matches!",
    "kAnswerTheFollowingQuestion" : "Answer the following questions to\ncomplete your profile.",
-   "kSend" : "Send"
+   "kSend" : "Send",
+   "kWriteShortDescription" : "Write a short description that best describes you."
 
 
 
