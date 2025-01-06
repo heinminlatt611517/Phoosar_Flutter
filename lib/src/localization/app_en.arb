@@ -114,7 +114,23 @@
    "kFindStrongerMatches" : "Find stronger matches!",
    "kAnswerTheFollowingQuestion" : "Answer the following questions to\ncomplete your profile.",
    "kSend" : "Send",
-   "kWriteShortDescription" : "Write a short description that best describes you."
+   "kWriteShortDescription" : "Write a short description that best describes you.",
+
+   "kPayment" : "Payment",
+   "kFindNearestShop" : "Find the nearest shop",
+   "kProvideQrCode" : "Provide the QR code to the agent",
+   "kMakePayment" : "Make Payment",
+   "kConfirmation" : "Confirmation",
+   "kSureWantToReport" : "Are you sure you want to report?",
+   "kCancel" : "Cancel",
+   "kOk" : "Ok",
+   "kProfileReportSaveSuccessfully" : "Profile Report save successfully",
+   "kContinue" : "CONTINUE",
+   "kTypeInOneInterest" :"Type in one interest at a time hit the  ' + '  icon.",
+   "kTapHereToAddInterest" : "Tap here to add an interest",
+   "kUseTheseWritingPrompt" : "Use these writing prompt to make your profile even better! Click on a prompt to add it to your profile.",
+   "kAllDone" : "All Done!",
+   "kYourProfileIsComplete" : "Your profile is complete"
 
 
 

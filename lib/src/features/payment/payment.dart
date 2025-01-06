@@ -5,6 +5,8 @@ import 'package:phoosar/src/data/response/payment_success_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen(
@@ -52,7 +54,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
       backgroundColor: whitePaleColor,
       appBar: AppBar(
         backgroundColor: whitePaleColor,
-        title: Text('Payment'),
+        title: Text(AppLocalizations.of(context)!.kPayment,),
         centerTitle: true,
       ),
       body: Center(
@@ -105,17 +107,17 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                                 child: Image.memory(base64Decode(qrCode!))),
                             20.vGap,
                             Text(
-                              '1.Find the nearest shop',
+                              '1. ${AppLocalizations.of(context)!.kFindNearestShop}',
                               style: TextStyle(color: Colors.grey,fontSize: 10),
                             ),
                             10.vGap,
                             Text(
-                              '2.Provide the QR code to the agent',
+                              '2. ${AppLocalizations.of(context)!.kProvideQrCode}',
                               style: TextStyle(color: Colors.grey,fontSize: 10),
                             ),
                             10.vGap,
                             Text(
-                              '3.Make Payment',
+                              '3. ${AppLocalizations.of(context)!.kMakePayment}',
                               style: TextStyle(color: Colors.grey,fontSize: 10),
                             ),
                           ],

@@ -52,7 +52,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "All done!",
+                          AppLocalizations.of(context)!.kAllDone,
                           style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                         ),
                         15.vGap,
                         Text(
-                          "Your profile is complete",
+                          AppLocalizations.of(context)!.kYourProfileIsComplete,
                           style: TextStyle(color: Colors.black.withOpacity(0.5)),
                         ),
                       ],
