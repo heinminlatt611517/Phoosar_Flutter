@@ -144,6 +144,9 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                           : true,
                       child: TextButton(
                           onPressed: () {
+                            ref
+                                .watch(sharedPrefProvider)
+                                .setString(kRecentOnboardingKey, kCompleteStatus);
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) => HomeScreen()),

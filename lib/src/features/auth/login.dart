@@ -382,6 +382,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.invalidate(profileProvider);
     ref.invalidate(roomsProvider);
     ref.invalidate(supabaseClientProvider);
+    debugPrint("RecentOnboardingStatus>>>>>>>$recentOnboardingStatus");
     ref
         .watch(sharedPrefProvider)
         .setString(kRecentOnboardingKey, recentOnboardingStatus ?? '');

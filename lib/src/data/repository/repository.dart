@@ -279,6 +279,7 @@ class Repository {
   }
 
   Future<Response> forgotPassword(dynamic request, BuildContext context) async {
+    debugPrint("Request>>>>>>${request.value},${request.type}");
     var response = await Session.postWithoutAuth(
       Uri.parse("${Env.baseurl}/forgot-password"),
       jsonEncode(request),

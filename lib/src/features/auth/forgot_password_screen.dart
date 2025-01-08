@@ -157,7 +157,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                             _isLoading = true;
                           });
                           var request = ForgotPasswordRequest(
-                              value: _phoneController.text, type: widget.type);
+                              value: e164PhoneNo, type: widget.type);
                           var response = await ref
                               .read(repositoryProvider)
                               .forgotPassword(request, context);

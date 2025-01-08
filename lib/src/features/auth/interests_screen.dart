@@ -139,7 +139,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 100),
+                          padding: const EdgeInsets.only(bottom: 20),
                           child: CommonButton(
                             containerVPadding: 10,
                             text: AppLocalizations.of(context)!.kContinueLabel,

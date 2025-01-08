@@ -72,7 +72,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: "Find matches",
+                      text:AppLocalizations.of(context)!.kFindMatches,
                       fontSize: 18,
                       onTap: () {
                         ref
