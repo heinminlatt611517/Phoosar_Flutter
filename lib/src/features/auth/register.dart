@@ -142,6 +142,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           children: [
                             ///password input
                             InputView(
+                                cursorColor: Colors.white,
                                 controller: _usernameController,
                                 hintLabel: AppLocalizations.of(context)!
                                     .kUserNameLabel),
@@ -178,7 +179,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
-
+                                textAlignVertical: TextAlignVertical.top,
+                                cursorColor: Colors.white,
                                 textFieldController: _phoneController,
                                 formatInput: true,
                                 keyboardType: TextInputType.number,

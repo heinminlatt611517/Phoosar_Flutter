@@ -155,11 +155,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ignoreBlank: false,
                               initialValue: phone,
                               hintText: '',
+                              textAlignVertical: TextAlignVertical.top,
                               autoValidateMode: AutovalidateMode.disabled,
                               selectorTextStyle: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold,color: Colors.white),
                               textFieldController: _phoneController,
                               formatInput: true,
+                              cursorColor: Colors.white,
                               textStyle: TextStyle(color: Colors.white),
                               keyboardType: TextInputType.number,
                               keyboardAction: TextInputAction.done,
@@ -174,6 +176,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                           ///password input
                           InputView(
+                              cursorColor: Colors.white,
                               controller: passwordController,
                               hintLabel:
                                   AppLocalizations.of(context)!.kPasswordLabel),

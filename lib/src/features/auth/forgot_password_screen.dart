@@ -135,6 +135,8 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                           ignoreBlank: false,
                           initialValue: phone,
                           hintText: '',
+                          textAlignVertical: TextAlignVertical.top,
+                          cursorColor: Colors.white,
                           autoValidateMode: AutovalidateMode.disabled,
                           selectorTextStyle: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold,color: Colors.white),

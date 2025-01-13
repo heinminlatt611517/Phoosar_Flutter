@@ -32,6 +32,7 @@ class FindStrongerMatchesDialog extends StatelessWidget {
               10.vGap,
               Text(
                 AppLocalizations.of(context)!.kFindStrongerMatches,
+                textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: largeFontSize,
                   color: primaryColor,
