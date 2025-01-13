@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
@@ -59,7 +60,25 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  100.vGap,
+
+                  40.vGap,
+
+                  ///back icon
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: SvgPicture.asset(
+                        'assets/svgs/ic_back.svg',
+                        width: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+
+                  60.vGap,
 
                   ///app icon
                   Image.asset(

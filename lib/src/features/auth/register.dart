@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
