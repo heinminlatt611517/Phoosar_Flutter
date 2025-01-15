@@ -122,7 +122,7 @@
              "kSureWantToReport" : "တိုင်ကြားမှုကိုဆက်လက်လုပ်ဆောင်မည်?",
              "kCancel" : "ပယ်ဖျက်မည်",
              "kOk" : "အိုကေ",
-             "kProfileReportSaveSuccessfully" : "ပရိုဖိုင် တိုင်ကြားမှုကိုအောင်မြင်စွာလုပ်ဆောင်ပြီးပါပြီ",
+             "kProfileReportSaveSuccessfully" : "ပရိုဖိုင် တိုင်ကြားမှုကိုအောင်\nမြင်စွာလုပ်ဆောင်ပြီးပါပြီ",
              "kContinue" : "ရှေ့ဆက်ရန်",
              "kTypeInOneInterest" :"နှစ်သက်သောအရာ တစ်ခုရေးပြီး ' + ' ကိုတစ်ကြိမ်နှိပ်ပါ",
              "kTapHereToAddInterest" : "ဤနေရာ‌တွင် နှစ်သက်သောအရာကိုထည့်ပါ",

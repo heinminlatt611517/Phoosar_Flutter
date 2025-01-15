@@ -52,6 +52,7 @@ class CommonDialog extends StatelessWidget {
               )
                   : Text(
                       title,
+                       textAlign: TextAlign.center,
                       style: GoogleFonts.roboto(
                         color: greyColor,
                         fontSize:
