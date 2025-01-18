@@ -16,6 +16,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/strings.dart';
 import 'package:timeago/timeago.dart';
 
 /// Displays the list of chat threads
@@ -77,7 +78,7 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                   child: UserAvatar(
                     userId: otherUser.supabaseUserId.toString(),
                     fromChat: true,
-                    profileImage: otherUser.profileImages?.first ?? "",
+                    profileImage:otherUser.profileImages?.isNotEmpty ?? true ? otherUser.profileImages?.first ?? "" : errorImageUrl,
                   ),
                 );
               },

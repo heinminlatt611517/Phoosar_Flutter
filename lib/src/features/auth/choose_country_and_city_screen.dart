@@ -198,7 +198,7 @@ class _MatchCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kWantMyMatch,
-          style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+          style: TextStyle(height: 1.8,color: Colors.grey, fontSize: kTextRegular24,),
         ),
         20.vGap,
         DynamicDropDownWidget(
