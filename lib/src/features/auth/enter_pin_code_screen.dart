@@ -95,40 +95,37 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                       30.vGap,
 
                       ///Pin code text field
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Center(
-                            child: PinCodeTextField(
-                          backgroundColor: Colors.transparent,
-                          keyboardType: TextInputType.number,
-                          autoDisposeControllers: true,
-                          cursorColor: Colors.blue,
-                          appContext: context,
-                          length: 6,
-                          obscureText: false,
-                          animationType: AnimationType.fade,
-                          pinTheme: PinTheme(
-                            selectedFillColor: Colors.white,
-                            inactiveColor: Colors.white,
-                            activeColor: Colors.transparent,
-                            inactiveFillColor: Colors.white.withOpacity(0.2),
-                            shape: PinCodeFieldShape.box,
-                            borderWidth: 1,
-                            inactiveBorderWidth: 1,
-                            borderRadius: BorderRadius.circular(10),
-                            fieldHeight: 50,
-                            fieldWidth: 50,
-                            activeFillColor: primaryColor,
-                          ),
-                          animationDuration: const Duration(milliseconds: 300),
-                          enableActiveFill: true,
-                          errorAnimationController: errorController,
-                          controller: _pinController,
-                          onCompleted: (v) async {
-                            _verifyOTP();
-                          },
-                        )),
-                      ),
+                      Center(
+                          child: PinCodeTextField(
+                        backgroundColor: Colors.transparent,
+                        keyboardType: TextInputType.number,
+                        autoDisposeControllers: true,
+                        cursorColor: Colors.blue,
+                        appContext: context,
+                        length: 6,
+                        obscureText: false,
+                        animationType: AnimationType.fade,
+                        pinTheme: PinTheme(
+                          selectedFillColor: Colors.white,
+                          inactiveColor: Colors.white,
+                          activeColor: Colors.transparent,
+                          inactiveFillColor: Colors.white.withOpacity(0.2),
+                          shape: PinCodeFieldShape.box,
+                          borderWidth: 1,
+                          inactiveBorderWidth: 1,
+                          borderRadius: BorderRadius.circular(10),
+                          fieldHeight: 50,
+                          fieldWidth: 50,
+                          activeFillColor: primaryColor,
+                        ),
+                        animationDuration: const Duration(milliseconds: 300),
+                        enableActiveFill: true,
+                        errorAnimationController: errorController,
+                        controller: _pinController,
+                        onCompleted: (v) async {
+                          _verifyOTP();
+                        },
+                      )),
 
                       10.vGap,
 
