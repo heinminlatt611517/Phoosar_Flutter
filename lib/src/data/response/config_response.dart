@@ -27,18 +27,21 @@ class ConfigData {
   double? appVersion;
   double? releaseVersion;
   int? forceUpdate;
+  int? percentage;
 
   ConfigData(
       {this.skipQuestion,
         this.appVersion,
         this.releaseVersion,
-        this.forceUpdate});
+        this.forceUpdate,
+        this.percentage});
 
   ConfigData.fromJson(Map<String, dynamic> json) {
     skipQuestion = json['skip_question'];
     appVersion = json['app_version'];
     releaseVersion = json['release_version'];
     forceUpdate = json['force_update'];
+    percentage = json['percentage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class ConfigData {
     data['app_version'] = this.appVersion;
     data['release_version'] = this.releaseVersion;
     data['force_update'] = this.forceUpdate;
+    data['percentage'] = this.percentage;
     return data;
   }
 }

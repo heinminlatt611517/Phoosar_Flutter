@@ -318,3 +318,7 @@ final cityRequestProvider = StateProvider<CityRequest>((ref) {
 final matchCityRequestProvider = StateProvider<CityRequest>((ref) {
   return CityRequest();
 });
+
+final percentageProvider = StateProvider<int>((ref) {
+  return 0;
+});

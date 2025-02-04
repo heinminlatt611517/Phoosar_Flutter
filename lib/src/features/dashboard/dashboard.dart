@@ -24,6 +24,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../data/response/config_response.dart';
 import '../auth/login.dart';
 import '../other_profile/other_profile.dart';
 
@@ -46,6 +47,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await _checkOnlineStatus();
       await _fetchProfile();
+      await setFcmToken();
+      await _fetchConfigData();
     });
   }
 
@@ -68,6 +71,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     }
   }
 
+  ///set fcm token
+  Future<void> setFcmToken()async{
+    var sharedPrefs = ref.watch(sharedPrefProvider);
+   var fcmToken =  sharedPrefs.getString("fcmToken");
+    final repository = ref.watch(repositoryProvider);
+    final response = await repository.setFcmToken(
+      jsonEncode({"fcm_token": fcmToken}),
+      context,
+    );
+    debugPrint("FCMTOKEN>>>>>$fcmToken");
+    debugPrint("SetFCMResponse>>>>>$response");
+  }
+
   ///fetch profile
   Future<void> _fetchProfile() async {
     final response = await ref.read(repositoryProvider).getProfile(
@@ -77,6 +93,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
     ref.read(selfProfileProvider.notifier).state = data;
     ref.read(locationProvider.notifier).state = data.data?.city ?? "";
+  }
+
+  ///fetch config data
+  Future<void> _fetchConfigData() async {
+    final response = await ref.read(repositoryProvider).getConfig(context,);
+    var data = ConfigResponse.fromJson(jsonDecode(response.body)).data;
+    ref.read(percentageProvider.notifier).state = data?.percentage ?? 0;
   }
 
   @override
@@ -343,10 +366,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     if (selectedIndex != total) {
       if (newSwipeCount == 5) {
         sharedPrefs.setInt("swipeCount", 0);
-        showDialog(
-          context: context,
-          builder: (context) => FindStrongerMatchesDialog(),
-        );
+        final percentage = ref.watch(percentageProvider);
+        if(percentage.toString() != '100'){
+          showDialog(
+            context: context,
+            builder: (context) => FindStrongerMatchesDialog(),
+          );
+        }
       } else {
         sharedPrefs.setInt("swipeCount", newSwipeCount);
       }

@@ -27,7 +27,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
   int _currentPage = 0;
   List<Color> indicatorColors = [];
   Map<int, Questions> selectedQuestionsMap = {};
-  Map<int, bool> pageSelectionStatus = {}; // Track selection status per page
+  Map<int, bool> pageSelectionStatus = {};
   var isLoading = false;
 
   @override

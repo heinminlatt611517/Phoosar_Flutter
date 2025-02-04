@@ -10,19 +10,15 @@ class FirebaseAccessToken {
     try {
       final credentials = ServiceAccountCredentials.fromJson({
         "type": "service_account",
-        "project_id": "social-media-app-67290",
-        "private_key_id": "7c8e982a11cba466f271d2d09e09eb989f0cd97a",
-        "private_key":
-        "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDUrohKEuSvhjRR\n3wdVvvtFY//HgNSh+6aUuwF0qcYQ0a8IFdaTz6iGKoXc/UZcrTpQHQclq/Blui5y\nafDzqwpF9k88ZfY8WAaql3mRCHKtSlI0eDywg+bR6Id7L6hDL1eqGOOmwlKFc/Rq\nrontBRbiJm6h3sX4RWqs0ZNgV+pjK5bxmIDfbs0sfYZXCwqp/1DmI7UKNPPoTx+I\noq5rUURojWTLleGWASpPJTgN68P49Lk1i5I1P8sRB1HSEBE/JNE64Tw4h0Xji+7v\nQJRMlB/XDcQJs12h7FTlr34FDBXRn7IX8GD6gt+fsL7IkbfLKjYxNwwjivZB2NDf\nA0IEVqrXAgMBAAECggEAFmRZzRK4KRLEJ2qH5ys4YVHp+CNEP9my7C3UNWg6hkLN\nXtiNwvo2EAoiFeZEpjVG0nB79CdqJAu6ICmvSLhVWJBaP02s4yWRbhyMnAx7pmsQ\nxJ10JlF819TXjsyxtoEhhbMhJMmIzqwqq6C8vMuwYRcSxtAhn8YPOSrHjXk0IESh\neMoyYlKksbVCEoCFi4d/f4L1/MkPFt95BdUNpcwHwa0dPhOyaFolr0EAu0B7iJyi\nQAWyo4L75r2evttF0eSCbIy0xU2DNxHkrvoxrNVaLJ28doEhyLKdbb0myAcN0D8c\nHzcIjZDeL5jksZRWc+tTSd+2619GF/6UolQm4cbigQKBgQDrqdKmSCUUGNsRiJUh\nFCJpzWa4y7Dq77zc/L6X9HoU1pfSMclhZH6itcfjBQJxQAaCftGGemntVkPaE9v3\nbnTh94sVwMlhpGGQGSgMRbHnS6SfDyhuGCYBj0SEFZrM1x4U64rMpXlrXagPhrQ1\nWc5CXAAnLKGyPKnJk8acdl9CMQKBgQDnCQJvIDp5P8l+wjHw2vs2rct5NheOF/A0\nZkRsIxPTfshZWJ0kLhNyUzejPDb8A0aOsa7REI3DP9O8u+cNmkjH5W2MpRG4vgLn\nVlwuIQoHy2B/M1Kt3/vSNh47MKxIQzDeFsLJcHB0+5NI6fiEqMwHOsLPxr8QZvVG\neySPXtszhwKBgQCwpObExScl3Uu35M0DsnfpHpF0yxmdwH2sl7a1aAdqP0AlyjPM\n0OsrQ17FCChAg2Fdx3l+d5uWzyak/GXRHfZ2unqCn7NTgUewH2spZ8RmPwjyQQZp\nH6i9WopdB2S1Tjm6LKQpqY9NrzIeETZbFynIC/YBZy78zwPlmOMyvHfCwQKBgADY\nl5mwlIY9JY/BRk2Lf8ADgus+t3ddvxNyDG4Y8smjfThWirzHLmsMwvdmEQ17NZbw\nL6O0W9CLO0tFpOL33axdurj5Icd7aqdOOagxlsfQhtnwZi0c1N9AM3wkAX2CQXuO\nucfjEYZcJX3u3Woe9CBSpsP8BlcZCWzopomf302hAoGAdKXbKDiWzaYgPP/hABpi\nNgA8nXNDZncIPcBDhlBisyrA3oy/LlOKhGJLknSUO+vTgjkHB/aTT/y8xacpkqW6\n6wNYNm/Uq8BoW0jcDSjRSrWgmyg5WDdXhI2lPkm78d1DrpgzrxfrxYlVZD1l0L4r\nVO1/vnh8ALc09QcpZnhtUNY=\n-----END PRIVATE KEY-----\n",
-        "client_email":
-        "firebase-adminsdk-ar7sj@social-media-app-67290.iam.gserviceaccount.com",
-        "client_id": "102771816932355389352",
+        "project_id": "phoo-sar",
+        "private_key_id": "061dcd0aa8bfaceefb019b41f6f0216c167e0164",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCj/dWKLkjsJIf7\nC0/V0Ht38Jlf8Gj9QUsYw7HemguRTaLKG52Ye6fWPIdYsq+pbJ1yFoNrnkDbAyhn\nFFi19Y4Wf6HKPVz6JRSnU0SN+KZqcdBPjHHUjF3nT2UWjyJpvlNMLTWmXkkQNBXt\nV0sKyiXuETDl3lIpDCk3cgvn1Gvn4u/mS9ErptrIOBG1P6NdcBY1NgSeAMhAgr2X\nNe8o/xboDt7YZE36ft1mQPFc8Ex4Vo/qkNu7eJzTKQtjfi4y39eZjnM+DgYbXfxj\nJ9Krck9/2A7KLFOiWm0qZRc93YpUUZSW3SZDZ8yVVdOC0YS6Wax6RSgETlU/Q0j/\nNZKGZnX1AgMBAAECggEAA0ZcpxGFDcgt+f6wFbQ/3vWMTozpv9L3ubMgwHIBlKGB\nBHm4NDUV9TKIvmX1GZRMcZyO+81xfJ4rxqEyo1GXyI28cKI4kts+Nhg02IP0aNBE\niW4j0MuLzYR5n5F0rblqBu2pMl0UJvFvVanGWx0N1Fr+B70glWbDhPKvV64XiI4o\nrBVxl0UBeF+S9DkFdp5f7f9KqtSAwlhCVApYIVnhdWjhBQXGgGiULNGzNL2afdFC\na0ooXcuc4vlGOYcl3OqOmht8ggFa8T8qN9ZcpCQ0Fxh5p2QJ59wmlye2Pan0nsKM\n/PO5wn9v5iXZ7NjYnCgr+CzJMRZfF/IgSs5EwH7HgQKBgQDCsy6rztFSXN8+zj7G\nCbdxxVaseLjhKNVNSRZEr6gvNEaOTNfuoVMVFKRcS+6gTK1uCNU+sFK+GYnkBsag\npeQcJLRVHvGFFZ+H6hhqyS3q1hmm4sb3n0rzebYw4NzYIx1Dpm5HfcePfvSmWLSY\n78sAyjVVvn93MNleloK2ffE8gQKBgQDXn44TFKLr9TEmRT3bfYPRsjBLEKj0ePBy\n76kxWvgrw/OnwYbkCAcKgK3v/HTKW7sU9k4wo0jyH0G2fKy31owJka/Lk8S8Xnq7\nrFejP/G0Q+r0kjh1aWaHqkRQjZKQHVEenm6iFxs/E2WDrnxJogL7n3us78cbBgIy\nmeG+sHpPdQKBgQCokwmaugPkowKr11jkkK8jM3Ba/l9cm8UrGFfOeqRM0p8wP/pJ\n46YSv3+bZici5aDXf5BaqcHKVEReiTtbBqcdcu4sMRF+X/1zaU1gz/UQufUV2I3b\nAjGb40rKwTaVcLm6xBQBlDa/2HUsvesH677BXVKWfczRPxtFWV2tchf3gQKBgANd\nozsbBFwIjMbbJ9cIQ4l/bY+OaATA6ofww8RYdi1Atsn0lGV01p9MWOq5Fx2dhvMR\n0TCjK91TrZPqqEuKVs9DbeoQmW6TTvkk/I04z04QDVfZ/HWguo/9kWlsfFAxlPWU\nZYe0MqGubNQ8YgZIOCGzYJvXdlUup9QgYMy4NoCNAoGAJtCPISw7vUyDR8fp/YXA\ng6p8yB8oo90XPQgD1CJR2pyz7Qye9s9QBYWSQh6zegCW6UE/1NrcGFFIzv3wUlgk\ndaGdI4W9sx+xycI7w6JKd4UDyjGqk4AfeXLMfhs+4kL2z6LwZHrNzQZJX1uTvCbg\nKsrDU5HofkEKrjQIrJ5qzPY=\n-----END PRIVATE KEY-----\n",
+        "client_email": "firebase-adminsdk-crhsf@phoo-sar.iam.gserviceaccount.com",
+        "client_id": "114773718376288657189",
         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
         "token_uri": "https://oauth2.googleapis.com/token",
-        "auth_provider_x509_cert_url":
-        "https://www.googleapis.com/oauth2/v1/certs",
-        "client_x509_cert_url":
-        "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ar7sj%40social-media-app-67290.iam.gserviceaccount.com",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-crhsf%40phoo-sar.iam.gserviceaccount.com",
         "universe_domain": "googleapis.com"
       });
       List<String> scopes = [

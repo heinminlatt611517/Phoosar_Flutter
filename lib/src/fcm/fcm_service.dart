@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const localNotificationChannel = "high_importance_channel";
 const localNotificationChannelTitle = "High Importance Notifications";
@@ -33,19 +34,15 @@ class FCMService {
 
   /// Android Initialization Settings
   AndroidInitializationSettings initializationSettingsAndroid =
-      const AndroidInitializationSettings('ic_launcher');
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  void listenForMessages() async {
-    await requestNotificationPermissionForIOS();
+  void listenForMessages(SharedPreferences sharedPrefs) async {
+    await requestNotificationPermissionForIOS(sharedPrefs);
     await turnOnIOSForegroundNotification();
 
     await initFlutterLocalNotification();
     await registerChannel();
     await FirebaseMessaging.instance.subscribeToTopic('phoosar');
-
-    messaging.getToken().then((fcmToken) {
-      debugPrint("FCM Token for Device ======> $fcmToken");
-    });
 
     FirebaseMessaging.onMessage.listen((remoteMessage) {
       debugPrint("Notification Sent From Server while in foreground");
@@ -81,7 +78,11 @@ class FCMService {
   }
 
   /// Request Notification Permission For IOS
-  Future requestNotificationPermissionForIOS() {
+  Future requestNotificationPermissionForIOS(SharedPreferences sharedPrefs) async {
+    messaging.getToken().then((fcmToken) {
+      debugPrint("FCM Token for Device ======> $fcmToken");
+      sharedPrefs.setString("fcmToken", fcmToken ?? "");
+    });
     return messaging.requestPermission(
       alert: true,
       announcement: false,
