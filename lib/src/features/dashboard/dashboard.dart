@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:phoosar/src/common/empty_find_dialog.dart';
 import 'package:phoosar/src/common/widgets/icon_button.dart';
 import 'package:phoosar/src/data/response/profile.dart';
@@ -24,6 +25,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../common/widgets/force_update_dialog.dart';
 import '../../data/response/config_response.dart';
 import '../auth/login.dart';
 import '../other_profile/other_profile.dart';
@@ -45,10 +47,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await _fetchConfigData();
       await _checkOnlineStatus();
       await _fetchProfile();
       await setFcmToken();
-      await _fetchConfigData();
     });
   }
 
@@ -72,9 +74,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   ///set fcm token
-  Future<void> setFcmToken()async{
+  Future<void> setFcmToken() async {
     var sharedPrefs = ref.watch(sharedPrefProvider);
-   var fcmToken =  sharedPrefs.getString("fcmToken");
+    var fcmToken = sharedPrefs.getString("fcmToken");
     final repository = ref.watch(repositoryProvider);
     final response = await repository.setFcmToken(
       jsonEncode({"fcm_token": fcmToken}),
@@ -97,9 +99,36 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   ///fetch config data
   Future<void> _fetchConfigData() async {
-    final response = await ref.read(repositoryProvider).getConfig(context,);
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final response = await ref.read(repositoryProvider).getConfig(
+          context,
+        );
     var data = ConfigResponse.fromJson(jsonDecode(response.body)).data;
     ref.read(percentageProvider.notifier).state = data?.percentage ?? 0;
+
+    if (compareVersionStrings(packageInfo.version, data?.releaseVersion ?? "") <
+        0) {
+      forceUpdateDialog(context: context, ref: ref);
+    }
+  }
+
+  ///compare version
+  int compareVersionStrings(String currentVersion, String releaseVersion) {
+    List<int> currentVersionParts =
+        currentVersion.split('.').map((e) => int.parse(e)).toList();
+    List<int> releaseVersionParts =
+        releaseVersion.split('.').map((e) => int.parse(e)).toList();
+    for (int i = 0; i < currentVersionParts.length; i++) {
+      if (i >= releaseVersionParts.length) {
+        return 1;
+      }
+      if (currentVersionParts[i] < releaseVersionParts[i]) {
+        return -1;
+      } else if (currentVersionParts[i] > releaseVersionParts[i]) {
+        return 1;
+      }
+    }
+    return currentVersionParts.length == releaseVersionParts.length ? 0 : -1;
   }
 
   @override
@@ -237,12 +266,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///rewind
   Future<void> _handleRewind(List<ProfileData> profiles) async {
     var response = await ref.read(repositoryProvider).saveProfileReact(
-      jsonEncode({
-        "reacted_user_id": profiles[selectedIndex].id.toString(),
-        "reacted_type": "rewind"
-      }),
-      context,
-    );
+          jsonEncode({
+            "reacted_user_id": profiles[selectedIndex].id.toString(),
+            "reacted_type": "rewind"
+          }),
+          context,
+        );
 
     var profileReactResponse = ProfileReactResponse.fromJson(
       jsonDecode(response.body),
@@ -279,8 +308,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       } else {
         sharedPrefs.setInt("swipeCount", newSwipeCount);
       }
-    }
-    else {
+    } else {
       sharedPrefs.setInt("swipeCount", newSwipeCount);
     }
     ref.invalidate(swipeCountProvider);
@@ -289,24 +317,24 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///skip
   Future<void> _handleSkip(List<ProfileData> profiles) async {
     await ref.read(repositoryProvider).saveProfileReact(
-      jsonEncode({
-        "reacted_user_id": profiles[selectedIndex].id.toString(),
-        "reacted_type": "skip"
-      }),
-      context,
-    );
+          jsonEncode({
+            "reacted_user_id": profiles[selectedIndex].id.toString(),
+            "reacted_type": "skip"
+          }),
+          context,
+        );
     _increaseSwipeCount(profiles.length);
   }
 
   ///like
   Future<void> _handleLike(List<ProfileData> profiles) async {
     var response = await ref.read(repositoryProvider).saveProfileReact(
-      jsonEncode({
-        "reacted_user_id": profiles[selectedIndex].id.toString(),
-        "reacted_type": "like"
-      }),
-      context,
-    );
+          jsonEncode({
+            "reacted_user_id": profiles[selectedIndex].id.toString(),
+            "reacted_type": "like"
+          }),
+          context,
+        );
 
     var profileReactResponse = ProfileReactResponse.fromJson(
       jsonDecode(response.body),
@@ -367,11 +395,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       if (newSwipeCount == 5) {
         sharedPrefs.setInt("swipeCount", 0);
         final percentage = ref.watch(percentageProvider);
-        if(percentage.toString() != '100'){
+        if (percentage.toString() != '100') {
           showDialog(
             context: context,
             builder: (context) => FindStrongerMatchesDialog(),
           );
+        }
+        else {
+          //getProfileBuilderQuestion();
         }
       } else {
         sharedPrefs.setInt("swipeCount", newSwipeCount);
@@ -422,8 +453,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       } else {
         sharedPrefs.setInt("swipeCount", newSwipeCount);
       }
-    }
-    else {
+    } else {
       sharedPrefs.setInt("swipeCount", newSwipeCount);
     }
     ref.invalidate(swipeCountProvider);
@@ -432,11 +462,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///get profile builder question
   Future<void> getProfileBuilderQuestion() async {
     var response = await ref.read(repositoryProvider).getProfileBuiderQuestion(
-      jsonEncode({}),
-      context,
-    );
+          jsonEncode({}),
+          context,
+        );
     var profileBuilderQuestionResponse =
-    ProfileBuilderResponse.fromJson(jsonDecode(response.body));
+        ProfileBuilderResponse.fromJson(jsonDecode(response.body));
     setState(() {
       profileBuilderData = profileBuilderQuestionResponse.data;
       isProfileBuilder = true;
@@ -475,5 +505,4 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       );
     }
   }
-
 }

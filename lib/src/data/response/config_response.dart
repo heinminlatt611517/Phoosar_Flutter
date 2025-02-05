@@ -24,8 +24,8 @@ class ConfigResponse {
 
 class ConfigData {
   int? skipQuestion;
-  double? appVersion;
-  double? releaseVersion;
+  String? appVersion;
+  String? releaseVersion;
   int? forceUpdate;
   int? percentage;
 

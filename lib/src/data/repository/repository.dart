@@ -458,4 +458,13 @@ class Repository {
     return response;
   }
 
+  Future<Response> getMatchType(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/match-type"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

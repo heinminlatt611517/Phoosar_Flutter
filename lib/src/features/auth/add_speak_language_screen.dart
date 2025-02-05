@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/language_dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/interests_screen.dart';
+import 'package:phoosar/src/features/auth/looking_for_connection_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -199,7 +200,7 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => InterestsScreen(),
+                                builder: (context) => LookingForConnectionScreen(),
                               ),
                             );
                           }

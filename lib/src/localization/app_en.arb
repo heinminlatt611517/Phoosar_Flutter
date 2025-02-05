@@ -131,7 +131,8 @@
    "kUseTheseWritingPrompt" : "Use these writing prompt to make your profile even better! Click on a prompt to add it to your profile.",
    "kAllDone" : "All Done!",
    "kYourProfileIsComplete" : "Your profile is complete",
-   "kFindMatches" : "Find Matches"
+   "kFindMatches" : "Find Matches",
+   "theConnectionLookingFor" : "The Connection I'm looking for"
 
 
 

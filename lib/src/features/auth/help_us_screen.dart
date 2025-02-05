@@ -9,6 +9,7 @@ import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../utils/dimens.dart';
+import '../home/home.dart';
 
 class HelpUsScreen extends ConsumerStatefulWidget {
   const HelpUsScreen({super.key});
@@ -87,6 +88,27 @@ class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
                       bgColor: primaryColor,
                     ),
                   ),
+
+                  40.vGap,
+
+                  ///skip for now
+                  TextButton(
+                      onPressed: () {
+                        ref
+                            .watch(sharedPrefProvider)
+                            .setString(kRecentOnboardingKey, kCompleteStatus);
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.kSkipForNow,
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            decoration: TextDecoration.underline),
+                      )),
                 ],
               ),
             ),

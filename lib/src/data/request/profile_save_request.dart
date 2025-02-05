@@ -10,10 +10,12 @@ class ProfileSaveRequest {
   String? city;
   String? matchCountry;
   String? matchCity;
+  String? matchType;
   List<String>? profileImages;
   List<String>? moreDetails;
   List<String>? interests;
   List<String>? speakLanguages;
+
   ProfileSaveRequest(
       {this.name,
       this.gender,
@@ -26,6 +28,7 @@ class ProfileSaveRequest {
       this.city,
       this.matchCountry,
       this.matchCity,
+      this.matchType,
       this.profileImages,
       this.moreDetails,
       this.interests,
@@ -43,6 +46,7 @@ class ProfileSaveRequest {
     city = json['city'];
     matchCountry = json['match_country'];
     matchCity = json['match_city'];
+    matchType = json['match_type'];
     profileImages = json['profile_images'].cast<String>();
     moreDetails = json['more_details'].cast<String>();
     interests = json['interests'].cast<String>();
@@ -62,6 +66,7 @@ class ProfileSaveRequest {
     data['city'] = this.city;
     data['match_country'] = this.matchCountry;
     data['match_city'] = this.matchCity;
+    data['match_type'] = this.matchType;
     data['profile_images'] = this.profileImages;
     data['more_details'] = this.moreDetails;
     data['interests'] = this.interests;
