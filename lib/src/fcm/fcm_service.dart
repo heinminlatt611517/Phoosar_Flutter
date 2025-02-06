@@ -1,7 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../features/auth/auth_screen.dart';
+import '../providers/app_provider.dart';
+import '../utils/strings.dart';
 
 const localNotificationChannel = "high_importance_channel";
 const localNotificationChannelTitle = "High Importance Notifications";
@@ -30,17 +35,19 @@ class FCMService {
 
   /// Flutter Notification Plugin
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   /// Android Initialization Settings
   AndroidInitializationSettings initializationSettingsAndroid =
-      const AndroidInitializationSettings('@mipmap/ic_launcher');
+  const AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  void listenForMessages(SharedPreferences sharedPrefs) async {
+  GlobalKey<NavigatorState>? navigatorKey;
+
+  void listenForMessages(SharedPreferences sharedPrefs,WidgetRef ref) async {
     await requestNotificationPermissionForIOS(sharedPrefs);
     await turnOnIOSForegroundNotification();
 
-    await initFlutterLocalNotification();
+    await initFlutterLocalNotification(sharedPrefs,ref);
     await registerChannel();
     await FirebaseMessaging.instance.subscribeToTopic('phoosar');
 
@@ -68,8 +75,8 @@ class FCMService {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((remoteMessage) {
-      debugPrint(
-          "User pressed the notification ${remoteMessage.data['post_id']}");
+      debugPrint("User pressed the notification");
+      doNavigationLogic(sharedPrefs,ref);
     });
 
     messaging.getInitialMessage().then((remoteMessage) {
@@ -77,7 +84,6 @@ class FCMService {
     });
   }
 
-  /// Request Notification Permission For IOS
   Future requestNotificationPermissionForIOS(SharedPreferences sharedPrefs) async {
     messaging.getToken().then((fcmToken) {
       debugPrint("FCM Token for Device ======> $fcmToken");
@@ -94,33 +100,49 @@ class FCMService {
     );
   }
 
-  /// Turn IoS Foreground Notification
   Future turnOnIOSForegroundNotification() {
     return FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-      alert: true, // Required to display a heads up notification
+      alert: true,
       badge: true,
       sound: true,
     );
   }
 
-  ///init flutter local notification
-  Future initFlutterLocalNotification() {
+  void onTapLocalNotification(NotificationResponse notificationResponse, SharedPreferences sharedPrefs,WidgetRef ref) async {
+    await doNavigationLogic(sharedPrefs,ref);
+  }
+
+  Future<void> doNavigationLogic(SharedPreferences sharedPrefs,WidgetRef ref) async {
+    var token = sharedPrefs.getString(kTokenKey);
+    if (token == null) {
+      navigatorKey?.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => AuthScreen()),
+            (route) => false,
+      );
+    } else {
+      ref.read(dashboardProvider.notifier).setPosition(1);
+    }
+  }
+
+  Future initFlutterLocalNotification(SharedPreferences sharedPrefs,WidgetRef ref) {
     final InitializationSettings initializationSettings =
-        InitializationSettings(
+    InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: null,
       macOS: null,
     );
     return flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
+      onDidReceiveNotificationResponse: (response) =>
+          onTapLocalNotification(response, sharedPrefs,ref),
     );
   }
 
   Future? registerChannel() {
     return flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 }

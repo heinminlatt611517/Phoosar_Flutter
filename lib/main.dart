@@ -17,6 +17,8 @@ import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final settingsController = SettingsController(SettingsService());
@@ -27,26 +29,29 @@ void main() async {
 
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
-        name: "Phoosar App",
-        options: DefaultFirebaseOptions.currentPlatform);
+        name: "Phoosar App", options: DefaultFirebaseOptions.currentPlatform);
   } else {
     await Firebase.initializeApp(
-         options: DefaultFirebaseOptions.currentPlatform);
+        options: DefaultFirebaseOptions.currentPlatform);
   }
-
-  FCMService().listenForMessages(sharedPref);
 
   await Supabase.initialize(
     url: Env.supabaseBaseUrl,
     anonKey: Env.supabaseAnonDataKey,
   );
 
+  FCMService().navigatorKey = navigatorKey;
+
   runApp(
     ProviderScope(
       overrides: [
         sharedPrefProvider.overrideWith((ref) => sharedPref),
       ],
-      child: MyApp(settingsController: settingsController),
+      child: MyApp(
+        settingsController: settingsController,
+        sharedPreferences: sharedPref,
+        navigatorKey: navigatorKey,
+      ),
     ),
   );
 }
@@ -82,10 +87,10 @@ void registerErrorHandlers() {
   };
 }
 
-
 class NotificationSettingsPage extends StatefulWidget {
   @override
-  _NotificationSettingsPageState createState() => _NotificationSettingsPageState();
+  _NotificationSettingsPageState createState() =>
+      _NotificationSettingsPageState();
 }
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
@@ -97,7 +102,8 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
 
   // Requesting Notification Permission
   Future<void> requestNotificationPermission() async {
-    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,
       sound: true,
