@@ -346,7 +346,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         builder: (context) => GetMoreLikesDialog(),
       );
     } else {
-      _increaseSwipeCountWhileOnPressOk(profiles.length);
+     // _increaseSwipeCountWhileOnPressOk(profiles.length);
       if (profileReactResponse.data?.matchData != null) {
         Navigator.push(
           context,
@@ -356,6 +356,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             ),
           ),
         );
+      }
+      else {
+        _increaseSwipeCountWhileOnPressOk(profiles.length);
       }
     }
   }

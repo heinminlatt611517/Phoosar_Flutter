@@ -132,7 +132,12 @@
    "kAllDone" : "All Done!",
    "kYourProfileIsComplete" : "Your profile is complete",
    "kFindMatches" : "Find Matches",
-   "theConnectionLookingFor" : "The Connection I'm looking for"
+   "theConnectionLookingFor" : "The Connection I'm looking for",
+   "doYouWantToLogoutFromTheApp" : "Do you want to logout from the app?",
+     "cancel" : "Cancel",
+     "logout" : "Logout",
+      "areYouSure" : "Are you sure?",
+      "doYouWantToDeleteAccount" : "Do you want to delete your account? This action cannot be undone"
 
 
 
