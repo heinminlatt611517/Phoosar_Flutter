@@ -28,6 +28,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
@@ -86,7 +87,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/bg_image_1.jpg',
+            'assets/images/signin_bg.png',
             height: double.infinity,
             width: double.infinity,
             fit: BoxFit.fill,
@@ -101,19 +102,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ///app icon
                     Image.asset(
                       'assets/images/white_logo.png',
-                      height: 60,
+                      height: 80,
                     ),
-                    8.vGap,
-
-                    Text(
-                      'Find Myanmar Connections',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                      ),
-                    ),
-                    60.vGap,
+                    100.vGap,
 
                     EmailAndPhoneNumberButtonView(
                       isSelected: selectedText == "Phone",
@@ -126,19 +117,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     ///phone number sign in view
                     Visibility(
-                      // visible: selectedText == "Phone",
                       visible: true,
                       child: Column(
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white,
                                 border: Border.all(
                                     color: Colors.white,
                                     width: 1),
                                 borderRadius: BorderRadius.circular(4.0)),
                             child: InternationalPhoneNumberInput(
-                              //countries: ['MM'],
                               onInputChanged: (PhoneNumber number) {
                                 print(number.phoneNumber);
                                 setState(() {
@@ -158,11 +147,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               textAlignVertical: TextAlignVertical.top,
                               autoValidateMode: AutovalidateMode.disabled,
                               selectorTextStyle: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.white),
+                                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),
                               textFieldController: _phoneController,
                               formatInput: true,
-                              cursorColor: Colors.white,
-                              textStyle: TextStyle(color: Colors.white),
+                              cursorColor: Colors.black,
+                              textStyle: TextStyle(color: Colors.black),
                               keyboardType: TextInputType.number,
                               keyboardAction: TextInputAction.done,
                               inputBorder: InputBorder.none,
@@ -176,8 +165,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                           ///password input
                           InputView(
-                              cursorColor: Colors.white,
+                              bgColor: Colors.white,
+                              cursorColor: Colors.black,
                               controller: passwordController,
+                              hintTextColor: Colors.black,
                               hintLabel:
                                   AppLocalizations.of(context)!.kPasswordLabel),
                         ],
@@ -193,14 +184,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         containerVPadding: 10,
                         text: AppLocalizations.of(context)!.kSignInLabel,
                         fontSize: 18,
-                        buttonTextColor: Colors.black,
+                        buttonTextColor: Colors.white,
                         isLoading: _isLoading,
                         onTap: () {
                           if (!_isLoading) {
                             _signIn();
                           }
                         },
-                        bgColor: Colors.white,
+                        bgColor: primaryColor,
                       ),
                     ),
 

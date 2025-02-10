@@ -101,7 +101,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/bg_image_2.jpg',
+            'assets/images/sign_up_bg.png',
             height: double.infinity,
             width: double.infinity,
             fit: BoxFit.fill,
@@ -118,22 +118,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ///app icon
                       Image.asset(
                         'assets/images/phoosar_img.png',
-                        height: 60,
+                        height: 80,
                       ),
-                      60.vGap,
+                      40.vGap,
 
-                      Text(
-                        AppLocalizations.of(context)!.kCanWeGetYorNumber,
-                        style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
-                      ),
-                      10.vGap,
                       Text(
                         AppLocalizations.of(context)!.kWeOnlyUsePhoneNumber,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
                       ),
 
-                      30.vGap,
+                      40.vGap,
+
+                      Text(
+                        AppLocalizations.of(context)!.kCanWeGetYorNumber,
+                        style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                      ),
+
+                      20.vGap,
 
                       ///phone number sign up view
                       Visibility(
@@ -142,6 +144,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           children: [
                             ///password input
                             InputView(
+                                bgColor: Colors.black,
                                 cursorColor: Colors.white,
                                 controller: _usernameController,
                                 hintLabel: AppLocalizations.of(context)!
@@ -151,9 +154,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                             Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.black,
                                   border:
-                                      Border.all(color: Colors.white, width: 1),
+                                      Border.all(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.circular(4.0)),
                               child: InternationalPhoneNumberInput(
                                 //countries: ['MM'],
@@ -213,7 +216,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             }
                           },
                           buttonTextColor: Colors.white,
-                          bgColor: Colors.cyan,
+                          bgColor: Colors.green,
                         ),
                       ),
 

@@ -6,6 +6,8 @@ class InputView extends StatelessWidget {
   final TextEditingController controller;
   final String hintLabel;
   final Color? cursorColor;
+  final Color? bgColor;
+  final Color? hintTextColor;
   final String? Function(String?)? validator;
 
   const InputView(
@@ -13,7 +15,9 @@ class InputView extends StatelessWidget {
       required this.controller,
       required this.hintLabel,
       this.validator,
-      this.cursorColor});
+      this.cursorColor,
+      this.bgColor,
+      this.hintTextColor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class InputView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
-          color: Colors.white.withOpacity(0.2),
+          color:bgColor ?? Colors.white.withOpacity(0.2),
         border: Border.all(
             color: Colors.white,
             width: 1),),
@@ -37,9 +41,9 @@ class InputView extends StatelessWidget {
             hintText: hintLabel,
             hintStyle: TextStyle(
               letterSpacing: 2,
-              color: Colors.white,
+              color:hintTextColor ?? Colors.white,
             )),
-        style: const TextStyle(color: Colors.white),
+        style:  TextStyle(color:hintTextColor ?? Colors.white),
       ),
     );
   }

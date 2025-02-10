@@ -59,7 +59,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/bg_image_2.jpg',
+            'assets/images/sign_up_bg.png',
             height: double.infinity,
             width: double.infinity,
             fit: BoxFit.fill,
@@ -76,23 +76,23 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                       ///app icon
                       Image.asset(
                         'assets/images/phoosar_img.png',
-                        height: 60,
+                        height: 80,
                       ),
 
-                      60.vGap,
+                      40.vGap,
 
-                      Text(
-                        AppLocalizations.of(context)!.kYourCodeIsComing,
-                        style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
-                      ),
-                      10.vGap,
                       Text(
                         AppLocalizations.of(context)!.kCheckYourMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
                       ),
+                      40.vGap,
+                      Text(
+                        AppLocalizations.of(context)!.kYourCodeIsComing,
+                        style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                      ),
 
-                      30.vGap,
+                      20.vGap,
 
                       ///Pin code text field
                       Center(
@@ -106,10 +106,10 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         obscureText: false,
                         animationType: AnimationType.fade,
                         pinTheme: PinTheme(
-                          selectedFillColor: Colors.white,
-                          inactiveColor: Colors.white,
+                          selectedFillColor: Colors.black,
+                          inactiveColor: Colors.black,
                           activeColor: Colors.transparent,
-                          inactiveFillColor: Colors.white.withOpacity(0.2),
+                          inactiveFillColor: Colors.black,
                           shape: PinCodeFieldShape.box,
                           borderWidth: 1,
                           inactiveBorderWidth: 1,
@@ -127,8 +127,6 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         },
                       )),
 
-                      10.vGap,
-
                       ///resend otp text button
                       TextButton(
                         onPressed: () {
@@ -137,7 +135,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         child: Text(
                           AppLocalizations.of(context)!.kResendOTPLabel,
                           style: TextStyle(
-                              fontSize: kTextRegular3x, color: Colors.white),
+                              fontSize: kTextRegular2x, color: Colors.black),
                         ),
                       ),
 
@@ -153,8 +151,8 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                           onTap: () {
                             _verifyOTP();
                           },
-                          bgColor: Colors.white,
-                          buttonTextColor: Colors.black,
+                          bgColor: Colors.green,
+                          buttonTextColor: Colors.white,
                         ),
                       ),
 

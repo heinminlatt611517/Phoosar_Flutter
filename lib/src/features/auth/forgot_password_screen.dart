@@ -50,7 +50,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/bg_image_3.jpg',
+            'assets/images/forgot_password_bg.png',
             height: double.infinity,
             width: double.infinity,
             fit: BoxFit.fill,
@@ -78,42 +78,36 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                     ),
                   ),
 
-                  60.vGap,
+                  40.vGap,
 
                   ///app icon
                   Image.asset(
                     'assets/images/white_logo.png',
-                    height: 60,
+                    height: 80,
                   ),
 
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 6,
-                  ),
+                  30.vGap,
 
-                  Text(
-                      AppLocalizations.of(context)!.kNoProblem,
-                    style: TextStyle(color: Colors.white, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
-                  ),
-                  10.vGap,
                   Text(
                     AppLocalizations.of(context)!.kEnterYourPhoneNumber,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: kTextRegular,fontWeight: FontWeight.w500),
+                    style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                  ),
+                  30.vGap,
+
+                  Text(
+                    AppLocalizations.of(context)!.kNoProblem,
+                    style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
                   ),
 
-                  40.vGap,
+                  30.vGap,
 
-                  // ///email input
-                  // InputView(
-                  //     controller: emailController,
-                  //     hintLabel: widget.type == 'Email'.toLowerCase()
-                  //         ? AppLocalizations.of(context)!.kEmailLabel
-                  //         : AppLocalizations.of(context)!.kPhoneNumberLabel),
+
                   Column(
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white,
                             border: Border.all(
                                 color: Colors.white,
                                 width: 1),
@@ -136,13 +130,13 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                           initialValue: phone,
                           hintText: '',
                           textAlignVertical: TextAlignVertical.top,
-                          cursorColor: Colors.white,
+                          cursorColor: Colors.black,
                           autoValidateMode: AutovalidateMode.disabled,
                           selectorTextStyle: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold,color: Colors.white),
+                              fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),
                           textFieldController: _phoneController,
                           formatInput: true,
-                          textStyle: TextStyle(color: Colors.white),
+                          textStyle: TextStyle(color: Colors.black),
                           keyboardType: TextInputType.number,
                           keyboardAction: TextInputAction.done,
                           inputBorder: InputBorder.none,
@@ -154,11 +148,6 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
 
                       24.vGap,
 
-                      ///password input
-                      // InputView(
-                      //     controller: passwordController,
-                      //     hintLabel:
-                      //     AppLocalizations.of(context)!.kPasswordLabel),
                     ],
                   ),
                   60.vGap,
@@ -169,7 +158,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                     child: CommonButton(
                       containerVPadding: 10,
                       text: AppLocalizations.of(context)!.kSend,
-                      buttonTextColor: Colors.black,
+                      buttonTextColor: Colors.white,
                       fontSize: 18,
                       isLoading: _isLoading,
                       onTap: () async {
@@ -200,7 +189,8 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                           }
                         }
                       },
-                      bgColor: Colors.white,
+                      bgColor: Colors.green,
+
                     ),
                   ),
 
