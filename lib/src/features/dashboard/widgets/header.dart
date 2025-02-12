@@ -31,10 +31,10 @@ class DashboardHeader extends ConsumerWidget {
                   context: context, builder: (context) => GetMoreCoinsDialog());
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: Colors.black),
                 color: whitePaleColor,
               ),
               child: Row(
@@ -67,31 +67,31 @@ class DashboardHeader extends ConsumerWidget {
                 selfProfileData != null &&
                         (selfProfileData.data!.isPremium ?? false)
                     ? 'assets/images/ic_premium_launcher.png'
-                    : 'assets/images/ic_launcher.png',
+                    : 'assets/images/phoosar_img.png',
                 width: selfProfileData != null
                     ? (selfProfileData.data!.isPremium ?? false)
                         ? 60
-                        : 60
+                        : 120
                     : 0,
                 fit: BoxFit.fill,
               ),
             ),
           ),
           CustomSwitch(
-            width: 88.0,
+            width: 82.0,
             height: 30.0,
             toggleSize: 40.0,
-            padding: 4,
+            padding: 0,
             value: localeSelected == "en" ? false : true,
             activeToggleColor: Colors.transparent,
             inactiveToggleColor: Colors.transparent,
             activeSwitchBorder: Border.all(
-              color: Colors.transparent,
-              width: 0.0,
+              color: Colors.black,
+              width: 1,
             ),
             inactiveSwitchBorder: Border.all(
-              color: Colors.transparent,
-              width: 0.0,
+              color: Colors.black,
+              width: 1,
             ),
             activeToggleBorder: Border.all(
               color: Colors.transparent,

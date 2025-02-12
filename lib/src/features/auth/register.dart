@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
@@ -14,8 +13,6 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../common/widgets/email_and_phone_number_view.dart';
 import 'enter_pin_code_screen.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -108,166 +105,165 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
           Form(
             key: _formKey,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ///app icon
-                      Image.asset(
-                        'assets/images/phoosar_img.png',
-                        height: 80,
-                      ),
-                      40.vGap,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    80.vGap,
+                    ///app icon
+                    Image.asset(
+                      'assets/images/phoosar_img.png',
+                      height: 80,
+                    ),
+                    40.vGap,
 
-                      Text(
-                        AppLocalizations.of(context)!.kWeOnlyUsePhoneNumber,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
-                      ),
+                    Text(
+                      AppLocalizations.of(context)!.kWeOnlyUsePhoneNumber,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                    ),
 
-                      40.vGap,
+                    40.vGap,
 
-                      Text(
-                        AppLocalizations.of(context)!.kCanWeGetYorNumber,
-                        style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
-                      ),
+                    Text(
+                      AppLocalizations.of(context)!.kCanWeGetYorNumber,
+                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                    ),
 
-                      20.vGap,
+                    20.vGap,
 
-                      ///phone number sign up view
-                      Visibility(
-                        visible: selectedText == "Phone",
-                        child: Column(
-                          children: [
-                            ///password input
-                            InputView(
-                                bgColor: Colors.black,
-                                cursorColor: Colors.white,
-                                controller: _usernameController,
-                                hintLabel: AppLocalizations.of(context)!
-                                    .kUserNameLabel),
+                    ///phone number sign up view
+                    Visibility(
+                      visible: selectedText == "Phone",
+                      child: Column(
+                        children: [
+                          ///password input
+                          InputView(
+                              bgColor: Colors.black,
+                              cursorColor: Colors.white,
+                              controller: _usernameController,
+                              hintLabel: AppLocalizations.of(context)!
+                                  .kUserNameLabel),
 
-                            24.vGap,
+                          24.vGap,
 
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  border:
-                                      Border.all(color: Colors.black, width: 1),
-                                  borderRadius: BorderRadius.circular(4.0)),
-                              child: InternationalPhoneNumberInput(
-                                //countries: ['MM'],
-                                onInputChanged: (PhoneNumber number) {
-                                  print(number.phoneNumber);
-                                  setState(() {
-                                    e164PhoneNo = number.phoneNumber.toString();
-                                  });
-                                },
-                                onInputValidated: (bool value) {
-                                  print(value);
-                                },
-                                selectorConfig: SelectorConfig(
-                                  leadingPadding: 12,
-                                  selectorType:
-                                      PhoneInputSelectorType.BOTTOM_SHEET,
-                                ),
-                                ignoreBlank: false,
-                                initialValue: phone,
-                                hintText: '',
-                                autoValidateMode: AutovalidateMode.disabled,
-                                selectorTextStyle: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                                textAlignVertical: TextAlignVertical.top,
-                                cursorColor: Colors.white,
-                                textFieldController: _phoneController,
-                                formatInput: true,
-                                keyboardType: TextInputType.number,
-                                keyboardAction: TextInputAction.done,
-                                textStyle: TextStyle(color: Colors.white),
-                                inputBorder: InputBorder.none,
-                                onSaved: (PhoneNumber number) {
-                                  print('On Saved: $number');
-                                },
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                border:
+                                    Border.all(color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(4.0)),
+                            child: InternationalPhoneNumberInput(
+                              //countries: ['MM'],
+                              onInputChanged: (PhoneNumber number) {
+                                print(number.phoneNumber);
+                                setState(() {
+                                  e164PhoneNo = number.phoneNumber.toString();
+                                });
+                              },
+                              onInputValidated: (bool value) {
+                                print(value);
+                              },
+                              selectorConfig: SelectorConfig(
+                                leadingPadding: 12,
+                                selectorType:
+                                    PhoneInputSelectorType.BOTTOM_SHEET,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      50.vGap,
-
-                      ///Sign up button
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: CommonButton(
-                          containerVPadding: 10,
-                          text: AppLocalizations.of(context)!.kSignUpLabel,
-                          fontSize: 18,
-                          isLoading: _isLoading,
-                          onTap: () {
-                            if (!_isLoading) {
-                              _requestOTP(
-                                  selectedText == "Phone" ? "phone" : "email");
-                            }
-                          },
-                          buttonTextColor: Colors.white,
-                          bgColor: Colors.green,
-                        ),
-                      ),
-
-                      30.vGap,
-
-                      ///forgot password
-                      Visibility(
-                        visible: false,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            AppLocalizations.of(context)!.kForgotPasswordLabel,
-                            style: TextStyle(
-                                fontSize: kTextRegular3x, color: Colors.black),
-                          ),
-                        ),
-                      ),
-
-                      40.vGap,
-
-                      ///already have account
-                      RichText(
-                        text: new TextSpan(
-                          style: new TextStyle(
-                            fontSize: kTextRegular2x,
-                            color: Colors.black,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: AppLocalizations.of(context)!
-                                    .kAlreadyHaveAccount),
-                            TextSpan(
-                              text: AppLocalizations.of(context)!.kSignInLabel,
-                              style: new TextStyle(
+                              ignoreBlank: false,
+                              initialValue: phone,
+                              hintText: '',
+                              autoValidateMode: AutovalidateMode.disabled,
+                              selectorTextStyle: TextStyle(
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: primaryColor),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
-                                    ),
-                                  );
-                                },
+                                  color: Colors.white),
+                              textAlignVertical: TextAlignVertical.top,
+                              cursorColor: Colors.white,
+                              textFieldController: _phoneController,
+                              formatInput: true,
+                              keyboardType: TextInputType.number,
+                              keyboardAction: TextInputAction.done,
+                              textStyle: TextStyle(color: Colors.white),
+                              inputBorder: InputBorder.none,
+                              onSaved: (PhoneNumber number) {
+                                print('On Saved: $number');
+                              },
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    50.vGap,
+
+                    ///Sign up button
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: CommonButton(
+                        containerVPadding: 10,
+                        text: AppLocalizations.of(context)!.kSignUpLabel,
+                        fontSize: 18,
+                        isLoading: _isLoading,
+                        onTap: () {
+                          if (!_isLoading) {
+                            _requestOTP(
+                                selectedText == "Phone" ? "phone" : "email");
+                          }
+                        },
+                        buttonTextColor: Colors.white,
+                        bgColor: Colors.green,
+                      ),
+                    ),
+
+                    30.vGap,
+
+                    ///forgot password
+                    Visibility(
+                      visible: false,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          AppLocalizations.of(context)!.kForgotPasswordLabel,
+                          style: TextStyle(
+                              fontSize: kTextRegular3x, color: Colors.black),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+
+                    40.vGap,
+
+                    ///already have account
+                    RichText(
+                      text: new TextSpan(
+                        style: new TextStyle(
+                          fontSize: kTextRegular2x,
+                          color: Colors.black,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: AppLocalizations.of(context)!
+                                  .kAlreadyHaveAccount),
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.kSignInLabel,
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                );
+                              },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

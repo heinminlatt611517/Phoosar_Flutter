@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/data/response/profile.dart';
@@ -49,7 +50,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   padding: const EdgeInsets.only(left: 20,top: 40),
                   child: InkWell(
                       onTap: (){ Navigator.of(context).pop();},
-                      child: Icon(Icons.arrow_back,color: Colors.grey.withOpacity(0.5),size: 40,)),
+                      child: Container(
+                        padding: const EdgeInsets.all(kMarginMedium),
+                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                        child: SvgPicture.asset(
+                          'assets/svgs/back_img.svg',
+                          height: 20,
+                          width: 20,
+                        ),
+                      ),),
                 )
               ],
             ),
@@ -60,11 +69,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   UserInformation(findData: widget.findData),
                   20.vGap,
-                  // Divider(
-                  //   height: 0,
-                  //   color: greyColor,
-                  // ),
-                  // 20.vGap,
                   UserHobbies(findData: widget.findData,),
                   ListView.builder(
                     shrinkWrap: true,

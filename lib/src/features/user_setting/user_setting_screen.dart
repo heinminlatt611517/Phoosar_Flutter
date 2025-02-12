@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:phoosar/src/common/widgets/delete_account_dialog_view.dart';
+import 'package:phoosar/src/common/widgets/logout_dialog_view.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/user_setting/block_user_screen.dart';
 import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
@@ -17,6 +19,7 @@ import '../../common/widgets/phoosar_premium_carousel_widget.dart';
 import '../../utils/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 class UserSettingScreen extends ConsumerWidget {
   const UserSettingScreen({super.key});
 
@@ -24,6 +27,7 @@ class UserSettingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var selfProfileData = ref.watch(selfProfileProvider);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: whitePaleColor,
@@ -265,15 +269,35 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
         GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () async{
-            if(isLoading != true){
-              setState(() {
-                isLoading = true;
-              });
-              await logout(context, ref);
-              setState(() {
-                isLoading = false;
-              });
-            }
+            showGeneralDialog(
+              barrierLabel: "Label",
+              barrierDismissible: true,
+              barrierColor: Colors.black.withOpacity(0.5),
+              transitionDuration:const Duration(milliseconds: 300),
+              context: _scaffoldKey.currentContext!,
+              pageBuilder: (context, anim1, anim2) {
+                return Align(
+                  alignment: Alignment.center ,
+                  child: SizedBox.expand(child: LogoutDialogView(onLogout: () async{
+                    if(isLoading != true){
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await logout(_scaffoldKey.currentContext!, ref);
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  })),
+                );
+              },
+              transitionBuilder: (context, anim1, anim2, child) {
+                return SlideTransition(
+                  position: Tween(begin: const Offset(0,  -1), end:const Offset(0, 0)).animate(anim1),
+                  child: child,
+                );
+              },
+            );
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -318,15 +342,36 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
         ///delete account container
         GestureDetector(
           onTap: () async{
-            if(isDeleteLoading != true){
-              setState(() {
-                isDeleteLoading = true;
-              });
-              await deleteAccount(context, ref);
-              setState(() {
-                isDeleteLoading = false;
-              });
-            }
+
+            showGeneralDialog(
+              barrierLabel: "Label",
+              barrierDismissible: true,
+              barrierColor: Colors.black.withOpacity(0.5),
+              transitionDuration:const Duration(milliseconds: 300),
+              context: _scaffoldKey.currentContext!,
+              pageBuilder: (context, anim1, anim2) {
+                return Align(
+                  alignment: Alignment.center ,
+                  child: SizedBox.expand(child: DeleteAccountDialogView(onTapConfirm: () async{
+                    if(isDeleteLoading != true){
+                      setState(() {
+                        isDeleteLoading = true;
+                      });
+                      await deleteAccount(_scaffoldKey.currentContext!, ref);
+                      setState(() {
+                        isDeleteLoading = false;
+                      });
+                    }
+                  })),
+                );
+              },
+              transitionBuilder: (context, anim1, anim2, child) {
+                return SlideTransition(
+                  position: Tween(begin: const Offset(0,  -1), end:const Offset(0, 0)).animate(anim1),
+                  child: child,
+                );
+              },
+            );
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -375,7 +420,7 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
         {},
         context,
       );
-      // Clear shared preferences
+      /// Clear shared preferences
       await ref.read(sharedPrefProvider).clear();
       ref.invalidate(dashboardProvider);
       /// Navigate to the login screen
@@ -389,7 +434,7 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
   }
 
   ///update online status
-  Future<void> _updateOnlineStatus(bool isOnline,WidgetRef ref,BuildContext context) async {
+  Future<void> _updateOnlineStatus(bool isOnline, WidgetRef ref, BuildContext context) async {
     debugPrint("IsOnline:::$isOnline");
     try {
       final repository = ref.watch(repositoryProvider);
@@ -397,10 +442,12 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
         jsonEncode({"is_online": isOnline}),
         context,
       );
-      // Clear shared preferences
+
+      ///clear sharedPrefProvider data
       await ref.read(sharedPrefProvider).clear();
       ref.invalidate(dashboardProvider);
-      /// Navigate to the login screen
+
+      ///navigate to login screen
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginScreen()),
             (route) => false,
@@ -409,6 +456,7 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
       debugPrint('Error: $e');
     }
   }
+
 }
 
 

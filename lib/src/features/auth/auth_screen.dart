@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
-import 'package:phoosar/src/features/auth/enter_pin_code_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:sized_context/sized_context.dart';
+
+import '../../data/response/config_response.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({
@@ -25,18 +28,32 @@ class AuthScreen extends ConsumerStatefulWidget {
 }
 
 class _AuthScreenState extends ConsumerState<AuthScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await _fetchConfigData();
+    });
+  }
+
+  ///fetch config data
+  Future<void> _fetchConfigData() async {
+    final response = await ref.read(repositoryProvider).getConfig(
+      context,
+    );
+    var data = ConfigResponse.fromJson(jsonDecode(response.body)).data;
+    ref.watch(sharedPrefProvider).setString(
+        kSkipQuestion, data?.skipQuestion.toString() ?? '');
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    final configDataState = ref.watch(configDataProvider(context));
     var localeSelected = ref.watch(localeProvider);
-
     return Scaffold(
         backgroundColor: Colors.white,
-        body: configDataState.when(
-          data: (configData) {
-            ref.watch(sharedPrefProvider).setString(
-                kSkipQuestion, configData?.skipQuestion.toString() ?? '');
-            return Stack(
+        body: Stack(
               children: [
                 Image.asset(
                   'assets/images/auth_bg.png',
@@ -101,7 +118,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EnterPinCodeScreen(email: '', type: '', userName: '', phoneNumber: ''),
+                                builder: (context) => RegisterScreen(),
                               ),
                             );
                           },
@@ -211,18 +228,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   ),
                 ),
               ],
-            );
-          },
-          loading: () => Container(
-            height: context.heightPx,
-            child: Center(
-              child: Image.asset(
-                'assets/images/phoosar_img.png',
-                height: 80,
-              ),
-            ),
-          ),
-          error: (error, stack) => Center(child: Text('Error: $error')),
-        ));
+            )
+         );
   }
 }

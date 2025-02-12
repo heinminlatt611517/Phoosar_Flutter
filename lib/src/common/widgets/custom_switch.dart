@@ -167,7 +167,6 @@ class _CustomSwitchState extends State<CustomSwitch>
               child: Container(
                 width: widget.width,
                 height: widget.height,
-                padding: EdgeInsets.all(widget.padding),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(widget.borderRadius),
                   color: _switchColor,
@@ -210,33 +209,30 @@ class _CustomSwitchState extends State<CustomSwitch>
                           width: widget.toggleSize,
                           height: widget.toggleSize,
                           padding:
-                              EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                              EdgeInsets.symmetric( vertical: 2),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: _toggleColor,
                             border: _toggleBorder,
                           ),
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: Container(
-                              child: Stack(
-                                children: [
-                                  Center(
-                                    child: AnimatedOpacity(
-                                      opacity: widget.value ? 1.0 : 0.0,
-                                      duration: widget.duration,
-                                      child: widget.activeIcon,
-                                    ),
+                          child: Container(
+                            child: Stack(
+                              children: [
+                                Center(
+                                  child: AnimatedOpacity(
+                                    opacity: widget.value ? 1.0 : 0.0,
+                                    duration: widget.duration,
+                                    child: widget.activeIcon,
                                   ),
-                                  Center(
-                                    child: AnimatedOpacity(
-                                      opacity: !widget.value ? 1.0 : 0.0,
-                                      duration: widget.duration,
-                                      child: widget.inactiveIcon,
-                                    ),
+                                ),
+                                Center(
+                                  child: AnimatedOpacity(
+                                    opacity: !widget.value ? 1.0 : 0.0,
+                                    duration: widget.duration,
+                                    child: widget.inactiveIcon,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

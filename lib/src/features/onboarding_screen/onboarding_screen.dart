@@ -124,7 +124,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                       ),
                     ),
 
-                    // Continue button
+                    /// Continue button
                     _buildContinueButton(_currentPage, data.length),
 
                     SizedBox(height: 30),
@@ -284,8 +284,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
 }
 
 
-
-
+///question widget view
 class QuestionWidgetView extends StatefulWidget {
   final QuestionData data;
   final Function(Questions) questionData;
@@ -308,7 +307,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
   late String selectedText;
   TextEditingController shortDescriptionTextController =
       TextEditingController();
-
+  var characterCount = 0;
   @override
   void initState() {
     super.initState();
@@ -323,7 +322,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
         ? shortDescriptionTextController.text.isNotEmpty
         : selectedText.isNotEmpty;
 
-    // Avoid calling setState during build
+    /// Avoid calling setState during build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onSelectionChanged(hasSelection);
     });
@@ -362,8 +361,11 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                                     answerText: value,
                                   );
                                   widget.questionData(craftQuestionVo);
-                                  // Notify parent about selection change
+                                  /// Notify parent about selection change
                                   widget.onSelectionChanged(value.isNotEmpty);
+                                  setState(() {
+                                    characterCount = value.length;
+                                  });
                                 },
                                 decoration: InputDecoration(
                                   hintMaxLines: 2,
@@ -393,7 +395,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                                 bottom: 10,
                                 right: 10,
                                 child: Text(
-                                  '0/400 Characters',
+                                  '${characterCount}/400 Characters',
                                   style: TextStyle(
                                       fontSize: 12, color: Colors.grey),
                                 ),

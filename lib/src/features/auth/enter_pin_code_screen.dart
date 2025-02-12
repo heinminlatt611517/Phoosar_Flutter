@@ -66,128 +66,129 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
           ),
           Form(
             key: _formKey,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ///app icon
-                      Image.asset(
-                        'assets/images/phoosar_img.png',
-                        height: 80,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    80.vGap,
+
+                    ///app icon
+                    Image.asset(
+                      'assets/images/phoosar_img.png',
+                      height: 80,
+                    ),
+
+                    40.vGap,
+
+                    Text(
+                      AppLocalizations.of(context)!.kCheckYourMessage,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                    ),
+                    40.vGap,
+                    Text(
+                      AppLocalizations.of(context)!.kYourCodeIsComing,
+                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                    ),
+
+                    20.vGap,
+
+                    ///Pin code text field
+                    Center(
+                        child: PinCodeTextField(
+                      backgroundColor: Colors.transparent,
+                      keyboardType: TextInputType.number,
+                      autoDisposeControllers: true,
+                      cursorColor: Colors.blue,
+                      appContext: context,
+                      length: 6,
+                      obscureText: false,
+                      animationType: AnimationType.fade,
+                      pinTheme: PinTheme(
+                        selectedFillColor: Colors.black,
+                        inactiveColor: Colors.black,
+                        activeColor: Colors.transparent,
+                        inactiveFillColor: Colors.black,
+                        shape: PinCodeFieldShape.box,
+                        borderWidth: 1,
+                        inactiveBorderWidth: 1,
+                        borderRadius: BorderRadius.circular(10),
+                        fieldHeight: 50,
+                        fieldWidth: 50,
+                        activeFillColor: primaryColor,
                       ),
+                      animationDuration: const Duration(milliseconds: 300),
+                      enableActiveFill: true,
+                      errorAnimationController: errorController,
+                      controller: _pinController,
+                      onCompleted: (v) async {
+                       // _verifyOTP();
+                      },
+                    )),
 
-                      40.vGap,
-
-                      Text(
-                        AppLocalizations.of(context)!.kCheckYourMessage,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                    ///resend otp text button
+                    TextButton(
+                      onPressed: () {
+                        _requestOTP();
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.kResendOTPLabel,
+                        style: TextStyle(
+                            fontSize: kTextRegular2x, color: Colors.black),
                       ),
-                      40.vGap,
-                      Text(
-                        AppLocalizations.of(context)!.kYourCodeIsComing,
-                        style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
-                      ),
+                    ),
 
-                      20.vGap,
+                    30.vGap,
 
-                      ///Pin code text field
-                      Center(
-                          child: PinCodeTextField(
-                        backgroundColor: Colors.transparent,
-                        keyboardType: TextInputType.number,
-                        autoDisposeControllers: true,
-                        cursorColor: Colors.blue,
-                        appContext: context,
-                        length: 6,
-                        obscureText: false,
-                        animationType: AnimationType.fade,
-                        pinTheme: PinTheme(
-                          selectedFillColor: Colors.black,
-                          inactiveColor: Colors.black,
-                          activeColor: Colors.transparent,
-                          inactiveFillColor: Colors.black,
-                          shape: PinCodeFieldShape.box,
-                          borderWidth: 1,
-                          inactiveBorderWidth: 1,
-                          borderRadius: BorderRadius.circular(10),
-                          fieldHeight: 50,
-                          fieldWidth: 50,
-                          activeFillColor: primaryColor,
-                        ),
-                        animationDuration: const Duration(milliseconds: 300),
-                        enableActiveFill: true,
-                        errorAnimationController: errorController,
-                        controller: _pinController,
-                        onCompleted: (v) async {
+                    ///ConfirmButton button
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: CommonButton(
+                        containerVPadding: 10,
+                        text: AppLocalizations.of(context)!.kConfirmLabel,
+                        fontSize: 18,
+                        onTap: () {
                           _verifyOTP();
                         },
-                      )),
-
-                      ///resend otp text button
-                      TextButton(
-                        onPressed: () {
-                          _requestOTP();
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.kResendOTPLabel,
-                          style: TextStyle(
-                              fontSize: kTextRegular2x, color: Colors.black),
-                        ),
+                        bgColor: Colors.green,
+                        buttonTextColor: Colors.white,
+                        isLoading : isLoading
                       ),
+                    ),
 
-                      30.vGap,
+                    80.vGap,
 
-                      ///ConfirmButton button
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: CommonButton(
-                          containerVPadding: 10,
-                          text: AppLocalizations.of(context)!.kConfirmLabel,
-                          fontSize: 18,
-                          onTap: () {
-                            _verifyOTP();
-                          },
-                          bgColor: Colors.green,
-                          buttonTextColor: Colors.white,
+                    ///already have account
+                    RichText(
+                      text: new TextSpan(
+                        style: new TextStyle(
+                          fontSize: kTextRegular2x,
+                          color: Colors.black,
                         ),
-                      ),
-
-                      140.vGap,
-
-                      ///already have account
-                      RichText(
-                        text: new TextSpan(
-                          style: new TextStyle(
-                            fontSize: kTextRegular2x,
-                            color: Colors.black,
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: AppLocalizations.of(context)!
+                                  .kAlreadyHaveAccount),
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.kSignInLabel,
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, color: primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                );
+                              },
                           ),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: AppLocalizations.of(context)!
-                                    .kAlreadyHaveAccount),
-                            TextSpan(
-                              text: AppLocalizations.of(context)!.kSignInLabel,
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, color: primaryColor),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
-                                    ),
-                                  );
-                                },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

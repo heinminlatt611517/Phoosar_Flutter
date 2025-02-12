@@ -93,115 +93,121 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/bg_image_2.jpg',
+            'assets/images/sign_up_bg.png',
             height: double.infinity,
             width: double.infinity,
             fit: BoxFit.fill,
           ),
           Form(
             key: _formKey,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ///app icon
-                      Image.asset(
-                        'assets/images/phoosar_img.png',
-                        height: 60,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    80.vGap,
+                    ///app icon
+                    Image.asset(
+                      'assets/images/phoosar_img.png',
+                      height: 80,
+                    ),
+
+                    40.vGap,
+
+                    Text(
+                      AppLocalizations.of(context)!.kEnter8Characters,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                    ),
+
+                    40.vGap,
+
+                    Text(
+                      AppLocalizations.of(context)!.kMakeItMemorable,
+                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                    ),
+
+                    20.vGap,
+
+                    /// text field
+                    InputView(
+                        controller: _passwordController,
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
+                        bgColor: Colors.black,
+                        hintTextColor: Colors.white,
+                        hintLabel: AppLocalizations.of(context)!.kPasswordLabel),
+                    24.vGap,
+                    InputView(
+                        controller: _confirmPasswordController,
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
+                        bgColor: Colors.black,
+                        hintTextColor: Colors.white,
+                        hintLabel:
+                            AppLocalizations.of(context)!.kConfirmPasswordLabel),
+
+                    10.vGap,
+
+                    30.vGap,
+
+                    ///ConfirmButton button
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: CommonButton(
+                        containerVPadding: 10,
+                        text: AppLocalizations.of(context)!.kSignUpLabel,
+                        fontSize: 18,
+                        isLoading: isLoading,
+                        onTap: () {
+                          _signUp();
+                        },
+                        bgColor: Colors.green,
+                        buttonTextColor: Colors.white,
                       ),
-                      60.vGap,
+                    ),
 
-                      Text(
-                        AppLocalizations.of(context)!.kMakeItMemorable,
-                        style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.bold),
-                      ),
-                      10.vGap,
-                      Text(
-                        AppLocalizations.of(context)!.kEnter8Characters,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
-                      ),
+                    80.vGap,
 
-                      30.vGap,
-
-                      /// text field
-                      InputView(
-                          controller: _passwordController,
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          hintLabel: AppLocalizations.of(context)!.kPasswordLabel),
-                      24.vGap,
-                      InputView(
-                          controller: _confirmPasswordController,
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          hintLabel:
-                              AppLocalizations.of(context)!.kConfirmPasswordLabel),
-
-                      10.vGap,
-
-                      30.vGap,
-
-                      ///ConfirmButton button
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: CommonButton(
-                          containerVPadding: 10,
-                          text: AppLocalizations.of(context)!.kSignUpLabel,
-                          fontSize: 18,
-                          isLoading: isLoading,
-                          onTap: () {
-                            _signUp();
-                          },
-                          bgColor: Colors.white,
-                          buttonTextColor: Colors.black,
+                    ///already have account
+                    RichText(
+                      text: new TextSpan(
+                        style: new TextStyle(
+                          fontSize: kTextRegular2x,
+                          color: Colors.grey,
                         ),
-                      ),
-
-                      140.vGap,
-
-                      ///already have account
-                      RichText(
-                        text: new TextSpan(
-                          style: new TextStyle(
-                            fontSize: kTextRegular2x,
-                            color: Colors.grey,
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: AppLocalizations.of(context)!
+                                  .kAlreadyHaveAccount,
+                          style: TextStyle(color: Colors.black)),
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.kSignInLabel,
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, color: primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                );
+                              },
                           ),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: AppLocalizations.of(context)!
-                                    .kAlreadyHaveAccount,
-                            style: TextStyle(color: Colors.black)),
-                            TextSpan(
-                              text: AppLocalizations.of(context)!.kSignInLabel,
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, color: primaryColor),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
-                                    ),
-                                  );
-                                },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

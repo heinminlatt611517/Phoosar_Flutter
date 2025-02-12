@@ -15,7 +15,6 @@ import 'package:phoosar/src/common/widgets/selectable_button.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/data/response/self_profile_response.dart';
-import 'package:phoosar/src/features/dashboard/widgets/unlock_coin_dialog.dart';
 import 'package:phoosar/src/features/user_profile/add_interests_screen.dart';
 import 'package:phoosar/src/features/user_profile/more_details_screen.dart';
 import 'package:phoosar/src/features/user_profile/widgets/self_information.dart';
@@ -27,13 +26,11 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
-import '../../common/widgets/common_button.dart';
 import '../../common/widgets/common_dialog.dart';
 import '../../common/widgets/drop_down_widget.dart';
 import '../../common/widgets/select_photo_options_widget.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
-import '../../utils/utils.dart';
 import '../dashboard/widgets/unlock_success_dailog.dart';
 import 'more_details_writing_prompt_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -102,7 +99,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   void _onFieldNameFocusLost() {
     if (nameController.text != _nameText) {
       var request = {"name": nameController.text};
-       callSaveProfile(request, context);
+       callSaveProfile(request, context).then((res) async{
+         ref.invalidate(profileDataProvider);
+         final profileRes = await ref
+             .watch(repositoryProvider)
+             .getProfile(jsonEncode({}), context);
+         var data = SelfProfileResponse.fromJson(
+             jsonDecode(profileRes.body));
+         ref.read(selfProfileProvider.notifier).state = data;
+       });
       _nameText = nameController.text;
     }
   }
@@ -261,9 +266,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   },
                   itemCount: data?.uploadPhotoData?.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // number of items in each row
-                    mainAxisSpacing: 8.0, // spacing between rows
-                    crossAxisSpacing: 8.0, // spacing between columns
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8.0,
+                    crossAxisSpacing: 8.0,
                   ),
                 ),
                 Divider(
