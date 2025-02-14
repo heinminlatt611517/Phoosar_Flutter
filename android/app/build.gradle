@@ -41,6 +41,15 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../phoosar-keystore.jks")
+            storePassword "com.moc.updatephoosar"
+            keyAlias "com.moc.updatephoosar"
+            keyPassword "com.moc.updatephoosar"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.moc.updatephoosar"
         minSdk = 21
@@ -51,9 +60,7 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
         }
     }
 }

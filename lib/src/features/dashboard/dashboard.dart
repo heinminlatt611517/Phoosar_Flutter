@@ -213,7 +213,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await _handleLike(profiles);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MatchScreen(
+                                      matchProfileData: null,
+                                    ),
+                                  ),
+                                );
+                                //await _handleLike(profiles);
                               },
                               child: Image.asset(
                                 'assets/images/ok.png',
@@ -398,7 +406,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       if (newSwipeCount == 5) {
         sharedPrefs.setInt("swipeCount", 0);
         final percentage = ref.watch(percentageProvider);
-        if (percentage.toString() != '100') {
+        if (int.parse(percentage.toString()) < 100) {
           showDialog(
             context: context,
             builder: (context) => FindStrongerMatchesDialog(),

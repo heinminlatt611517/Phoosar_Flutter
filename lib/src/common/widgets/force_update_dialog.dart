@@ -100,7 +100,7 @@ Future<void> _launchStore() async {
   String iOSAppId = 'com.moc.phoo-sar';
   url = Platform.isAndroid
       ? 'https://play.google.com/store/apps/details?id=$androidAppId'
-      : 'https://apps.apple.com/us/app/phoosar/id6480433838';
+      : 'https://apps.apple.com/us/app/phoosar/id6741458557';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
