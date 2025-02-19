@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/features/auth/choose_country_and_city_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -41,22 +42,14 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
     return Stack(
       children: [
         Image.asset(
-          'assets/images/bg_image_4.jpg',
+          'assets/images/choose_birthday_bg.png',
           height: double.infinity,
           width: double.infinity,
           fit: BoxFit.fill,
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 40,
-            ),
-          ),
+          appBar: CustomAppBarView(),
           body: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -70,7 +63,7 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                       Text(
                         AppLocalizations.of(context)!.kBirthdayLabel,
                         style:
-                            TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+                            TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                       ),
                       50.vGap,
                       SizedBox(
@@ -125,43 +118,43 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                     ],
                   ),
                 ),
-
-                ///continue button
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: CommonButton(
-                    containerVPadding: 10,
-                    text: AppLocalizations.of(context)!.kContinueLabel,
-                    fontSize: 18,
-                    onTap: () {
-                      if (selectedDay == "" ||
-                          selectedMonth == "" ||
-                          selectedYear == "") {
-                        context.showErrorSnackBar(
-                            message: AppLocalizations.of(context)!.kErrorMessage);
-                      } else {
-                        var selectedBirthDate =
-                            "${selectedDay.toString()}, $selectedMonth, ${selectedYear.toString()}";
-                        debugPrint(selectedBirthDate);
-                        ref
-                                .read(profileSaveRequestProvider.notifier)
-                                .state
-                                .birthdate =
-                            DateFormat('yyyy-MM-dd').format(
-                                DateFormat('d, MMMM, yyyy')
-                                    .parse(selectedBirthDate));
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChooseCountryAndCityScreen(),
-                          ),
-                        );
-                      }
-                    },
-                    bgColor: primaryColor,
-                  ),
-                ),
               ],
+            ),
+          ),
+          bottomNavigationBar: ///continue button
+          Padding(
+            padding: const EdgeInsets.all(60),
+            child: CommonButton(
+              containerVPadding: 10,
+              text: AppLocalizations.of(context)!.kContinueLabel,
+              fontSize: 18,
+              onTap: () {
+                if (selectedDay == "" ||
+                    selectedMonth == "" ||
+                    selectedYear == "") {
+                  context.showErrorSnackBar(
+                      message: AppLocalizations.of(context)!.kErrorMessage);
+                } else {
+                  var selectedBirthDate =
+                      "${selectedDay.toString()}, $selectedMonth, ${selectedYear.toString()}";
+                  debugPrint(selectedBirthDate);
+                  ref
+                      .read(profileSaveRequestProvider.notifier)
+                      .state
+                      .birthdate =
+                      DateFormat('yyyy-MM-dd').format(
+                          DateFormat('d, MMMM, yyyy')
+                              .parse(selectedBirthDate));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChooseCountryAndCityScreen(),
+                    ),
+                  );
+                }
+              },
+              bgColor: Colors.black,
+              buttonTextColor: Colors.white,
             ),
           ),
         ),

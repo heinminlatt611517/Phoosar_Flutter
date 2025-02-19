@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/common/widgets/language_dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/interests_screen.dart';
 import 'package:phoosar/src/features/auth/looking_for_connection_screen.dart';
@@ -50,167 +51,134 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
     return Stack(
       children: [
         Image.asset(
-          'assets/images/bg_image_4.jpg',
+          'assets/images/add_language_bg.png',
           height: double.infinity,
           width: double.infinity,
           fit: BoxFit.fill,
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 40,
-            ),
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(kMarginLarge),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.kISpeakLabel,
-                      style:
-                          TextStyle(color: Colors.grey, fontSize: kTextRegular24),
-                    ),
+          appBar: CustomAppBarView(),
+          body: Padding(
+            padding: const EdgeInsets.all(kMarginLarge),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
 
-                    50.vGap,
+                  100.vGap,
 
-                    ///Add language
-                    // TextFormField(
-                    //   controller: _languageController,
-                    //   decoration: InputDecoration(
-                    //     hintText: AppLocalizations.of(context)!.kAddLanguage,
-                    //     suffixIcon: UnconstrainedBox(
-                    //       child: InkWell(
-                    //           onTap: () {
-                    //             _addLanguage();
-                    //           },
-                    //           child: Container(
-                    //             height: 30,
-                    //             width: 30,
-                    //             decoration: BoxDecoration(
-                    //                 color: Colors.grey,
-                    //                 borderRadius: BorderRadius.circular(15)),
-                    //             child: Icon(
-                    //               Icons.add,
-                    //               color: Colors.white,
-                    //             ),
-                    //           )),
-                    //     ),
-                    //     border: OutlineInputBorder(),
-                    //   ),
-                    // ),
-                    Container(
-                      height: 60,
-                      width: double.infinity,
-                      child: LanguageDynamicDropDownWidget(
-                        hintText: AppLocalizations.of(context)!.kAddLanguage,
-                        items: dropdownItems,
-                        selectedList: _languages,
-                        onSelect: (value) {
-                          _addLanguage(value['name']);
-                        },
-                      ),
-                    ),
+                  Text(
+                    AppLocalizations.of(context)!.kISpeakLabel,
+                    style:
+                        TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+                  ),
 
-                    20.vGap,
-                    ///language list
-                    GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Two columns
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: (2 / .4),
-                      ),
-                      shrinkWrap: true,
-                      itemCount: _languages.length,
-                      itemBuilder: (context, index) {
-                        return Stack(
-                          children: [
-                            Container(
-                              margin: new EdgeInsets.symmetric(horizontal: 10.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  borderRadius:
-                                  BorderRadius.circular(kMarginLarge)),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(kMarginSmall),
-                                  child: Text(
-                                    _languages[index],
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              child: InkWell(
-                                onTap: () {
-                                  _removeLanguage(index);
-                                },
-                                child: Container(
-                                  height: 26,
-                                  width: 26,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(13),
-                                      color: Colors.cyanAccent),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.delete_outline,
-                                      color: Colors.white,
-                                      size: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              left: 2,
-                              top: 4,
-                            ),
-                          ],
-                        );
+                  50.vGap,
+
+                  Container(
+                    height: 60,
+                    width: double.infinity,
+                    child: LanguageDynamicDropDownWidget(
+                      hintText: AppLocalizations.of(context)!.kAddLanguage,
+                      items: dropdownItems,
+                      selectedList: _languages,
+                      onSelect: (value) {
+                        _addLanguage(value['name']);
                       },
                     ),
+                  ),
 
-                    100.vGap,
-
-                    ///continue button
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: CommonButton(
-                        containerVPadding: 10,
-                        text: AppLocalizations.of(context)!.kContinueLabel,
-                        fontSize: 18,
-                        onTap: () {
-                          if (_languages.isEmpty) {
-                            context.showErrorSnackBar(
-                                message:
-                                    AppLocalizations.of(context)!.kErrorMessage);
-                          } else {
-                            ref
-                                .read(profileSaveRequestProvider.notifier)
-                                .state
-                                .speakLanguages = _languages;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LookingForConnectionScreen(),
-                              ),
-                            );
-                          }
-                        },
-                        bgColor: primaryColor,
-                      ),
+                  20.vGap,
+                  ///language list
+                  GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Two columns
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: (2 / .4),
                     ),
-                  ],
-                ),
+                    shrinkWrap: true,
+                    itemCount: _languages.length,
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          Container(
+                            margin: new EdgeInsets.symmetric(horizontal: 10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.3),
+                                borderRadius:
+                                BorderRadius.circular(kMarginLarge)),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(kMarginSmall),
+                                child: Text(
+                                  _languages[index],
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            child: InkWell(
+                              onTap: () {
+                                _removeLanguage(index);
+                              },
+                              child: Container(
+                                height: 26,
+                                width: 26,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(13),
+                                    color: Colors.green),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            left: 2,
+                            top: 4,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+
+                ],
               ),
+            ),
+          ),
+          bottomNavigationBar: ///continue button
+          Padding(
+            padding: const EdgeInsets.all(60),
+            child: CommonButton(
+              containerVPadding: 10,
+              text: AppLocalizations.of(context)!.kContinueLabel,
+              fontSize: 18,
+              onTap: () {
+                if (_languages.isEmpty) {
+                  context.showErrorSnackBar(
+                      message:
+                      AppLocalizations.of(context)!.kErrorMessage);
+                } else {
+                  ref
+                      .read(profileSaveRequestProvider.notifier)
+                      .state
+                      .speakLanguages = _languages;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LookingForConnectionScreen(),
+                    ),
+                  );
+                }
+              },
+              bgColor: Colors.black,
+              buttonTextColor: Colors.white,
             ),
           ),
         ),

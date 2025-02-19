@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,5 +43,12 @@ extension DateTimeDaysRemaining on DateTime {
     } else {
       return 'Expired';
     }
+  }
+}
+
+extension HexColor on String {
+  Color toColor() {
+    String colorString = this.replaceAll('#', '0xFF');
+    return Color(int.parse(colorString));
   }
 }

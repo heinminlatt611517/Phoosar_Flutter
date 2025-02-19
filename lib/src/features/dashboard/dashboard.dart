@@ -188,46 +188,45 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       Visibility(
                         visible: !isProfileBuilder,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            ///rewind
                             CommonIconButton(
                               onTap: () async {
                                 await _handleRewind(profiles);
                               },
-                              backgroundColor: Colors.grey.withOpacity(0.1),
-                              icon: SvgPicture.asset(
-                                'assets/svgs/ic_backward.svg',
-                                width: 18,
-                                color: Colors.grey,
+                              backgroundColor: Colors.transparent,
+                              icon: Image.asset(
+                                'assets/images/rewind.png',
+                                width: 50,
                               ),
                             ),
+
+                            ///skip
                             CommonIconButton(
                               onTap: () async {
                                 await _handleSkip(profiles);
                               },
-                              icon: SvgPicture.asset(
-                                'assets/svgs/ic_delete.svg',
-                                color: Colors.red,
-                                width: 32,
+                              backgroundColor: Colors.transparent,
+                              icon: Image.asset(
+                                'assets/images/skip.png',
+                                width: 67,
                               ),
                             ),
-                            InkWell(
+
+                            ///ok
+                            CommonIconButton(
                               onTap: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MatchScreen(
-                                      matchProfileData: null,
-                                    ),
-                                  ),
-                                );
-                                //await _handleLike(profiles);
+                                await _handleLike(profiles);
                               },
-                              child: Image.asset(
+                              backgroundColor: Colors.transparent,
+                              icon: Image.asset(
                                 'assets/images/ok.png',
-                                width: 65,
+                                width: 67,
                               ),
                             ),
+
+                            ///info
                             CommonIconButton(
                               onTap: () {
                                 Navigator.push(
@@ -239,14 +238,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                   ),
                                 );
                               },
-                              backgroundColor: Colors.grey.withOpacity(0.1),
+                              backgroundColor: Colors.transparent,
                               icon: Padding(
                                 padding: const EdgeInsets.all(4.0),
-                                child: SvgPicture.asset(
-                                  'assets/svgs/ic_information.svg',
-                                  width: 18,
-                                  height: 18,
-                                  color: Colors.grey,
+                                child: Image.asset(
+                                  'assets/images/info.png',
+                                  width: 50,
                                 ),
                               ),
                             ),

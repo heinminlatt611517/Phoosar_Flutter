@@ -38,7 +38,7 @@ class _DropDownWidgetState extends ConsumerState<DynamicDropDownWidget> {
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.grey, width: 0.5)),
+              borderSide: BorderSide(color: Colors.black, width: 1)),
           filled: true,
           fillColor: Colors.white,
           contentPadding:

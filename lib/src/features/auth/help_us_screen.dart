@@ -35,9 +35,10 @@ class _HelpUsScreenState extends ConsumerState<HelpUsScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
+            toolbarHeight: 100,
             title: Image.asset(
               'assets/images/phoosar_img.png',
-              height: 40,
+              height: 70,
             ),
           ),
           body: Center(

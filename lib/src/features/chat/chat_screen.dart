@@ -35,17 +35,6 @@ class _ChatState extends ConsumerState<ChatScreen> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
         ),
         actions: [
-          // TextButton(
-          //   onPressed: () async {
-          //     await supabase.auth.signOut();
-          //
-          //     Navigator.of(context).pushAndRemoveUntil(
-          //       MaterialPageRoute(builder: (context) => RegisterScreen()),
-          //       (route) => false,
-          //     );
-          //   },
-          //   child: const Text('Logout'),
-          // ),
         ],
       ),
       body: Column(
@@ -70,39 +59,8 @@ class _ChatState extends ConsumerState<ChatScreen> {
             },
           ),
 
-          ///messages list item view
-          // Visibility(
-          //   visible: isMatched || isLikedYou ? false : true,
-          //   child: Expanded(
-          //     child: ListView.builder(
-          //       shrinkWrap: true,
-          //       itemBuilder: (context, index) {
-          //         return MessageListItemView();
-          //       },
-          //       itemCount: 8,
-          //     ),
-          //   ),
-          // ),
 
-          //new matches view
-          // Visibility(
-          //   visible: selectedIndex == 0,
-          //   child: Expanded(
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(kMarginMedium2),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           ///new match horizontal list
-
-          //           Expanded(child: RoomsScreen())
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          //Matches View
+          ///Matches View
           Visibility(
             visible: selectedIndex == 0,
             child: MatchesView(),

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/features/auth/interests_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -35,23 +36,9 @@ class _ChooseGenderScreenState
     final matchTypes = ref.watch(matchTypeDataProvider(context));
     return Stack(
       children: [
-        Image.asset(
-          'assets/images/bg_image_4.jpg',
-          height: double.infinity,
-          width: double.infinity,
-          fit: BoxFit.fill,
-        ),
         Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              centerTitle: true,
-              automaticallyImplyLeading: true,
-              backgroundColor: Colors.transparent,
-              title: Image.asset(
-                'assets/images/phoosar_img.png',
-                height: 40,
-              ),
-            ),
+            backgroundColor: whitePaleColor,
+            appBar: CustomAppBarView(),
             body: matchTypes.when(
               data: (data) {
                 if (data == null || data.isEmpty) {
@@ -73,7 +60,7 @@ class _ChooseGenderScreenState
                           AppLocalizations.of(context)!.theConnectionLookingFor,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.grey, fontSize: kTextRegular24),
+                              color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                         ),
 
                         50.vGap,
@@ -86,6 +73,7 @@ class _ChooseGenderScreenState
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: SelectableButton(
+                                  initialBgColor: data[index].backgroundColor,
                                   label: data[index].label ?? "",
                                   isSelected: selectedText == data[index].label,
                                   onTapButton: (value) {
@@ -98,33 +86,6 @@ class _ChooseGenderScreenState
                               );
                             }),
 
-                        100.vGap,
-
-                        ///continue button
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: CommonButton(
-                            containerVPadding: 10,
-                            text: AppLocalizations.of(context)!.kContinueLabel,
-                            fontSize: 18,
-                            onTap: () {
-                              if (selectedText == "") {
-                                context.showErrorSnackBar(
-                                    message: AppLocalizations.of(context)!
-                                        .kErrorMessage);
-                              } else {
-                                ref.read(profileSaveRequestProvider.notifier).state.matchType = selectedValue;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => InterestsScreen(),
-                                  ),
-                                );
-                              }
-                            },
-                            bgColor: primaryColor,
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -141,7 +102,34 @@ class _ChooseGenderScreenState
                   color: primaryColor,
                 ),
               ),
-            )),
+            ),
+          bottomNavigationBar: ///continue button
+          Padding(
+            padding: const EdgeInsets.all(60),
+            child: CommonButton(
+              containerVPadding: 10,
+              text: AppLocalizations.of(context)!.kContinueLabel,
+              fontSize: 18,
+              onTap: () {
+                if (selectedText == "") {
+                  context.showErrorSnackBar(
+                      message: AppLocalizations.of(context)!
+                          .kErrorMessage);
+                } else {
+                  ref.read(profileSaveRequestProvider.notifier).state.matchType = selectedValue;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InterestsScreen(),
+                    ),
+                  );
+                }
+              },
+              bgColor: Colors.black,
+              buttonTextColor: Colors.white,
+            ),
+          ),
+        ),
       ],
     );
   }

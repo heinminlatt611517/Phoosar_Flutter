@@ -125,6 +125,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
 
                     Text(
                       AppLocalizations.of(context)!.kMakeItMemorable,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
                     ),
 

@@ -60,11 +60,11 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.grey, width: 0.5)),
+              borderSide: BorderSide(color: Colors.black, width: 1)),
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-              EdgeInsets.symmetric(vertical: 20, horizontal: kMarginLarge),
+              EdgeInsets.symmetric(vertical: 10, horizontal: kMarginLarge),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
           ),

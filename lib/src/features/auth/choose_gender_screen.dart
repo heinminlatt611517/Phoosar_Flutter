@@ -34,9 +34,10 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
+            toolbarHeight: 100,
             title: Image.asset(
               'assets/images/phoosar_img.png',
-              height: 40,
+              height: 70,
             ),
           ),
           body: Center(
@@ -46,7 +47,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
               children: [
                 Text(
                   AppLocalizations.of(context)!.kIamLabel,
-                  style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+                  style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                 ),
 
                 50.vGap,
@@ -85,7 +86,8 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
                         );
                       }
                     },
-                    bgColor:selectedGender == "" ? Colors.grey : primaryColor,
+                    buttonTextColor: Colors.white,
+                    bgColor: Colors.black,
                   ),
                 ),
               ],
@@ -109,8 +111,21 @@ class ChooseGenderCircleContainer extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        ///female
+        GenderCircleContainerView(
+            height: 160,
+            width: 160,
+            isMale: false,
+            isSelected: selectedGender == "Female",
+            borderColor: Colors.lightBlueAccent,
+            onTapButton: () {
+              onTap("Female");
+            }),
+
         ///male
         GenderCircleContainerView(
+          height: 135,
+          width: 135,
           isMale: true,
           isSelected: selectedGender == "Male",
           onTapButton: () {
@@ -118,17 +133,6 @@ class ChooseGenderCircleContainer extends StatelessWidget {
           },
           borderColor: primaryColor,
         ),
-
-        20.hGap,
-
-        ///female
-        GenderCircleContainerView(
-            isMale: false,
-            isSelected: selectedGender == "Female",
-            borderColor: Colors.lightBlueAccent,
-            onTapButton: () {
-              onTap("Female");
-            })
       ],
     );
   }
@@ -140,13 +144,17 @@ class GenderCircleContainerView extends StatelessWidget {
   final Function onTapButton;
   final Color borderColor;
   final bool isMale;
+  final double width;
+  final double height;
 
   const GenderCircleContainerView(
       {super.key,
       required this.isMale,
       required this.isSelected,
       required this.onTapButton,
-      required this.borderColor});
+      required this.borderColor,
+      required this.width,
+      required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +163,8 @@ class GenderCircleContainerView extends StatelessWidget {
         onTapButton();
       },
       child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50)),
+        height: height,
+        width: width,
         child: isMale
             ? isSelected ? Image.asset('assets/images/male.png',) : Image.asset('assets/images/male_dim.png',)
             : isSelected ? Image.asset('assets/images/female.png',) :Image.asset('assets/images/female_dim.png'),

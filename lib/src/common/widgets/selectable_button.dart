@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/extensions.dart';
 
 import '../../utils/dimens.dart';
 
@@ -8,12 +9,17 @@ class SelectableButton extends StatelessWidget {
   final bool isSelected;
   final Function(String) onTapButton;
   final Color? bgColor;
+  final String? initialBgColor;
+  final String? labelColor;
+
   const SelectableButton(
       {super.key,
       required this.label,
-        this.bgColor,
+      this.bgColor,
       required this.isSelected,
-      required this.onTapButton});
+      required this.onTapButton,
+      this.initialBgColor,
+      this.labelColor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +30,21 @@ class SelectableButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
         decoration: BoxDecoration(
-            color:
-                isSelected ? bgColor ?? primaryColor : Colors.grey.withOpacity(0.4),
+            border: Border.all(
+                color: isSelected ? primaryColor : Colors.black, width: 1),
+            color: isSelected
+                ? bgColor ?? Colors.black
+                : initialBgColor?.toColor(),
             borderRadius: BorderRadius.circular(kMarginMedium)),
         child: Center(
           child: Text(
             label,
-            style: TextStyle(color: isSelected ? Colors.white : Colors.black),
+            style: TextStyle(
+                color: isSelected
+                    ? Colors.white
+                    : labelColor == null
+                        ? Colors.black
+                        : labelColor?.toColor()),
           ),
         ),
       ),

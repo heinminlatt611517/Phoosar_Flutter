@@ -14,6 +14,7 @@ import 'package:phoosar/src/data/response/config_response.dart';
 import 'package:phoosar/src/data/response/country_list_response.dart';
 import 'package:phoosar/src/data/response/find_list_response.dart';
 import 'package:phoosar/src/data/response/find_response.dart';
+import 'package:phoosar/src/data/response/interest_v2_response.dart';
 import 'package:phoosar/src/data/response/interests_response.dart';
 import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
@@ -283,11 +284,11 @@ FutureProvider.family<BackgroundVideoData?, BuildContext>((ref, context) async {
 });
 
 final interestsDataProvider =
-FutureProvider.family<List<InterestData>?, BuildContext>((ref, context) async {
+FutureProvider.family<List<String>?, BuildContext>((ref, context) async {
   final repository = ref.watch(repositoryProvider);
   final response = await repository.getInterests(context);
   if (response.statusCode == 200) {
-    return InterestsResponse.fromJson(jsonDecode(response.body)).data;
+    return InterestV2Response.fromJson(jsonDecode(response.body)).data;
   } else {
     throw Exception('Failed to load interests data');
   }

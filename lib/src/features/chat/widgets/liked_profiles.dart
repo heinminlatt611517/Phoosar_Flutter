@@ -47,21 +47,6 @@ class LikedProfilesView extends ConsumerWidget {
               },
             ),
 
-            // 80.vGap,
-            // Text(
-            //   "Want to see who else liked\nyour profile?",
-            //   textAlign: TextAlign.center,
-            //   style: TextStyle(fontSize: kTextRegular22, color: Colors.grey),
-            // ),
-            // 20.vGap,
-            // CommonButton(
-            //   text: "CONTINUE",
-            //   onTap: () {
-            //     showDialog(
-            //         context: context,
-            //         builder: (context) => GetMoreLikesDialog());
-            //   },
-            // ),
           ],
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/common/widgets/select_photo_options_widget.dart';
 import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -32,105 +33,83 @@ class _UploadProfileImageScreenState
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset(
-          'assets/images/bg_image_4.jpg',
-          height: double.infinity,
-          width: double.infinity,
-          fit: BoxFit.fill,
+    return Scaffold(
+      backgroundColor: whitePaleColor,
+      appBar: CustomAppBarView(),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.kUploadYourProfileImage,
+              style:
+                  TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+            ),
+
+            30.vGap,
+
+            ///choose image view
+            ChooseImageView(
+              base64ImageString: (value) {
+                setState(() {
+                  base64ImageString = value;
+                });
+              },
+            ),
+          ],
         ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 40,
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(kMarginLarge),
-            child: SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.kUploadYourProfileImage,
-                      style:
-                          TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+      ),
+      bottomNavigationBar:  ///continue button
+      Padding(
+        padding: const EdgeInsets.all(60),
+        child: Container(
+          height: 48,
+          child: CommonButton(
+            containerVPadding: 10,
+            isLoading: _isLoading,
+            text: AppLocalizations.of(context)!.kContinueLabel,
+            fontSize: 18,
+            onTap: () async {
+              ref.read(profileSaveRequestProvider).profileImages = [
+                base64ImageString
+              ];
+              if (base64ImageString == "") {
+                context.showErrorSnackBar(
+                    message:
+                    AppLocalizations.of(context)!.kErrorMessage);
+              } else {
+                var request = ref.read(profileSaveRequestProvider);
+                debugPrint(
+                    "UserBirthday:::${ref.read(profileSaveRequestProvider.notifier).state.profileImages?.length}");
+                setState(() {
+                  _isLoading = true;
+                });
+                var response = await ref
+                    .read(repositoryProvider)
+                    .saveProfile(request, context);
+                if (response.statusCode.toString().startsWith('2')) {
+                  ref
+                      .watch(sharedPrefProvider)
+                      .setString(kRecentOnboardingKey, kQuestionStatus);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HelpUsScreen(),
                     ),
-
-                    20.vGap,
-
-                    ///choose image view
-                    ChooseImageView(
-                      base64ImageString: (value) {
-                        setState(() {
-                          base64ImageString = value;
-                        });
-                      },
-                    ),
-
-                    60.vGap,
-
-                    ///continue button
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: CommonButton(
-                        containerVPadding: 10,
-                        isLoading: _isLoading,
-                        text: AppLocalizations.of(context)!.kContinueLabel,
-                        fontSize: 18,
-                        onTap: () async {
-                          ref.read(profileSaveRequestProvider).profileImages = [
-                            base64ImageString
-                          ];
-                          if (base64ImageString == "") {
-                            context.showErrorSnackBar(
-                                message:
-                                    AppLocalizations.of(context)!.kErrorMessage);
-                          } else {
-                            var request = ref.read(profileSaveRequestProvider);
-                            debugPrint(
-                                "UserBirthday:::${ref.read(profileSaveRequestProvider.notifier).state.profileImages?.length}");
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            var response = await ref
-                                .read(repositoryProvider)
-                                .saveProfile(request, context);
-                            if (response.statusCode.toString().startsWith('2')) {
-                              ref
-                                  .watch(sharedPrefProvider)
-                                  .setString(kRecentOnboardingKey, kQuestionStatus);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HelpUsScreen(),
-                                ),
-                              );
-                            } else {
-                              setState(() {
-                                _isLoading = false;
-                              });
-                            }
-                          }
-                        },
-                        bgColor: primaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  );
+                } else {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                }
+              }
+            },
+            bgColor: Colors.black,
+            buttonTextColor: Colors.white,
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -190,17 +169,10 @@ class _ChooseImageViewState extends ConsumerState<ChooseImageView> {
                         fit: BoxFit.cover,
                       ),
                   )
-                  // : Image.asset(
-                  //     ref.read(profileSaveRequestProvider.notifier)
-                  //         .state
-                  //         .gender == "2" ? 'assets/images/female.png' :
-                  //     'assets/images/upload_profile_img.png',
-                  //     height: 240,
-                  //     width: 240,
-                  //   ),
               : Container(height: 240,
                 width: 240,decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: Colors.transparent,
+                    border: Border.all(color: Color(0xFFccbeb6),width: 2),
                     shape: BoxShape.circle),
               child: Center(child: Icon(Icons.camera_alt_outlined,color: Colors.grey,
               size: 70,),),)
@@ -259,7 +231,7 @@ class _ChooseImageViewState extends ConsumerState<ChooseImageView> {
                   }),
             );
           },
-          bgColor: Colors.grey.withOpacity(0.5),
+          bgColor: Color(0xFFccbeb6),
         ),
       ],
     );

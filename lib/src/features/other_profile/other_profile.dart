@@ -135,7 +135,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
       insetPadding:const EdgeInsets.all(10),
       surfaceTintColor: Colors.white,
       child: Container(
-        padding:const EdgeInsets.all(20),
+        padding:const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12)),
@@ -165,10 +165,11 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
               child: Row(children: [
                 Expanded(child: CommonButton(
                     bgColor: Colors.red,
+                    fontSize: 14,
                     onTap: () {
                       Navigator.of(context).pop();
                     }, text: AppLocalizations.of(context)!.kCancel,)),
-                20.hGap,
+                10.hGap,
                 Expanded(child: CommonButton(
                   bgColor: Colors.green,
                   onTap: () async{
@@ -189,7 +190,9 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
                     }
                   }, text: AppLocalizations.of(context)!.kOk,)),
               ],),
-            )
+            ),
+
+            10.vGap
           ],),
       ),
     );

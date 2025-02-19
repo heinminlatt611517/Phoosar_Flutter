@@ -432,7 +432,7 @@ class Repository {
 
   Future<Response> getInterests(BuildContext context) async {
     var response = await Session.get(
-      Uri.parse("${Env.baseurl}/interests"),
+      Uri.parse("${Env.baseurl}/interests-v2"),
       context,
       ref,
     );

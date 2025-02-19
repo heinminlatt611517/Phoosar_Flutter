@@ -63,13 +63,17 @@ class Answers {
   int? id;
   int? questionId;
   String? answer;
+  String? backgroundColor;
+  String? textColor;
 
-  Answers({this.id, this.questionId, this.answer});
+  Answers({this.id, this.questionId, this.answer,this.backgroundColor,this.textColor});
 
   Answers.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     questionId = json['question_id'];
     answer = json['answer'];
+    backgroundColor = json['background_color'];
+    textColor = json['text_color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -77,6 +81,8 @@ class Answers {
     data['id'] = this.id;
     data['question_id'] = this.questionId;
     data['answer'] = this.answer;
+    data['background_color'] = this.backgroundColor;
+    data['text_color'] = this.textColor;
     return data;
   }
 }

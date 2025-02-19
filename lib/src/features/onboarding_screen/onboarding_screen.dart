@@ -55,9 +55,10 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
               centerTitle: true,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
+              toolbarHeight: 100,
               title: Image.asset(
                 'assets/images/phoosar_img.png',
-                height: 40,
+                height: 70,
               ),
             ),
             body: questionList.when(
@@ -65,7 +66,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                 if (indicatorColors.length != data.length) {
                   indicatorColors = List.generate(
                     data.length,
-                    (_) => Colors.grey.withOpacity(0.4),
+                    (_) => Colors.black,
                   );
                   indicatorColors.first = primaryColor;
                 }
@@ -208,7 +209,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
       indicatorColors = List.generate(
         indicatorColors.length,
         (index) =>
-            index <= _currentPage ? primaryColor : Colors.grey.withOpacity(0.4),
+            index <= _currentPage ? primaryColor : Colors.black,
       );
     });
   }
@@ -271,6 +272,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
+                backgroundColor: Colors.red,
                   content: Text(index == 0
                       ? 'Please enter description before continuing'
                       : 'Please make a selection before continuing.')),
@@ -340,7 +342,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                   widget.data.question ?? "",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   ),
@@ -385,8 +387,8 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: BorderSide(
-                                      color: Colors.grey,
-                                      width: 0.5,
+                                      color: Colors.black,
+                                      width: 1,
                                     ),
                                   ),
                                 ),
@@ -422,6 +424,8 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: SelectableButton(
+                              initialBgColor: widget.data.answers?[index].backgroundColor ?? "",
+                              labelColor: widget.data.answers?[index].textColor ?? "",
                               label: widget.data.answers?[index].answer ?? "",
                               isSelected: selectedText ==
                                   widget.data.answers?[index].answer,

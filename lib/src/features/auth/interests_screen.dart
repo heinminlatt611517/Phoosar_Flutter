@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
+import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -37,23 +38,9 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
 
     return Stack(
       children: [
-        Image.asset(
-          'assets/images/bg_image_4.jpg',
-          height: double.infinity,
-          width: double.infinity,
-          fit: BoxFit.fill,
-        ),
         Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 40,
-            ),
-          ),
+          backgroundColor: whitePaleColor,
+          appBar: CustomAppBarView(),
           body: interestsDataState.when(
             data: (data) {
               if (data == null || data.isEmpty) {
@@ -66,107 +53,50 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
               }
               return Padding(
                 padding: const EdgeInsets.all(kMarginLarge),
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.kInterests,
-                          style: TextStyle(
-                              color: Colors.grey, fontSize: kTextRegular24),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.kPickOneToSix,
-                          style: TextStyle(color: Colors.grey, fontSize: kTextSmall),
-                        ),
-                        20.vGap,
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: data.length,
-                          itemBuilder: (context, sectionIndex) {
-                            final section = data[sectionIndex];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    section.title ?? "",
-                                    style: TextStyle(
-                                        fontSize: kTextRegular2x,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                    childAspectRatio: 1 / 0.3,
-                                  ),
-                                  itemCount: section.items?.length ?? 0,
-                                  itemBuilder: (context, itemIndex) {
-                                    final item = section.items?[itemIndex];
-                                    return GestureDetector(
-                                      onTap: () => toggleSelection(item ?? ""),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(18),
-                                          color: selectedItems.contains(item)
-                                              ? Colors.cyan
-                                              : Colors.grey.withOpacity(0.2),
-                                        ),
-                                        child: Center(child: Text(item ?? "")),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                10.vGap,
-                              ],
-                            );
-                          },
-                        ),
-                        50.vGap,
-                      ],
-                    ),
-
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: CommonButton(
-                            containerVPadding: 10,
-                            text: AppLocalizations.of(context)!.kContinueLabel,
-                            fontSize: 18,
-                            onTap: () {
-                              if (selectedItems.isEmpty) {
-                                context.showErrorSnackBar(
-                                  message: AppLocalizations.of(context)!.kErrorMessage,
-                                );
-                              } else {
-                                debugPrint("SelectedData:::${selectedItems.toList()}");
-                                ref.read(profileSaveRequestProvider.notifier).state.interests = selectedItems.toList();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        UploadProfileImageScreen(),
-                                  ),
-                                );
-                              }
-                            },
-                            bgColor: primaryColor,
-                          ),
-                        ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      20.vGap,
+                      Text(
+                        AppLocalizations.of(context)!.kInterests,
+                        style: TextStyle(
+                            color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Text(
+                        AppLocalizations.of(context)!.kPickOneToSix,
+                        style: TextStyle(color: Colors.grey, fontSize: kTextSmall),
+                      ),
+                      30.vGap,
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 1 / 0.3,
+                        ),
+                        itemCount: data.length,
+                        itemBuilder: (context, itemIndex) {
+                          final item = data[itemIndex];
+                          return GestureDetector(
+                            onTap: () => toggleSelection(item ?? ""),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                color: selectedItems.contains(item)
+                                    ? primaryColor
+                                    : Colors.white,
+                                border: Border.all(color: Colors.black,width: 1)
+                              ),
+                              child: Center(child: Text(item,maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -180,6 +110,33 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
               child: SpinKitThreeBounce(
                 color: primaryColor,
               ),
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 60),
+            child: CommonButton(
+              containerVPadding: 10,
+              text: AppLocalizations.of(context)!.kContinueLabel,
+              fontSize: 18,
+              onTap: () {
+                if (selectedItems.isEmpty) {
+                  context.showErrorSnackBar(
+                    message: AppLocalizations.of(context)!.kErrorMessage,
+                  );
+                } else {
+                  debugPrint("SelectedData:::${selectedItems.toList()}");
+                  ref.read(profileSaveRequestProvider.notifier).state.interests = selectedItems.toList();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          UploadProfileImageScreen(),
+                    ),
+                  );
+                }
+              },
+              bgColor: Colors.black,
+              buttonTextColor: Colors.white,
             ),
           ),
         ),

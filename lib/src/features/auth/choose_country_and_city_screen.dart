@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/common/widgets/dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/add_speak_language_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
@@ -26,23 +27,9 @@ class _ChooseCountryAndCityScreenState
     var countryList = ref.watch(countryListProvider(context));
     return Stack(
       children: [
-        Image.asset(
-          'assets/images/bg_image_4.jpg',
-          height: double.infinity,
-          width: double.infinity,
-          fit: BoxFit.fill,
-        ),
         Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 40,
-            ),
-          ),
+          backgroundColor: whitePaleColor,
+          appBar: CustomAppBarView(),
           body: SingleChildScrollView(
             child: Center(
               child: Padding(
@@ -64,26 +51,6 @@ class _ChooseCountryAndCityScreenState
                           countryList: countryList,
                         ),
 
-                        60.vGap,
-
-                        ///continue button
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: CommonButton(
-                            containerVPadding: 10,
-                            text: AppLocalizations.of(context)!.kContinueLabel,
-                            fontSize: 18,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddSpeakLanguageScreen(),
-                                ),
-                              );
-                            },
-                            bgColor: primaryColor,
-                          ),
-                        ),
                       ],
                     );
                   }, error: (error, stack) {
@@ -95,6 +62,25 @@ class _ChooseCountryAndCityScreenState
                       ),
                     );
                   })),
+            ),
+          ),
+          bottomNavigationBar:  ///continue button
+          Padding(
+            padding: const EdgeInsets.all(60),
+            child: CommonButton(
+              containerVPadding: 10,
+              text: AppLocalizations.of(context)!.kContinueLabel,
+              fontSize: 18,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddSpeakLanguageScreen(),
+                  ),
+                );
+              },
+              bgColor: Colors.black,
+              buttonTextColor: Colors.white,
             ),
           ),
         ),
@@ -133,7 +119,7 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kCurrentLocateIn,
-          style: TextStyle(color: Colors.grey, fontSize: kTextRegular24),
+          style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
         ),
         20.vGap,
         DynamicDropDownWidget(
@@ -198,7 +184,7 @@ class _MatchCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kWantMyMatch,
-          style: TextStyle(height: 1.8,color: Colors.grey, fontSize: kTextRegular24,),
+          style: TextStyle(height: 1.8,color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
         ),
         20.vGap,
         DynamicDropDownWidget(
