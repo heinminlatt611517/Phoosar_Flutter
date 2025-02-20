@@ -20,125 +20,128 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
   var selectedGender = "";
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset(
-          'assets/images/bg_image_4.jpg',
-          height: double.infinity,
-          width: double.infinity,
-          fit: BoxFit.fill,
+    return Scaffold(
+      backgroundColor: whitePaleColor,
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 100,
+        title: Image.asset(
+          'assets/images/phoosar_img.png',
+          height: 70,
         ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            toolbarHeight: 100,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 70,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.kIamLabel,
+              style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
             ),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.kIamLabel,
-                  style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
-                ),
 
-                50.vGap,
+            50.vGap,
 
-                ///choose gender view
-                ChooseGenderCircleContainer(
-                  selectedGender: selectedGender,
-                  onTap: (value) {
-                    setState(() {
-                      selectedGender = value;
-                    });
-                    ref.read(profileSaveRequestProvider.notifier).state.gender =
-                        value == "Male" ? "1" : "2";
-                  },
-                ),
-
-                80.vGap,
-
-                ///continue button
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: CommonButton(
-                    containerVPadding: 10,
-                    text: AppLocalizations.of(context)!.kContinueLabel,
-                    fontSize: 18,
-                    onTap: () {
-                      if (selectedGender == "") {
-                        context.showErrorSnackBar(
-                            message: AppLocalizations.of(context)!.kErrorMessage);
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectBirthdayScreen(),
-                          ),
-                        );
-                      }
-                    },
-                    buttonTextColor: Colors.white,
-                    bgColor: Colors.black,
-                  ),
-                ),
-              ],
+            ///choose gender view
+            ChooseGenderCircleContainer(
+              selectedGender: selectedGender,
+              onTap: (value) {
+                setState(() {
+                  selectedGender = value;
+                });
+                ref.read(profileSaveRequestProvider.notifier).state.gender =
+                    value == "Male" ? "1" : "2";
+              },
             ),
-          ),
+          ],
         ),
-      ],
+      ),
+      bottomNavigationBar: ///continue button
+      Padding(
+        padding: const EdgeInsets.all(60),
+        child: CommonButton(
+          containerVPadding: 10,
+          text: AppLocalizations.of(context)!.kContinueLabel,
+          fontSize: 18,
+          onTap: () {
+            if (selectedGender == "") {
+              context.showErrorSnackBar(
+                  message: AppLocalizations.of(context)!.kErrorMessage);
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SelectBirthdayScreen(),
+                ),
+              );
+            }
+          },
+          buttonTextColor: Colors.white,
+          bgColor: Colors.black,
+        ),
+      ),
     );
   }
 }
 
-///choose gender circle container
 class ChooseGenderCircleContainer extends StatelessWidget {
   final String selectedGender;
   final Function(String) onTap;
-  const ChooseGenderCircleContainer(
-      {super.key, required this.selectedGender, required this.onTap});
+
+  const ChooseGenderCircleContainer({
+    super.key,
+    required this.selectedGender,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        ///female
-        GenderCircleContainerView(
-            height: 160,
-            width: 160,
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 2.8),
+            child: GenderCircleContainerView(
+              selectedGender: selectedGender,
+              height: 175,
+              width: 175,
+              isMale: true,
+              isSelected: selectedGender == "Male",
+              onTapButton: () {
+                onTap("Male");
+              },
+              borderColor: primaryColor,
+              imageAsset: 'assets/images/male.png',
+              dimImageAsset: 'assets/images/male_dim.png',
+            ),
+          ),
+        ),
+        Positioned(
+          right: MediaQuery.of(context).size.width / 2.6,
+          top: -2,
+          child: GenderCircleContainerView(
+            selectedGender: selectedGender,
+            height: 200,
+            width: 200,
             isMale: false,
             isSelected: selectedGender == "Female",
-            borderColor: Colors.lightBlueAccent,
             onTapButton: () {
               onTap("Female");
-            }),
-
-        ///male
-        GenderCircleContainerView(
-          height: 135,
-          width: 135,
-          isMale: true,
-          isSelected: selectedGender == "Male",
-          onTapButton: () {
-            onTap("Male");
-          },
-          borderColor: primaryColor,
+            },
+            borderColor: Colors.lightBlueAccent,
+            imageAsset: 'assets/images/female.png',
+            dimImageAsset: 'assets/images/female_dim.png',
+          ),
         ),
       ],
     );
   }
 }
 
-///gender circle container view
 class GenderCircleContainerView extends StatelessWidget {
   final bool isSelected;
   final Function onTapButton;
@@ -146,15 +149,23 @@ class GenderCircleContainerView extends StatelessWidget {
   final bool isMale;
   final double width;
   final double height;
+  final String imageAsset;
+  final String dimImageAsset;
+  final String selectedGender;
 
-  const GenderCircleContainerView(
-      {super.key,
-      required this.isMale,
-      required this.isSelected,
-      required this.onTapButton,
-      required this.borderColor,
-      required this.width,
-      required this.height});
+
+  const GenderCircleContainerView({
+    super.key,
+    required this.isMale,
+    required this.isSelected,
+    required this.onTapButton,
+    required this.borderColor,
+    required this.width,
+    required this.height,
+    required this.imageAsset,
+    required this.dimImageAsset,
+    required this.selectedGender
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -165,10 +176,11 @@ class GenderCircleContainerView extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
-        child: isMale
-            ? isSelected ? Image.asset('assets/images/male.png',) : Image.asset('assets/images/male_dim.png',)
-            : isSelected ? Image.asset('assets/images/female.png',) :Image.asset('assets/images/female_dim.png'),
+        child:selectedGender == '' ? Image.asset(imageAsset) : isSelected
+            ? Image.asset(imageAsset)
+            : Image.asset(dimImageAsset),
       ),
     );
   }
 }
+

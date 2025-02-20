@@ -303,13 +303,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     var response = await ref.read(repositoryProvider).login(
           jsonEncode({
-            //"type": selectedText == "Email" ? "email" : "phone",
             "type": "phone",
             "value":
             e164PhoneNo,
-            // "value":
-            //     selectedText == "Email" ? emailController.text : e164PhoneNo,
-            //: "${countryCode}${phoneNumberController.text}",
             "password": "${passwordController.text}",
           }),
           context,
@@ -332,14 +328,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         recentOnboardingStatus = authResponse.recentOnBoarding ?? '';
       });
 
-      //Supabase Login
+      ///Supabase Login
       try {
-        // await supabase.auth.signInWithPassword(
-        //   email: selectedText == "Email"
-        //       ? emailController.text.toString()
-        //       : ('user' + e164PhoneNo + '@gmail.com'),
-        //   password: passwordController.text,
-        // );
         await supabase.auth.signInWithPassword(
           email: ('user' + e164PhoneNo + '@gmail.com'),
           password: passwordController.text,

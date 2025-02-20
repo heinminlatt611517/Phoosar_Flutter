@@ -30,12 +30,12 @@ class _ChooseCountryAndCityScreenState
         Scaffold(
           backgroundColor: whitePaleColor,
           appBar: CustomAppBarView(),
-          body: SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                  padding: const EdgeInsets.all(kMarginLarge),
-                  child: countryList.when(data: (countryList) {
-                    return Column(
+          body: Center(
+            child: Padding(
+                padding: const EdgeInsets.all(kMarginLarge),
+                child: countryList.when(data: (countryList) {
+                  return SingleChildScrollView(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -52,17 +52,17 @@ class _ChooseCountryAndCityScreenState
                         ),
 
                       ],
-                    );
-                  }, error: (error, stack) {
-                    return Container();
-                  }, loading: () {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                      ),
-                    );
-                  })),
-            ),
+                    ),
+                  );
+                }, error: (error, stack) {
+                  return Container();
+                }, loading: () {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                    ),
+                  );
+                })),
           ),
           bottomNavigationBar:  ///continue button
           Padding(
