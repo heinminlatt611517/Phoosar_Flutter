@@ -107,9 +107,10 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                           Container(
                             margin: new EdgeInsets.symmetric(horizontal: 10.0),
                             decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.3),
+                                color: Colors.white,
                                 borderRadius:
-                                BorderRadius.circular(kMarginLarge)),
+                                BorderRadius.circular(kMarginLarge),
+                            border: Border.all(color: Colors.black,width: 1)),
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(kMarginSmall),
