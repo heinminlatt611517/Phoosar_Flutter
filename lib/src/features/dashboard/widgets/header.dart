@@ -40,7 +40,7 @@ class DashboardHeader extends ConsumerWidget {
               child: Row(
                 children: [
                   Image.asset(
-                    'assets/images/coin.png',
+                    'assets/images/update_coin.png',
                     height: 16,
                     fit: BoxFit.cover,
                   ),
@@ -53,7 +53,8 @@ class DashboardHeader extends ConsumerWidget {
                       textAlign: TextAlign.end,
                       style: GoogleFonts.roboto(
                         fontSize: smallFontSize,
-                        color: blueColor,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),

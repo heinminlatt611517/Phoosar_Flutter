@@ -21,7 +21,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
         body: body,
         endDrawerEnableOpenDragGesture: false,
         bottomNavigationBar: Container(
-          color: Colors.white,
+          color: Colors.black,
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             children: [
@@ -35,7 +35,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     'assets/images/home_icon.png',
                     width: 22,
                     height: 22,
-                    color: selectedIndex == 0 ? primaryColor : blackColor,
+                    color: selectedIndex == 0 ? Colors.cyan : Colors.white,
                   ),
                 ),
               ),
@@ -54,7 +54,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     'assets/svgs/ic_chat.svg',
                     width: 22,
                     height: 22,
-                    color: selectedIndex == 1 ? primaryColor : blackColor,
+                    color: selectedIndex == 1 ? Colors.cyan : Colors.white,
                   ),
                 ),
               ),
@@ -73,7 +73,7 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
                     'assets/svgs/ic_account.svg',
                     width: 22,
                     height: 22,
-                    color: selectedIndex == 2 ? primaryColor : blackColor,
+                    color: selectedIndex == 2 ? Colors.cyan : Colors.white,
                   ),
                 ),
               ),

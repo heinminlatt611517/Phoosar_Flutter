@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +27,10 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     FCMService().listenForMessages(sharedPreferences,ref);
     return ListenableBuilder(
       listenable: settingsController,
@@ -34,6 +39,7 @@ class MyApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
           navigatorKey: navigatorKey,
+
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

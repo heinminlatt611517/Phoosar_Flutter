@@ -56,7 +56,7 @@ class CommonButton extends StatelessWidget {
                 style: GoogleFonts.roboto(
                   fontSize: fontSize ?? smallFontSize,
                   color:buttonTextColor ?? whiteColor,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
       ),

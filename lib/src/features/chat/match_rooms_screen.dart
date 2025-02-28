@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/data/response/match_list_response.dart';
 import 'package:phoosar/src/features/chat/chat_page.dart';
@@ -16,6 +17,7 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:sized_context/sized_context.dart';
 import 'package:timeago/timeago.dart';
 
 /// Displays the list of chat threads
@@ -32,12 +34,9 @@ class MatchRoomsScreen extends ConsumerWidget {
     final profilesState = ref.watch(profilesProvider);
 
     return roomState.when(
-      loading: () => Center(
-        child: Container(
-          width: 50,
-          height: 50,
-          child: const CircularProgressIndicator(),
-        ),
+      loading: () =>  Container(
+        height: context.heightPx * 0.5,
+        child: Center(child:  SpinKitThreeBounce(color: primaryColor,)),
       ),
       error: (error, _) => Center(child: Text('Error: $error')),
       data: (rooms) {

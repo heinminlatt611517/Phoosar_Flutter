@@ -104,6 +104,18 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     ],
                   ),
                   30.vGap,
+                  // Center(
+                  //   child: Text(
+                  //     'WHAT A\nMATCH!!',
+                  //     textAlign: TextAlign.center,
+                  //     style: GoogleFonts.archivoBlack(
+                  //       fontSize: 80,
+                  //       color: Colors.black,
+                  //       fontWeight: FontWeight.bold,
+                  //       height: 1
+                  //     ),
+                  //   ),
+                  // ),
                   Center(
                     child: Text(
                       'Let the show begin!',

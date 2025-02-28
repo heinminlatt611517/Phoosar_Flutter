@@ -41,140 +41,130 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     var questionList = ref.watch(questionListProvider(context));
     return WillPopScope(
       onWillPop: () async => false,
-      child: Stack(
-        children: [
-          Image.asset(
-            'assets/images/bg_image_4.jpg',
-            height: double.infinity,
-            width: double.infinity,
-            fit: BoxFit.fill,
+      child: Scaffold(
+        backgroundColor: whitePaleColor,
+        appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 100,
+          title: Image.asset(
+            'assets/images/phoosar_img.png',
+            height: 70,
           ),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              centerTitle: true,
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
-              toolbarHeight: 100,
-              title: Image.asset(
-                'assets/images/phoosar_img.png',
-                height: 70,
-              ),
-            ),
-            body: questionList.when(
-              data: (data) {
-                if (indicatorColors.length != data.length) {
-                  indicatorColors = List.generate(
-                    data.length,
-                    (_) => Colors.black,
-                  );
-                  indicatorColors.first = primaryColor;
-                }
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    /// Body view
-                    Expanded(
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 800),
-                        child: Center(
-                          child: PageView(
-                            physics: NeverScrollableScrollPhysics(),
-                            controller: _pageController,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentPage = index;
-                                updateIndicatorColors();
-                              });
-                            },
-                            children: data
-                                .asMap()
-                                .map((index, questions) => MapEntry(
-                                      index,
-                                      QuestionWidgetView(
-                                        questionData: (questionsData) {
-                                          setState(() {
-                                            selectedQuestionsMap[index] =
-                                                questionsData;
-                                          });
-                                        },
-                                        data: questions,
-                                        selectedQuestion:
-                                            selectedQuestionsMap[index],
-                                        onSelectionChanged: (hasSelection) {
-                                          setState(() {
-                                            pageSelectionStatus[index] =
-                                                hasSelection;
-                                          });
-                                        },
-                                      ),
-                                    ))
-                                .values
-                                .toList(),
-                          ),
-                        ),
-                        transitionBuilder: (child, animation) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(1.0, 0.0),
-                              end: Offset.zero,
-                            ).animate(animation),
-                            child: child,
-                          );
+        ),
+        body: questionList.when(
+          data: (data) {
+            if (indicatorColors.length != data.length) {
+              indicatorColors = List.generate(
+                data.length,
+                (_) => Colors.black,
+              );
+              indicatorColors.first = primaryColor;
+            }
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// Body view
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 800),
+                    child: Center(
+                      child: PageView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: _pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentPage = index;
+                            updateIndicatorColors();
+                          });
                         },
+                        children: data
+                            .asMap()
+                            .map((index, questions) => MapEntry(
+                                  index,
+                                  QuestionWidgetView(
+                                    questionData: (questionsData) {
+                                      setState(() {
+                                        selectedQuestionsMap[index] =
+                                            questionsData;
+                                      });
+                                    },
+                                    data: questions,
+                                    selectedQuestion:
+                                        selectedQuestionsMap[index],
+                                    onSelectionChanged: (hasSelection) {
+                                      setState(() {
+                                        pageSelectionStatus[index] =
+                                            hasSelection;
+                                      });
+                                    },
+                                  ),
+                                ))
+                            .values
+                            .toList(),
                       ),
                     ),
-
-                    /// Continue button
-                    _buildContinueButton(_currentPage, data.length),
-
-                    SizedBox(height: 30),
-
-                    /// Build horizontal indicator
-                    buildPageIndicator(data),
-
-                    SizedBox(height: 10),
-
-                    ///skip for now button
-                    Visibility(
-                      visible: ref
-                                  .watch(sharedPrefProvider)
-                                  .getString(kSkipQuestion) ==
-                              "0"
-                          ? false
-                          : true,
-                      child: TextButton(
-                          onPressed: () {
-                            ref
-                                .watch(sharedPrefProvider)
-                                .setString(kRecentOnboardingKey, kCompleteStatus);
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.kSkipForNow,
-                            style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
-                                decoration: TextDecoration.underline),
-                          )),
-                    ),
-
-                    SizedBox(height: 10),
-                  ],
-                );
-              },
-              error: (error, stack) => Container(),
-              loading: () => Center(
-                child: SpinKitThreeBounce(
-                  color: primaryColor,
+                    transitionBuilder: (child, animation) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      );
+                    },
+                  ),
                 ),
-              ),
+
+                /// Continue button
+                _buildContinueButton(_currentPage, data.length),
+
+                SizedBox(height: 30),
+
+                /// Build horizontal indicator
+                buildPageIndicator(data),
+
+                SizedBox(height: 10),
+
+                ///skip for now button
+                Visibility(
+                  visible: ref
+                              .watch(sharedPrefProvider)
+                              .getString(kSkipQuestion) ==
+                          "0"
+                      ? false
+                      : true,
+                  child: TextButton(
+                      onPressed: () {
+                        ref
+                            .watch(sharedPrefProvider)
+                            .setString(kRecentOnboardingKey, kCompleteStatus);
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.kSkipForNow,
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            decoration: TextDecoration.underline),
+                      )),
+                ),
+
+                SizedBox(height: 10),
+              ],
+            );
+          },
+          error: (error, stack) => Container(),
+          loading: () => Center(
+            child: SpinKitThreeBounce(
+              color: primaryColor,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

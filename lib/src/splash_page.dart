@@ -28,7 +28,6 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> getInitialSession() async {
-    // quick and dirty way to wait for the widget to mount
     await Future.delayed(Duration.zero);
 
     var token = ref.watch(sharedPrefProvider).getString(kTokenKey);

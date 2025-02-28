@@ -57,7 +57,6 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      20.vGap,
                       Text(
                         AppLocalizations.of(context)!.kInterests,
                         style: TextStyle(
@@ -86,7 +85,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
                                 color: selectedItems.contains(item)
-                                    ? primaryColor
+                                    ? Color(0xffE7647A)
                                     : Colors.white,
                                 border: Border.all(color: Colors.black,width: 1)
                               ),

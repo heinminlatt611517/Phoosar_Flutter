@@ -137,22 +137,24 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                 dotsCount: widget.profileImages.length < 1
                     ? 1
                     : widget.profileImages.length,
-                position:
-                    _currentIndex, // Ensure currentIndex is tracked in state
+                position: _currentIndex < widget.profileImages.length
+                    ? _currentIndex
+                    : widget.profileImages.length - 1,
                 decorator: DotsDecorator(
                   activeColor: blackColor,
-                  colors:
-                      List.filled(widget.profileImages.length, Colors.white),
+                  colors: List.filled(widget.profileImages.length, Colors.white),
                   size: const Size.square(7),
                   activeSize: const Size(8, 8),
                   activeShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.white, width: 2)),
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: BorderSide(color: Colors.white, width: 2),
+                  ),
                   spacing: const EdgeInsets.all(4.0),
                 ),
                 axis: Axis.vertical,
               ),
-            ),
+            )
+
           ],
         ),
       ),

@@ -23,75 +23,59 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
     return Stack(
       children: [
         Image.asset(
-          'assets/images/bg_image_4.jpg',
+          'assets/images/auth_bg.png',
           height: double.infinity,
           width: double.infinity,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
+
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/phoosar_img.png',
-              height: 40,
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                160.vGap,
+                Image.asset(
+                  'assets/images/white_logo.png',
+                  height: 90,
+                  fit: BoxFit.contain,
+                ),
+                26.vGap,
+                Text(
+                  AppLocalizations.of(context)!.kAllDone.toUpperCase(),
+                  style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: kTextRegular30),
+                ),
+                15.vGap,
+                Text(
+                  '${AppLocalizations.of(context)!.kYourProfileIsComplete}.',
+                  style: TextStyle(color: Colors.white),
+                ),
+
+              ],
             ),
           ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(kMarginLarge),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.kAllDone,
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: kTextRegular24),
-                        ),
-                        15.vGap,
-                        Text(
-                          AppLocalizations.of(context)!.kYourProfileIsComplete,
-                          style: TextStyle(color: Colors.black.withOpacity(0.5)),
-                        ),
-                      ],
-                    ),
-                  ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(bottom: 60,left: 60,right: 60),
+            child: CommonButton(
+              containerVPadding: 10,
+              text:AppLocalizations.of(context)!.kFindMatches.toUpperCase(),
+              fontSize: 18,
+              onTap: () {
+                ref
+                    .watch(sharedPrefProvider)
+                    .setString(kRecentOnboardingKey, kCompleteStatus);
 
-                  ///let go button
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: CommonButton(
-                      containerVPadding: 10,
-                      text:AppLocalizations.of(context)!.kFindMatches,
-                      fontSize: 18,
-                      onTap: () {
-                        ref
-                            .watch(sharedPrefProvider)
-                            .setString(kRecentOnboardingKey, kCompleteStatus);
-
-                        ///do navigation login
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                          (Route<dynamic> route) => false,
-                        );
-                      },
-                      bgColor: primaryColor,
-                    ),
-                  ),
-
-                  40.vGap,
-                ],
-              ),
+                ///do navigation login
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (Route<dynamic> route) => false,
+                );
+              },
+              bgColor: primaryColor,
             ),
           ),
         ),
