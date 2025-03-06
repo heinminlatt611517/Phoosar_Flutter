@@ -89,7 +89,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                     ),
                     40.vGap,
                     Text(
-                      AppLocalizations.of(context)!.kYourCodeIsComing,
+                      AppLocalizations.of(context)!.kYourCodeIsComing.toUpperCase(),
                       style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
                     ),
 
@@ -147,7 +147,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                       width: MediaQuery.of(context).size.width / 2,
                       child: CommonButton(
                         containerVPadding: 10,
-                        text: AppLocalizations.of(context)!.kConfirmLabel,
+                        text: AppLocalizations.of(context)!.kConfirmLabel.toUpperCase(),
                         fontSize: 18,
                         onTap: () {
                           _verifyOTP();

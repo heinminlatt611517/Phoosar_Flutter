@@ -116,7 +116,7 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
     return Column(
       children: [
         Text(
-          AppLocalizations.of(context)!.kCurrentLocateIn,
+          AppLocalizations.of(context)!.kCurrentLocateIn.toUpperCase(),
           style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
         ),
         10.vGap,
@@ -181,7 +181,7 @@ class _MatchCityAndCountryDropdownViewState
     return Column(
       children: [
         Text(
-          AppLocalizations.of(context)!.kWantMyMatch,
+          AppLocalizations.of(context)!.kWantMyMatch.toUpperCase(),
           style: TextStyle(height: 1.8,color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
         ),
         10.vGap,

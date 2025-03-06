@@ -57,7 +57,7 @@ class _ChooseGenderScreenState
                       children: [
                         50.vGap,
                         Text(
-                          AppLocalizations.of(context)!.theConnectionLookingFor,
+                          AppLocalizations.of(context)!.theConnectionLookingFor.toUpperCase(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),

@@ -58,12 +58,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String? recentOnBoarding;
   bool haveNavigated = false;
   String? recentOnboardingStatus;
+  bool isShowPassword = true;
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  void onTapToggleObscured(){
+    setState(() {
+      isShowPassword = !isShowPassword;
+    });
   }
 
   Future<void> saveSupabaseUserId(String userId) async {
@@ -108,7 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     EmailAndPhoneNumberButtonView(
                       isSelected: selectedText == "Phone",
-                      label: AppLocalizations.of(context)!.kPhoneNumberLabel,
+                      label: AppLocalizations.of(context)!.kPhoneNumberLabel.toUpperCase(),
                       onTapButton: () {
                       },
                     ),
@@ -169,6 +176,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               cursorColor: Colors.black,
                               controller: passwordController,
                               hintTextColor: Colors.black,
+                              isSecure : isShowPassword,
+                              isPasswordView: true,
+                              toggleObscured: onTapToggleObscured,
+                              toggleObscuredColor: Colors.black,
                               hintLabel:
                                   AppLocalizations.of(context)!.kPasswordLabel),
                         ],
@@ -182,7 +193,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       width: MediaQuery.of(context).size.width / 2,
                       child: CommonButton(
                         containerVPadding: 10,
-                        text: AppLocalizations.of(context)!.kSignInLabel,
+                        text: AppLocalizations.of(context)!.kSignInLabel.toUpperCase(),
                         fontSize: 18,
                         buttonTextColor: Colors.white,
                         isLoading: _isLoading,

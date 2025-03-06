@@ -96,7 +96,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                   30.vGap,
 
                   Text(
-                    AppLocalizations.of(context)!.kNoProblem,
+                    AppLocalizations.of(context)!.kNoProblem.toUpperCase(),
                     style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
                   ),
 
@@ -157,7 +157,7 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: CommonButton(
                       containerVPadding: 10,
-                      text: AppLocalizations.of(context)!.kSend,
+                      text: AppLocalizations.of(context)!.kSend.toUpperCase(),
                       buttonTextColor: Colors.white,
                       fontSize: 18,
                       isLoading: _isLoading,

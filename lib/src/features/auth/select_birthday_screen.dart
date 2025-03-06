@@ -61,7 +61,7 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                   child: Column(
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.kBirthdayLabel,
+                        AppLocalizations.of(context)!.kBirthdayLabel.toUpperCase(),
                         style:
                             TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                       ),

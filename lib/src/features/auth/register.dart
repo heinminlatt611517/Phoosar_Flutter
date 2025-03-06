@@ -128,7 +128,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     40.vGap,
 
                     Text(
-                      AppLocalizations.of(context)!.kCanWeGetYorNumber,
+                      AppLocalizations.of(context)!.kCanWeGetYorNumber.toUpperCase(),
                       style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
                     ),
 
@@ -203,7 +203,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       width: MediaQuery.of(context).size.width / 2,
                       child: CommonButton(
                         containerVPadding: 10,
-                        text: AppLocalizations.of(context)!.kSignUpLabel,
+                        text: AppLocalizations.of(context)!.kSignUpLabel.toUpperCase(),
                         fontSize: 18,
                         isLoading: _isLoading,
                         onTap: () {

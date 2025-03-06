@@ -88,7 +88,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         width: MediaQuery.of(context).size.width / 2,
                         child: CommonButton(
                           containerVPadding: 10,
-                          text: AppLocalizations.of(context)!.kSignInLabel,
+                          text: AppLocalizations.of(context)!.kSignInLabel.toUpperCase(),
                           fontSize: 18,
                           onTap: () {
                             Navigator.push(
@@ -111,7 +111,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           containerVPadding: 10,
                           fontSize: 18,
                           isShowBorderColor: true,
-                          text: AppLocalizations.of(context)!.kSignUpLabel,
+                          text: AppLocalizations.of(context)!.kSignUpLabel.toUpperCase(),
                           onTap: () {
                             Navigator.push(
                               context,

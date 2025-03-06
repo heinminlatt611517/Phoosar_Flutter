@@ -42,7 +42,7 @@ class _UploadProfileImageScreenState
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.of(context)!.kUploadYourProfileImage,
+              AppLocalizations.of(context)!.kUploadYourProfileImage.toUpperCase(),
               style:
                   TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
             ),

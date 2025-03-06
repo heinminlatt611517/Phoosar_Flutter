@@ -38,7 +38,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.of(context)!.kIamLabel,
+              AppLocalizations.of(context)!.kIamLabel.toUpperCase(),
               style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
             ),
 

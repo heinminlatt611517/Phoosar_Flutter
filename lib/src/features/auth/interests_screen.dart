@@ -58,7 +58,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.kInterests,
+                        AppLocalizations.of(context)!.kInterests.toUpperCase(),
                         style: TextStyle(
                             color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                       ),

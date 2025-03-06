@@ -70,7 +70,7 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                   100.vGap,
 
                   Text(
-                    AppLocalizations.of(context)!.kISpeakLabel,
+                    AppLocalizations.of(context)!.kISpeakLabel.toUpperCase(),
                     style:
                         TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
                   ),

@@ -49,6 +49,8 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
   String selectedText = "Email";
   late final StreamSubscription<AuthState> authSubscription;
   bool haveNavigated = false;
+  bool isShowPassword = true;
+  bool isShowConfirmPassword = true;
 
   @override
   void initState() {
@@ -66,6 +68,18 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
     super.dispose();
 
     errorController?.close();
+  }
+
+  void onTapShowPasswordToggleObscured(){
+    setState(() {
+      isShowPassword = !isShowPassword;
+    });
+  }
+
+  void onTapShowConfirmPasswordToggleObscured(){
+    setState(() {
+      isShowConfirmPassword = !isShowConfirmPassword;
+    });
   }
 
   Future<void> saveSupabaseUserId(AuthState data) async {
@@ -124,7 +138,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                     40.vGap,
 
                     Text(
-                      AppLocalizations.of(context)!.kMakeItMemorable,
+                      AppLocalizations.of(context)!.kMakeItMemorable.toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
                     ),
@@ -140,6 +154,10 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                           }
                           return null;
                         },
+                        isSecure : isShowPassword,
+                        isPasswordView: true,
+                        toggleObscured: onTapShowPasswordToggleObscured,
+                        toggleObscuredColor: Colors.white,
                         bgColor: Colors.black,
                         hintTextColor: Colors.white,
                         hintLabel: AppLocalizations.of(context)!.kPasswordLabel),
@@ -152,6 +170,10 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                           }
                           return null;
                         },
+                        isSecure : isShowConfirmPassword,
+                        isPasswordView: true,
+                        toggleObscured: onTapShowConfirmPasswordToggleObscured,
+                        toggleObscuredColor: Colors.white,
                         bgColor: Colors.black,
                         hintTextColor: Colors.white,
                         hintLabel:
@@ -166,7 +188,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                       width: MediaQuery.of(context).size.width / 2,
                       child: CommonButton(
                         containerVPadding: 10,
-                        text: AppLocalizations.of(context)!.kSignUpLabel,
+                        text: AppLocalizations.of(context)!.kConfirmLabel.toUpperCase(),
                         fontSize: 18,
                         isLoading: isLoading,
                         onTap: () {
