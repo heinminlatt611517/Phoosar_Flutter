@@ -116,18 +116,18 @@ class MatchAndLikeYouView extends StatelessWidget {
                       style: TextStyle(color:selectedIndex == 0 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
-                    ///spacer
-                    5.hGap,
-
-                    ///red circle indicator
-                    Container(
-                      width: 8,
-                      height: 8,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(4)),
-                    )
+                    // ///spacer
+                    // 5.hGap,
+                    //
+                    // ///red circle indicator
+                    // Container(
+                    //   width: 8,
+                    //   height: 8,
+                    //   margin: EdgeInsets.only(bottom: 10),
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.transparent,
+                    //       borderRadius: BorderRadius.circular(4)),
+                    // )
                   ],
                 ),
               ),
@@ -145,18 +145,18 @@ class MatchAndLikeYouView extends StatelessWidget {
                       style: TextStyle(color: selectedIndex == 1 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
-                    ///spacer
-                    5.hGap,
-
-                    ///red circle indicator
-                    Container(
-                      width: 8,
-                      height: 8,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(4)),
-                    )
+                    // ///spacer
+                    // 5.hGap,
+                    //
+                    // ///red circle indicator
+                    // Container(
+                    //   width: 8,
+                    //   height: 8,
+                    //   margin: EdgeInsets.only(bottom: 10),
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.transparent,
+                    //       borderRadius: BorderRadius.circular(4)),
+                    // )
                   ],
                 ),
               ),
@@ -173,18 +173,18 @@ class MatchAndLikeYouView extends StatelessWidget {
                       style: TextStyle(color: selectedIndex == 2 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
-                    ///spacer
-                    5.hGap,
-
-                    ///red circle indicator
-                    Container(
-                      width: 8,
-                      height: 8,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(4)),
-                    )
+                    // ///spacer
+                    // 5.hGap,
+                    //
+                    // ///red circle indicator
+                    // Container(
+                    //   width: 8,
+                    //   height: 8,
+                    //   margin: EdgeInsets.only(bottom: 10),
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.transparent,
+                    //       borderRadius: BorderRadius.circular(4)),
+                    // )
                   ],
                 ),
               ),

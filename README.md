@@ -4,6 +4,9 @@ A dating app written in Flutter
 
 ## Getting Started
 
+- to build .aab file
+    - flutter build appbundle --release
+
 This project is a starting point for a Flutter application that follows the
 [simple app state management
 tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
