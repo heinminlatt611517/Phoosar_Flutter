@@ -335,3 +335,7 @@ final matchCityRequestProvider = StateProvider<CityRequest>((ref) {
 final percentageProvider = StateProvider<int>((ref) {
   return 0;
 });
+
+final showBuyCoinProvider = StateProvider<int>((ref) {
+  return 0;
+});

@@ -15,6 +15,7 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -132,7 +133,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                     Text(
                       AppLocalizations.of(context)!.kEnter8Characters,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                      style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.normal),
                     ),
 
                     40.vGap,
@@ -140,7 +141,7 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                     Text(
                       AppLocalizations.of(context)!.kMakeItMemorable.toUpperCase(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.black, fontSize: 22,fontFamily: kFontGibsonBold),
                     ),
 
                     20.vGap,
@@ -212,11 +213,11 @@ class _RegisterScreenState extends ConsumerState<EnterPasswordScreen> {
                           TextSpan(
                               text: AppLocalizations.of(context)!
                                   .kAlreadyHaveAccount,
-                          style: TextStyle(color: Colors.black)),
+                          style: TextStyle(color: Colors.black,fontFamily: kFontArticulatCFNormal)),
                           TextSpan(
                             text: AppLocalizations.of(context)!.kSignInLabel,
                             style: new TextStyle(
-                                fontWeight: FontWeight.bold, color: primaryColor),
+                                fontWeight: FontWeight.bold, color: primaryColor,fontFamily: kFontArticulatCFNormal),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.pushReplacement(

@@ -62,6 +62,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var selfProfileData = ref.watch(selfProfileProvider);
+    var showBuyCoinData = ref.watch(showBuyCoinProvider);
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -109,36 +110,39 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .kYourCoinsLabel,
-                                    style: GoogleFonts.roboto(
-                                      fontSize: smallLargeFontSize,
-                                      color: blackColor,
-                                      fontWeight: FontWeight.w400,
+                          child: Visibility(
+                            visible: showBuyCoinData.toString()!= '0',
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!
+                                          .kYourCoinsLabel,
+                                      style: GoogleFonts.roboto(
+                                        fontSize: smallLargeFontSize,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
-                                  ),
-                                  12.hGap,
-                                  CoinCount(
-                                    coinCount: selfProfileData != null
-                                        ? (selfProfileData.data?.pointTotal
-                                                .toString() ??
-                                            "0")
-                                        : "0",
-                                    backgroundColor: greyColor,
-                                  ),
-                                ],
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: greyColor,
-                              )
-                            ],
+                                    12.hGap,
+                                    CoinCount(
+                                      coinCount: selfProfileData != null
+                                          ? (selfProfileData.data?.pointTotal
+                                                  .toString() ??
+                                              "0")
+                                          : "0",
+                                      backgroundColor: greyColor,
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: greyColor,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

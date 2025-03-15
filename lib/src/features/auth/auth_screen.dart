@@ -68,18 +68,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       Container(height: MediaQuery.of(context).size.height/4.5,),
                       /// App icon
                       Image.asset(
-                        'assets/images/white_logo.png',
+                        'assets/images/auth_app_logo.png',
                         height: 80,
-                      ),
-                      8.vGap,
-
-                      Text(
-                        'Find Myanmar Connections',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
                       ),
                       60.vGap,
 
@@ -111,6 +101,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           containerVPadding: 10,
                           fontSize: 18,
                           isShowBorderColor: true,
+                          buttonTextColor: Colors.black,
                           text: AppLocalizations.of(context)!.kSignUpLabel.toUpperCase(),
                           onTap: () {
                             Navigator.push(

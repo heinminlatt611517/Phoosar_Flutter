@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_profiles.dart';
 import 'package:phoosar/src/features/chat/widgets/liked_you.dart';
 import 'package:phoosar/src/features/chat/widgets/matches.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import '../../providers/data_providers.dart';
 import '../../utils/colors.dart';
@@ -28,11 +29,13 @@ class _ChatState extends ConsumerState<ChatScreen> {
     return Scaffold(
       backgroundColor: whitePaleColor,
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
+        backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-         selectedIndex == 0 ? AppLocalizations.of(context)!.kMatchesLabel : selectedIndex == 1 ? AppLocalizations.of(context)!.kLikedYouLabel : AppLocalizations.of(context)!.kLikedProfilesLabel,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
+         selectedIndex == 0 ? 'MESSAGES' : selectedIndex == 1 ? AppLocalizations.of(context)!.kLikedYouLabel : AppLocalizations.of(context)!.kLikedProfilesLabel,
+          style: TextStyle(
+              fontFamily: kFontGibsonBold,
+               color: Colors.white),
         ),
         actions: [
         ],

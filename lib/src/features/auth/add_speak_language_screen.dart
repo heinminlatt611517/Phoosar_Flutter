@@ -8,6 +8,7 @@ import 'package:phoosar/src/features/auth/looking_for_connection_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -72,7 +73,7 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                   Text(
                     AppLocalizations.of(context)!.kISpeakLabel.toUpperCase(),
                     style:
-                        TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+                        TextStyle(color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
                   ),
 
                   50.vGap,
@@ -133,10 +134,9 @@ class _ChooseGenderScreenState extends ConsumerState<AddSpeakLanguageScreen> {
                                     borderRadius: BorderRadius.circular(13),
                                     color: Colors.green),
                                 child: Center(
-                                  child: Icon(
-                                    Icons.delete_outline,
-                                    color: Colors.white,
-                                    size: 15,
+                                  child: Image.asset(
+                                    'assets/images/delete_icon.png',
+                                    height: 15,
                                   ),
                                 ),
                               ),

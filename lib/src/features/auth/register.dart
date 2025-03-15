@@ -11,6 +11,7 @@ import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'enter_pin_code_screen.dart';
@@ -122,17 +123,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       AppLocalizations.of(context)!.kWeOnlyUsePhoneNumber,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                      style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.normal),
                     ),
 
                     40.vGap,
 
                     Text(
                       AppLocalizations.of(context)!.kCanWeGetYorNumber.toUpperCase(),
-                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black, fontSize: 22,fontFamily: kFontGibsonBold),
                     ),
 
-                    20.vGap,
+                    30.vGap,
 
                     ///phone number sign up view
                     Visibility(
@@ -244,10 +246,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         children: <TextSpan>[
                           TextSpan(
                               text: AppLocalizations.of(context)!
-                                  .kAlreadyHaveAccount),
+                                  .kAlreadyHaveAccount,style: TextStyle(fontFamily: kFontArticulatCFNormal)),
                           TextSpan(
                             text: AppLocalizations.of(context)!.kSignInLabel,
                             style: new TextStyle(
+                                fontFamily: kFontArticulatCFNormal,
                                 fontWeight: FontWeight.bold,
                                 color: primaryColor),
                             recognizer: TapGestureRecognizer()

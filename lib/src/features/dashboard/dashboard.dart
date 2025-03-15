@@ -104,6 +104,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         );
     var data = ConfigResponse.fromJson(jsonDecode(response.body)).data;
     ref.read(percentageProvider.notifier).state = data?.percentage ?? 0;
+    ref.read(showBuyCoinProvider.notifier).state = data?.showBuyCoin ?? 0;
 
     if (compareVersionStrings(packageInfo.version, data?.releaseVersion ?? "") <
         0) {

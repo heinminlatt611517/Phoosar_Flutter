@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -45,6 +46,7 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                 Text(
                   AppLocalizations.of(context)!.kAllDone.toUpperCase(),
                   style: TextStyle(
+                      fontFamily: kFontGibsonBold,
                       color: primaryColor,
                       fontWeight: FontWeight.bold,
                       fontSize: kTextRegular30),

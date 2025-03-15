@@ -39,19 +39,19 @@ class _DropDownWidgetState extends ConsumerState<LanguageDynamicDropDownWidget> 
         value: widget.selectedList.isEmpty ? null : widget.initValue,  // Reset to null if items are empty
         hint: Text(
           widget.hintText ?? 'Select Language',
-          style: TextStyle(color: Colors.grey),
+          style: TextStyle(color: Colors.black),
         ),
         isExpanded: true,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.black, width: 1),
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.black, width: 1.5),
           ),
           filled: true,
           fillColor: Colors.white,
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: kMarginLarge),
+          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: kMarginLarge),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
         selectedItemBuilder: (BuildContext context) {
@@ -59,7 +59,7 @@ class _DropDownWidgetState extends ConsumerState<LanguageDynamicDropDownWidget> 
             return Text(
               item['name'],
               style: const TextStyle(
-                color: Colors.grey,
+                color: Colors.black,
                 fontSize: 16,
               ),
             );
@@ -71,7 +71,7 @@ class _DropDownWidgetState extends ConsumerState<LanguageDynamicDropDownWidget> 
           child: Text(
             item['name'],
             style: const TextStyle(
-              color: Colors.grey,
+              color: Colors.black,
               fontSize: 16,
             ),
           ),

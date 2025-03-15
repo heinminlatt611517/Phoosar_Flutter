@@ -12,6 +12,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import '../../common/widgets/drop_down_widget.dart';
 import '../../providers/data_providers.dart';
 import '../../utils/constants.dart';
+import '../../utils/fonts.dart';
 
 class SelectBirthdayScreen extends ConsumerStatefulWidget {
   const SelectBirthdayScreen({super.key});
@@ -63,7 +64,7 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                       Text(
                         AppLocalizations.of(context)!.kBirthdayLabel.toUpperCase(),
                         style:
-                            TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+                            TextStyle(color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
                       ),
                       50.vGap,
                       SizedBox(

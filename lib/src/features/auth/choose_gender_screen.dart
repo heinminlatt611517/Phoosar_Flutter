@@ -7,6 +7,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class ChooseGenderScreen extends ConsumerStatefulWidget {
@@ -39,7 +40,7 @@ class _ChooseGenderScreenState extends ConsumerState<ChooseGenderScreen> {
           children: [
             Text(
               AppLocalizations.of(context)!.kIamLabel.toUpperCase(),
-              style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
             ),
 
             50.vGap,

@@ -11,6 +11,7 @@ import 'package:phoosar/src/data/request/forgot_password_request.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
@@ -82,25 +83,24 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
 
                   ///app icon
                   Image.asset(
-                    'assets/images/white_logo.png',
+                    'assets/images/phoosar_img.png',
                     height: 80,
                   ),
-
                   30.vGap,
 
                   Text(
                     AppLocalizations.of(context)!.kEnterYourPhoneNumber,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                    style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.normal),
                   ),
                   30.vGap,
 
                   Text(
                     AppLocalizations.of(context)!.kNoProblem.toUpperCase(),
-                    style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.black, fontSize: 22,fontFamily: kFontGibsonBold),
                   ),
 
-                  30.vGap,
+                  40.vGap,
 
 
                   Column(

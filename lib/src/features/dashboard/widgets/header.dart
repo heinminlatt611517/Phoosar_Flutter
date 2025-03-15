@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:phoosar/src/utils/strings.dart';
 
 import '../../../providers/app_provider.dart';
 
@@ -19,12 +21,25 @@ class DashboardHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var localeSelected = ref.watch(localeProvider);
     var selfProfileData = ref.watch(selfProfileProvider);
+    var showBuyCoinData = ref.watch(showBuyCoinProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          GestureDetector(
+         showBuyCoinData.toString() == '0' ? InkWell(
+           onTap: (){
+             ref.read(dashboardProvider.notifier).setPosition(2);
+           },
+           child: ClipRRect(
+             borderRadius: BorderRadius.circular(20),
+             child:
+             CachedNetworkImage(
+                 height: 40,
+                 width: 40,
+                 fit: BoxFit.cover,
+                 imageUrl: selfProfileData?.data?.profileImages?.first ?? errorImageUrl),),
+         ) : GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
               showDialog(

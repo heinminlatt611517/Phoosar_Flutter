@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -33,21 +34,17 @@ class FindStrongerMatchesDialog extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.kFindStrongerMatches,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.roboto(
-                  fontSize: largeFontSize,
+                style: TextStyle( fontSize: largeFontSize,
                   color: primaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
+                  fontFamily: kFontGibsonBold),
               ),
               10.vGap,
               Text(
                 AppLocalizations.of(context)!.kAnswerTheFollowingQuestion,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.roboto(
-                  fontSize: smallFontSize,
+                style: TextStyle(fontSize: smallFontSize,
                   color: Colors.grey,
-                  fontWeight: FontWeight.w400,
-                ),
+                  fontWeight: FontWeight.w400,fontFamily: kFontArticulatCFNormal),
               ),
 
               40.vGap,
@@ -68,10 +65,10 @@ class FindStrongerMatchesDialog extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(width: 1, color: Colors.grey)),
+                      border: Border.all(width: 1, color: Colors.black)),
                   child: Icon(
                     Icons.clear,
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                 ),
               ),

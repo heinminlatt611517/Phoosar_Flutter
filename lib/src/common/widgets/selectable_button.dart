@@ -28,10 +28,10 @@ class SelectableButton extends StatelessWidget {
         onTapButton(label);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
+        padding: EdgeInsets.symmetric(vertical: kMarginMedium14),
         decoration: BoxDecoration(
             border: Border.all(
-                color: isSelected ? primaryColor : Colors.black, width: 1),
+                color: isSelected ? primaryColor : Colors.black, width: 1.5),
             color: isSelected
                 ? bgColor ?? Colors.black
                 : initialBgColor?.toColor(),
@@ -40,6 +40,7 @@ class SelectableButton extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
+                fontWeight: FontWeight.bold,
                 color: isSelected
                     ? Colors.white
                     : labelColor == null

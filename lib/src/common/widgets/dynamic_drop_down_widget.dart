@@ -33,18 +33,18 @@ class _DropDownWidgetState extends ConsumerState<DynamicDropDownWidget> {
       ),
       child: DropdownButtonFormField2<dynamic>(
         value: widget.initValue,
-        hint: Text(widget.hintText ?? '',style: TextStyle(color: Colors.grey),),
+        hint: Text(widget.hintText ?? '',style: TextStyle(color: Colors.black),),
         isExpanded: true,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.black, width: 1)),
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.black, width: 1.5)),
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-              EdgeInsets.symmetric(vertical: 20, horizontal: kMarginLarge),
+              EdgeInsets.symmetric(vertical: 10, horizontal: kMarginLarge),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
         selectedItemBuilder: (BuildContext context) {
@@ -52,7 +52,7 @@ class _DropDownWidgetState extends ConsumerState<DynamicDropDownWidget> {
             return Text(
               item.name,
               style: const TextStyle(
-                color: Colors.grey,
+                color: Colors.black,
                 fontSize: 16, // Set the text color for the selected item
               ),
             );
@@ -64,7 +64,7 @@ class _DropDownWidgetState extends ConsumerState<DynamicDropDownWidget> {
                   child: Text(
                     item.name,
                     style: const TextStyle(
-                      color: Colors.grey,
+                      color: Colors.black,
                       fontSize: 16,
                     ),
                   ),

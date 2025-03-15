@@ -9,6 +9,7 @@ import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -85,12 +86,12 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                     Text(
                       AppLocalizations.of(context)!.kCheckYourMessage,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black, fontSize: kTextRegular,fontWeight: FontWeight.normal),
+                      style: TextStyle(color: Colors.black, fontSize: kTextRegular2x,fontWeight: FontWeight.normal),
                     ),
                     40.vGap,
                     Text(
                       AppLocalizations.of(context)!.kYourCodeIsComing.toUpperCase(),
-                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.black, fontSize: 22,fontFamily: kFontGibsonBold),
                     ),
 
                     20.vGap,
@@ -170,10 +171,11 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                         children: <TextSpan>[
                           TextSpan(
                               text: AppLocalizations.of(context)!
-                                  .kAlreadyHaveAccount),
+                                  .kAlreadyHaveAccount,style: TextStyle(fontFamily: kFontArticulatCFNormal)),
                           TextSpan(
                             text: AppLocalizations.of(context)!.kSignInLabel,
                             style: new TextStyle(
+                                fontFamily: kFontArticulatCFNormal,
                                 fontWeight: FontWeight.bold, color: primaryColor),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {

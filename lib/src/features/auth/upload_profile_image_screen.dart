@@ -11,6 +11,7 @@ import 'package:phoosar/src/common/widgets/select_photo_options_widget.dart';
 import 'package:phoosar/src/features/auth/help_us_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
@@ -44,7 +45,7 @@ class _UploadProfileImageScreenState
             Text(
               AppLocalizations.of(context)!.kUploadYourProfileImage.toUpperCase(),
               style:
-                  TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+                  TextStyle(color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
             ),
 
             30.vGap,
@@ -174,7 +175,7 @@ class _ChooseImageViewState extends ConsumerState<ChooseImageView> {
                     color: Colors.transparent,
                     border: Border.all(color: Color(0xFFccbeb6),width: 2),
                     shape: BoxShape.circle),
-              child: Center(child: Icon(Icons.camera_alt_outlined,color: Colors.grey,
+              child: Center(child: Icon(Icons.camera_alt_outlined,color: Color(0xFFccbeb6),
               size: 70,),),)
             )
           ],
@@ -184,6 +185,7 @@ class _ChooseImageViewState extends ConsumerState<ChooseImageView> {
 
         ///choose image button
         CommonButton(
+          fontFamily: kFontArticulatCFNormal,
           containerVPadding: 10,
           text: AppLocalizations.of(context)!.kChooseImageLabel,
           fontSize: 18,

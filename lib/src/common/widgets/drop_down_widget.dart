@@ -48,9 +48,9 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
                 child: Text(
                   value,
                   style: TextStyle(
-                    color: Colors.grey.withOpacity(0.7),
+                    color: Colors.black,
                     fontSize:
-                        12, // Set the text color for the selected item
+                        14, // Set the text color for the selected item
                   ),
                 ),
               ),
@@ -59,8 +59,8 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         },
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.black, width: 1)),
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.black, width: 1.5)),
           filled: true,
           fillColor: Colors.white,
           contentPadding:
@@ -79,7 +79,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
                         item,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            color: Colors.grey, fontSize: kTextRegular2x),
+                            color: Colors.black, fontSize: kTextRegular2x),
                       ),
                     ),
                   ),

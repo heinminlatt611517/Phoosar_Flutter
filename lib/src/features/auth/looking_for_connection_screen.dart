@@ -8,6 +8,7 @@ import 'package:phoosar/src/features/auth/interests_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/selectable_button.dart';
@@ -60,7 +61,7 @@ class _ChooseGenderScreenState
                           AppLocalizations.of(context)!.theConnectionLookingFor.toUpperCase(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+                              color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
                         ),
 
                         50.vGap,

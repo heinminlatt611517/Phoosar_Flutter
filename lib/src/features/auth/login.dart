@@ -35,6 +35,8 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../utils/fonts.dart';
+
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({
     Key? key,
@@ -113,11 +115,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     100.vGap,
 
-                    EmailAndPhoneNumberButtonView(
-                      isSelected: selectedText == "Phone",
-                      label: AppLocalizations.of(context)!.kPhoneNumberLabel.toUpperCase(),
-                      onTapButton: () {
-                      },
+                    Text(
+                      AppLocalizations.of(context)!.kPhoneNumberLabel.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.cyan,
+                          fontSize: 22,fontFamily: kFontGibsonBold),
                     ),
 
                     20.vGap,
@@ -206,7 +208,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
 
-                    30.vGap,
+                    20.vGap,
 
                     ///forgot password
                     TextButton(
@@ -222,7 +224,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Text(
                         AppLocalizations.of(context)!.kForgotPasswordLabel,
                         style:
-                            TextStyle(fontSize: kTextRegular3x, color: Colors.white),
+                            TextStyle(fontSize: kTextRegular2x, color: Colors.white),
                       ),
                     ),
 
@@ -273,10 +275,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                              text: AppLocalizations.of(context)!.kDontHaveAccount,style: TextStyle(color: Colors.white)),
+                              text: AppLocalizations.of(context)!.kDontHaveAccount,style: TextStyle(color: Colors.white,fontFamily: kFontArticulatCFNormal)),
                           TextSpan(
                             text: AppLocalizations.of(context)!.kSignUpLabel,
                             style: new TextStyle(
+                                fontFamily: kFontArticulatCFNormal,
                                 fontWeight: FontWeight.bold, color: Colors.cyan),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {

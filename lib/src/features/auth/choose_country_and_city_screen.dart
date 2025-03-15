@@ -6,6 +6,7 @@ import 'package:phoosar/src/common/widgets/dynamic_drop_down_widget.dart';
 import 'package:phoosar/src/features/auth/add_speak_language_screen.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/common_button.dart';
@@ -31,24 +32,26 @@ class _ChooseCountryAndCityScreenState
           backgroundColor: whitePaleColor,
           appBar: CustomAppBarView(),
           body: Padding(
-              padding: const EdgeInsets.all(kMarginLarge),
+              padding: const EdgeInsets.symmetric(vertical: kMarginLarge,horizontal: kMarginXLarge),
               child: countryList.when(data: (countryList) {
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ///currently located city and country dropdown view
+
+                      ///From
+                      MatchCityAndCountryDropdownView(
+                        countryList: countryList,
+                      ),
+
+                      40.vGap,
+
+                      ///I am currently located in
                       CurrentlyLocatedCityAndCountryDropdownView(
                         countryList: countryList,
                       ),
 
-                      30.vGap,
-
-                      ///match city and country dropdown view
-                      MatchCityAndCountryDropdownView(
-                        countryList: countryList,
-                      ),
 
                     ],
                   ),
@@ -117,9 +120,9 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kCurrentLocateIn.toUpperCase(),
-          style: TextStyle(color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
         ),
-        10.vGap,
+        18.vGap,
         DynamicDropDownWidget(
           items: widget.countryList,
           hintText: 'Country',
@@ -182,9 +185,9 @@ class _MatchCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kWantMyMatch.toUpperCase(),
-          style: TextStyle(height: 1.8,color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+          style: TextStyle(height: 1.8,color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
         ),
-        10.vGap,
+        18.vGap,
         DynamicDropDownWidget(
           hintText: 'Country',
           items: widget.countryList,

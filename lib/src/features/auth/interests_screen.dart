@@ -7,6 +7,7 @@ import 'package:phoosar/src/common/widgets/custom_app_bar_view.dart';
 import 'package:phoosar/src/features/auth/upload_profile_image_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../providers/data_providers.dart';
@@ -26,8 +27,17 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
     setState(() {
       if (selectedItems.contains(item)) {
         selectedItems.remove(item);
-      } else {
+      }
+      else if (selectedItems.length < 6) {
         selectedItems.add(item);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 1),
+            backgroundColor: Colors.red,
+            content: Text('You can only select up to 6 items',style: TextStyle(color: Colors.white),),
+          ),
+        );
       }
     });
   }
@@ -60,11 +70,11 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                       Text(
                         AppLocalizations.of(context)!.kInterests.toUpperCase(),
                         style: TextStyle(
-                            color: Colors.black, fontSize: kTextRegular24,fontWeight: FontWeight.bold),
+                            color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
                       ),
                       Text(
-                        AppLocalizations.of(context)!.kPickOneToSix,
-                        style: TextStyle(color: Colors.grey, fontSize: kTextSmall),
+                        '(${AppLocalizations.of(context)!.kPickOneToSix.toUpperCase()})',
+                        style: TextStyle(color: Colors.black, fontSize: kTextSmall),
                       ),
                       30.vGap,
                       GridView.builder(
@@ -87,9 +97,9 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
                                 color: selectedItems.contains(item)
                                     ? Color(0xffE7647A)
                                     : Colors.white,
-                                border: Border.all(color: Colors.black,width: 1)
+                                border: Border.all(color: Colors.black,width: 1.5)
                               ),
-                              child: Center(child: Text(item,maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                              child: Center(child: Text(item,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight:FontWeight.w600),)),
                             ),
                           );
                         },

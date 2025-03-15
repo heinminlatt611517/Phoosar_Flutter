@@ -9,6 +9,7 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/splash_page.dart';
 import 'package:phoosar/src/utils/enable_drag.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fcm/fcm_service.dart';
@@ -39,7 +40,6 @@ class MyApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
           navigatorKey: navigatorKey,
-
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -53,7 +53,7 @@ class MyApp extends ConsumerWidget {
           locale: Locale(ref.watch(localeProvider)),
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
-          theme: ThemeData(),
+          theme: ThemeData(fontFamily: kFontArticulatCFNormal),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {

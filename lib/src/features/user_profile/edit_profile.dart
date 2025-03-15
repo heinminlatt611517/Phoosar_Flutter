@@ -152,6 +152,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var profileData = ref.watch(profileDataProvider(context));
+    var showBuyCoinData = ref.watch(showBuyCoinProvider);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: whitePaleColor,
@@ -244,7 +245,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               ],
                             );
                     } else {
-                      return Container(
+                      return  Container(
                         margin: const EdgeInsets.only(bottom: 16),
                         decoration: BoxDecoration(
                           color: greyColor,
@@ -264,7 +265,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       );
                     }
                   },
-                  itemCount: data?.uploadPhotoData?.length,
+                  itemCount:showBuyCoinData.toString()!= '0' ? data?.uploadPhotoData?.length : 3,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 8.0,
@@ -718,96 +719,108 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 20.vGap,
 
                 ///control profile view
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    AppLocalizations.of(context)!.kControlYourProfileLabel,
-                    textAlign: TextAlign.left,
-                    style: GoogleFonts.roboto(
-                      fontSize: kTextRegular2x,
-                      color: blackColor,
-                      fontWeight: FontWeight.w300,
+                Visibility(
+                  visible: showBuyCoinData.toString()!= '0',
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      AppLocalizations.of(context)!.kControlYourProfileLabel,
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.roboto(
+                        fontSize: kTextRegular2x,
+                        color: blackColor,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                   ),
                 ),
 
                 ///dont show age view
-                Container(
-                  color: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  child: Row(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.kDontShowMyAgeLabel,
-                        textAlign: TextAlign.left,
-                        style: GoogleFonts.roboto(
-                          fontSize: kTextRegular2x,
-                          color: blackColor,
-                          fontWeight: FontWeight.w300,
+                Visibility(
+                  visible: showBuyCoinData.toString()!= '0',
+                  child: Container(
+                    color: Colors.white,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.kDontShowMyAgeLabel,
+                          textAlign: TextAlign.left,
+                          style: GoogleFonts.roboto(
+                            fontSize: kTextRegular2x,
+                            color: blackColor,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                      ),
-                      Spacer(),
-                      Visibility(
-                        visible: !data!.showAge!.showAgeStatus!,
-                        child: InkWell(
-                          onTap: () async{
-                            var response = await ref.watch(repositoryProvider).buySettingWithPoint(
-                                jsonEncode({"setting_type" : "profile_show_age",}), context);
+                        Spacer(),
+                        Visibility(
+                          visible: !data!.showAge!.showAgeStatus!,
+                          child: InkWell(
+                            onTap: () async{
+                              var response = await ref.watch(repositoryProvider).buySettingWithPoint(
+                                  jsonEncode({"setting_type" : "profile_show_age",}), context);
 
-                            if (response.statusCode.toString().startsWith("2")) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => UnlockSuccessDailog());
-                              ref.invalidate(profileDataProvider);
-                              await updateSeftProfileData();
-                            }
-                          },
-                            child: CoinCount(coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",)),
-                      ),
-                    ],
+                              if (response.statusCode.toString().startsWith("2")) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => UnlockSuccessDailog());
+                                ref.invalidate(profileDataProvider);
+                                await updateSeftProfileData();
+                              }
+                            },
+                              child: CoinCount(coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",)),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Divider(
-                  height: 1,
-                  color: greyColor,
+                Visibility(
+                  visible: showBuyCoinData.toString()!= '0',
+                  child: Divider(
+                    height: 1,
+                    color: greyColor,
+                  ),
                 ),
 
                 ///distance invisible view
-                Container(
-                  color: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  child: Row(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.kMakeDistanceInvisibleLabel,
-                        textAlign: TextAlign.left,
-                        style: GoogleFonts.roboto(
-                          fontSize: kTextRegular2x,
-                          color: blackColor,
-                          fontWeight: FontWeight.w300,
+                Visibility(
+                  visible: showBuyCoinData.toString()!= '0',
+                  child: Container(
+                    color: Colors.white,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.kMakeDistanceInvisibleLabel,
+                          textAlign: TextAlign.left,
+                          style: GoogleFonts.roboto(
+                            fontSize: kTextRegular2x,
+                            color: blackColor,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                      ),
-                      Spacer(),
-                      Visibility(
-                        visible: !data.distanceInvisible!.distanceInvisibleStatus!,
-                        child: InkWell(
-                          onTap: () async{
-                            var response = await ref.watch(repositoryProvider).buySettingWithPoint(
-                                jsonEncode({"setting_type" : "profile_distance_invisible",}), context);
+                        Spacer(),
+                        Visibility(
+                          visible: !data.distanceInvisible!.distanceInvisibleStatus!,
+                          child: InkWell(
+                            onTap: () async{
+                              var response = await ref.watch(repositoryProvider).buySettingWithPoint(
+                                  jsonEncode({"setting_type" : "profile_distance_invisible",}), context);
 
-                            if (response.statusCode.toString().startsWith("2")) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => UnlockSuccessDailog());
-                              ref.invalidate(profileDataProvider);
-                              await updateSeftProfileData();
-                            }
-                          },
-                            child: CoinCount(coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",)),
-                      )
-                    ],
+                              if (response.statusCode.toString().startsWith("2")) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => UnlockSuccessDailog());
+                                ref.invalidate(profileDataProvider);
+                                await updateSeftProfileData();
+                              }
+                            },
+                              child: CoinCount(coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",)),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 50.vGap,

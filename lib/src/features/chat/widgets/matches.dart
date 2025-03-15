@@ -40,7 +40,7 @@ class MatchesView extends ConsumerWidget {
                         Text('No Matches Yet!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.withOpacity(0.5),fontSize: 18),),
                           20.vGap,
                           CommonButton(
-                            bgColor: primaryColor,
+                            bgColor: Colors.green,
                               text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){
                             ref.read(dashboardProvider.notifier).setPosition(0);
                           })

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
 import '../../common/widgets/common_button.dart';
@@ -149,7 +150,9 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
                       child: Text(
                         AppLocalizations.of(context)!.kSkipForNow,
                         style: TextStyle(
-                            color: Colors.black.withOpacity(0.5),
+                            fontFamily: kFontArticulatCFNormal,
+                            color: Colors.black,
+                            fontSize: 13,
                             decoration: TextDecoration.underline),
                       )),
                 ),
@@ -209,7 +212,7 @@ class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
       child: CommonButton(
-        containerVPadding: 10,
+        containerVPadding: 8,
         text: AppLocalizations.of(context)!.kContinueLabel,
         isLoading: isLoading,
         fontSize: 18,
@@ -320,7 +323,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: whitePaleColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(kMarginLarge),
@@ -333,8 +336,8 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
                     fontSize: 22,
+                    fontFamily: kFontGibsonBold
                   ),
                 ),
                 SizedBox(height: 30),
@@ -363,10 +366,11 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                                   hintMaxLines: 2,
                                   hintStyle: TextStyle(
                                     fontSize: kTextRegular,
-                                    color: Colors.grey.withOpacity(0.8),
+                                    color: Colors.black,
                                   ),
                                   hintText: AppLocalizations.of(context)!
                                       .kWriteShortDescription,
+                                  filled: true,
                                   fillColor: Colors.white,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(25.0),
@@ -385,11 +389,11 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                               ),
                               Positioned(
                                 bottom: 10,
-                                right: 10,
+                                left: 20,
                                 child: Text(
                                   '${characterCount}/400 Characters',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.grey),
+                                      fontSize: 10, color: Colors.grey),
                                 ),
                               ),
                             ],
