@@ -27,12 +27,12 @@ class _ChatState extends ConsumerState<ChatScreen> {
   Widget build(BuildContext context) {
     var selfProfileData = ref.watch(selfProfileProvider);
     return Scaffold(
-      backgroundColor: whitePaleColor,
+      backgroundColor: Color(0xFFF7F8FC),
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-         selectedIndex == 0 ? 'MESSAGES' : selectedIndex == 1 ? AppLocalizations.of(context)!.kLikedYouLabel : AppLocalizations.of(context)!.kLikedProfilesLabel,
+         selectedIndex == 0 ? 'MATCHES' : selectedIndex == 1 ? AppLocalizations.of(context)!.kLikedYouLabel : AppLocalizations.of(context)!.kLikedProfilesLabel,
           style: TextStyle(
               fontFamily: kFontGibsonBold,
                color: Colors.white),
@@ -119,18 +119,18 @@ class MatchAndLikeYouView extends StatelessWidget {
                       style: TextStyle(color:selectedIndex == 0 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
-                    // ///spacer
-                    // 5.hGap,
-                    //
-                    // ///red circle indicator
-                    // Container(
-                    //   width: 8,
-                    //   height: 8,
-                    //   margin: EdgeInsets.only(bottom: 10),
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.transparent,
-                    //       borderRadius: BorderRadius.circular(4)),
-                    // )
+                    ///spacer
+                    5.hGap,
+
+                    ///red circle indicator
+                    Container(
+                      width: 8,
+                      height: 8,
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(4)),
+                    )
                   ],
                 ),
               ),
@@ -148,18 +148,18 @@ class MatchAndLikeYouView extends StatelessWidget {
                       style: TextStyle(color: selectedIndex == 1 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
-                    // ///spacer
-                    // 5.hGap,
-                    //
-                    // ///red circle indicator
-                    // Container(
-                    //   width: 8,
-                    //   height: 8,
-                    //   margin: EdgeInsets.only(bottom: 10),
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.transparent,
-                    //       borderRadius: BorderRadius.circular(4)),
-                    // )
+                    ///spacer
+                    5.hGap,
+
+                    ///red circle indicator
+                    Container(
+                      width: 8,
+                      height: 8,
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(4)),
+                    )
                   ],
                 ),
               ),

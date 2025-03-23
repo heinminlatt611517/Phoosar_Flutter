@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class SelfInformation extends StatefulWidget {
@@ -42,9 +43,9 @@ class _SelfInformationState extends State<SelfInformation> {
             widget.title,
             textAlign: TextAlign.left,
             style: GoogleFonts.roboto(
-              fontSize: mediumFontSize,
-              color: blackColor,
-              fontWeight: FontWeight.w300,
+              fontSize: kTextRegular2x,
+              color: greenColor,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -68,11 +69,9 @@ class _SelfInformationState extends State<SelfInformation> {
                 widget.onChangeDescription!(value);
               },
               decoration: InputDecoration(border: InputBorder.none),
-              style: GoogleFonts.roboto(
-                fontSize: smallFontSize,
+              style: TextStyle(fontSize: smallFontSize,
                 color: blackColor,
-                fontWeight: FontWeight.w100,
-              ),
+                fontWeight: FontWeight.w100,),
             ),
           ),
         ),

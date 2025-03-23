@@ -373,13 +373,13 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderRadius: BorderRadius.circular(16.0),
                                     borderSide: BorderSide(
                                       color: Colors.blue,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderRadius: BorderRadius.circular(16.0),
                                     borderSide: BorderSide(
                                       color: Colors.black,
                                       width: 1,
@@ -416,7 +416,7 @@ class _QuestionWidgetViewState extends State<QuestionWidgetView> {
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
+                            padding: const EdgeInsets.only(bottom: 12),
                             child: SelectableButton(
                               initialBgColor: widget.data.answers?[index].backgroundColor ?? "",
                               labelColor: widget.data.answers?[index].textColor ?? "",

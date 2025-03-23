@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../common/widgets/icon_button.dart';
@@ -28,22 +30,22 @@ class MoreDetailsListItemView extends StatelessWidget {
                   title,
                   maxLines: 2,
                   textAlign: TextAlign.left,
-                  style: GoogleFonts.roboto(
-                    fontSize: mediumFontSize,
-                    color: primaryColor,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: TextStyle(fontFamily: kFontGibsonBold,fontSize: kTextRegular18,color: primaryColor),
                 ),
               ),
               CommonIconButton(
                 onTap: () {
                    onTapDelete(id);
                 },
-                backgroundColor: primaryColor,
-                icon: Icon(
-                  Icons.delete,
-                  color: whiteColor,
-                  size: 18,
+                backgroundColor: Colors.transparent,
+                borderColor: redColor,
+                icon: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Image.asset(
+                    'assets/images/delete_icon.png',
+                    width: 12,
+                    color: redColor,
+                  ),
                 ),
                 padding: 4,
               ),
@@ -53,10 +55,10 @@ class MoreDetailsListItemView extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.left,
-            style: GoogleFonts.roboto(
+            style: TextStyle(
               fontSize: smallFontSize,
               color: blackColor,
-              fontWeight: FontWeight.w100,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ],

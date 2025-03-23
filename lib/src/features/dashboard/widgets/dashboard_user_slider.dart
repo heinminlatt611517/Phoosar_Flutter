@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'dart:math' as math;
 
@@ -90,35 +91,41 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                             top: 20,
                             child: Stack(
                               children: [
-                                CircularStepProgressIndicator(
-                                  totalSteps: maxSteps,
-                                  currentStep: maxSteps,
-                                  stepSize: stepSize.toDouble(),
-                                  selectedColor: Colors.red,
-                                  unselectedColor: Colors.purple[400],
-                                  padding: math.pi / 100,
-                                  width: 60,
-                                  height: 60,
-                                  startingAngle: startingAngle,
-                                  arcSize: arcSize,
-                                  gradientColor: LinearGradient(
-                                    colors: [
-                                      primaryColor,
-                                      primaryColor.withOpacity(0.3)
-                                    ],
-                                  ),
+
+                                // CircularStepProgressIndicator(
+                                //   totalSteps: maxSteps,
+                                //   currentStep: maxSteps,
+                                //   stepSize: stepSize.toDouble(),
+                                //   selectedColor: Colors.red,
+                                //   unselectedColor: Colors.purple[400],
+                                //   padding: math.pi / 100,
+                                //   width: 60,
+                                //   height: 60,
+                                //   startingAngle: startingAngle,
+                                //   arcSize: arcSize,
+                                //   gradientColor: LinearGradient(
+                                //     colors: [
+                                //       primaryColor,
+                                //       primaryColor.withOpacity(0.3)
+                                //     ],
+                                //   ),
+                                // ),
+                                Image.asset(
+                                  'assets/images/match.png',
+                                  width: 50,
                                 ),
                                 Positioned(
-                                    top: 0,
+                                    top: 4,
                                     left: 0,
                                     right: 0,
                                     bottom: 0,
                                     child: Center(
                                         child: Text(
-                                      "${widget.score.toString()} %",
+                                      "${widget.score.toString()}",
                                       style: TextStyle(
-                                          color: primaryColor,
-                                          fontWeight: FontWeight.bold),
+                                          color: blackColor,
+                                          fontSize: 19,
+                                          fontFamily: kFontGibsonBold,),
                                     )))
                               ],
                             ),

@@ -10,6 +10,8 @@ import '../../utils/constants.dart';
 import '../../utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../utils/fonts.dart';
+
 class MoreDetailsScreen extends ConsumerWidget {
   const MoreDetailsScreen({super.key});
 
@@ -18,8 +20,16 @@ class MoreDetailsScreen extends ConsumerWidget {
     var questionData = ref.watch(moreDetailsQuestionListProvider(context));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
-        title: Text(AppLocalizations.of(context)!.kMoreDetailsLabel,),
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          AppLocalizations.of(context)!.kMoreDetailsLabel.toUpperCase(),
+          style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
+        ),
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
@@ -70,7 +80,7 @@ class MoreDetailsScreen extends ConsumerWidget {
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.roboto(
                                   fontSize: 18,
-                                  color: Colors.grey,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -78,7 +88,7 @@ class MoreDetailsScreen extends ConsumerWidget {
                               Text(
                                 data[index].answerText ?? "",
                                 textAlign: TextAlign.left,
-                                style: GoogleFonts.roboto(
+                                style: TextStyle(
                                   fontSize: smallFontSize,
                                   color: blackColor,
                                   fontWeight: FontWeight.w100,

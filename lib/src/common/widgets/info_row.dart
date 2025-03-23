@@ -19,7 +19,9 @@ class UserInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         icon,
         6.hGap,
@@ -29,7 +31,7 @@ class UserInfoRow extends StatelessWidget {
             style: GoogleFonts.roboto(
               fontSize: textSize,
               color: textColor,
-              fontWeight: FontWeight.w100,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),

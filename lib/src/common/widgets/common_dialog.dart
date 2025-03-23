@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class CommonDialog extends StatelessWidget {
@@ -13,7 +14,9 @@ class CommonDialog extends StatelessWidget {
       this.height,
       this.isExpand = false,
       this.isLargeTitleSize = false,
-      this.isUnlockDialog = false});
+      this.isUnlockDialog = false,
+      this.isCustomFont = false,
+      this.titleColor});
 
   final String title;
   final Widget child;
@@ -22,6 +25,8 @@ class CommonDialog extends StatelessWidget {
   final bool? isLargeTitleSize;
   final bool isExpand;
   final bool? isUnlockDialog;
+  final bool? isCustomFont;
+  final Color? titleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +51,19 @@ class CommonDialog extends StatelessWidget {
             Center(
               child: isUnlockDialog == true
                   ? Image.asset(
-                'assets/images/check_icon.png',
+                'assets/images/unlocked.png',
+                height: 80,
                 fit: BoxFit.cover,
-                height: 70,
               )
                   : Text(
                       title,
                        textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        color: greyColor,
+                      style:isCustomFont == true ? TextStyle(
+                        fontSize: 25,
+                        fontFamily: kFontGibsonBold,
+                        color:titleColor ?? orangeColor,
+                      ) : GoogleFonts.roboto(
+                        color:greyColor,
                         fontSize:
                             isLargeTitleSize == true ? 24 : smallLargeFontSize,
                         fontWeight: FontWeight.bold,

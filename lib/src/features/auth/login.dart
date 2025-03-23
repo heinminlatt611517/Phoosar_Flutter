@@ -36,6 +36,7 @@ import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../utils/fonts.dart';
+import 'eula_view.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({
@@ -61,6 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool haveNavigated = false;
   String? recentOnboardingStatus;
   bool isShowPassword = true;
+  bool _hasAgreedToTerms = false;
 
   @override
   void dispose() {
@@ -188,9 +190,61 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
 
-                    50.vGap,
+                    // 50.vGap,
+                    //
+                    // ///Sign in button
+                    // SizedBox(
+                    //   width: MediaQuery.of(context).size.width / 2,
+                    //   child: CommonButton(
+                    //     containerVPadding: 10,
+                    //     text: AppLocalizations.of(context)!.kSignInLabel.toUpperCase(),
+                    //     fontSize: 18,
+                    //     buttonTextColor: Colors.white,
+                    //     isLoading: _isLoading,
+                    //     onTap: () {
+                    //       if (!_isLoading) {
+                    //         _signIn();
+                    //       }
+                    //     },
+                    //     bgColor: primaryColor,
+                    //   ),
+                    // ),
 
-                    ///Sign in button
+                    20.vGap,
+
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Checkbox(
+                          value: _hasAgreedToTerms,
+                          onChanged: (value) {
+                            setState(() {
+                              _hasAgreedToTerms = value!;
+                            });
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EULAView(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'I agree to the Terms of Service',
+                            style: TextStyle(
+                                color: Colors.cyan,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    20.vGap,
+
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2,
                       child: CommonButton(
@@ -200,8 +254,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         buttonTextColor: Colors.white,
                         isLoading: _isLoading,
                         onTap: () {
-                          if (!_isLoading) {
+                          if (_hasAgreedToTerms && !_isLoading) {
                             _signIn();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('You must agree to the terms to continue.')),
+                            );
                           }
                         },
                         bgColor: primaryColor,
@@ -496,23 +554,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       String name, String email) async {
     // Sanitize the username
     String sanitizedName =
-        name.replaceAll(RegExp(r'[^a-zA-Z0-9_]'), '_').toLowerCase();
+    name.replaceAll(RegExp(r'[^a-zA-Z0-9_]'), '_').toLowerCase();
     if (sanitizedName.length > 30) {
       sanitizedName = sanitizedName.substring(0, 30);
     }
 
     var response = await ref.read(repositoryProvider).socialLogin(
-          jsonEncode({
-            "provider": type,
-            "provider_id": socialToken,
-            "email": email,
-            "name": sanitizedName
-          }),
-          context,
-        );
+      jsonEncode({
+        "provider": type,
+        "provider_id": socialToken,
+        "email": email,
+        "name": sanitizedName
+      }),
+      context,
+    );
     if (response.statusCode.toString().startsWith("2")) {
       AuthenticationResponse authResponse =
-          AuthenticationResponse.fromJson(jsonDecode(response.body));
+      AuthenticationResponse.fromJson(jsonDecode(response.body));
       ref
           .watch(sharedPrefProvider)
           .setString(kTokenKey, authResponse.token ?? '');

@@ -10,6 +10,7 @@ import '../../common/widgets/icon_button.dart';
 import '../../list_items/interest_list_item_view.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
+import '../../utils/fonts.dart';
 
 class AddInterestsScreen extends ConsumerStatefulWidget {
   const AddInterestsScreen({super.key});
@@ -37,8 +38,16 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
-        title: Text(AppLocalizations.of(context)!.kAddInterestLabel),
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          AppLocalizations.of(context)!.kAddInterestLabel.toUpperCase(),
+          style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
+        ),
         centerTitle: true,
       ),
       backgroundColor: whitePaleColor,
@@ -107,7 +116,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular3x,
                         color: blackColor,
-                        fontWeight: FontWeight.w300,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -135,7 +144,8 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
           20.vGap,
 
           Center(
-            child: IntrinsicWidth(
+            child: Container(
+              width: 150,
               child: CommonButton(
                 containerVPadding: 10,
                 text: AppLocalizations.of(context)!.kSaveLabel,

@@ -37,9 +37,12 @@ class MatchesView extends ConsumerWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                        Text('No Matches Yet!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.withOpacity(0.5),fontSize: 18),),
+                        Text('No matches yet.\nKeep exploring the app',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.withOpacity(0.5),fontSize: 22),),
                           20.vGap,
                           CommonButton(
+                            containerHPadding: 50,
                             bgColor: Colors.green,
                               text: AppLocalizations.of(context)!.kContinueLabel, onTap: (){
                             ref.read(dashboardProvider.notifier).setPosition(0);

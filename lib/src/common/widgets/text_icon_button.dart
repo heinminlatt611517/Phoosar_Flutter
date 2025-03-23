@@ -3,6 +3,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class CommonTextIconButton extends StatelessWidget {
@@ -26,20 +27,19 @@ class CommonTextIconButton extends StatelessWidget {
           scaleFactor: 0.5,
           onTap: onTap,
           child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: backgroundColor ?? whiteColor),
+                  border: Border.all(color: Colors.black,width: 2),
                   color: backgroundColor),
               child: icon),
         ),
         12.vGap,
         Text(text,
             style: GoogleFonts.roboto(
-              fontSize: smallFontSize,
               color: blackColor,
-              fontWeight: FontWeight.w200,
-            )),
+              fontWeight: FontWeight.bold,
+            ),),
       ],
     );
   }

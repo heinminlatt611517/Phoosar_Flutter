@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/features/home/home.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
@@ -45,13 +46,13 @@ class _AllSetScreenState extends ConsumerState<AllSetScreen> {
                 26.vGap,
                 Text(
                   AppLocalizations.of(context)!.kAllDone.toUpperCase(),
-                  style: TextStyle(
-                      fontFamily: kFontGibsonBold,
-                      color: primaryColor,
+                  style: GoogleFonts.roboto(
                       fontWeight: FontWeight.bold,
-                      fontSize: kTextRegular30),
+                      color: primaryColor,
+                      fontSize: 34
+                  ),
                 ),
-                15.vGap,
+                12.vGap,
                 Text(
                   '${AppLocalizations.of(context)!.kYourProfileIsComplete}.',
                   style: TextStyle(color: Colors.white),

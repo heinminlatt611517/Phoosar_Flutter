@@ -16,6 +16,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/extensions.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
@@ -76,7 +77,6 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
               )))
           : SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     MediaQuery.of(context).padding.top.vGap,
@@ -93,13 +93,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                     ),
                     12.vGap,
                     Divider(
-                      height: 1,
-                      color: greyColor,
+                      height: 2.5,
+                      color: Colors.black,
                     ),
 
                     ///normal view
                     Visibility(
-                      visible: selfProfileData?.data?.isPremium == true
+                      visible: selfProfileData.data?.isPremium == true
                           ? false
                           : true,
                       child: InkWell(
@@ -108,40 +108,48 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               context: context,
                               builder: (context) => GetMoreCoinsDialog());
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Visibility(
-                            visible: showBuyCoinData.toString()!= '0',
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!
-                                          .kYourCoinsLabel,
-                                      style: GoogleFonts.roboto(
-                                        fontSize: smallLargeFontSize,
-                                        color: blackColor,
-                                        fontWeight: FontWeight.w400,
+                        child: Container(
+                          color: Color(0xFFF7F8FC),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Visibility(
+                              visible: showBuyCoinData.toString()!= '0',
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      14.hGap,
+                                      Text(
+                                        '${AppLocalizations.of(context)!
+                                            .kYourCoinsLabel}:',
+                                        style : GoogleFonts.roboto(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: blackColor,
+                                        ),
                                       ),
+                                      12.hGap,
+                                      CoinCount(
+                                        coinCount: selfProfileData != null
+                                            ? (selfProfileData.data?.pointTotal
+                                                    .toString() ??
+                                                "0")
+                                            : "0",
+                                        backgroundColor: greyColor.withOpacity(0.5),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 14),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.black,
+                                      size: 20,
                                     ),
-                                    12.hGap,
-                                    CoinCount(
-                                      coinCount: selfProfileData != null
-                                          ? (selfProfileData.data?.pointTotal
-                                                  .toString() ??
-                                              "0")
-                                          : "0",
-                                      backgroundColor: greyColor,
-                                    ),
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: greyColor,
-                                )
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -208,12 +216,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context)!
-                                          .kYourCoinsLabel,
-                                      style: GoogleFonts.roboto(
-                                        fontSize: smallLargeFontSize,
-                                        color: blackColor,
-                                        fontWeight: FontWeight.w400,
+                                      '${AppLocalizations.of(context)!
+                                          .kYourCoinsLabel}:',
+                                      style: TextStyle(
+                                          color: blackColor,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: kFontArticulatCFNormal,
+                                          fontSize: 18
                                       ),
                                     ),
                                     12.hGap,
@@ -235,64 +244,49 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                         )),
 
                     Divider(
-                      height: 1,
-                      color: greyColor,
+                      height: 2.5,
+                      color: Colors.black,
                     ),
-                    12.vGap,
+                    18.vGap,
 
                     ///profile images
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Stack(
-                        children: [
-                          (selfProfileData?.data?.profileImages?.isNotEmpty ??
-                                  false)
-                              ? carousel_slider.CarouselSlider(
-                                  options: carousel_slider.CarouselOptions(
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _currentIndex = index;
-                                      });
-                                    },
-                                    aspectRatio: 16 / 9,
-                                    viewportFraction: 1,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.5,
-                                  ),
-                                  items: selfProfileData.data?.profileImages
-                                      ?.map((i) {
-                                    return Builder(
-                                      builder: (BuildContext context) {
-                                        return CachedNetworkImage(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              32,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.5,
-                                          fit: BoxFit.cover,
-                                          imageUrl: i,
-                                          errorWidget: (context, url, error) {
-                                            return Image.network(
-                                              errorImageUrl,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  32,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.5,
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
-                                          placeholder: (context, url) {
-                                            return Shimmer.fromColors(
-                                              baseColor: Colors.grey[300]!,
-                                              highlightColor: Colors.grey[100]!,
-                                              child: Container(
+                    Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          children: [
+                            (selfProfileData.data?.profileImages?.isNotEmpty ??
+                                    false)
+                                ? carousel_slider.CarouselSlider(
+                                    options: carousel_slider.CarouselOptions(
+                                      onPageChanged: (index, reason) {
+                                        setState(() {
+                                          _currentIndex = index;
+                                        });
+                                      },
+                                      aspectRatio: 16 / 9,
+                                      viewportFraction: 1,
+                                      height: MediaQuery.of(context).size.height *
+                                          0.44,
+                                    ),
+                                    items: selfProfileData.data?.profileImages
+                                        ?.map((i) {
+                                      return Builder(
+                                        builder: (BuildContext context) {
+                                          return CachedNetworkImage(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.5,
+                                            fit: BoxFit.cover,
+                                            imageUrl: i,
+                                            errorWidget: (context, url, error) {
+                                              return Image.network(
+                                                errorImageUrl,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width -
@@ -301,119 +295,135 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                                         .size
                                                         .height *
                                                     0.5,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                            placeholder: (context, url) {
+                                              return Shimmer.fromColors(
+                                                baseColor: Colors.grey[300]!,
+                                                highlightColor: Colors.grey[100]!,
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      32,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.5,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  }).toList(),
-                                )
-                              : CachedNetworkImage(
-                                  width: MediaQuery.of(context).size.width - 32,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
-                                  fit: BoxFit.cover,
-                                  imageUrl: errorImageUrl,
-                                  placeholder: (context, url) {
-                                    return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                32,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.5,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[300],
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }).toList(),
+                                  )
+                                : CachedNetworkImage(
+                                    width: MediaQuery.of(context).size.width - 32,
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.5,
+                                    fit: BoxFit.cover,
+                                    imageUrl: errorImageUrl,
+                                    placeholder: (context, url) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width -
+                                                  32,
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.5,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                            Positioned(
+                              bottom: 20,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      selfProfileData.data?.name ?? '',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: largeFontSize,
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    12.hGap,
+                                    Visibility(
+                                      visible: selfProfileData
+                                              .data?.showAge?.showAgeStatus !=
+                                          true,
+                                      child: Text(
+                                        Utils.calculateAge(
+                                            selfProfileData.data?.birthdate ??
+                                                ''),
+                                        style: GoogleFonts.roboto(
+                                          fontSize: mediumLargeFontSize,
+                                          color: whiteColor,
+                                          fontWeight: FontWeight.w200,
                                         ),
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ],
                                 ),
-                          Positioned(
-                            bottom: 20,
-                            left: MediaQuery.of(context).size.width * 0.3,
-                            child: Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    selfProfileData?.data?.name ?? '',
-                                    // Safely access name
-                                    style: GoogleFonts.roboto(
-                                      fontSize: largeFontSize,
-                                      color: whiteColor,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  12.hGap,
-                                  Visibility(
-                                    visible: selfProfileData
-                                            ?.data?.showAge?.showAgeStatus !=
-                                        true,
-                                    // Check if showAgeStatus is false
-                                    child: Text(
-                                      Utils.calculateAge(
-                                          selfProfileData?.data?.birthdate ??
-                                              ''),
-                                      // Safely access birthdate
-                                      style: GoogleFonts.roboto(
-                                        fontSize: mediumLargeFontSize,
-                                        color: whiteColor,
-                                        fontWeight: FontWeight.w200,
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 12,
-                            right: 6,
-                            child: DotsIndicator(
-                              dotsCount: (selfProfileData
-                                          ?.data?.profileImages?.isNotEmpty ??
-                                      false)
-                                  ? (selfProfileData
-                                              ?.data?.profileImages?.length ??
-                                          0)
-                                      .clamp(1, double.infinity)
-                                      .toInt()
-                                  : 1, // Ensure dotsCount is at least 1
-                              position: _currentIndex,
-                              decorator: DotsDecorator(
-                                activeColor: blackColor,
-                                colors: List.filled(
-                                  selfProfileData
-                                          ?.data?.profileImages?.length ??
-                                      0,
-                                  Colors.white,
+                            Positioned(
+                              top: 12,
+                              right: 6,
+                              child: DotsIndicator(
+                                dotsCount: (selfProfileData
+                                            .data?.profileImages?.isNotEmpty ??
+                                        false)
+                                    ? (selfProfileData
+                                                .data?.profileImages?.length ??
+                                            0)
+                                        .clamp(1, double.infinity)
+                                        .toInt()
+                                    : 1, // Ensure dotsCount is at least 1
+                                position: _currentIndex,
+                                decorator: DotsDecorator(
+                                  activeColor: blackColor,
+                                  colors: List.filled(
+                                    selfProfileData
+                                            .data?.profileImages?.length ??
+                                        0,
+                                    Colors.white,
+                                  ),
+                                  size: const Size.square(7),
+                                  activeSize: const Size(8, 8),
+                                  activeShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    side:
+                                        BorderSide(color: Colors.white, width: 2),
+                                  ),
+                                  spacing: const EdgeInsets.all(4.0),
                                 ),
-                                size: const Size.square(7),
-                                activeSize: const Size(8, 8),
-                                activeShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  side:
-                                      BorderSide(color: Colors.white, width: 2),
-                                ),
-                                spacing: const EdgeInsets.all(4.0),
+                                axis: Axis.vertical,
                               ),
-                              axis: Axis.vertical,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
 
@@ -435,10 +445,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           icon: Icon(
                             Icons.settings,
                             size: 28,
-                            color: greyColor,
+                            color: Colors.black,
                           ),
                         ),
-                        12.hGap,
+                        20.hGap,
                         CommonTextIconButton(
                           text: AppLocalizations.of(context)!.kEditProfileLabel,
                           onTap: () {
@@ -451,7 +461,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           },
                           icon: Icon(
                             Icons.edit,
-                            color: greyColor,
+                            color:Colors.black,
                             size: 28,
                           ),
                         ),

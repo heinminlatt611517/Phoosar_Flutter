@@ -5,6 +5,7 @@ import 'package:phoosar/src/common/widgets/heart_count.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -43,14 +44,14 @@ class RewindRow extends StatelessWidget {
                 ' Rewinds',
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
           Row(
             children: [
-              CoinCount(coinCount: heartCount),
+              CoinCount(coinCount: heartCount,backgroundColor: Colors.white,),
               10.hGap,
               InkWell(
                 onTap: () {
@@ -64,10 +65,10 @@ class RewindRow extends StatelessWidget {
                 },
                 child: Text(
                   AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
-                  style: GoogleFonts.roboto(
-                    fontSize: mediumFontSize,
-                    color: blueColor,
-                    fontWeight: FontWeight.w400,
+                  style: TextStyle(
+                    fontSize: smallFontSize,
+                    color: greenColor,
+                    fontFamily: kFontGibsonBold,
                   ),
                 ),
               ),

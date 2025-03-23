@@ -4,6 +4,8 @@ import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/features/payment/payment.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class CoinRow extends StatelessWidget {
@@ -33,13 +35,14 @@ class CoinRow extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: Colors.transparent,
+                  border: Border.all(color: blackColor,width: 1.5),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
                   children: [
                     Image.asset(
-                      'assets/images/coin.png',
+                      'assets/images/update_coin.png',
                       height: 16,
                       fit: BoxFit.cover,
                     ),
@@ -48,8 +51,8 @@ class CoinRow extends StatelessWidget {
                       heartCount,
                       style: GoogleFonts.roboto(
                         fontSize: smallFontSize,
-                        color: whiteColor,
-                        fontWeight: FontWeight.w400,
+                        color: blackColor,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -73,10 +76,11 @@ class CoinRow extends StatelessWidget {
                 ),
               ),
               Text(
-                ' MMK',
+                ' Coins',
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w700,
+                  color: blackColor
                 ),
               ),
             ],
@@ -96,10 +100,11 @@ class CoinRow extends StatelessWidget {
             },
             child: Text(
               'BUY NOW',
-              style: GoogleFonts.roboto(
-                fontSize: mediumFontSize,
-                color: blueColor,
-                fontWeight: FontWeight.w400,
+              style: TextStyle(
+                fontSize: kTextRegular,
+                color: greenColor,
+                fontWeight: FontWeight.normal,
+                fontFamily: kFontGibsonBold
               ),
             ),
           ),

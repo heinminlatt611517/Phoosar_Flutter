@@ -159,7 +159,7 @@ class _RegisterScreenState extends ConsumerState<EnterPinCodeScreen> {
                       ),
                     ),
 
-                    80.vGap,
+                    60.vGap,
 
                     ///already have account
                     RichText(

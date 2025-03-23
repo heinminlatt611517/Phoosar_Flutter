@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/features/dashboard/widgets/unlock_dailog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,7 +27,6 @@ class LikeRow extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                //width: 20,
                 child: Text(
                   likeCount,
                   textAlign: TextAlign.end,
@@ -40,7 +40,7 @@ class LikeRow extends StatelessWidget {
                 ' Likes',
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
@@ -50,13 +50,14 @@ class LikeRow extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: blackColor,width: 1.5)
                 ),
                 child: Row(
                   children: [
                     Image.asset(
-                      'assets/images/coin.png',
+                      'assets/images/update_coin.png',
                       height: 16,
                       fit: BoxFit.cover,
                     ),
@@ -65,8 +66,8 @@ class LikeRow extends StatelessWidget {
                       heartCount,
                       style: GoogleFonts.roboto(
                         fontSize: smallFontSize,
-                        color: whiteColor,
-                        fontWeight: FontWeight.w400,
+                        color: blackColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -85,9 +86,10 @@ class LikeRow extends StatelessWidget {
                 },
                 child: Text(
                   AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
-                  style: GoogleFonts.roboto(
-                    fontSize: mediumFontSize,
-                    color: blueColor,
+                  style: TextStyle(
+                    fontSize: smallFontSize,
+                    color: greenColor,
+                    fontFamily: kFontGibsonBold,
                     fontWeight: FontWeight.w400,
                   ),
                 ),

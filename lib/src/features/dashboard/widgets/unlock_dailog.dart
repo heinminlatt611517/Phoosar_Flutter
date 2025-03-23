@@ -10,6 +10,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,7 +26,9 @@ class UnlockDailog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CommonDialog(
       isLargeTitleSize: true,
-      title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
+      titleColor: blackColor,
+      isCustomFont: true,
+      title: AppLocalizations.of(context)!.kUnlockFeatureLabel.toUpperCase(),
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -38,14 +41,15 @@ class UnlockDailog extends ConsumerWidget {
                 width: 80,
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: Colors.white,
+                  border: Border.all(color: blackColor,width: 1.5),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/coin.png',
+                      'assets/images/update_coin.png',
                       height: 16,
                       fit: BoxFit.cover,
                     ),
@@ -54,8 +58,8 @@ class UnlockDailog extends ConsumerWidget {
                       heartCount,
                       style: GoogleFonts.roboto(
                         fontSize: normalFontSize,
-                        color: whiteColor,
-                        fontWeight: FontWeight.w400,
+                        color: blackColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -82,12 +86,17 @@ class UnlockDailog extends ConsumerWidget {
                   ref.read(selfProfileProvider.notifier).state = data;
                 }
               },
-              child: Text(
-                AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
-                style: GoogleFonts.roboto(
-                  fontSize: kTextRegular,
-                  color: primaryColor,
-                  fontWeight: FontWeight.bold,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 12,horizontal: 24),
+                decoration: BoxDecoration(color: greenColor,borderRadius: BorderRadius.circular(20)),
+                child: Text(
+                  AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: kTextRegular,
+                    color: whiteColor,
+                    fontFamily: kFontGibsonBold,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

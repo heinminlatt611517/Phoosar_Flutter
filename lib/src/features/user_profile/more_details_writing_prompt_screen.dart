@@ -61,7 +61,7 @@ class _MoreDetailsWritingPromptScreenState extends ConsumerState<MoreDetailsWrit
                 Navigator.of(context).pop();
               }
             },
-              child: Icon(Icons.check,color: primaryColor,)),
+              child: Icon(Icons.check,color: Colors.cyan,)),
         )],
       ),
       backgroundColor: whitePaleColor,
@@ -82,7 +82,7 @@ class _MoreDetailsWritingPromptScreenState extends ConsumerState<MoreDetailsWrit
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: kTextRegular3x,
-                    color: Colors.grey,
+                    color: Colors.black45,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

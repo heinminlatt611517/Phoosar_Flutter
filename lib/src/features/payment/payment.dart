@@ -7,6 +7,8 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../utils/fonts.dart';
+
 
 class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen(
@@ -53,8 +55,16 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
     return Scaffold(
       backgroundColor: whitePaleColor,
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
-        title: Text(AppLocalizations.of(context)!.kPayment,),
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          AppLocalizations.of(context)!.kPayment.toUpperCase(),
+          style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -81,9 +91,10 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                              'EZ Dinger',
-                              style: TextStyle(color: primaryColor),
+                            child:Image.asset(
+                              'assets/images/ez_dinger.png',
+                              height: 20,
+                              fit: BoxFit.contain,
                             ),
                           )
                         ],

@@ -10,11 +10,13 @@ class CommonIconButton extends StatelessWidget {
     required this.icon,
     this.backgroundColor = whiteColor,
     this.padding = 10,
+    this.borderColor
   });
   final Function() onTap;
   final Widget icon;
   final Color? backgroundColor;
   final double? padding;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class CommonIconButton extends StatelessWidget {
           padding: EdgeInsets.all(padding ?? 10),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: backgroundColor ?? whiteColor),
+              border: Border.all(color: borderColor ?? Colors.transparent,width: borderColor == null ? 0 : 1.5),
               color: backgroundColor),
           child: icon),
     );

@@ -4,6 +4,7 @@ import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class UnlockSuccessDailog extends StatelessWidget {
@@ -25,11 +26,11 @@ class UnlockSuccessDailog extends StatelessWidget {
           children: [
             20.vGap,
             Text(
-              'Unlocked',
-              style: GoogleFonts.roboto(
-                color: greyColor,
+              'UNLOCKED',
+              style: TextStyle(
+                color: blackColor,
                 fontSize: 28,
-                fontWeight: FontWeight.bold,
+                fontFamily: kFontGibsonBold
               ),
             ),
             20.vGap,

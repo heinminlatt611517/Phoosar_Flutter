@@ -17,8 +17,9 @@ class GetMoreLikesDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var likesList = ref.watch(likeListProvider(context));
     return CommonDialog(
-      title: 'Get More Likes',
+      title: 'GET MORE LIKES',
       width: 400,
+      isCustomFont: true,
       isExpand: true,
       child: SingleChildScrollView(
         child: Column(
@@ -62,10 +63,10 @@ class GetMoreLikesDialog extends ConsumerWidget {
             20.vGap,
             Center(
               child: Text(
-                'UNLIMITED Likes',
+                'Unlimited Likes',
                 style: GoogleFonts.roboto(
-                  fontSize: largeFontSize,
-                  color: primaryColor,
+                  fontSize: mediumFontSize,
+                  color: blackColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -74,7 +75,8 @@ class GetMoreLikesDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                bgColor: primaryColor,
+                bgColor: blackColor,
+                buttonTextColor: orangeColor,
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMIUM",
                 onTap: () {

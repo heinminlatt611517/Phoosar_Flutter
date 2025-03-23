@@ -65,7 +65,7 @@ class InfoCard extends StatelessWidget {
                         style: GoogleFonts.roboto(
                           fontSize: smallFontSize,
                           color: whiteColor,
-                          fontWeight: FontWeight.w200,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ],
@@ -97,34 +97,33 @@ class InfoCard extends StatelessWidget {
                   ),
                   8.vGap,
                   UserInfoRow(
-                    icon: Icon(
-                      Icons.location_on,
-                      color: whiteColor,
-                      size: 14,
+                    icon: Image.asset(
+                      'assets/images/location.png',
+                      width: 12,
                     ),
                     text: findData.city ?? '',
                   ),
+                  6.vGap,
                   UserInfoRow(
-                    icon: Icon(
-                      Icons.work,
-                      color: whiteColor,
-                      size: 14,
+                    icon: Image.asset(
+                      'assets/images/work.png',
+                      width: 14,
                     ),
                     text: findData.jobTitle ?? '',
                   ),
+                  6.vGap,
                   UserInfoRow(
-                    icon: Icon(
-                      Icons.home,
-                      color: whiteColor,
-                      size: 14,
+                    icon: Image.asset(
+                      'assets/images/address.png',
+                      width: 14,
                     ),
                     text: 'Live in ${findData.city ?? ''}',
                   ),
+                  6.vGap,
                   UserInfoRow(
-                    icon: Icon(
-                      Icons.school,
-                      color: whiteColor,
-                      size: 14,
+                    icon: Image.asset(
+                      'assets/images/school.png',
+                      width: 14,
                     ),
                     text: findData.school ?? '',
                   ),

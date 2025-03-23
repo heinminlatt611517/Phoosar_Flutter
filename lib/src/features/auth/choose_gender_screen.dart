@@ -105,11 +105,11 @@ class ChooseGenderCircleContainer extends StatelessWidget {
         Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 2.8),
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 2.4),
             child: GenderCircleContainerView(
               selectedGender: selectedGender,
-              height: 175,
-              width: 175,
+              height: 195,
+              width: 195,
               isMale: true,
               isSelected: selectedGender == "Male",
               onTapButton: () {
@@ -122,12 +122,12 @@ class ChooseGenderCircleContainer extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: MediaQuery.of(context).size.width / 2.6,
-          top: -2,
+          right: MediaQuery.of(context).size.width / 2.7,
+          top: -6,
           child: GenderCircleContainerView(
             selectedGender: selectedGender,
-            height: 200,
-            width: 200,
+            height: 225,
+            width: 225,
             isMale: false,
             isSelected: selectedGender == "Female",
             onTapButton: () {
@@ -178,8 +178,8 @@ class GenderCircleContainerView extends StatelessWidget {
         height: height,
         width: width,
         child:selectedGender == '' ? Image.asset(imageAsset) : isSelected
-            ? Image.asset(imageAsset)
-            : Image.asset(dimImageAsset),
+            ? Image.asset(imageAsset,fit: BoxFit.contain,)
+            : Image.asset(dimImageAsset,fit: BoxFit.contain,),
       ),
     );
   }

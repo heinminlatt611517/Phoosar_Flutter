@@ -18,7 +18,8 @@ class GetMoreCoinsDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var heartList = ref.watch(pointListProvider(context));
     return CommonDialog(
-      title: 'Get More Coins',
+      title: 'GET MORE COINS',
+      isCustomFont: true,
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -65,10 +66,10 @@ class GetMoreCoinsDialog extends ConsumerWidget {
             20.vGap,
             Center(
               child: Text(
-                'UNLIMITED Coins',
+                'Unlimited Coins',
                 style: GoogleFonts.roboto(
-                  fontSize: largeFontSize,
-                  color: primaryColor,
+                  fontSize: mediumFontSize,
+                  color: blackColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -77,8 +78,9 @@ class GetMoreCoinsDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                bgColor: primaryColor,
+                bgColor: blackColor,
                 fontSize: mediumFontSize,
+                buttonTextColor: orangeColor,
                 text: "PHOOSAR PREMIUM",
                 onTap: () {
                   Navigator.pop(context);
@@ -91,7 +93,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
                 },
               ),
             ),
-            12.vGap,
+            2.vGap,
           ],
         ),
       ),

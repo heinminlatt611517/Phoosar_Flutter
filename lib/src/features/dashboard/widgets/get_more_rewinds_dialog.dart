@@ -17,8 +17,9 @@ class GetMoreRewindsDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var rewindList = ref.watch(rewindListProvider(context));
     return CommonDialog(
-      title: 'Get More Rewinds',
+      title: 'GET MORE REWINDS',
       width: 400,
+      isCustomFont : true,
       isExpand: true,
       child: SingleChildScrollView(
         child: Column(
@@ -64,20 +65,20 @@ class GetMoreRewindsDialog extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'UNLIMITED',
+                  'Unlimited',
                   style: GoogleFonts.roboto(
-                    fontSize: largeFontSize,
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold,
+                    fontSize: mediumFontSize,
+                    color: blackColor,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 8.hGap,
                 Text(
                   'Rewinds',
                   style: GoogleFonts.roboto(
-                    fontSize: mediumLargeFontSize,
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold,
+                    fontSize: mediumFontSize,
+                    color: blackColor,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -86,9 +87,10 @@ class GetMoreRewindsDialog extends ConsumerWidget {
             Align(
               alignment: Alignment.center,
               child: CommonButton(
-                bgColor: primaryColor,
+                bgColor: blackColor,
                 fontSize: mediumFontSize,
                 text: "PHOOSAR PREMIUM",
+                buttonTextColor: orangeColor,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(

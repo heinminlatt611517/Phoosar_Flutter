@@ -23,6 +23,7 @@ import 'package:phoosar/src/list_items/more_deatils_list_item_view.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
@@ -99,15 +100,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   void _onFieldNameFocusLost() {
     if (nameController.text != _nameText) {
       var request = {"name": nameController.text};
-       callSaveProfile(request, context).then((res) async{
-         ref.invalidate(profileDataProvider);
-         final profileRes = await ref
-             .watch(repositoryProvider)
-             .getProfile(jsonEncode({}), context);
-         var data = SelfProfileResponse.fromJson(
-             jsonDecode(profileRes.body));
-         ref.read(selfProfileProvider.notifier).state = data;
-       });
+      callSaveProfile(request, context).then((res) async {
+        ref.invalidate(profileDataProvider);
+        final profileRes = await ref
+            .watch(repositoryProvider)
+            .getProfile(jsonEncode({}), context);
+        var data = SelfProfileResponse.fromJson(jsonDecode(profileRes.body));
+        ref.read(selfProfileProvider.notifier).state = data;
+      });
       _nameText = nameController.text;
     }
   }
@@ -119,6 +119,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       _aboutText = aboutController.text;
     }
   }
+
   void _onFieldJobTitleFocusLost() {
     if (jobTitleController.text != _jobTitleText) {
       var request = {"job_title": jobTitleController.text};
@@ -126,6 +127,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       _jobTitleText = jobTitleController.text;
     }
   }
+
   void _onFieldSchoolFocusLost() {
     if (schoolController.text != _schoolText) {
       var request = {"school": schoolController.text};
@@ -155,9 +157,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     var showBuyCoinData = ref.watch(showBuyCoinProvider);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: whitePaleColor,
+          backgroundColor: blackColor,
+          leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
           title: Text(
-            AppLocalizations.of(context)!.kEditProfileLowerCase,
+            AppLocalizations.of(context)!.kEditProfileLowerCase.toUpperCase(),
+            style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
           ),
           centerTitle: true,
         ),
@@ -181,19 +189,24 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       return data?.uploadPhotoData?[index].url.toString() == ""
                           ? InkWell(
                               onTap: () {
-                                showChooseImageBottomSheet(context, data, index);
+                                showChooseImageBottomSheet(
+                                    context, data, index);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 16),
                                 decoration: BoxDecoration(
                                   color: greyColor,
+                                  border: Border.all(color: blackColor,width: 1.5),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Center(
-                                    child: Icon(
-                                  Icons.add,
-                                  color: blackColor,
-                                  size: 24,
+                                    child: Container(
+                                      decoration: BoxDecoration(color: blackColor,shape: BoxShape.circle),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: whiteColor,
+                                    size: 24,
+                                  ),
                                 )),
                               ),
                             )
@@ -233,11 +246,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                         ref.invalidate(profileDataProvider);
                                       }
                                     },
-                                    backgroundColor: blueColor,
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: whiteColor,
-                                      size: 18,
+                                    borderColor: redColor,
+                                    backgroundColor: whiteColor,
+                                    icon: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Image.asset(
+                                        'assets/images/delete_icon.png',
+                                        width: 12,
+                                        color: redColor,
+                                      ),
                                     ),
                                     padding: 4,
                                   ),
@@ -245,19 +262,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               ],
                             );
                     } else {
-                      return  Container(
+                      return Container(
                         margin: const EdgeInsets.only(bottom: 16),
                         decoration: BoxDecoration(
                           color: greyColor,
+                          border: Border.all(color: blackColor,width: 1.5),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
                           child: InkWell(
-                            onTap: () async{
+                            onTap: () async {
                               _handleAction(context);
                             },
                             child: CoinCount(
-                              width: 80,
+                              width: 60,
+                              backgroundColor: whiteColor,
                               coinCount: '10',
                             ),
                           ),
@@ -265,11 +284,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       );
                     }
                   },
-                  itemCount:showBuyCoinData.toString()!= '0' ? data?.uploadPhotoData?.length : 3,
+                  itemCount: showBuyCoinData.toString() != '0'
+                      ? data?.uploadPhotoData?.length
+                      : 3,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 8.0,
-                    crossAxisSpacing: 8.0,
+                    crossAxisSpacing: 14.0,
+                    childAspectRatio: 1/1.25
                   ),
                 ),
                 Divider(
@@ -278,12 +300,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 ),
                 12.vGap,
                 SelfInformation(
-                  descriptionController : nameController,
+                  descriptionController: nameController,
                   title: AppLocalizations.of(context)!.kNameLabel,
                   description: data?.name ?? "",
                   focusNode: _focusNodeName,
-                  onChangeDescription: (value) async {
-                  },
+                  onChangeDescription: (value) async {},
                 ),
                 Divider(
                   height: 1,
@@ -297,8 +318,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     textAlign: TextAlign.left,
                     style: GoogleFonts.roboto(
                       fontSize: kTextRegular2x,
-                      color: blackColor,
-                      fontWeight: FontWeight.w300,
+                      color: greenColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -308,7 +329,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 SizedBox(
                   height: 60,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: kMarginLarge),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -326,8 +348,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 };
                                 await callSaveProfile(request, context);
                               },
-                              initValue:
-                                  DateTime.parse(data?.birthdate).day.toString()),
+                              initValue: DateTime.parse(data?.birthdate)
+                                  .day
+                                  .toString()),
                         ),
                         10.hGap,
 
@@ -373,14 +396,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                 ),
                 12.vGap,
+
                 SelfInformation(
                   focusNode: _focusNodeAbout,
-                  descriptionController : aboutController,
-                  title:
-                      '${AppLocalizations.of(context)!.kAboutLabel}',
+                  descriptionController: aboutController,
+                  title: '${AppLocalizations.of(context)!.kAboutLabel} ${data?.name}',
                   description: data?.about ?? "",
-                  onChangeDescription: (value) async {
-                  },
+                  onChangeDescription: (value) async {},
                 ),
                 Divider(
                   height: 1,
@@ -392,8 +414,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   focusNode: _focusNodeJobTitle,
                   title: AppLocalizations.of(context)!.kJobTitleLabel,
                   description: data?.jobTitle ?? "",
-                  onChangeDescription: (value) async {
-                  },
+                  onChangeDescription: (value) async {},
                 ),
                 Divider(
                   height: 1,
@@ -405,8 +426,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   focusNode: _focusNodeSchool,
                   title: AppLocalizations.of(context)!.kSchoolLabel,
                   description: data?.school ?? "",
-                  onChangeDescription: (value) async {
-                  },
+                  onChangeDescription: (value) async {},
                 ),
                 Divider(
                   height: 1,
@@ -428,8 +448,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     textAlign: TextAlign.left,
                     style: GoogleFonts.roboto(
                       fontSize: kTextRegular2x,
-                      color: blackColor,
-                      fontWeight: FontWeight.w300,
+                      color: greenColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -439,11 +459,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   child: Row(
                     children: [
                       SizedBox(
-                          width: 100,
+                          width: 85,
                           child: SelectableButton(
+                              borderRadius: 24,
+                              borderColor: Colors.transparent,
                               label: 'Yes',
                               bgColor:
-                                  isSmoke == "yes" ? primaryColor : Colors.grey,
+                                  isSmoke == "yes" ? Colors.cyan : Colors.grey,
                               isSelected: isSmoke == "yes" ? true : false,
                               onTapButton: (value) async {
                                 var request = {"smoke": true};
@@ -458,11 +480,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               })),
                       20.hGap,
                       SizedBox(
-                          width: 100,
+                          width: 85,
                           child: SelectableButton(
+                              borderRadius: 24,
+                              borderColor: Colors.transparent,
                               label: 'No',
                               bgColor:
-                                  isSmoke == "no" ? primaryColor : Colors.grey,
+                                  isSmoke == "no" ? Colors.cyan : Colors.grey,
                               isSelected: isSmoke == "no" ? true : false,
                               onTapButton: (value) async {
                                 var request = {"smoke": false};
@@ -489,8 +513,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     textAlign: TextAlign.left,
                     style: GoogleFonts.roboto(
                       fontSize: kTextRegular2x,
-                      color: blackColor,
-                      fontWeight: FontWeight.w300,
+                      color: greenColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -526,16 +550,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 Container(
                   color: Colors.white,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   child: Row(
                     children: [
                       Text(
                         AppLocalizations.of(context)!.kAddInterestLabel,
                         textAlign: TextAlign.left,
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                           fontSize: kTextRegular2x,
                           color: blackColor,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Spacer(),
@@ -548,10 +572,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             ),
                           );
                         },
-                        backgroundColor: greyColor,
+                        backgroundColor: Colors.transparent,
+                        borderColor: blackColor,
                         icon: Icon(
                           Icons.add,
-                          color: whiteColor,
+                          color: blackColor,
                           size: 18,
                         ),
                         padding: 4,
@@ -570,8 +595,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     textAlign: TextAlign.left,
                     style: GoogleFonts.roboto(
                       fontSize: kTextRegular2x,
-                      color: blackColor,
-                      fontWeight: FontWeight.w300,
+                      color: greenColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -604,13 +629,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         child: MoreDetailsListItemView(
                           id: data?.moreDetails?[index].id.toString() ?? "",
                           title: data?.moreDetails?[index].question ?? "",
-                          description: data?.moreDetails?[index].answerText ?? "",
+                          description:
+                              data?.moreDetails?[index].answerText ?? "",
                           onTapDelete: (id) async {
                             var request = {"question_id": id};
                             var response = await ref
                                 .read(repositoryProvider)
                                 .deleteMoreDetailsAnswer(request, context);
-                            if (response.statusCode.toString().startsWith('2')) {
+                            if (response.statusCode
+                                .toString()
+                                .startsWith('2')) {
                               ref.invalidate(profileDataProvider);
                             }
                           },
@@ -631,7 +659,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 Container(
                   color: Colors.white,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   child: Row(
                     children: [
                       Text(
@@ -653,10 +681,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             ),
                           );
                         },
-                        backgroundColor: greyColor,
+                        backgroundColor: Colors.transparent,
+                        borderColor: blackColor,
                         icon: Icon(
                           Icons.add,
-                          color: whiteColor,
+                          color: blackColor,
                           size: 18,
                         ),
                         padding: 4,
@@ -679,8 +708,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     textAlign: TextAlign.left,
                     style: GoogleFonts.roboto(
                       fontSize: kTextRegular2x,
-                      color: blackColor,
-                      fontWeight: FontWeight.w300,
+                      color: greenColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -690,10 +719,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   child: Row(
                     children: [
                       SizedBox(
-                          width: 100,
+                          width: 85,
                           child: SelectableButton(
                               label: AppLocalizations.of(context)!.kMaleLabel,
-                              bgColor: primaryColor,
+                              bgColor: Colors.cyan,
+                              borderRadius: 20,
+                              borderColor: Colors.transparent,
                               isSelected:
                                   data?.gender.toString() == "1" ? true : false,
                               onTapButton: (value) async {
@@ -702,10 +733,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               })),
                       20.hGap,
                       SizedBox(
-                          width: 100,
+                          width: 85,
                           child: SelectableButton(
                               label: AppLocalizations.of(context)!.kFemaleLabel,
-                              bgColor: primaryColor,
+                              bgColor: Colors.cyan,
+                              borderRadius: 20,
+                              borderColor: Colors.transparent,
                               isSelected:
                                   data?.gender.toString() == "2" ? true : false,
                               onTapButton: (value) async {
@@ -720,7 +753,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
                 ///control profile view
                 Visibility(
-                  visible: showBuyCoinData.toString()!= '0',
+                  visible: showBuyCoinData.toString() != '0',
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
@@ -728,8 +761,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       textAlign: TextAlign.left,
                       style: GoogleFonts.roboto(
                         fontSize: kTextRegular2x,
-                        color: blackColor,
-                        fontWeight: FontWeight.w300,
+                        color: greenColor,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -737,11 +770,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
                 ///dont show age view
                 Visibility(
-                  visible: showBuyCoinData.toString()!= '0',
+                  visible: showBuyCoinData.toString() != '0',
                   child: Container(
                     color: Colors.white,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
                     child: Row(
                       children: [
                         Text(
@@ -757,26 +790,39 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         Visibility(
                           visible: !data!.showAge!.showAgeStatus!,
                           child: InkWell(
-                            onTap: () async{
-                              var response = await ref.watch(repositoryProvider).buySettingWithPoint(
-                                  jsonEncode({"setting_type" : "profile_show_age",}), context);
+                              onTap: () async {
+                                var response = await ref
+                                    .watch(repositoryProvider)
+                                    .buySettingWithPoint(
+                                        jsonEncode({
+                                          "setting_type": "profile_show_age",
+                                        }),
+                                        context);
 
-                              if (response.statusCode.toString().startsWith("2")) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => UnlockSuccessDailog());
-                                ref.invalidate(profileDataProvider);
-                                await updateSeftProfileData();
-                              }
-                            },
-                              child: CoinCount(coinCount: data.showAge?.pointProfileShowAge.toString() ?? "",)),
+                                if (response.statusCode
+                                    .toString()
+                                    .startsWith("2")) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          UnlockSuccessDailog());
+                                  ref.invalidate(profileDataProvider);
+                                  await updateSeftProfileData();
+                                }
+                              },
+                              child: CoinCount(
+                                backgroundColor: whiteColor,
+                                coinCount: data.showAge?.pointProfileShowAge
+                                        .toString() ??
+                                    "",
+                              )),
                         ),
                       ],
                     ),
                   ),
                 ),
                 Visibility(
-                  visible: showBuyCoinData.toString()!= '0',
+                  visible: showBuyCoinData.toString() != '0',
                   child: Divider(
                     height: 1,
                     color: greyColor,
@@ -785,15 +831,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
                 ///distance invisible view
                 Visibility(
-                  visible: showBuyCoinData.toString()!= '0',
+                  visible: showBuyCoinData.toString() != '0',
                   child: Container(
                     color: Colors.white,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
                     child: Row(
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.kMakeDistanceInvisibleLabel,
+                          AppLocalizations.of(context)!
+                              .kMakeDistanceInvisibleLabel,
                           textAlign: TextAlign.left,
                           style: GoogleFonts.roboto(
                             fontSize: kTextRegular2x,
@@ -803,21 +850,37 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         ),
                         Spacer(),
                         Visibility(
-                          visible: !data.distanceInvisible!.distanceInvisibleStatus!,
+                          visible:
+                              !data.distanceInvisible!.distanceInvisibleStatus!,
                           child: InkWell(
-                            onTap: () async{
-                              var response = await ref.watch(repositoryProvider).buySettingWithPoint(
-                                  jsonEncode({"setting_type" : "profile_distance_invisible",}), context);
+                              onTap: () async {
+                                var response = await ref
+                                    .watch(repositoryProvider)
+                                    .buySettingWithPoint(
+                                        jsonEncode({
+                                          "setting_type":
+                                              "profile_distance_invisible",
+                                        }),
+                                        context);
 
-                              if (response.statusCode.toString().startsWith("2")) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => UnlockSuccessDailog());
-                                ref.invalidate(profileDataProvider);
-                                await updateSeftProfileData();
-                              }
-                            },
-                              child: CoinCount(coinCount: data.distanceInvisible?.pointDistanceInvisible.toString() ?? "",)),
+                                if (response.statusCode
+                                    .toString()
+                                    .startsWith("2")) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          UnlockSuccessDailog());
+                                  ref.invalidate(profileDataProvider);
+                                  await updateSeftProfileData();
+                                }
+                              },
+                              child: CoinCount(
+                                backgroundColor: whiteColor,
+                                coinCount: data.distanceInvisible
+                                        ?.pointDistanceInvisible
+                                        .toString() ??
+                                    "",
+                              )),
                         )
                       ],
                     ),
@@ -840,11 +903,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         }));
   }
 
-  Future<void> callSaveProfile(Map<String, String> request, BuildContext context) async {
+  Future<void> callSaveProfile(
+      Map<String, String> request, BuildContext context) async {
     debugPrint("CallSaveProfileApi>>>>>>>>>>>>");
-    var response = await ref
-        .read(repositoryProvider)
-        .saveProfile(request, context);
+    var response =
+        await ref.read(repositoryProvider).saveProfile(request, context);
     if (response.statusCode.toString().startsWith('2')) {
       ref.invalidate(profileDataProvider);
     }
@@ -909,7 +972,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     );
   }
 
-
   void _handleAction(BuildContext context) {
     _showDialog(context);
   }
@@ -918,7 +980,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return  CommonDialog(
+        return CommonDialog(
           title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
           width: 400,
           isExpand: true,
@@ -985,12 +1047,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   void _callApi() async {
     try {
       var response = await ref.watch(repositoryProvider).buySettingWithPoint(
-          jsonEncode({"setting_type" : "profile_image",}), context);
+          jsonEncode({
+            "setting_type": "profile_image",
+          }),
+          context);
 
       if (response.statusCode.toString().startsWith("2")) {
         showDialog(
-            context: context,
-            builder: (context) => UnlockSuccessDailog());
+            context: context, builder: (context) => UnlockSuccessDailog());
         ref.invalidate(profileDataProvider);
 
         await updateSeftProfileData();
@@ -1001,7 +1065,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   Future<void> updateSeftProfileData() async {
-     final repository = ref.watch(repositoryProvider);
+    final repository = ref.watch(repositoryProvider);
     final response = await repository.getProfile(jsonEncode({}), context);
     var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
     ref.read(selfProfileProvider.notifier).state = data;
