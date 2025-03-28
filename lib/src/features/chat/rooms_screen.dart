@@ -11,6 +11,7 @@ import 'package:phoosar/src/providers/chat_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:timeago/timeago.dart';
 
@@ -87,7 +88,7 @@ class RoomsScreen extends ConsumerWidget {
                                     .deleteAllMessages();
                                 ref.invalidate(roomsProvider);
                               },
-                              backgroundColor: Colors.pinkAccent,
+                              backgroundColor: primaryColor,
                               foregroundColor: Colors.white,
                               icon: Icons.delete,
                             ),

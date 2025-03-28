@@ -1,6 +1,5 @@
 import Flutter
 import UIKit
-import PhoneNumberKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {

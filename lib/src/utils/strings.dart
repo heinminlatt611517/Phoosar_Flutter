@@ -51,6 +51,7 @@ const kSaveLabel = "Save";
 ///share_pref key
 const kRecentOnboardingKey = "Recent Onboarding";
 const kTokenKey = "token";
+const kSkipQuestion = "Skip Question";
 
 ///error image url
 const errorImageUrl = "https://reputationtoday.in/wp-content/uploads/2019/11/110-1102775_download-empty-profile-hd-png-download.jpg";

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 
 class InputView extends StatelessWidget {
   final TextEditingController controller;
   final String hintLabel;
+  final Color? cursorColor;
   final String? Function(String?)? validator;
 
   const InputView(
       {super.key,
       required this.controller,
       required this.hintLabel,
-      this.validator});
+      this.validator,
+      this.cursorColor});
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +24,22 @@ class InputView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
-          color: const Color.fromRGBO(0, 0, 0, 0),
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 0.5)),
+          color: Colors.white.withOpacity(0.2),
+        border: Border.all(
+            color: Colors.white,
+            width: 1),),
       child: TextFormField(
         controller: controller,
         validator: validator,
+        cursorColor: cursorColor ?? primaryColor,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintLabel,
             hintStyle: TextStyle(
               letterSpacing: 2,
-              color: Colors.grey,
+              color: Colors.white,
             )),
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

@@ -155,7 +155,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                   children: [
                     Text(
                       'Matches',//AppLocalizations.of(context)!.kMatchesLabel,
-                      style: TextStyle(color:selectedIndex == 0 ? Colors.pinkAccent : Colors.grey, fontSize: 16),
+                      style: TextStyle(color:selectedIndex == 0 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
                     ///spacer
@@ -184,7 +184,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                   children: [
                     Text(
                       'Liked You',//AppLocalizations.of(context)!.kLikedYouLabel,
-                      style: TextStyle(color: selectedIndex == 1 ? Colors.pinkAccent : Colors.grey, fontSize: 16),
+                      style: TextStyle(color: selectedIndex == 1 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
                     ///spacer
@@ -212,7 +212,7 @@ class MatchAndLikeYouView extends StatelessWidget {
                   children: [
                     Text(
                       'Liked Profiles',//AppLocalizations.of(context)!.kLikedProfilesLabel,
-                      style: TextStyle(color: selectedIndex == 2 ? Colors.pinkAccent : Colors.grey, fontSize: 16),
+                      style: TextStyle(color: selectedIndex == 2 ? primaryColor : Colors.grey, fontSize: 16),
                     ),
 
                     ///spacer

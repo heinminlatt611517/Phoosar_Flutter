@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/common_dialog.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ReportSuccessDailog extends StatelessWidget {
   const ReportSuccessDailog({
@@ -14,7 +15,7 @@ class ReportSuccessDailog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
-      title: 'Profile Report saved successfully.',
+      title: AppLocalizations.of(context)!.kProfileReportSaveSuccessfully,
       width: 400,
       isExpand: true,
       child: SingleChildScrollView(
@@ -34,7 +35,7 @@ class ReportSuccessDailog extends StatelessWidget {
               alignment: Alignment.center,
               child: CommonButton(
                 fontSize: mediumFontSize,
-                text: "CONTINUE",
+                text: AppLocalizations.of(context)!.kContinue,
                 onTap: () {
                   Navigator.pop(context);
                 },

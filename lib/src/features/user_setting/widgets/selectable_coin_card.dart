@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
@@ -43,10 +44,10 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
               margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
-                color: widget.isSelected ? Colors.pinkAccent : Colors.grey.withOpacity(0.1),
+                color: widget.isSelected ? primaryColor : Colors.grey.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: widget.isSelected ? Colors.pinkAccent : Colors.grey,
+                  color: widget.isSelected ? primaryColor : Colors.grey,
                   width: 0.5,
                 ),
               ),
@@ -70,7 +71,7 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: widget.isSelected ? Colors.white : Colors.pinkAccent,
+                          color: widget.isSelected ? Colors.white : primaryColor,
                         ),
                       ),
                     ],

@@ -15,6 +15,7 @@ import 'package:phoosar/src/features/other_profile/widgets/user_information.dart
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
@@ -147,14 +148,14 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
                     Icons.clear,color: Colors.grey,))
             ],),
             20.vGap,
-            const Text('Confirmation',style: TextStyle(fontSize: kTextRegular3x,color: Colors.black,fontWeight: FontWeight.w600),),
+             Text(AppLocalizations.of(context)!.kConfirmation,style: TextStyle(fontSize: kTextRegular3x,color: Colors.black,fontWeight: FontWeight.w600),),
             4.vGap,
-            const Text('Are you sure you want to report?',style: TextStyle(fontSize: kTextRegular,color: Colors.black,fontWeight: FontWeight.normal),),
+             Text(AppLocalizations.of(context)!.kSureWantToReport,style: TextStyle(fontSize: kTextRegular,color: Colors.black,fontWeight: FontWeight.normal),),
 
             20.vGap,
             Visibility(
                 visible: isLoading == true,
-                child: SpinKitThreeBounce(color: Colors.pinkAccent,)),
+                child: SpinKitThreeBounce(color: primaryColor,)),
             Visibility(
               visible: isLoading == false,
               child: Row(children: [
@@ -162,7 +163,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
                     bgColor: Colors.red,
                     onTap: () {
                       Navigator.of(context).pop();
-                    }, text: 'Cancel',)),
+                    }, text: AppLocalizations.of(context)!.kCancel,)),
                 20.hGap,
                 Expanded(child: CommonButton(
                   bgColor: Colors.green,
@@ -182,7 +183,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
                           context: context,
                           builder: (context) => ReportSuccessDailog());
                     }
-                  }, text: 'Ok',)),
+                  }, text: AppLocalizations.of(context)!.kOk,)),
               ],),
             )
           ],),

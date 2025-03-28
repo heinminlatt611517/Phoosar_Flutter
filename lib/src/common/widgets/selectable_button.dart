@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 import '../../utils/dimens.dart';
 
@@ -24,7 +25,7 @@ class SelectableButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
         decoration: BoxDecoration(
             color:
-                isSelected ? bgColor ?? Colors.pinkAccent : Colors.grey.withOpacity(0.4),
+                isSelected ? bgColor ?? primaryColor : Colors.grey.withOpacity(0.4),
             borderRadius: BorderRadius.circular(kMarginMedium)),
         child: Center(
           child: Text(

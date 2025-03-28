@@ -87,7 +87,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                               amount: selectedPackageData?.value ?? '')));
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
+                  backgroundColor: primaryColor,
                   padding: EdgeInsets.symmetric(horizontal: 64, vertical: 12),
                 ),
                 child: Text(

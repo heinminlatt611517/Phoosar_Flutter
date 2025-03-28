@@ -92,7 +92,7 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
                               amount: selectedPointData?.value ?? '')));
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
+                  backgroundColor: primaryColor,
                   padding: EdgeInsets.symmetric(horizontal: 64, vertical: 12),
                 ),
                 child: Text(

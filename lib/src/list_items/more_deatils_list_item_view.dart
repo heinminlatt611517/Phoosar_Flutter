@@ -30,7 +30,7 @@ class MoreDetailsListItemView extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: GoogleFonts.roboto(
                     fontSize: mediumFontSize,
-                    color: Colors.pinkAccent,
+                    color: primaryColor,
                     fontWeight: FontWeight.w300,
                   ),
                 ),

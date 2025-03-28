@@ -7,14 +7,18 @@ import 'package:phoosar/src/common/empty_find_dialog.dart';
 import 'package:phoosar/src/data/request/city_request.dart';
 import 'package:phoosar/src/data/request/profile_save_request.dart';
 import 'package:phoosar/src/data/request/question_save_request.dart';
+import 'package:phoosar/src/data/response/background_video_response.dart';
 import 'package:phoosar/src/data/response/blocked_list_response.dart';
 import 'package:phoosar/src/data/response/city_list_response.dart';
+import 'package:phoosar/src/data/response/config_response.dart';
 import 'package:phoosar/src/data/response/country_list_response.dart';
 import 'package:phoosar/src/data/response/find_list_response.dart';
 import 'package:phoosar/src/data/response/find_response.dart';
+import 'package:phoosar/src/data/response/interests_response.dart';
 import 'package:phoosar/src/data/response/like_list_response.dart';
 import 'package:phoosar/src/data/response/liked_you_list_response.dart';
 import 'package:phoosar/src/data/response/match_list_response.dart';
+import 'package:phoosar/src/data/response/match_type_response.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
@@ -267,6 +271,50 @@ final blockedUserDataProvider =
   }
 });
 
+final backgroundVideoDataProvider =
+FutureProvider.family<BackgroundVideoData?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getBackgroundVideo(context);
+  if (response.statusCode == 200) {
+    return BackgroundVideoResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load background video data');
+  }
+});
+
+final interestsDataProvider =
+FutureProvider.family<List<InterestData>?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getInterests(context);
+  if (response.statusCode == 200) {
+    return InterestsResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load interests data');
+  }
+});
+
+final configDataProvider =
+FutureProvider.family<ConfigData?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getConfig(context);
+  if (response.statusCode == 200) {
+    return ConfigResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load config data');
+  }
+});
+
+final matchTypeDataProvider =
+FutureProvider.family<List<MatchTypeData>?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getMatchType(context);
+  if (response.statusCode == 200) {
+    return MatchTypeResponse.fromJson(jsonDecode(response.body)).data;
+  } else {
+    throw Exception('Failed to load match types data');
+  }
+});
+
 final profileSaveRequestProvider = StateProvider<ProfileSaveRequest>((ref) {
   return ProfileSaveRequest();
 });
@@ -281,4 +329,8 @@ final cityRequestProvider = StateProvider<CityRequest>((ref) {
 
 final matchCityRequestProvider = StateProvider<CityRequest>((ref) {
   return CityRequest();
+});
+
+final percentageProvider = StateProvider<int>((ref) {
+  return 0;
 });

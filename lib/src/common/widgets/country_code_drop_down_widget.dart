@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 import '../../data/dummy_data/country_flag_code.dart';
 
@@ -67,7 +68,7 @@ class _CountryCodeDropDownButtonState extends State<CountryCodeDropDownButton> {
                   "${item["dial_code"].toString()}(${item["code"].toString()})",
                   style: TextStyle(
                     color:
-                        item == initialData ? Colors.pinkAccent : Colors.black,
+                        item == initialData ? primaryColor : Colors.black,
                   ),
                 ),
               )))

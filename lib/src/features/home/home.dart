@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,10 @@ import 'package:phoosar/src/features/dashboard/dashboard.dart';
 import 'package:phoosar/src/features/home/scaffold_with_navigation_bar.dart';
 import 'package:phoosar/src/features/user_profile/user_profile.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
+import 'package:phoosar/src/utils/colors.dart';
+
+import '../../utils/strings.dart';
+import '../auth/auth_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +29,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    FirebaseMessaging.instance.getInitialMessage().then((message) async {
+      if (message != null) {
+        var token = ref.watch(sharedPrefProvider).getString(kTokenKey);
+        if (token == null) {
+          ///route to auth screen
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => AuthScreen()),
+                (route) => false,
+          );
+        }
+        else {
+          ///route to chat screen
+          ref.read(dashboardProvider.notifier).setPosition(1);
+        }
+      }
+    });
   }
 
   @override
@@ -70,7 +91,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SpinKitThreeBounce(color: Colors.pinkAccent),
+                SpinKitThreeBounce(color: primaryColor),
                 SizedBox(width: 16),
                 Text('Exiting app, please wait..', style: TextStyle(fontSize: 16)),
               ],
@@ -82,21 +103,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
   }
 
   Future<bool> _onWillPop() async {
-    if (isLoading) return false;
+      if (isLoading) return false;
 
-    setState(() {
-      isLoading = true;
-    });
+      setState(() {
+        isLoading = true;
+      });
 
-    await _showLoadingDialog(context);
+      await _showLoadingDialog(context);
 
-    await _updateOnlineStatus(false);
+      await _updateOnlineStatus(false);
 
-    Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(context, rootNavigator: true).pop();
 
-    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
 
-    return false;
+      return false;
   }
 
   @override
@@ -106,7 +127,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
       DashboardScreen(),
       ChatScreen(),
       UserProfileScreen(),
-      // SettingsView(controller: widget.settingsController),
     ];
 
     return WillPopScope(

@@ -39,6 +39,11 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
           (route) => false,
         );
       } else {
+        debugPrint("TokenIsNotNull");
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => AuthScreen()),
+              (route) => false,
+        );
         var recentOnboardingStatus =
             ref.watch(sharedPrefProvider).getString(kRecentOnboardingKey);
         log("Status " + recentOnboardingStatus.toString());

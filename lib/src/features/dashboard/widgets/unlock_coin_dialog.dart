@@ -65,7 +65,7 @@ class UnlockCoinDialog extends StatelessWidget {
                 AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                 style: GoogleFonts.roboto(
                   fontSize: mediumFontSize,
-                  color: Colors.pinkAccent,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

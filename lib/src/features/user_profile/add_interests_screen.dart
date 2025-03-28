@@ -49,7 +49,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              'Type in one interest at a time hit the\n"+" icon',
+              AppLocalizations.of(context)!.kTypeInOneInterest,
               textAlign: TextAlign.left,
               style: GoogleFonts.roboto(
                 fontSize: kTextRegular3x,
@@ -71,7 +71,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                   child: TextFormField(
                     controller: _interestController,
                     decoration: InputDecoration(
-                        hintText: 'Tap here to add an interest',
+                        hintText: AppLocalizations.of(context)!.kTapHereToAddInterest,
                         border: InputBorder.none),
                   ),
                 ),
@@ -159,7 +159,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                     }
                   }
                 },
-                bgColor: Colors.pinkAccent,
+                bgColor: primaryColor,
               ),
             ),
           ),

@@ -74,10 +74,10 @@ class EmailAndPhoneNumberButtonView extends StatelessWidget {
               style: TextStyle(
                   fontSize: kTextRegular2x,
                   fontWeight: FontWeight.bold,
-                  color: isSelected ? Colors.pinkAccent : Colors.grey),
+                  color: isSelected ? Colors.cyan : Colors.grey),
             ),
             Container(
-              color: isSelected ? Colors.pinkAccent : Colors.transparent,
+              color: isSelected ? Colors.cyan : Colors.transparent,
               height: 3,
             )
           ],

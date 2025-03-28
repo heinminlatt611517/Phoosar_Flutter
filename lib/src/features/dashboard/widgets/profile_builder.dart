@@ -120,7 +120,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
               12.hGap,
               CommonButton(
                 text: "Save",
-                bgColor: Colors.pinkAccent,
+                bgColor: primaryColor,
                 containerVPadding: 12,
                 containerHPadding: 20,
                 isLoading: _isLoading,

@@ -31,7 +31,7 @@ class MoreDetailsScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              'Use these writing prompt to make your\nprofile even better! Click on a prompt to add it to your profile.',
+              AppLocalizations.of(context)!.kUseTheseWritingPrompt,
               textAlign: TextAlign.left,
               style: GoogleFonts.roboto(
                 fontSize: kTextRegular3x,
@@ -95,7 +95,7 @@ class MoreDetailsScreen extends ConsumerWidget {
             }, error: (error,stack){
               return Container();
             }, loading: (){
-              return Center(child: SpinKitThreeBounce(color: Colors.pinkAccent,),);
+              return Center(child: SpinKitThreeBounce(color: primaryColor,),);
             })
 
         ]),

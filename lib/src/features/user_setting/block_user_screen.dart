@@ -76,7 +76,7 @@ class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
                                   horizontal: kMarginMedium,
                                   vertical: kMarginSmall),
                               decoration: BoxDecoration(
-                                color: Colors.pinkAccent,
+                                color: primaryColor,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Center(
@@ -105,7 +105,7 @@ class _BlockUserScreenState extends ConsumerState<BlockUserScreen> {
             },
             error: (error, stack) => Container(),
             loading: () => SpinKitThreeBounce(
-                  color: Colors.pinkAccent,
+                  color: primaryColor,
                 )));
   }
 }

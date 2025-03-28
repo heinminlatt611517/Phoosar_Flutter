@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoosar/src/utils/colors.dart';
 
 class SelectPhoto extends StatelessWidget {
   final String textLabel;
@@ -33,7 +34,7 @@ class SelectPhoto extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.pinkAccent,
+              color: primaryColor,
             ),
             const SizedBox(
               width: 14,

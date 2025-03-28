@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "386971559769",
     "project_id": "phoo-sar",
-    "storage_bucket": "phoo-sar.appspot.com"
+    "storage_bucket": "phoo-sar.firebasestorage.app"
   },
   "client": [
     {
@@ -10,6 +10,34 @@
         "mobilesdk_app_id": "1:386971559769:android:ed551014781ef7dd344e48",
         "android_client_info": {
           "package_name": "com.moc.phoosar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386971559769-66o5n1kcnbsrkgi5h36sfb1ietbio583.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moc.phoosar",
+            "certificate_hash": "9351dd9e87de938af736b25715e872591189c98d"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYyH5MLyZWaaFBnMMxA8V8XDR0zIIFoo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386971559769:android:8338b3a12cf117db344e48",
+        "android_client_info": {
+          "package_name": "com.moc.updatephoosar"
         }
       },
       "oauth_client": [],

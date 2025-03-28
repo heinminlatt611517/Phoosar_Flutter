@@ -13,7 +13,9 @@ class CommonButton extends StatelessWidget {
       this.containerVPadding,
       this.containerHPadding,
       this.isLoading = false,
-      this.bgColor});
+        this.isShowBorderColor = false,
+      this.bgColor,
+      this.buttonTextColor});
   final String text;
   final Function() onTap;
   final double? fontSize;
@@ -21,6 +23,8 @@ class CommonButton extends StatelessWidget {
   final double? containerVPadding;
   final double? containerHPadding;
   final bool isLoading;
+  final bool? isShowBorderColor;
+  final Color? buttonTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +39,15 @@ class CommonButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: bgColor ?? Colors.blue,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color:isShowBorderColor==true ? Colors.cyan : Colors.transparent,width: 1)
         ),
         child: isLoading
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('processing',
-                      style: const TextStyle(color: Colors.white)),
-                  const SpinKitThreeBounce(size: 25, color: Colors.white),
+                      style: const TextStyle(color: Colors.black)),
+                  const SpinKitThreeBounce(size: 25, color: Colors.black),
                 ],
               )
             : Text(
@@ -50,7 +55,7 @@ class CommonButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: fontSize ?? smallFontSize,
-                  color: whiteColor,
+                  color:buttonTextColor ?? whiteColor,
                   fontWeight: FontWeight.w400,
                 ),
               ),

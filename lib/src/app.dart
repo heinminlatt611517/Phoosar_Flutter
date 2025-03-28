@@ -8,24 +8,32 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/settings/settings_controller.dart';
 import 'package:phoosar/src/splash_page.dart';
 import 'package:phoosar/src/utils/enable_drag.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'fcm/fcm_service.dart';
 import 'settings/settings_view.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({
     super.key,
     required this.settingsController,
+    required this.sharedPreferences,
+    required this.navigatorKey
   });
   final SettingsController settingsController;
+  final SharedPreferences sharedPreferences;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    FCMService().listenForMessages(sharedPreferences,ref);
     return ListenableBuilder(
       listenable: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
+          navigatorKey: navigatorKey,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
