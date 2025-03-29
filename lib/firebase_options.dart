@@ -46,33 +46,35 @@ class DefaultFirebaseOptions {
     messagingSenderId: '386971559769',
     projectId: 'phoo-sar',
     authDomain: 'phoo-sar.firebaseapp.com',
-    storageBucket: 'phoo-sar.appspot.com',
+    storageBucket: 'phoo-sar.firebasestorage.app',
     measurementId: 'G-68XD8X4HZG',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCYyH5MLyZWaaFBnMMxA8V8XDR0zIIFoo0',
-    appId: '1:386971559769:android:ed551014781ef7dd344e48',
+    appId: '1:386971559769:android:8338b3a12cf117db344e48',
     messagingSenderId: '386971559769',
     projectId: 'phoo-sar',
-    storageBucket: 'phoo-sar.appspot.com',
+    storageBucket: 'phoo-sar.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAvBFP32svo3Sn_tuOhV3_jutB0FnMRFv4',
-    appId: '1:386971559769:ios:70a2902f0358f37e344e48',
+    appId: '1:386971559769:ios:0b6163306c8d1151344e48',
     messagingSenderId: '386971559769',
     projectId: 'phoo-sar',
-    storageBucket: 'phoo-sar.appspot.com',
-    iosBundleId: 'com.moc.phoo-sar',
+    storageBucket: 'phoo-sar.firebasestorage.app',
+    androidClientId: '386971559769-66o5n1kcnbsrkgi5h36sfb1ietbio583.apps.googleusercontent.com',
+    iosBundleId: 'com.moc.phoosar',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAvBFP32svo3Sn_tuOhV3_jutB0FnMRFv4',
-    appId: '1:386971559769:ios:2cbcdabaf90b5d76344e48',
+    appId: '1:386971559769:ios:0b6163306c8d1151344e48',
     messagingSenderId: '386971559769',
     projectId: 'phoo-sar',
-    storageBucket: 'phoo-sar.appspot.com',
+    storageBucket: 'phoo-sar.firebasestorage.app',
+    androidClientId: '386971559769-66o5n1kcnbsrkgi5h36sfb1ietbio583.apps.googleusercontent.com',
     iosBundleId: 'com.moc.phoosar',
   );
 
@@ -82,7 +84,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '386971559769',
     projectId: 'phoo-sar',
     authDomain: 'phoo-sar.firebaseapp.com',
-    storageBucket: 'phoo-sar.appspot.com',
+    storageBucket: 'phoo-sar.firebasestorage.app',
     measurementId: 'G-85819QG86N',
   );
 }

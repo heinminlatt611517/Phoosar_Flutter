@@ -13,6 +13,7 @@ import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class ProfileBuilder extends ConsumerStatefulWidget {
@@ -48,33 +49,29 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Profile Builder',
-                style: GoogleFonts.roboto(
-                  fontSize: mediumLargeFontSize,
-                  color: blueColor,
-                  fontWeight: FontWeight.w700,
-                ),
+                'PROFILE BUILDER',
+                style: TextStyle(color: Colors.black,fontFamily: kFontGibsonBold,fontSize: 24),
               ),
               12.hGap,
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/ic_love.png',
-                      width: 15,
-                      color: Colors.red,
-                    ),
-                    Text(
-                      ' ++',
-                      style: GoogleFonts.roboto(
-                        fontSize: smallFontSize,
-                        color: blueColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 4),
+              //   child: Row(
+              //     children: [
+              //       Image.asset(
+              //         'assets/images/ic_love.png',
+              //         width: 15,
+              //         color: Colors.red,
+              //       ),
+              //       Text(
+              //         ' ++',
+              //         style: GoogleFonts.roboto(
+              //           fontSize: smallFontSize,
+              //           color: blueColor,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
           12.vGap,
@@ -84,7 +81,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
             style: GoogleFonts.roboto(
               fontSize: mediumFontSize,
               color: blackColor,
-              fontWeight: FontWeight.w100,
+              fontWeight: FontWeight.w300,
             ),
           ),
           20.vGap,
@@ -102,7 +99,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
           CommonTextFormField(
             controller: _controller,
             hintText: "Tap here to answer",
-            maxLines: 8,
+            maxLines: 13,
           ),
           20.vGap,
           Row(
@@ -114,7 +111,8 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                 containerVPadding: 12,
                 containerHPadding: 20,
                 onTap: () {
-                  widget.onCancel();
+                 // widget.onCancel();
+                  showSnackBarFun(context, 10);
                 },
               ),
               12.hGap,
@@ -190,25 +188,41 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
 
   showSnackBarFun(context, count) {
     SnackBar snackBar = SnackBar(
-      content: Row(
-        children: [
-          Image.asset("assets/images/ic_love.png",
-              width: 15, color: Colors.red),
-          4.hGap,
-          Text(
-            'You received $count 💕 for updating your profile',
-            style: GoogleFonts.roboto(
-              fontSize: smallFontSize,
-              color: whiteColor,
-            ),
+      content: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              Image.asset("assets/images/update_coin.png",
+                  width: 36),
+              10.hGap,
+              Text(
+                'You received $count',
+                style: GoogleFonts.roboto(
+                  fontSize: smallFontSize,
+                  color: whiteColor,
+                ),
+              ),
+              2.hGap,
+              Image.asset("assets/images/update_coin.png",
+                  width: 15),
+              2.hGap,
+              Text(
+                'for updating your profile',
+                style: GoogleFonts.roboto(
+                  fontSize: smallFontSize,
+                  color: whiteColor,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-      backgroundColor: blackColor,
+      backgroundColor: greenColor,
       dismissDirection: DismissDirection.up,
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 120,
+          bottom: MediaQuery.of(context).size.height - 180,
           left: 10,
           right: 10),
     );
@@ -219,14 +233,14 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
   showSuccessUpdated(context) {
     SnackBar snackBar = SnackBar(
       content: Text(
-        'Profile successfully updated!',
+        'Profile successfully updated',
         textAlign: TextAlign.center,
         style: GoogleFonts.roboto(
           fontSize: mediumFontSize,
           color: whiteColor,
         ),
       ),
-      backgroundColor: Colors.green,
+      backgroundColor: greenColor,
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(left: 1, right: 1),
     );

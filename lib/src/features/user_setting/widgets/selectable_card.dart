@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 
 class SelectableCard extends StatefulWidget {
   final String month;
@@ -40,8 +42,8 @@ class _SelectableCardState extends State<SelectableCard> {
               padding: EdgeInsets.symmetric(
                   horizontal: 16, vertical: widget.isSelected ? 24 : 16),
               decoration: BoxDecoration(
-                color: widget.isSelected ? Colors.cyan : Colors.grey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
+                color: appBackgroundColor,
+                borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: widget.isSelected ? Colors.cyan : Colors.grey,
                   width: 0.5,
@@ -54,33 +56,28 @@ class _SelectableCardState extends State<SelectableCard> {
                     Text(
                       textAlign: TextAlign.center,
                       widget.month,
-                      // widget.duration.split(' ')[0] +
-                      //     '\n' +
-                      //     widget.duration.split(' ')[1] +
-                      //     ' ' +
-                      //     widget.duration.split(' ')[2],
                       style: TextStyle(
                         fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: widget.isSelected ? Colors.white : Colors.pink,
+                        fontFamily: kFontGibsonBold,
+                        color: widget.isSelected ? primaryColor : blackColor,
                       ),
                     ),
                     Text(
                       textAlign: TextAlign.center,
-                      'months',
+                     widget.month != "1" ? 'MONTHS' : "MONTH",
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: widget.isSelected ? Colors.white : Colors.pink,
+                        fontFamily: kFontGibsonBold,
+                        color: widget.isSelected ? primaryColor : Colors.black,
                       ),
                     ),
                     SizedBox(height: 8),
                     Text(
                       widget.price,
-                      style: TextStyle(
+                      style: GoogleFonts.roboto(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: widget.isSelected ? Colors.white : Colors.black,
+                        color: widget.isSelected ? primaryColor : Colors.black,
                       ),
                     ),
                     if (widget.label.isNotEmpty)
@@ -116,7 +113,7 @@ class _SelectableCardState extends State<SelectableCard> {
               left: 0,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-                decoration: BoxDecoration(color: primaryColor,borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: blackColor,border: Border.all(color: whiteColor),borderRadius: BorderRadius.circular(12)),
               child: Center(child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: FittedBox(child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 11),)),

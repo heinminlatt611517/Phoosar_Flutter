@@ -64,10 +64,9 @@ class GetMoreLikesDialog extends ConsumerWidget {
             Center(
               child: Text(
                 'Unlimited Likes',
-                style: GoogleFonts.roboto(
-                  fontSize: mediumFontSize,
+                style: TextStyle(
+                  fontSize: 20,
                   color: blackColor,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

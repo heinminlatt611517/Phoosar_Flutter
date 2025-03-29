@@ -18,7 +18,9 @@ class MoreInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: blackColor,width: 1),borderRadius: BorderRadius.circular(12)),
       margin: EdgeInsets.symmetric(vertical: kMarginMedium),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

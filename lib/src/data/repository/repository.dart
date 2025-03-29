@@ -467,4 +467,13 @@ class Repository {
     return response;
   }
 
+  Future<Response> checkPhoosarApp(BuildContext context) async {
+    var response = await Session.getWithoutAuth(
+      Uri.parse("${Env.baseurl}/check-phoosar-app"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

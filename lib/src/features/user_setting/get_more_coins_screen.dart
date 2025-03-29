@@ -12,6 +12,7 @@ import 'package:sized_context/sized_context.dart';
 
 import '../../common/widgets/phoosar_premium_view.dart';
 import '../../utils/colors.dart';
+import '../../utils/fonts.dart';
 
 class GetMoreCoinsScreen extends ConsumerStatefulWidget {
   @override
@@ -26,11 +27,19 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
   Widget build(BuildContext context) {
     var pointList = ref.watch(pointListProvider(context));
     return Scaffold(
-      backgroundColor: whitePaleColor,
+      backgroundColor: blackColor,
       appBar: AppBar(
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          kGetMoreCoinsLabel.toUpperCase(),
+          style: TextStyle(fontFamily: kFontGibsonBold,color: orangeColor),
+        ),
         centerTitle: true,
-        backgroundColor: whitePaleColor,
-        title: Text(kGetMoreCoinsLabel),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -39,7 +48,7 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kMarginLarge,vertical: kMarginMedium2),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white,
+                  decoration: BoxDecoration(color: blackColor,
                     borderRadius: BorderRadius.circular(10),),
                   child: PhoosarPremiumCarouselWidget(),
                 )),
@@ -69,6 +78,7 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
                     crossAxisCount: 3, // number of items in each row
                     mainAxisSpacing: 20.0, // spacing between rows
                     crossAxisSpacing: 0.0,
+                  childAspectRatio: 1/1.2
 
 
                 ),
@@ -79,25 +89,30 @@ class _GetMoreCoinsScreenState extends ConsumerState<GetMoreCoinsScreen> {
             SizedBox(height: 32),
             Visibility(
               visible: selectedPointData != null,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle continue button press
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentScreen(
-                              planType: selectedPointData?.name ?? '',
-                              planTypeId:
-                                  selectedPointData?.id.toString() ?? '',
-                              amount: selectedPointData?.value ?? '')));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: EdgeInsets.symmetric(horizontal: 64, vertical: 12),
-                ),
-                child: Text(
-                  'CONTINUE',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentScreen(
+                                  planType: selectedPointData?.name ?? '',
+                                  planTypeId:
+                                      selectedPointData?.id.toString() ?? '',
+                                  amount: selectedPointData?.value ?? '')));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: Text(
+                      'CONTINUE',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
             ),

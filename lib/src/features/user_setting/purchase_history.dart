@@ -4,6 +4,8 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
+import '../../utils/fonts.dart';
+
 class PurchaseHistory extends ConsumerWidget {
   const PurchaseHistory({super.key});
 
@@ -13,8 +15,16 @@ class PurchaseHistory extends ConsumerWidget {
     return Scaffold(
       backgroundColor: whitePaleColor,
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
-        title: Text('Purchase History'),
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          'PURCHASE HISTORY',
+          style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -32,7 +42,7 @@ class PurchaseHistory extends ConsumerWidget {
                     )),
                 Expanded(
                     child: Text(
-                  'Amount',
+                  'Date',
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.pink),
                 )),
@@ -40,7 +50,7 @@ class PurchaseHistory extends ConsumerWidget {
                 Expanded(
                     flex: 2,
                     child: Text(
-                      'Date',
+                      'Amount',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.pink),
                     )),
@@ -52,6 +62,9 @@ class PurchaseHistory extends ConsumerWidget {
                 )),
               ],
             ),
+            20.vGap,
+            Divider(height: 1,color: greyColor,),
+            20.vGap,
             Expanded(
               child: purchaseHistory.when(
                 data: (data) => ListView.builder(
@@ -69,13 +82,13 @@ class PurchaseHistory extends ConsumerWidget {
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 13))),
                             Expanded(
-                                child: Text(data[index].amount.toString(),
+                                child: Text(data[index].date.toString(),
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 13))),
                             12.hGap,
                             Expanded(
                                 flex: 2,
-                                child: Text(data[index].date.toString(),
+                                child: Text(data[index].amount.toString(),
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 13))),
                             Expanded(

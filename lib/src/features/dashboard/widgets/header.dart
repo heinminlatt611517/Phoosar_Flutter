@@ -27,67 +27,70 @@ class DashboardHeader extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-         showBuyCoinData.toString() == '0' ? InkWell(
-           onTap: (){
-             ref.read(dashboardProvider.notifier).setPosition(2);
-           },
-           child: ClipRRect(
-             borderRadius: BorderRadius.circular(20),
-             child:
-             CachedNetworkImage(
-                 height: 40,
-                 width: 40,
-                 fit: BoxFit.cover,
-                 imageUrl: selfProfileData?.data?.profileImages?.first ?? errorImageUrl),),
-         ) : GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-              showDialog(
-                  context: context, builder: (context) => GetMoreCoinsDialog());
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.black),
-                color: whitePaleColor,
-              ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/images/update_coin.png',
-                    height: 16,
-                    fit: BoxFit.cover,
-                  ),
-                  4.hGap,
-                  Container(
-                    child: Text(
-                      selfProfileData != null && selfProfileData.data != null
-                          ? (selfProfileData.data!.pointTotal.toString())
-                          : "0",
-                      textAlign: TextAlign.end,
-                      style: GoogleFonts.roboto(
-                        fontSize: smallFontSize,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          showBuyCoinData.toString() == '1' ?
+          GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          showDialog(
+              context: context, builder: (context) => GetMoreCoinsDialog());
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.black),
+            color: whitePaleColor,
           ),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/images/update_coin.png',
+                height: 16,
+                fit: BoxFit.cover,
+              ),
+              4.hGap,
+              Container(
+                child: Text(
+                  selfProfileData != null && selfProfileData.data != null
+                      ? (selfProfileData.data!.pointTotal.toString())
+                      : "0",
+                  textAlign: TextAlign.end,
+                  style: GoogleFonts.roboto(
+                      fontSize: smallFontSize,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+              :
+          InkWell(
+            onTap: (){
+              ref.read(dashboardProvider.notifier).setPosition(2);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child:
+              CachedNetworkImage(
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.cover,
+                  imageUrl: selfProfileData?.data?.profileImages?.first ?? errorImageUrl),),
+          ) ,
           Expanded(
             child: Center(
               child: Image.asset(
                 selfProfileData != null &&
-                        (selfProfileData.data!.isPremium ?? false)
+                    (selfProfileData.data!.isPremium ?? false)
                     ? 'assets/images/ic_premium_launcher.png'
                     : 'assets/images/phoosar_img.png',
                 width: selfProfileData != null
                     ? (selfProfileData.data!.isPremium ?? false)
-                        ? 60
-                        : 120
+                    ? 60
+                    : 120
                     : 0,
                 fit: BoxFit.fill,
               ),

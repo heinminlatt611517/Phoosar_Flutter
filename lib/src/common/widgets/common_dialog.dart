@@ -16,7 +16,9 @@ class CommonDialog extends StatelessWidget {
       this.isLargeTitleSize = false,
       this.isUnlockDialog = false,
       this.isCustomFont = false,
-      this.titleColor});
+      this.titleColor,
+      this.backgroundColor,
+      this.titleFontSize});
 
   final String title;
   final Widget child;
@@ -27,6 +29,8 @@ class CommonDialog extends StatelessWidget {
   final bool? isUnlockDialog;
   final bool? isCustomFont;
   final Color? titleColor;
+  final Color? backgroundColor;
+  final double? titleFontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class CommonDialog extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       content: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color:backgroundColor ?? whitePaleColor,
           borderRadius: BorderRadius.all(
             Radius.circular(15),
           ),
@@ -58,12 +62,12 @@ class CommonDialog extends StatelessWidget {
                   : Text(
                       title,
                        textAlign: TextAlign.center,
-                      style:isCustomFont == true ? TextStyle(
-                        fontSize: 25,
-                        fontFamily: kFontGibsonBold,
+                      style:isCustomFont == true ? GoogleFonts.roboto(
+                        fontSize:titleFontSize ?? 26,
                         color:titleColor ?? orangeColor,
+                        fontWeight: FontWeight.bold,
                       ) : GoogleFonts.roboto(
-                        color:greyColor,
+                        color:titleColor ?? greyColor,
                         fontSize:
                             isLargeTitleSize == true ? 24 : smallLargeFontSize,
                         fontWeight: FontWeight.bold,

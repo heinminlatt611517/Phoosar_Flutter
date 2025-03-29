@@ -113,7 +113,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Visibility(
-                              visible: showBuyCoinData.toString()!= '0',
+                              visible: showBuyCoinData.toString() == '1',
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [

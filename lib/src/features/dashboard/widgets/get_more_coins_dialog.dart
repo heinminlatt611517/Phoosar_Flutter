@@ -21,6 +21,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
       title: 'GET MORE COINS',
       isCustomFont: true,
       width: 400,
+      titleFontSize: 30,
       isExpand: true,
       child: SingleChildScrollView(
         child: Column(
@@ -67,10 +68,10 @@ class GetMoreCoinsDialog extends ConsumerWidget {
             Center(
               child: Text(
                 'Unlimited Coins',
-                style: GoogleFonts.roboto(
-                  fontSize: mediumFontSize,
+                style: TextStyle(
+                  fontSize: 20,
                   color: blackColor,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ),

@@ -15,3 +15,4 @@ const whitePaleColor = Color(0xffF0EEEA);
 const greyColor = Color(0xffE0E0E0);
 const redColor = Color(0xFF9E2F16);
 const orangeColor = Color(0xFFFFAA39);
+const appBackgroundColor = Color(0xFFF7F8FC);

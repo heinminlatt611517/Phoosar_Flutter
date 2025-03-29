@@ -10,6 +10,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 
 import '../../common/widgets/phoosar_premium_carousel_widget.dart';
+import '../../utils/fonts.dart';
 
 class PhoosarPremiumScreen extends ConsumerStatefulWidget {
   @override
@@ -24,11 +25,19 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
   Widget build(BuildContext context) {
     var packageList = ref.watch(packageListProvider(context));
     return Scaffold(
-      backgroundColor: whitePaleColor,
+      backgroundColor: blackColor,
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          'PHOOSAR PREMIUM',
+          style: TextStyle(fontFamily: kFontGibsonBold,color: orangeColor),
+        ),
         centerTitle: true,
-        title: Text('Phoosar Premium'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -37,7 +46,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kMarginLarge,vertical: kMarginMedium2),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white,
+                  decoration: BoxDecoration(color: blackColor,
                     borderRadius: BorderRadius.circular(10),),
                   child: PhoosarPremiumCarouselWidget(),
                 )),
@@ -66,6 +75,7 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
                     crossAxisCount: 3, // number of items in each row
                     mainAxisSpacing: 20.0, // spacing between rows
                     crossAxisSpacing: 0.0,
+                  childAspectRatio: 1/1.2
                 ),
               ),
               error: (error, stack) => Text(error.toString()),
@@ -74,25 +84,30 @@ class _PhoosarPremiumScreenState extends ConsumerState<PhoosarPremiumScreen> {
             SizedBox(height: 32),
             Visibility(
               visible: selectedPackageData != null,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle continue button press
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentScreen(
-                              planType: 'package',
-                              planTypeId:
-                                  selectedPackageData?.id.toString() ?? '',
-                              amount: selectedPackageData?.value ?? '')));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: EdgeInsets.symmetric(horizontal: 64, vertical: 12),
-                ),
-                child: Text(
-                  'CONTINUE',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kMarginLarge),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentScreen(
+                                  planType: 'package',
+                                  planTypeId:
+                                      selectedPackageData?.id.toString() ?? '',
+                                  amount: selectedPackageData?.value ?? '')));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: Text(
+                      'CONTINUE',
+                      style: TextStyle(fontSize: 18, color: Colors.white,fontFamily: kFontGibsonBold),
+                    ),
+                  ),
                 ),
               ),
             ),

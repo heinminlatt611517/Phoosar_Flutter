@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/coin_count.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 
@@ -44,8 +46,8 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
               margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
-                color: widget.isSelected ? primaryColor : Colors.grey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
+                color: widget.isSelected ? primaryColor : appBackgroundColor,
+                borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: widget.isSelected ? primaryColor : Colors.grey,
                   width: 0.5,
@@ -56,12 +58,13 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CoinCount(coinCount: widget.point),
+                      CoinCount(coinCount: widget.point,backgroundColor: whitePaleColor,),
                       8.vGap,
                       Text(
                         "${widget.price} Kyat",
-                        style: TextStyle(
-                          fontSize: 18,
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                           color: widget.isSelected ? Colors.white : Colors.black,
                         ),
                       ),
@@ -69,9 +72,9 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                       Text(
                         kBuyNowLabel,
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: widget.isSelected ? Colors.white : primaryColor,
+                          fontSize: 16,
+                          fontFamily: kFontGibsonBold,
+                          color: widget.isSelected ? Colors.white : greenColor,
                         ),
                       ),
                     ],
@@ -89,7 +92,9 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
               left: 0,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-                decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                    border: Border.all(color: whiteColor),
+                    color: Colors.black,borderRadius: BorderRadius.circular(12)),
                 child: Center(child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: FittedBox(child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 11),)),

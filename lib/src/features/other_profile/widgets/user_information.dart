@@ -12,8 +12,10 @@ class UserInformation extends StatelessWidget {
   const UserInformation({
     super.key,
     required this.findData,
+    this.isShowAboutText
   });
   final ProfileData findData;
+  final bool? isShowAboutText;
 
   @override
   Widget build(BuildContext context) {
@@ -120,18 +122,24 @@ class UserInformation extends StatelessWidget {
           textColor: blackColor,
         ),
         8.vGap,
-        Divider(
-          height: 1,
-          color: greyColor,
+        Visibility(
+          visible: isShowAboutText ?? true,
+          child: Divider(
+            height: 1,
+            color: greyColor,
+          ),
         ),
         20.vGap,
-        Text(
-          findData.about ?? "",
-          textAlign: TextAlign.left,
-          style: GoogleFonts.roboto(
-            fontSize: smallFontSize,
-            color: blackColor,
-            fontWeight: FontWeight.w100,
+        Visibility(
+          visible: isShowAboutText ?? true,
+          child: Text(
+            findData.about ?? "",
+            textAlign: TextAlign.left,
+            style: GoogleFonts.roboto(
+              fontSize: smallFontSize,
+              color: blackColor,
+              fontWeight: FontWeight.w100,
+            ),
           ),
         ),
       ],

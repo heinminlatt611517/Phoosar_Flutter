@@ -169,7 +169,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
           centerTitle: true,
         ),
-        backgroundColor: whitePaleColor,
+        backgroundColor: appBackgroundColor,
         body: profileData.when(data: (data) {
           isSmoke = data?.smoke ?? "no";
           return SingleChildScrollView(
@@ -284,9 +284,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       );
                     }
                   },
-                  itemCount: showBuyCoinData.toString() != '0'
-                      ? data?.uploadPhotoData?.length
-                      : 3,
+                  itemCount:showBuyCoinData.toString() == '1' ?  data?.uploadPhotoData?.length : 3,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 8.0,
@@ -752,138 +750,126 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 20.vGap,
 
                 ///control profile view
-                Visibility(
-                  visible: showBuyCoinData.toString() != '0',
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      AppLocalizations.of(context)!.kControlYourProfileLabel,
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.roboto(
-                        fontSize: kTextRegular2x,
-                        color: greenColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    AppLocalizations.of(context)!.kControlYourProfileLabel,
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.roboto(
+                      fontSize: kTextRegular2x,
+                      color: greenColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
 
                 ///dont show age view
-                Visibility(
-                  visible: showBuyCoinData.toString() != '0',
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
-                    child: Row(
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.kDontShowMyAgeLabel,
-                          textAlign: TextAlign.left,
-                          style: GoogleFonts.roboto(
-                            fontSize: kTextRegular2x,
-                            color: blackColor,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Spacer(),
-                        Visibility(
-                          visible: !data!.showAge!.showAgeStatus!,
-                          child: InkWell(
-                              onTap: () async {
-                                var response = await ref
-                                    .watch(repositoryProvider)
-                                    .buySettingWithPoint(
-                                        jsonEncode({
-                                          "setting_type": "profile_show_age",
-                                        }),
-                                        context);
-
-                                if (response.statusCode
-                                    .toString()
-                                    .startsWith("2")) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          UnlockSuccessDailog());
-                                  ref.invalidate(profileDataProvider);
-                                  await updateSeftProfileData();
-                                }
-                              },
-                              child: CoinCount(
-                                backgroundColor: whiteColor,
-                                coinCount: data.showAge?.pointProfileShowAge
-                                        .toString() ??
-                                    "",
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
+                Divider(
+                  height: 1,
+                  color: greyColor,
                 ),
-                Visibility(
-                  visible: showBuyCoinData.toString() != '0',
-                  child: Divider(
-                    height: 1,
-                    color: greyColor,
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 16),
+                  child: Row(
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.kDontShowMyAgeLabel,
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.roboto(
+                          fontSize: kTextRegular2x,
+                          color: blackColor,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      Spacer(),
+                      Visibility(
+                        visible: !data!.showAge!.showAgeStatus!,
+                        child: InkWell(
+                            onTap: () async {
+                              var response = await ref
+                                  .watch(repositoryProvider)
+                                  .buySettingWithPoint(
+                                      jsonEncode({
+                                        "setting_type": "profile_show_age",
+                                      }),
+                                      context);
+
+                              if (response.statusCode
+                                  .toString()
+                                  .startsWith("2")) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        UnlockSuccessDailog());
+                                ref.invalidate(profileDataProvider);
+                                await updateSeftProfileData();
+                              }
+                            },
+                            child: CoinCount(
+                              backgroundColor: whiteColor,
+                              coinCount: data.showAge?.pointProfileShowAge
+                                      .toString() ??
+                                  "",
+                            )),
+                      ),
+                    ],
                   ),
                 ),
 
                 ///distance invisible view
-                Visibility(
-                  visible: showBuyCoinData.toString() != '0',
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
-                    child: Row(
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!
-                              .kMakeDistanceInvisibleLabel,
-                          textAlign: TextAlign.left,
-                          style: GoogleFonts.roboto(
-                            fontSize: kTextRegular2x,
-                            color: blackColor,
-                            fontWeight: FontWeight.w300,
-                          ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 16),
+                  child: Row(
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!
+                            .kMakeDistanceInvisibleLabel,
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.roboto(
+                          fontSize: kTextRegular2x,
+                          color: blackColor,
+                          fontWeight: FontWeight.w300,
                         ),
-                        Spacer(),
-                        Visibility(
-                          visible:
-                              !data.distanceInvisible!.distanceInvisibleStatus!,
-                          child: InkWell(
-                              onTap: () async {
-                                var response = await ref
-                                    .watch(repositoryProvider)
-                                    .buySettingWithPoint(
-                                        jsonEncode({
-                                          "setting_type":
-                                              "profile_distance_invisible",
-                                        }),
-                                        context);
+                      ),
+                      Spacer(),
+                      Visibility(
+                        visible:
+                            !data.distanceInvisible!.distanceInvisibleStatus!,
+                        child: InkWell(
+                            onTap: () async {
+                              var response = await ref
+                                  .watch(repositoryProvider)
+                                  .buySettingWithPoint(
+                                      jsonEncode({
+                                        "setting_type":
+                                            "profile_distance_invisible",
+                                      }),
+                                      context);
 
-                                if (response.statusCode
-                                    .toString()
-                                    .startsWith("2")) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          UnlockSuccessDailog());
-                                  ref.invalidate(profileDataProvider);
-                                  await updateSeftProfileData();
-                                }
-                              },
-                              child: CoinCount(
-                                backgroundColor: whiteColor,
-                                coinCount: data.distanceInvisible
-                                        ?.pointDistanceInvisible
-                                        .toString() ??
-                                    "",
-                              )),
-                        )
-                      ],
-                    ),
+                              if (response.statusCode
+                                  .toString()
+                                  .startsWith("2")) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        UnlockSuccessDailog());
+                                ref.invalidate(profileDataProvider);
+                                await updateSeftProfileData();
+                              }
+                            },
+                            child: CoinCount(
+                              backgroundColor: whiteColor,
+                              coinCount: data.distanceInvisible
+                                      ?.pointDistanceInvisible
+                                      .toString() ??
+                                  "",
+                            )),
+                      )
+                    ],
                   ),
                 ),
                 50.vGap,
@@ -981,7 +967,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return CommonDialog(
-          title: AppLocalizations.of(context)!.kUnlockFeatureLabel,
+          backgroundColor: primaryColor,
+          title: AppLocalizations.of(context)!.kUnlockFeatureLabel.toUpperCase(),
+          titleColor: whiteColor,
           width: 400,
           isExpand: true,
           child: SingleChildScrollView(
@@ -994,14 +982,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     width: 80,
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                     decoration: BoxDecoration(
-                      color: primaryColor,
+                      color: whitePaleColor,
+                      border: Border.all(color: blackColor,width: 1.5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/coin.png',
+                          'assets/images/update_coin.png',
                           height: 16,
                           fit: BoxFit.cover,
                         ),
@@ -1010,15 +999,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           '10',
                           style: GoogleFonts.roboto(
                             fontSize: normalFontSize,
-                            color: whiteColor,
-                            fontWeight: FontWeight.w400,
+                            color: blackColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                20.vGap,
+                40.vGap,
                 InkWell(
                   onTap: () async {
                     Navigator.of(context).pop(true);
@@ -1027,8 +1016,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                     style: GoogleFonts.roboto(
                       fontSize: mediumFontSize,
-                      color: blueColor,
-                      fontWeight: FontWeight.w400,
+                      color: whiteColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

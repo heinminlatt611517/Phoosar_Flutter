@@ -79,6 +79,43 @@ class Session {
     return response;
   }
 
+  static Future<Response> getWithoutAuth(
+      Uri url,
+      BuildContext context,
+      Ref ref,
+      ) async {
+    final client = await ref.getDebouncedHttpClient();
+
+    Response response = await client.get(
+      url,
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (!response.statusCode.toString().startsWith("2")) {
+      var data = DefaultResponse.fromJson(jsonDecode(response.body));
+      if (response.statusCode == 422) {
+        showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: data.message,
+              message: data.errors!.join("\n"),
+            ));
+      } else if (response.statusCode == 401) {
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              title: "",
+              message: data.message,
+            ));
+      }
+    }
+    return response;
+  }
+
   static Future<Response> post(
       Uri url, dynamic data, BuildContext context, Ref ref) async {
     var prefs = ref.watch(sharedPrefProvider);

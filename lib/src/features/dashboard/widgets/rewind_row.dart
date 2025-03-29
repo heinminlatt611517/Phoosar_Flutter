@@ -42,9 +42,9 @@ class RewindRow extends StatelessWidget {
               ),
               Text(
                 ' Rewinds',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: mediumFontSize,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
@@ -52,7 +52,7 @@ class RewindRow extends StatelessWidget {
           Row(
             children: [
               CoinCount(coinCount: heartCount,backgroundColor: Colors.white,),
-              10.hGap,
+              20.hGap,
               InkWell(
                 onTap: () {
                   Navigator.pop(context);
@@ -65,10 +65,10 @@ class RewindRow extends StatelessWidget {
                 },
                 child: Text(
                   AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
-                  style: TextStyle(
+                  style: GoogleFonts.roboto(
                     fontSize: smallFontSize,
                     color: greenColor,
-                    fontFamily: kFontGibsonBold,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
               ),

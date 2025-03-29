@@ -7,6 +7,7 @@ class Room {
     required this.createdAt,
     required this.otherUserId,
     this.lastMessage,
+    this.unreadCount = 0,
   });
 
   /// ID of the room
@@ -21,10 +22,13 @@ class Room {
   /// Latest message submitted in the room
   final Message? lastMessage;
 
+  final int unreadCount;
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'createdAt': createdAt.millisecondsSinceEpoch,
+      'unreadCount': unreadCount,
     };
   }
 
@@ -33,6 +37,7 @@ class Room {
       : id = map['room_id'],
         otherUserId = map['profile_id'],
         createdAt = DateTime.parse(map['created_at']),
+        unreadCount = map['unread_count'] ?? 0,
         lastMessage = null;
 
   Room copyWith({
@@ -40,12 +45,14 @@ class Room {
     DateTime? createdAt,
     String? otherUserId,
     Message? lastMessage,
+    int? unreadCount,
   }) {
     return Room(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       otherUserId: otherUserId ?? this.otherUserId,
       lastMessage: lastMessage ?? this.lastMessage,
+      unreadCount: unreadCount ?? this.unreadCount,
     );
   }
 }

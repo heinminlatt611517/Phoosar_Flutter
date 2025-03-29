@@ -36,7 +36,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whitePaleColor,
+      backgroundColor: appBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,54 +62,92 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 )
               ],
             ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  UserInformation(findData: widget.findData),
-                  20.vGap,
-                  UserHobbies(findData: widget.findData,),
-                  ListView.builder(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                20.vGap,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
+                  child: UserInformation(findData: widget.findData,isShowAboutText: false,),
+                ),
+
+                Divider(
+                  height: 1,
+                  color: blackColor,
+                ),
+
+                Container(
+                  color: whitePaleColor,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(kMarginMedium2),
+                  child: Text(
+                    widget.findData.about ?? "",
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.roboto(
+                      fontSize: smallFontSize,
+                      color: blackColor,
+                      fontWeight: FontWeight.w100,
+                    ),
+                  ),
+                ),
+
+                Divider(
+                  height: 1,
+                  color: blackColor,
+                ),
+
+                ///hobbies
+                Container(
+                    width: double.infinity,
+                    color: whitePaleColor,
+                    padding: EdgeInsets.only(left: kMarginMedium2,right: kMarginMedium2,top: kMarginMedium2),
+                    child: UserHobbies(findData: widget.findData,)),
+
+                ///more details
+                Container(
+                  color: whitePaleColor,
+                  padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+                  child: ListView.builder(
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: widget.findData.moreDetails?.length,
                       itemBuilder: (context,index){
                     return MoreInformation(title: widget.findData.moreDetails?[index].question ?? "", description: widget.findData.moreDetails?[index].answerText ?? "");
                   }),
-                  20.vGap,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.report,
-                        color: greyColor,
-                      ),
-                      12.hGap,
-                      InkWell(
-                        onTap: () async{
+                ),
+                20.vGap,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.remove_circle_outline,
+                      color: redColor.withOpacity(0.3),
+                    ),
+                    12.hGap,
+                    InkWell(
+                      onTap: () async{
 
-                         showDialog(context: context, builder: (context) => ReportDialog(findData: widget.findData,));
-                        },
-                        child: Text(
-                          'Report ${widget.findData.name}',
-                          style: GoogleFonts.roboto(
-                            fontSize: smallLargeFontSize,
-                            color: greyColor,
-                            fontWeight: FontWeight.w700,
-                          ),
+                       showDialog(context: context, builder: (context) => ReportDialog(findData: widget.findData,));
+                      },
+                      child: Text(
+                        'Report ${widget.findData.name}'.toUpperCase(),
+                        style: GoogleFonts.roboto(
+                          fontSize: smallLargeFontSize,
+                          color: redColor,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ],
-                  ),
-                  20.vGap,
-                  Divider(
-                    height: 1,
-                    color: greyColor,
-                  ),
-                  20.vGap,
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                20.vGap,
+                Divider(
+                  height: 1,
+                  color: greyColor,
+                ),
+                20.vGap,
+              ],
             ),
           ],
         ),

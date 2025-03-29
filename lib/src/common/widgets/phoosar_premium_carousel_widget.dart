@@ -1,11 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/data/dummy_data/premium_slider_data.dart';
+import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../utils/dimens.dart';
 
 class PhoosarPremiumCarouselWidget extends StatefulWidget {
+  final Color? titleColor;
+  final bool? isBlackPremiumLogo;
+  const PhoosarPremiumCarouselWidget({super.key, this.titleColor,this.isBlackPremiumLogo});
   @override
   State<StatefulWidget> createState() {
     return _CarouselWithIndicatorState();
@@ -37,7 +41,7 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                     Visibility(
                       visible : i['id'] == "1",
                       child: Image.asset(
-                        'assets/images/phoosar_premium_img.png',
+                       widget.isBlackPremiumLogo == true ? 'assets/images/phoosar_premium_img.png' : 'assets/images/premium_white_logo.png',
                         width: MediaQuery
                             .of(context)
                             .size
@@ -47,7 +51,7 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                     10.vGap,
                     Text(
                       i['title'] ?? "",
-                      style: TextStyle(color: Colors.black.withOpacity(0.4),
+                      style: TextStyle(color: widget.titleColor ?? whiteColor,
                           fontWeight: FontWeight.bold,
                           fontSize: kTextRegular3x),
                     ),
@@ -82,7 +86,7 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                       .of(context)
                       .brightness == Brightness.dark
                       ? Colors.white
-                      : Colors.black)
+                      : Colors.white)
                       .withOpacity(_current == entry.key ? 0.9 : 0.4)),
             ),
           );

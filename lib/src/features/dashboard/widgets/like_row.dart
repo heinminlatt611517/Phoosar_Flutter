@@ -7,12 +7,15 @@ import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../utils/dimens.dart';
+
 class LikeRow extends StatelessWidget {
   const LikeRow(
       {super.key,
       required this.likeCount,
       required this.heartCount,
       required this.buyId});
+
   final String likeCount;
   final String heartCount;
   final String buyId;
@@ -38,9 +41,9 @@ class LikeRow extends StatelessWidget {
               ),
               Text(
                 ' Likes',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: mediumFontSize,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
@@ -50,10 +53,9 @@ class LikeRow extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: blackColor,width: 1.5)
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: blackColor, width: 1.5)),
                 child: Row(
                   children: [
                     Image.asset(
@@ -73,7 +75,7 @@ class LikeRow extends StatelessWidget {
                   ],
                 ),
               ),
-              10.hGap,
+              20.hGap,
               InkWell(
                 onTap: () {
                   Navigator.pop(context);
@@ -84,15 +86,12 @@ class LikeRow extends StatelessWidget {
                             buyId: buyId,
                           ));
                 },
-                child: Text(
-                  AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: smallFontSize,
-                    color: greenColor,
-                    fontFamily: kFontGibsonBold,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                child: Text(AppLocalizations.of(context)!.kUnlockLabel,
+                    style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      color: greenColor,
+                      fontWeight: FontWeight.bold,
+                    )),
               ),
               10.hGap,
             ],

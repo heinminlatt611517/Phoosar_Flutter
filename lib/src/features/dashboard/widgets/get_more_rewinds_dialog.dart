@@ -66,19 +66,17 @@ class GetMoreRewindsDialog extends ConsumerWidget {
               children: [
                 Text(
                   'Unlimited',
-                  style: GoogleFonts.roboto(
-                    fontSize: mediumFontSize,
+                  style: TextStyle(
+                    fontSize: 20,
                     color: blackColor,
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 8.hGap,
                 Text(
                   'Rewinds',
-                  style: GoogleFonts.roboto(
-                    fontSize: mediumFontSize,
+                  style: TextStyle(
+                    fontSize: 20,
                     color: blackColor,
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],

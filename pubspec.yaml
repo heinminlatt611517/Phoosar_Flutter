@@ -4,7 +4,7 @@ description: "A dating app"
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 1.0.1+20
+version: 1.1.14+14
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -53,6 +53,7 @@ dependencies:
   googleapis_auth: ^1.6.0
   package_info_plus: ^8.2.0
   shimmer: ^3.0.0
+  get: ^4.7.2
 
 
 dev_dependencies:
@@ -73,6 +74,7 @@ flutter:
     - assets/images/
     - assets/svgs/
     - shorebird.yaml
+    - assets/icons/
 
   #---------------- ./ LOCAL FONTS ----------------#
   fonts:

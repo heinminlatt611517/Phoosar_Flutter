@@ -32,7 +32,7 @@ class MoreDetailsScreen extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      backgroundColor: whitePaleColor,
+      backgroundColor: appBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

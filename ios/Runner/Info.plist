@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Phoosar</string>
+	<string>Programming-Quiz</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,11 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-    <string>$(FLUTTER_BUILD_NAME)</string>
-    <key>CFBundleSignature</key>
-    <string>????</string>
-    <key>CFBundleVersion</key>
-    <string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -49,6 +47,12 @@
 	<string>69911446c6bf70512689f3c5a73803c5</string>
 	<key>FacebookDisplayName</key>
 	<string>Phoosar</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<false/>
 	<key>GIDClientID</key>
 	<string>98376363970-rhbkts7ddqbi09g9n2hp29v2n7bd8q8h.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -70,12 +74,6 @@
 	<string>We need access to your photo library to upload user profile picture.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-    <false/>
-    <key>FirebaseMessagingAutoInitEnabled</key>
-    <false/>
-    <key>FirebaseAutomaticScreenReportingEnabled</key>
-    <false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

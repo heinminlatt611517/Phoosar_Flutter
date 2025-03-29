@@ -26,6 +26,8 @@ class UserSettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var selfProfileData = ref.watch(selfProfileProvider);
+    var showBuyCoinData = ref.watch(showBuyCoinProvider);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -46,23 +48,26 @@ class UserSettingScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ///phoosar premium view
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PhoosarPremiumScreen()));
-                },
-                child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: kMarginMedium),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: PhoosarPremiumCarouselWidget(),
-                    )),
+              Visibility(
+                visible: showBuyCoinData.toString() == '1',
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PhoosarPremiumScreen()));
+                  },
+                  child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: kMarginMedium),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: PhoosarPremiumCarouselWidget(titleColor: Colors.grey,isBlackPremiumLogo: true,),
+                      )),
+                ),
               ),
 
               20.vGap,
@@ -109,26 +114,29 @@ class UserSettingScreen extends ConsumerWidget {
               28.vGap,
 
               ///billing
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.kBillingLabel,
-                    style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
-                  ),
-                  12.vGap,
-                  LabelWithIconOrText(
-                    label: AppLocalizations.of(context)!.kPurchaseHistoryLabel,
-                    isIcon: true,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PurchaseHistory()));
-                    },
-                  ),
-                ],
+              Visibility(
+                visible: showBuyCoinData.toString() == '1',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.kBillingLabel,
+                      style:
+                      TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                    ),
+                    12.vGap,
+                    LabelWithIconOrText(
+                      label: AppLocalizations.of(context)!.kPurchaseHistoryLabel,
+                      isIcon: true,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PurchaseHistory()));
+                      },
+                    ),
+                  ],
+                ),
               ),
 
               28.vGap,
@@ -230,6 +238,9 @@ class HelpAndWhatNewView extends StatelessWidget {
         LabelWithIconOrText(
           label: AppLocalizations.of(context)!.kTermAndConditionLabel,
           isIcon: true,
+          onTap: (){
+
+          },
         ),
 
         10.vGap,

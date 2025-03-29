@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -26,27 +27,55 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
         .order('created_at', ascending: false)
         .map<List<Message>>(
           (data) => data
-              .map<Message>((row) => Message.fromMap(
-                  map: row, myUserId: client.auth.currentUser!.id))
-              .toList(),
-        )
+          .map<Message>((row) => Message.fromMap(
+          map: row, myUserId: client.auth.currentUser!.id))
+          .toList(),
+    )
         .listen(
           (messages) {
-            if (messages.isEmpty) {
-              state = const AsyncValue.data([]);
-            } else {
-              state = AsyncValue.data(messages);
-            }
-          },
-          onError: (error) =>
-              state = AsyncValue.error(error, StackTrace.current),
-        );
+        if (messages.isEmpty) {
+          state = const AsyncValue.data([]);
+        } else {
+          state = AsyncValue.data(messages);
+          _incrementUnreadCountIfNeeded(messages);
+        }
+      },
+      onError: (error) =>
+      state = AsyncValue.error(error, StackTrace.current),
+    );
+  }
+
+  /// Increment unread count if the user hasn't read the message yet
+  void _incrementUnreadCountIfNeeded(List<Message> messages) {
+
+    final client = _ref.read(supabaseClientProvider);
+    final currentUserId = client.auth.currentUser!.id;
+
+    final unreadMessages = messages.where((msg) => msg.profileId != currentUserId).toList();
+
+    if (unreadMessages.isNotEmpty) {
+      debugPrint("IncreaseUnreadCount");
+      _updateUnreadCount(1);
+    }
+  }
+
+  Future<void> _updateUnreadCount(int increment) async {
+    final client = _ref.read(supabaseClientProvider);
+
+    try {
+      final roomData = await client.from('rooms').select('unread_count').eq('id', _roomId).single();
+      final currentUnreadCount = roomData['unread_count'] ?? 0;
+      final newUnreadCount = currentUnreadCount + increment;
+      await client.from('rooms').update({'unread_count': newUnreadCount}).eq('id', _roomId);
+    } catch (e) {
+      print("Error updating unread count: $e");
+    }
   }
 
   Future<void> sendMessage(String content) async {
     final client = _ref.read(supabaseClientProvider);
     final message = Message(
-      id: 'temp', // Temporary ID until confirmed by the database
+      id: 'temp',
       roomId: _roomId,
       profileId: client.auth.currentUser!.id,
       content: content,
@@ -55,7 +84,7 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     );
 
     state.whenData(
-        (messages) => state = AsyncValue.data([message, ...messages]));
+            (messages) => state = AsyncValue.data([message, ...messages]));
 
     try {
       await client.from('messages').insert(message.toMap());
@@ -71,7 +100,6 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     try {
       await client.from('rooms').delete().eq('id', _roomId);
 
-      // Update the state to reflect the deletion
       state = const AsyncValue.data([]);
     } catch (e, stackTrace) {
       print('Error deleting room: $e');
@@ -80,15 +108,22 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     }
   }
 
+  Future<void> markRoomAsRead() async {
+    final client = _ref.read(supabaseClientProvider);
+
+    try {
+      await client.from('rooms').update({'unread_count': 0}).eq('id', _roomId);
+    } catch (e) {
+      print("Error resetting unread count: $e");
+    }
+  }
+
   Future<void> deleteAllMessages() async {
     final client = _ref.read(supabaseClientProvider);
     final userId = client.auth.currentUser!.id;
-    print('Call Here ' + _roomId);
-    print('My user ID: ' + userId);
 
     try {
       await client.from('messages').delete().eq('room_id', _roomId);
-      // Update the state to reflect the deletion
       state = const AsyncValue.data([]);
     } catch (e, stackTrace) {
       print('Error deleting messages: $e');

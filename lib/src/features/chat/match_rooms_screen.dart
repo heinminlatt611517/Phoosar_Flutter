@@ -16,6 +16,7 @@ import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:timeago/timeago.dart';
@@ -48,7 +49,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                 .toList();
             final matchUsers = profiles
                 .where((p) =>
-                    p.id != currentUserId && filterUserIds.contains(p.id))
+            p.id != currentUserId && filterUserIds.contains(p.id))
                 .toList();
             return ListView.separated(
               padding: EdgeInsets.zero,
@@ -56,41 +57,48 @@ class MatchRoomsScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 Room? room = rooms
                     .where((room) =>
-                        room.otherUserId ==
-                        filterUsers[index].profile!.supabaseUserId)
+                room.otherUserId ==
+                    filterUsers[index].profile!.supabaseUserId)
                     .firstOrNull;
                 var otherUser = filterUsers[index].profile!;
                 return Slidable(
                   key: ValueKey(index),
                   endActionPane: ActionPane(
                     motion: const ScrollMotion(),
+                      extentRatio  :0.4,
                     children: [
-                      SlidableAction(
+                      CustomSlidableAction(
                         onPressed: (_) async {
                           if (room != null) {
                             await ref.read(repositoryProvider).saveProfileReact(
-                                  jsonEncode({
-                                    "reacted_user_id": filterUsers
-                                        .firstWhere((user) =>
-                                            user.profile!.supabaseUserId ==
-                                            room.otherUserId)
-                                        .profile!
-                                        .id
-                                        .toString(),
-                                    "reacted_type": "block"
-                                  }),
-                                  context,
-                                );
+                              jsonEncode({
+                                "reacted_user_id": filterUsers
+                                    .firstWhere((user) =>
+                                user.profile!.supabaseUserId ==
+                                    room.otherUserId)
+                                    .profile!
+                                    .id
+                                    .toString(),
+                                "reacted_type": "block"
+                              }),
+                              context,
+                            );
                             ref.invalidate(matchListProvider);
                             ref.invalidate(likeListProvider);
                             ref.invalidate(likedProfilesListProvider);
                           }
                         },
+                        borderRadius: BorderRadius.circular(16),
                         backgroundColor: Colors.grey,
                         foregroundColor: Colors.white,
-                        icon: Icons.block,
+                        padding: EdgeInsets.all(kMarginMedium3),
+                        child: Image.asset(
+                          'assets/images/report.png',
+                          color: whiteColor,
+                        ),
                       ),
-                      SlidableAction(
+                      6.hGap,
+                      CustomSlidableAction(
                         onPressed: (_) async {
                           if (room != null) {
                             await ref
@@ -99,9 +107,14 @@ class MatchRoomsScreen extends ConsumerWidget {
                             ref.invalidate(roomsProvider);
                           }
                         },
+                        borderRadius: BorderRadius.circular(16),
                         backgroundColor: primaryColor,
                         foregroundColor: Colors.white,
-                        icon: Icons.delete,
+                        padding: EdgeInsets.all(22),
+                        child: Image.asset(
+                          'assets/images/delete_icon.png',
+                          color: whiteColor,
+                        ),
                       ),
                     ],
                   ),
@@ -114,9 +127,9 @@ class MatchRoomsScreen extends ConsumerWidget {
                           final roomId = await ref
                               .read(roomsProvider.notifier)
                               .createRoom(filterUsers[index]
-                                  .profile!
-                                  .supabaseUserId
-                                  .toString());
+                              .profile!
+                              .supabaseUserId
+                              .toString());
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ChatPage(
                                   roomId: roomId,
@@ -146,7 +159,16 @@ class MatchRoomsScreen extends ConsumerWidget {
                       children: [
                         Text(otherUser.name.toString(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                         15.hGap,
-                        Text(otherUser.isOnline == 1 ? 'online' : '',style: TextStyle(fontSize: 13,color: Colors.grey),)
+                        Row(
+                          children: [
+                            Container(
+                              height: 6,
+                              width: 6,
+                              decoration: BoxDecoration(color: otherUser.isOnline == 1 ? greenColor : Colors.transparent,shape: BoxShape.circle),),
+                            5.hGap,
+                            Text(otherUser.isOnline == 1 ? 'online' : '',style: TextStyle(fontSize: 13,color: Colors.grey),),
+                          ],
+                        )
                       ],
                     ),
                     subtitle: Padding(
@@ -162,10 +184,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                     trailing: Padding(
                       padding: const EdgeInsets.only(right: 12),
                       child: Text(room != null
-                          ? format(
-                              room.lastMessage?.createdAt ?? room.createdAt,
-                              locale: 'en_short')
-                          : ''),
+                          ? room.unreadCount.toString() : ''),
                     ),
                   ),
                 );

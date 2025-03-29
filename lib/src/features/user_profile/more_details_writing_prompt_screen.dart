@@ -35,7 +35,7 @@ class _MoreDetailsWritingPromptScreenState extends ConsumerState<MoreDetailsWrit
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: whitePaleColor,
+        backgroundColor: appBackgroundColor,
         leading: InkWell(
           onTap: (){
             Navigator.of(context).pop();
@@ -64,7 +64,7 @@ class _MoreDetailsWritingPromptScreenState extends ConsumerState<MoreDetailsWrit
               child: Icon(Icons.check,color: Colors.cyan,)),
         )],
       ),
-      backgroundColor: whitePaleColor,
+      backgroundColor: appBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Container(

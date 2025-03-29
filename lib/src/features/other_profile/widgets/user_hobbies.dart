@@ -39,11 +39,6 @@ class UserHobbies extends StatelessWidget {
                     ),
                   ),
               20.vGap,
-              // Divider(
-              //   height: 1,
-              //   color: greyColor,
-              // ),
-              // 20.vGap,
             ],
           ))
           .toList() ?? [],

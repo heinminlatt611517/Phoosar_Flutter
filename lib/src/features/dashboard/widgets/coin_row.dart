@@ -77,9 +77,9 @@ class CoinRow extends StatelessWidget {
               ),
               Text(
                 ' Coins',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: mediumFontSize,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.normal,
                   color: blackColor
                 ),
               ),
@@ -100,11 +100,10 @@ class CoinRow extends StatelessWidget {
             },
             child: Text(
               'BUY NOW',
-              style: TextStyle(
+              style: GoogleFonts.roboto(
                 fontSize: kTextRegular,
                 color: greenColor,
-                fontWeight: FontWeight.normal,
-                fontFamily: kFontGibsonBold
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),

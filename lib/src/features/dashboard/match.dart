@@ -94,7 +94,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               : errorImageUrl,
                         ),
                       ),
-                      SizedBox(width: screenHeight * 0.02), // 2% of screen height
+                      SizedBox(width: screenHeight * 0.02),
                       ClipOval(
                         child: CachedNetworkImage(
                           width: MediaQuery.of(context).size.width * 0.28,

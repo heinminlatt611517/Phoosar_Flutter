@@ -67,7 +67,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ref.invalidate(dashboardProvider);
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginScreen()),
-        (route) => false,
+            (route) => false,
       );
     }
   }
@@ -88,9 +88,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///fetch profile
   Future<void> _fetchProfile() async {
     final response = await ref.read(repositoryProvider).getProfile(
-          jsonEncode({}),
-          context,
-        );
+      jsonEncode({}),
+      context,
+    );
     var data = SelfProfileResponse.fromJson(jsonDecode(response.body));
     ref.read(selfProfileProvider.notifier).state = data;
     ref.read(locationProvider.notifier).state = data.data?.city ?? "";
@@ -100,8 +100,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Future<void> _fetchConfigData() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final response = await ref.read(repositoryProvider).getConfig(
-          context,
-        );
+      context,
+    );
     var data = ConfigResponse.fromJson(jsonDecode(response.body)).data;
     ref.read(percentageProvider.notifier).state = data?.percentage ?? 0;
     ref.read(showBuyCoinProvider.notifier).state = data?.showBuyCoin ?? 0;
@@ -115,9 +115,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///compare version
   int compareVersionStrings(String currentVersion, String releaseVersion) {
     List<int> currentVersionParts =
-        currentVersion.split('.').map((e) => int.parse(e)).toList();
+    currentVersion.split('.').map((e) => int.parse(e)).toList();
     List<int> releaseVersionParts =
-        releaseVersion.split('.').map((e) => int.parse(e)).toList();
+    releaseVersion.split('.').map((e) => int.parse(e)).toList();
     for (int i = 0; i < currentVersionParts.length; i++) {
       if (i >= releaseVersionParts.length) {
         return 1;
@@ -169,7 +169,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         visible: isProfileBuilder,
                         child: ProfileBuilder(
                           profileBuilderData:
-                              profileBuilderData ?? ProfileBuilderData(),
+                          profileBuilderData ?? ProfileBuilderData(),
                           onSave: () {
                             setState(() {
                               profileBuilderData = null;
@@ -271,12 +271,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///rewind
   Future<void> _handleRewind(List<ProfileData> profiles) async {
     var response = await ref.read(repositoryProvider).saveProfileReact(
-          jsonEncode({
-            "reacted_user_id": profiles[selectedIndex].id.toString(),
-            "reacted_type": "rewind"
-          }),
-          context,
-        );
+      jsonEncode({
+        "reacted_user_id": profiles[selectedIndex].id.toString(),
+        "reacted_type": "rewind"
+      }),
+      context,
+    );
 
     var profileReactResponse = ProfileReactResponse.fromJson(
       jsonDecode(response.body),
@@ -322,24 +322,24 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///skip
   Future<void> _handleSkip(List<ProfileData> profiles) async {
     await ref.read(repositoryProvider).saveProfileReact(
-          jsonEncode({
-            "reacted_user_id": profiles[selectedIndex].id.toString(),
-            "reacted_type": "skip"
-          }),
-          context,
-        );
+      jsonEncode({
+        "reacted_user_id": profiles[selectedIndex].id.toString(),
+        "reacted_type": "skip"
+      }),
+      context,
+    );
     _increaseSwipeCount(profiles.length);
   }
 
   ///like
   Future<void> _handleLike(List<ProfileData> profiles) async {
     var response = await ref.read(repositoryProvider).saveProfileReact(
-          jsonEncode({
-            "reacted_user_id": profiles[selectedIndex].id.toString(),
-            "reacted_type": "like"
-          }),
-          context,
-        );
+      jsonEncode({
+        "reacted_user_id": profiles[selectedIndex].id.toString(),
+        "reacted_type": "like"
+      }),
+      context,
+    );
 
     var profileReactResponse = ProfileReactResponse.fromJson(
       jsonDecode(response.body),
@@ -351,7 +351,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         builder: (context) => GetMoreLikesDialog(),
       );
     } else {
-     // _increaseSwipeCountWhileOnPressOk(profiles.length);
+      // _increaseSwipeCountWhileOnPressOk(profiles.length);
       if (profileReactResponse.data?.matchData != null) {
         Navigator.push(
           context,
@@ -470,11 +470,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ///get profile builder question
   Future<void> getProfileBuilderQuestion() async {
     var response = await ref.read(repositoryProvider).getProfileBuiderQuestion(
-          jsonEncode({}),
-          context,
-        );
+      jsonEncode({}),
+      context,
+    );
     var profileBuilderQuestionResponse =
-        ProfileBuilderResponse.fromJson(jsonDecode(response.body));
+    ProfileBuilderResponse.fromJson(jsonDecode(response.body));
     setState(() {
       profileBuilderData = profileBuilderQuestionResponse.data;
       isProfileBuilder = true;

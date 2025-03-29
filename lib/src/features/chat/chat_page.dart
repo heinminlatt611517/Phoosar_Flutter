@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
 import 'package:phoosar/src/providers/chat_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:timeago/timeago.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/widgets/common_button.dart';
 import '../../providers/data_providers.dart';
+import '../../providers/room_provider.dart';
+import '../../utils/fonts.dart';
 
 /// Page to chat with someone.
 ///
@@ -45,12 +49,35 @@ class ChatPage extends ConsumerWidget {
     var selfProfileData = ref.watch(selfProfileProvider);
 
     return Scaffold(
-      backgroundColor: whitePaleColor,
+      backgroundColor: appBackgroundColor,
       appBar: AppBar(
+        backgroundColor: blackColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
+        title: Text(
+          otherUserName,
+          style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
+        ),
         centerTitle: true,
-        backgroundColor: whitePaleColor,
-        title: Text(otherUserName),
-        elevation: 0.5,
+        actions: [
+          InkWell(
+            onTap: () async{
+              await ref
+                  .read(chatProvider(roomId).notifier)
+                  .deleteRoom();
+              ref.invalidate(roomsProvider);
+            },
+            child: Image.asset(
+              'assets/images/chat_delete.png',
+              width: 20,
+              height: 20,
+            ),
+          ),
+          20.hGap
+        ],
       ),
       body: chatState.when(
         loading: () => preloader,
@@ -66,15 +93,15 @@ class ChatPage extends ConsumerWidget {
                       children: [
                         Text(
                           'Say "Hello" to $otherUserName',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          style: GoogleFonts.roboto(
+                              fontWeight: FontWeight.w700,
                               color: Colors.grey.withOpacity(0.5),
-                              fontSize: 18),
+                              fontSize: 24),
                         ),
                         20.vGap,
                         CommonButton(
                             bgColor: primaryColor,
-                            text: 'Tap to Say "Hello"',
+                            text: 'Tap to Say "Hello"'.toUpperCase(),
                             onTap: () {
                               final notifier =
                                   ref.read(chatProvider(roomId).notifier);
@@ -155,33 +182,37 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).cardColor,
+      color: appBackgroundColor,
       child: Padding(
         padding: EdgeInsets.only(
           top: 8,
-          left: 8,
-          right: 8,
           bottom: MediaQuery.of(context).padding.bottom,
         ),
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                maxLines: null,
-                autofocus: true,
-                controller: _textController,
-                decoration: const InputDecoration(
-                  hintText: 'Type a message...',
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8),
+            Divider(color: Colors.black12,height: 5,),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    maxLines: null,
+                    autofocus: false,
+                    controller: _textController,
+                    decoration: const InputDecoration(
+                      hintText: 'Type a message...',
+                      hintStyle: TextStyle(color: Colors.black26),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            TextButton(
-              onPressed: _submitMessage,
-              child: const Icon(Icons.arrow_forward),
+                TextButton(
+                  onPressed: _submitMessage,
+                  child: const Icon(Icons.arrow_forward,color: Colors.black26,size: 30,),
+                ),
+              ],
             ),
           ],
         ),
@@ -193,9 +224,9 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
 class _ChatBubble extends StatelessWidget {
   const _ChatBubble(
       {Key? key,
-      required this.message,
-      required this.otherProfileImage,
-      required this.profileImage})
+        required this.message,
+        required this.otherProfileImage,
+        required this.profileImage})
       : super(key: key);
 
   final Message message;
@@ -215,11 +246,10 @@ class _ChatBubble extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: message.isMine
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.end,
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width - 60,
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 12,
@@ -227,6 +257,15 @@ class _ChatBubble extends StatelessWidget {
               decoration: BoxDecoration(
                 color: message.isMine ? primaryColor : Colors.white,
                 borderRadius: BorderRadius.circular(8),
+                boxShadow: message.isMine
+                    ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    offset: const Offset(0, 1),
+                    blurRadius: 2,
+                  ),
+                ]
+                    : [],
               ),
               child: Text(
                 message.content,
@@ -236,28 +275,38 @@ class _ChatBubble extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-                style: TextStyle(color: Colors.grey),
-                format(
-                  message.createdAt,
-                  locale: 'en_short',
-                )),
+            Align(
+              alignment: message.isMine ? Alignment.topRight : Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  format(message.createdAt, locale: 'en_short'),
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                  textAlign: message.isMine ? TextAlign.right : TextAlign.left,
+                ),
+              ),
+            ),
           ],
         ),
       ),
-      //const SizedBox(width: 60),
     ];
+
+
     if (message.isMine) {
       chatContents = chatContents.reversed.toList();
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment:
-            message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+        message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: chatContents,
       ),
     );
   }
 }
+
+
+

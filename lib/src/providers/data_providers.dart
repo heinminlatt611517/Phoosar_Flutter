@@ -28,6 +28,7 @@ import 'package:phoosar/src/data/response/purchase_history_list_response.dart';
 import 'package:phoosar/src/data/response/questions_response.dart';
 import 'package:phoosar/src/data/response/rewind_list_response.dart';
 import 'package:phoosar/src/data/response/self_profile_response.dart';
+import 'package:phoosar/src/data/response/show_buy_coin_response.dart';
 import 'package:phoosar/src/data/response/whats_new_list_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 
@@ -316,6 +317,18 @@ FutureProvider.family<List<MatchTypeData>?, BuildContext>((ref, context) async {
   }
 });
 
+final showBuyCoinDataProvider =
+FutureProvider.family<ShowBuyCoinResponse?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.checkPhoosarApp(context);
+  if (response.statusCode == 200) {
+    return ShowBuyCoinResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load show buy coin data');
+  }
+});
+
+
 final profileSaveRequestProvider = StateProvider<ProfileSaveRequest>((ref) {
   return ProfileSaveRequest();
 });
@@ -336,6 +349,10 @@ final percentageProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-final showBuyCoinProvider = StateProvider<int>((ref) {
-  return 0;
+final showBuyCoinProvider = StateProvider<int?>((ref) {
+  return null;
+});
+
+final checkPhoosarAppProvider = StateProvider<int?>((ref) {
+  return null;
 });

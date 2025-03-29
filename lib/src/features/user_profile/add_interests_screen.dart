@@ -50,7 +50,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
         ),
         centerTitle: true,
       ),
-      backgroundColor: whitePaleColor,
+      backgroundColor: appBackgroundColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

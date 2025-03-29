@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'colors.dart';
+
+const kSecondaryColor = Color(0xFF8B94BC);
+const kGreenColor = Color(0xFF6AC259);
+const kRedColor = Color(0xFFE92E30);
+const kGrayColor = Color(0xFFC1C1C1);
+const kBlackColor = Color(0xFF101010);
+const kPrimaryGradient = LinearGradient(
+  colors: [Color(0xFF46A0AE), Color(0xFF00FFCB)],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
+
+const double kDefaultPadding = 20.0;
 
 /// Supabase client
 final supabase = Supabase.instance.client;
 
 /// Simple preloader inside a Center widget
-const preloader =
-    Center(child: CircularProgressIndicator(color: Colors.orange));
+var preloader =
+Container(
+    child: Center(child:  SpinKitThreeBounce(color: primaryColor,)));
 
 /// Simple sized box to space out form elements
 const spacer = SizedBox(width: 16, height: 16);
