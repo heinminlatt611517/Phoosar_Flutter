@@ -58,7 +58,7 @@ class _MoreDetailsWritingPromptScreenState extends ConsumerState<MoreDetailsWrit
               if (response.statusCode.toString().startsWith('2')) {
                 ref.invalidate(moreDetailsQuestionListProvider);
                 ref.invalidate(profileDataProvider);
-                Navigator.of(context).pop();
+                showSuccessUpdated(context);
               }
             },
               child: Icon(Icons.check,color: Colors.cyan,)),
@@ -128,4 +128,25 @@ class _MoreDetailsWritingPromptScreenState extends ConsumerState<MoreDetailsWrit
       ),
     );
   }
+}
+
+showSuccessUpdated(context) {
+  SnackBar snackBar = SnackBar(
+    content: Text(
+      'Profile successfully updated',
+      textAlign: TextAlign.center,
+      style: GoogleFonts.roboto(
+        fontSize: 12,
+        color: whiteColor,
+      ),
+    ),
+    backgroundColor: greenColor,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 1, right: 1),
+    duration: Duration(seconds: 1),
+  );
+
+  ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((SnackBarClosedReason reason) {
+    Navigator.of(context).pop();
+  });;
 }

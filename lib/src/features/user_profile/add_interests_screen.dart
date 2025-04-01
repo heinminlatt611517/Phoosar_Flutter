@@ -145,7 +145,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
 
           Center(
             child: Container(
-              width: 150,
+              width: 180,
               child: CommonButton(
                 containerVPadding: 10,
                 text: AppLocalizations.of(context)!.kSaveLabel,
@@ -161,7 +161,7 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
                         .addInterests({"interest_names": _interests}, context);
                     if (response.statusCode.toString().startsWith('2')) {
                       ref.invalidate(profileDataProvider);
-                      Navigator.of(context).pop();
+                      showSuccessUpdated(context);
                     } else {
                       setState(() {
                         isLoading = false;
@@ -177,4 +177,25 @@ class _AddInterestsScreenState extends ConsumerState<AddInterestsScreen> {
       ),
     );
   }
+}
+
+showSuccessUpdated(context) {
+  SnackBar snackBar = SnackBar(
+    content: Text(
+      'Profile successfully updated',
+      textAlign: TextAlign.center,
+      style: GoogleFonts.roboto(
+        fontSize: 12,
+        color: whiteColor,
+      ),
+    ),
+    backgroundColor: greenColor,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(left: 1, right: 1),
+    duration: Duration(seconds: 1),
+  );
+
+  ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((SnackBarClosedReason reason) {
+    Navigator.of(context).pop();
+  });;
 }

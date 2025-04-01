@@ -19,7 +19,6 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
-import 'package:timeago/timeago.dart';
 
 /// Displays the list of chat threads
 class MatchRoomsScreen extends ConsumerWidget {
@@ -35,9 +34,9 @@ class MatchRoomsScreen extends ConsumerWidget {
     final profilesState = ref.watch(profilesProvider);
 
     return roomState.when(
-      loading: () =>  Container(
+      loading: () => Container(
         height: context.heightPx * 0.5,
-        child: Center(child:  SpinKitThreeBounce(color: primaryColor,)),
+        child: Center(child: SpinKitThreeBounce(color: primaryColor)),
       ),
       error: (error, _) => Center(child: Text('Error: $error')),
       data: (rooms) {
@@ -48,24 +47,22 @@ class MatchRoomsScreen extends ConsumerWidget {
                 .map((user) => user.profile!.supabaseUserId)
                 .toList();
             final matchUsers = profiles
-                .where((p) =>
-            p.id != currentUserId && filterUserIds.contains(p.id))
+                .where((p) => p.id != currentUserId && filterUserIds.contains(p.id))
                 .toList();
             return ListView.separated(
               padding: EdgeInsets.zero,
               itemCount: filterUsers.length,
               itemBuilder: (context, index) {
                 Room? room = rooms
-                    .where((room) =>
-                room.otherUserId ==
-                    filterUsers[index].profile!.supabaseUserId)
+                    .where((room) => room.otherUserId == filterUsers[index].profile!.supabaseUserId)
                     .firstOrNull;
                 var otherUser = filterUsers[index].profile!;
+                debugPrint("UnreadCount>>>>>${room?.unreadCount}");
                 return Slidable(
                   key: ValueKey(index),
                   endActionPane: ActionPane(
                     motion: const ScrollMotion(),
-                      extentRatio  :0.4,
+                    extentRatio: 0.4,
                     children: [
                       CustomSlidableAction(
                         onPressed: (_) async {
@@ -73,9 +70,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                             await ref.read(repositoryProvider).saveProfileReact(
                               jsonEncode({
                                 "reacted_user_id": filterUsers
-                                    .firstWhere((user) =>
-                                user.profile!.supabaseUserId ==
-                                    room.otherUserId)
+                                    .firstWhere((user) => user.profile!.supabaseUserId == room.otherUserId)
                                     .profile!
                                     .id
                                     .toString(),
@@ -101,9 +96,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                       CustomSlidableAction(
                         onPressed: (_) async {
                           if (room != null) {
-                            await ref
-                                .read(chatProvider(room.id).notifier)
-                                .deleteRoom();
+                            await ref.read(chatProvider(room.id).notifier).deleteRoom();
                             ref.invalidate(roomsProvider);
                           }
                         },
@@ -121,33 +114,26 @@ class MatchRoomsScreen extends ConsumerWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.zero,
                     onTap: () async {
-                      if (room == null) {
-                        try {
-                          // Accessing RoomProvider to create a room
-                          final roomId = await ref
-                              .read(roomsProvider.notifier)
-                              .createRoom(filterUsers[index]
-                              .profile!
-                              .supabaseUserId
-                              .toString());
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                  roomId: roomId,
-                                  otherProfileImage: filterUsers[index]
-                                      .profile!.profileImages?.first.toString() ?? "",
-                                  otherUserName: filterUsers[index]
-                                      .profile!
-                                      .name
-                                      .toString())));
-                        } catch (e) {
-                          log("Failed to create a new room: ${e.toString()}");
-                        }
-                      } else {
+                      if (room != null) {
+                        await ref.read(chatProvider(room.id).notifier).markRoomAsRead();
+
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
                                 roomId: room.id,
                                 otherProfileImage: otherUser.profileImages?.first.toString() ?? "",
                                 otherUserName: otherUser.name.toString())));
+                      } else {
+                        try {
+                          final roomId = await ref.read(roomsProvider.notifier).createRoom(
+                              filterUsers[index].profile!.supabaseUserId.toString());
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                  roomId: roomId,
+                                  otherProfileImage: filterUsers[index].profile!.profileImages?.first.toString() ?? "",
+                                  otherUserName: filterUsers[index].profile!.name.toString())));
+                        } catch (e) {
+                          log("Failed to create a new room: ${e.toString()}");
+                        }
                       }
                     },
                     leading: UserAvatar(
@@ -157,18 +143,27 @@ class MatchRoomsScreen extends ConsumerWidget {
                     ),
                     title: Row(
                       children: [
-                        Text(otherUser.name.toString(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                        Text(
+                          otherUser.name.toString(),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                         15.hGap,
                         Row(
                           children: [
                             Container(
                               height: 6,
                               width: 6,
-                              decoration: BoxDecoration(color: otherUser.isOnline == 1 ? greenColor : Colors.transparent,shape: BoxShape.circle),),
+                              decoration: BoxDecoration(
+                                  color: otherUser.isOnline == 1 ? greenColor : Colors.transparent,
+                                  shape: BoxShape.circle),
+                            ),
                             5.hGap,
-                            Text(otherUser.isOnline == 1 ? 'online' : '',style: TextStyle(fontSize: 13,color: Colors.grey),),
+                            Text(
+                              otherUser.isOnline == 1 ? 'online' : '',
+                              style: TextStyle(fontSize: 13, color: Colors.grey),
+                            ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                     subtitle: Padding(
@@ -182,9 +177,28 @@ class MatchRoomsScreen extends ConsumerWidget {
                       ),
                     ),
                     trailing: Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Text(room != null
-                          ? room.unreadCount.toString() : ''),
+                      padding: const EdgeInsets.only(top: 10,right: 10),
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            room != null ? room.unreadCount.toString() : '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 );
@@ -196,8 +210,7 @@ class MatchRoomsScreen extends ConsumerWidget {
             );
           },
           loading: () => Container(),
-          error: (error, _) =>
-              Center(child: Text('Error loading profiles: $error')),
+          error: (error, _) => Center(child: Text('Error loading profiles: $error')),
         );
       },
     );

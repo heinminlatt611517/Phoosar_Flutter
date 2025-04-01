@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
 import 'package:phoosar/src/features/chat/models/room.dart';
@@ -67,45 +66,34 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
           ? null
           : Message.fromMap(map: data.first, myUserId: _myUserId),
     )
-        .listen((message) {
+        .listen((message) async {
       if (message != null) {
-        _updateRoomWithMessage(roomId, message);
+        state.whenData((rooms) async {
+          final index = rooms.indexWhere((room) => room.id == roomId);
+          if (index != -1) {
+            final roomData = await client
+                .from('rooms')
+                .select('unread_count')
+                .eq('id', roomId)
+                .single();
+            int currentUnreadCount = roomData['unread_count'] ?? 0;
+
+            if (!message.isRead) {
+              currentUnreadCount += 1;
+            }
+
+            rooms[index] = rooms[index].copyWith(
+              lastMessage: message,
+              unreadCount: currentUnreadCount,
+            );
+            state = AsyncValue.data(List.from(rooms));
+          }
+        });
       }
     });
   }
 
-  void _updateRoomWithMessage(String roomId, Message message) {
-    state.whenData((rooms) {
-      final index = rooms.indexWhere((room) => room.id == roomId);
-      if (index != -1) {
-        rooms[index] = rooms[index].copyWith(lastMessage: message);
 
-        if (message.profileId != _myUserId) {
-          _incrementUnreadCount(roomId);
-        }
-
-        state = AsyncValue.data(List.from(rooms));
-      }
-    });
-  }
-
-  Future<void> _incrementUnreadCount(String roomId) async {
-    try {
-      final client = _ref.read(supabaseClientProvider);
-      final response = await client
-          .from('rooms')
-          .update({'unread_count': 3})
-          .eq('id', roomId);
-
-      if (response.error != null) {
-        print('Error updating unread count: ${response.error!.message}');
-      } else {
-        print('Unread count updated successfully');
-      }
-    } catch (e) {
-      print('An error occurred: $e');
-    }
-  }
 
 
   Future<String> createRoom(String otherUserId) async {
@@ -119,7 +107,6 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
 
   @override
   void dispose() {
-    _messageSubscriptions.forEach((_, subscription) => subscription.cancel());
     _roomsSubscription?.cancel();
     super.dispose();
   }

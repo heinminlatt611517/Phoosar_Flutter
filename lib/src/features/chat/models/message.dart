@@ -6,6 +6,7 @@ class Message {
     required this.content,
     required this.createdAt,
     required this.isMine,
+    this.isRead = false,
   });
 
   /// ID of the message
@@ -26,11 +27,15 @@ class Message {
   /// Whether the message is sent by the user or not.
   final bool isMine;
 
+  /// Whether the message is read by the user
+  final bool isRead;
+
   Map<String, dynamic> toMap() {
     return {
       'profile_id': profileId,
       'room_id': roomId,
       'content': content,
+      'is_read': isRead,
     };
   }
 
@@ -42,7 +47,8 @@ class Message {
         profileId = map['profile_id'],
         content = map['content'],
         createdAt = DateTime.parse(map['created_at']),
-        isMine = myUserId == map['profile_id'];
+        isMine = myUserId == map['profile_id'],
+        isRead = map['is_read'] ?? false;
 
   Message copyWith({
     String? id,
@@ -51,6 +57,7 @@ class Message {
     String? text,
     DateTime? createdAt,
     bool? isMine,
+    bool? isRead,
   }) {
     return Message(
       id: id ?? this.id,
@@ -59,6 +66,7 @@ class Message {
       content: text ?? content,
       createdAt: createdAt ?? this.createdAt,
       isMine: isMine ?? this.isMine,
+      isRead: isRead ?? this.isRead,
     );
   }
 }

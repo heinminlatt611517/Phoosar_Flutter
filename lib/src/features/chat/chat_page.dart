@@ -16,9 +16,6 @@ import '../../providers/data_providers.dart';
 import '../../providers/room_provider.dart';
 import '../../utils/fonts.dart';
 
-/// Page to chat with someone.
-///
-/// Displays chat bubbles as a ListView and TextField to enter new chat.
 class ChatPage extends ConsumerWidget {
   final String roomId;
   final String otherUserName;
@@ -29,19 +26,6 @@ class ChatPage extends ConsumerWidget {
       required this.otherUserName,
       required this.otherProfileImage})
       : super(key: key);
-
-  // static Route<void> route(String roomId, String otherUserName) {
-  //   return MaterialPageRoute(
-  //     builder: (context) => ProviderScope(
-  //       overrides: [
-  //         chatProvider(roomId).overrideWithProvider(
-  //             StateNotifierProvider<ChatNotifier, AsyncValue<List<Message>>>(
-  //                 (ref) => ChatNotifier(ref, roomId))),
-  //       ],
-  //       child: ChatPage(roomId: roomId, otherUserName: otherUserName),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
