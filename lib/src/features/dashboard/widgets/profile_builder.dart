@@ -78,19 +78,21 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
           Text(
             "Answer the question below and increase your likelihood of finding a better match. A full profile gets 3x matches.",
             textAlign: TextAlign.left,
-            style: GoogleFonts.roboto(
+            style: TextStyle(
               fontSize: mediumFontSize,
               color: blackColor,
-              fontWeight: FontWeight.w300,
+              fontFamily: kFontArticulatCFLight,
+              fontWeight: FontWeight.w500,
             ),
           ),
           20.vGap,
           Text(
             widget.profileBuilderData.question ?? '',
             textAlign: TextAlign.left,
-            style: GoogleFonts.roboto(
+            style: TextStyle(
               fontSize: mediumFontSize,
               color: blackColor,
+              fontFamily: kFontArticulatCFNormal,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w500,
             ),
@@ -111,8 +113,7 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
                 containerVPadding: 12,
                 containerHPadding: 20,
                 onTap: () {
-                 // widget.onCancel();
-                  showSnackBarFun(context, 10);
+                  widget.onCancel();
                 },
               ),
               12.hGap,
@@ -198,9 +199,10 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
               10.hGap,
               Text(
                 'You received $count',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: smallFontSize,
                   color: whiteColor,
+                  fontFamily: kFontArticulatCFMedium
                 ),
               ),
               2.hGap,
@@ -209,9 +211,10 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
               2.hGap,
               Text(
                 'for updating your profile',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: smallFontSize,
                   color: whiteColor,
+                    fontFamily: kFontArticulatCFMedium
                 ),
               ),
             ],
@@ -235,9 +238,10 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
       content: Text(
         'Profile successfully updated',
         textAlign: TextAlign.center,
-        style: GoogleFonts.roboto(
+        style: TextStyle(
           fontSize: mediumFontSize,
           color: whiteColor,
+            fontFamily: kFontArticulatCFMedium
         ),
       ),
       backgroundColor: greenColor,

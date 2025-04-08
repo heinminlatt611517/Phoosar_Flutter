@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class UserInfoRow extends StatelessWidget {
@@ -10,11 +11,13 @@ class UserInfoRow extends StatelessWidget {
     required this.text,
     this.textSize = 14,
     this.textColor = whiteColor,
+    this.isOtherProfile = false
   });
   final Widget icon;
   final String text;
   final double textSize;
   final Color textColor;
+  final bool isOtherProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +31,11 @@ class UserInfoRow extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: GoogleFonts.roboto(
+            style: TextStyle(
               fontSize: textSize,
               color: textColor,
-              fontWeight: FontWeight.w300,
+              fontFamily:isOtherProfile == true ? kFontArticulatCFMedium : kFontArticulatCFLight,
+              fontWeight:isOtherProfile == true ? FontWeight.w400 : FontWeight.w300,
             ),
           ),
         ),

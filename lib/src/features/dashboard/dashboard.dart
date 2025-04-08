@@ -184,7 +184,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           },
                         ),
                       ),
-                      20.vGap,
+                      6.vGap,
                       Visibility(
                         visible: !isProfileBuilder,
                         child: Row(
@@ -198,7 +198,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               backgroundColor: Colors.transparent,
                               icon: Image.asset(
                                 'assets/images/rewind.png',
-                                width: 50,
+                                width: 55,
                               ),
                             ),
 
@@ -210,7 +210,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               backgroundColor: Colors.transparent,
                               icon: Image.asset(
                                 'assets/images/skip.png',
-                                width: 67,
+                                width: 75,
                               ),
                             ),
 
@@ -222,7 +222,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               backgroundColor: Colors.transparent,
                               icon: Image.asset(
                                 'assets/images/ok.png',
-                                width: 67,
+                                width: 75,
                               ),
                             ),
 
@@ -243,7 +243,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 padding: const EdgeInsets.all(4.0),
                                 child: Image.asset(
                                   'assets/images/info.png',
-                                  width: 50,
+                                  width: 55,
                                 ),
                               ),
                             ),

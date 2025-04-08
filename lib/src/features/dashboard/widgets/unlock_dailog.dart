@@ -29,7 +29,8 @@ class UnlockDailog extends ConsumerWidget {
       titleColor: blackColor,
       isCustomFont: true,
       title: AppLocalizations.of(context)!.kUnlockFeatureLabel.toUpperCase(),
-      width: 400,
+      width: 220,
+      height: 260,
       isExpand: true,
       child: SingleChildScrollView(
         child: Column(
@@ -87,7 +88,7 @@ class UnlockDailog extends ConsumerWidget {
                 }
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12,horizontal: 24),
+                padding: EdgeInsets.symmetric(vertical: 8,horizontal: 24),
                 decoration: BoxDecoration(color: greenColor,borderRadius: BorderRadius.circular(20)),
                 child: Text(
                   AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),

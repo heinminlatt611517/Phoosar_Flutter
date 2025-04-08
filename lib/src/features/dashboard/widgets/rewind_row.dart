@@ -65,10 +65,11 @@ class RewindRow extends StatelessWidget {
                 },
                 child: Text(
                   AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
                     fontSize: smallFontSize,
                     color: greenColor,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
+                    fontFamily: kFontGibsonBold
                   ),
                 ),
               ),

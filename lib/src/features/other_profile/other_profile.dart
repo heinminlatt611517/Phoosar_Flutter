@@ -15,6 +15,7 @@ import 'package:phoosar/src/features/other_profile/widgets/user_hobbies.dart';
 import 'package:phoosar/src/features/other_profile/widgets/user_information.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -50,14 +51,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   padding: const EdgeInsets.only(left: 20,top: 40),
                   child: InkWell(
                       onTap: (){ Navigator.of(context).pop();},
-                      child: Container(
-                        padding: const EdgeInsets.all(kMarginMedium),
-                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                        child: SvgPicture.asset(
-                          'assets/svgs/back_img.svg',
-                          height: 20,
-                          width: 20,
-                        ),
+                      child: Image.asset(
+                        'assets/images/backward.png',
+                        height: 20,
+                        width: 20,
                       ),),
                 )
               ],
@@ -83,10 +80,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: Text(
                     widget.findData.about ?? "",
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.roboto(
-                      fontSize: smallFontSize,
+                    style: TextStyle(
+                      fontSize: mediumFontSize,
                       color: blackColor,
-                      fontWeight: FontWeight.w100,
+                      fontFamily: kFontArticulatCFLight,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
@@ -113,7 +111,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: widget.findData.moreDetails?.length,
                       itemBuilder: (context,index){
-                    return MoreInformation(title: widget.findData.moreDetails?[index].question ?? "", description: widget.findData.moreDetails?[index].answerText ?? "");
+                    return MoreInformation(title: widget.findData.moreDetails?[index].question?.toUpperCase() ?? "", description: widget.findData.moreDetails?[index].answerText ?? "");
                   }),
                 ),
                 20.vGap,
@@ -132,10 +130,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       },
                       child: Text(
                         'Report ${widget.findData.name}'.toUpperCase(),
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                           fontSize: smallLargeFontSize,
                           color: redColor,
                           fontWeight: FontWeight.w700,
+                          fontFamily: kFontArticulatCFBold
                         ),
                       ),
                     ),

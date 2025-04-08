@@ -97,9 +97,9 @@ class DashboardHeader extends ConsumerWidget {
             ),
           ),
           CustomSwitch(
-            width: 82.0,
-            height: 30.0,
-            toggleSize: 40.0,
+            width: 58.0,
+            height: 22.0,
+            toggleSize: 22.0,
             padding: 0,
             value: localeSelected == "en" ? false : true,
             activeToggleColor: Colors.transparent,
@@ -120,7 +120,7 @@ class DashboardHeader extends ConsumerWidget {
               color: Colors.transparent,
               width: 0.0,
             ),
-            valueFontSize: 10,
+            valueFontSize: 8,
             activeText: 'Burmese',
             activeTextColor: Colors.black,
             inactiveText: 'English',
@@ -131,11 +131,11 @@ class DashboardHeader extends ConsumerWidget {
             activeColor: Colors.white,
             inactiveColor: Colors.white,
             activeIcon: Image.network(
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
               "https://static.vecteezy.com/system/resources/previews/011/571/448/original/circle-flag-of-myanmar-free-png.png",
             ),
             inactiveIcon: Image.network(
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
               "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/United-kingdom_flag_icon_round.svg/2048px-United-kingdom_flag_icon_round.svg.png",
             ),
             onToggle: (val) {

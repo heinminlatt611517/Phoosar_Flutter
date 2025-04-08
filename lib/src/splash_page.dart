@@ -47,7 +47,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   Future<void> getInitialSession() async {
     await Future.delayed(Duration.zero);
 
-    if(ref.watch(checkPhoosarAppProvider).toString() == '1'){
+    if(ref.watch(checkPhoosarAppProvider).toString() == '0'){
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => GetMaterialApp(
           debugShowCheckedModeBanner: false,

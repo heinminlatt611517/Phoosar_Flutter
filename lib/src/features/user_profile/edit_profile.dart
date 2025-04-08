@@ -334,60 +334,70 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       children: [
                         ///day button
                         Flexible(
-                          child: DropDownWidget(
-                              items: days,
-                              onSelect: (value) async {
-                                var selectedDayBirthDate =
-                                    "$value, ${DateFormat("MMMM").format(DateTime.parse(data?.birthdate))}, ${DateTime.parse(data?.birthdate).year.toString()}";
-                                var request = {
-                                  "birthdate": DateFormat('yyyy-MM-dd').format(
-                                      DateFormat('d, MMMM, yyyy')
-                                          .parse(selectedDayBirthDate))
-                                };
-                                await callSaveProfile(request, context);
-                              },
-                              initValue: DateTime.parse(data?.birthdate)
-                                  .day
-                                  .toString()),
+                          child: SizedBox(
+                            height: 40,
+                            width: 90,
+                            child: DropDownWidget(
+                                items: days,
+                                onSelect: (value) async {
+                                  var selectedDayBirthDate =
+                                      "$value, ${DateFormat("MMMM").format(DateTime.parse(data?.birthdate))}, ${DateTime.parse(data?.birthdate).year.toString()}";
+                                  var request = {
+                                    "birthdate": DateFormat('yyyy-MM-dd').format(
+                                        DateFormat('d, MMMM, yyyy')
+                                            .parse(selectedDayBirthDate))
+                                  };
+                                  await callSaveProfile(request, context);
+                                },
+                                initValue: DateTime.parse(data?.birthdate)
+                                    .day
+                                    .toString()),
+                          ),
                         ),
                         10.hGap,
 
                         ///Month
                         Flexible(
-                          child: DropDownWidget(
-                              items: months,
-                              onSelect: (value) async {
-                                var selectedMonthBirthDate =
-                                    "${DateTime.parse(data?.birthdate).day.toString()}, ${value}, ${DateTime.parse(data?.birthdate).year.toString()}";
-                                var request = {
-                                  "birthdate": DateFormat('yyyy-MM-dd').format(
-                                      DateFormat('d, MMMM, yyyy')
-                                          .parse(selectedMonthBirthDate))
-                                };
-                                await callSaveProfile(request, context);
-                              },
-                              initValue: DateFormat("MMMM")
-                                  .format(DateTime.parse(data?.birthdate))),
+                          child: SizedBox(
+                            height: 40,
+                            child: DropDownWidget(
+                                items: months,
+                                onSelect: (value) async {
+                                  var selectedMonthBirthDate =
+                                      "${DateTime.parse(data?.birthdate).day.toString()}, ${value}, ${DateTime.parse(data?.birthdate).year.toString()}";
+                                  var request = {
+                                    "birthdate": DateFormat('yyyy-MM-dd').format(
+                                        DateFormat('d, MMMM, yyyy')
+                                            .parse(selectedMonthBirthDate))
+                                  };
+                                  await callSaveProfile(request, context);
+                                },
+                                initValue: DateFormat("MMMM")
+                                    .format(DateTime.parse(data?.birthdate))),
+                          ),
                         ),
                         10.hGap,
 
                         ///Year
                         Flexible(
-                          child: DropDownWidget(
-                              items: years,
-                              onSelect: (value) async {
-                                var selectedMonthBirthDate =
-                                    "${DateTime.parse(data?.birthdate).day.toString()}, ${DateFormat("MMMM").format(DateTime.parse(data?.birthdate))}, ${value}";
-                                var request = {
-                                  "birthdate": DateFormat('yyyy-MM-dd').format(
-                                      DateFormat('d, MMMM, yyyy')
-                                          .parse(selectedMonthBirthDate))
-                                };
-                                await callSaveProfile(request, context);
-                              },
-                              initValue: DateTime.parse(data?.birthdate)
-                                  .year
-                                  .toString()),
+                          child: SizedBox(
+                            height: 40,
+                            child: DropDownWidget(
+                                items: years,
+                                onSelect: (value) async {
+                                  var selectedMonthBirthDate =
+                                      "${DateTime.parse(data?.birthdate).day.toString()}, ${DateFormat("MMMM").format(DateTime.parse(data?.birthdate))}, ${value}";
+                                  var request = {
+                                    "birthdate": DateFormat('yyyy-MM-dd').format(
+                                        DateFormat('d, MMMM, yyyy')
+                                            .parse(selectedMonthBirthDate))
+                                  };
+                                  await callSaveProfile(request, context);
+                                },
+                                initValue: DateTime.parse(data?.birthdate)
+                                    .year
+                                    .toString()),
+                          ),
                         ),
                       ],
                     ),
@@ -967,16 +977,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return CommonDialog(
+          isUnlockFeature: true,
           backgroundColor: primaryColor,
           title: AppLocalizations.of(context)!.kUnlockFeatureLabel.toUpperCase(),
           titleColor: whiteColor,
-          width: 400,
+          titleFontSize: 20,
+          isCustomFont : true,
+          width: 220,
+          height: 220,
           isExpand: true,
-          child: SingleChildScrollView(
+          child: Center(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                20.vGap,
+                30.vGap,
                 Center(
                   child: Container(
                     width: 80,
@@ -1007,7 +1023,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                 ),
-                40.vGap,
+                30.vGap,
                 InkWell(
                   onTap: () async {
                     Navigator.of(context).pop(true);
@@ -1015,7 +1031,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   child: Text(
                     AppLocalizations.of(context)!.kUnlockLabel.toUpperCase(),
                     style: GoogleFonts.roboto(
-                      fontSize: mediumFontSize,
+                      fontSize: 14,
                       color: whiteColor,
                       fontWeight: FontWeight.bold,
                     ),

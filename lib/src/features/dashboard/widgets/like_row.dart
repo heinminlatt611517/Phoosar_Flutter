@@ -87,10 +87,10 @@ class LikeRow extends StatelessWidget {
                           ));
                 },
                 child: Text(AppLocalizations.of(context)!.kUnlockLabel,
-                    style: GoogleFonts.roboto(
+                    style: TextStyle(
+                      fontFamily: kFontGibsonBold,
                       fontSize: 16,
                       color: greenColor,
-                      fontWeight: FontWeight.bold,
                     )),
               ),
               10.hGap,

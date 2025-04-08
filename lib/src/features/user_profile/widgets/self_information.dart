@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class SelfInformation extends StatefulWidget {
@@ -42,10 +43,11 @@ class _SelfInformationState extends State<SelfInformation> {
           child: Text(
             widget.title,
             textAlign: TextAlign.left,
-            style: GoogleFonts.roboto(
+            style: TextStyle(
               fontSize: kTextRegular2x,
               color: greenColor,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w700,
+              fontFamily: kFontArticulatCFMedium
             ),
           ),
         ),
@@ -71,7 +73,8 @@ class _SelfInformationState extends State<SelfInformation> {
               decoration: InputDecoration(border: InputBorder.none),
               style: TextStyle(fontSize: smallFontSize,
                 color: blackColor,
-                fontWeight: FontWeight.w100,),
+                fontFamily: kFontArticulatCFLight,
+                fontWeight: FontWeight.w800,),
             ),
           ),
         ),

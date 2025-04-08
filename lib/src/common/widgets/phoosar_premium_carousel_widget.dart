@@ -42,10 +42,13 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                       visible : i['id'] == "1",
                       child: Image.asset(
                        widget.isBlackPremiumLogo == true ? 'assets/images/phoosar_premium_img.png' : 'assets/images/premium_white_logo.png',
-                        width: MediaQuery
+                        width:widget.isBlackPremiumLogo == true ? MediaQuery
                             .of(context)
                             .size
-                            .width / 2,
+                            .width / 2 : MediaQuery
+                            .of(context)
+                            .size
+                            .width / 1.7,
                       ),
                     ),
                     10.vGap,

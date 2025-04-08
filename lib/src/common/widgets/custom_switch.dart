@@ -12,12 +12,12 @@ class CustomSwitch extends StatefulWidget {
     this.toggleColor = Colors.white,
     this.activeToggleColor,
     this.inactiveToggleColor,
-    this.width = 70.0,
+    this.width = 60.0,
     this.height = 35.0,
-    this.toggleSize = 25.0,
+    this.toggleSize = 20.0,
     this.valueFontSize = 16.0,
     this.borderRadius = 20.0,
-    this.padding = 4.0,
+    this.padding = 0.0,
     this.showOnOff = false,
     this.activeText,
     this.inactiveText,
@@ -44,8 +44,8 @@ class CustomSwitch extends StatefulWidget {
             'Cannot provide toggleBorder when an activeToggleBorder or inactiveToggleBorder was given\n'
             'To give the toggle a border, use "activeToggleBorder: color" or "inactiveToggleBorder: color".'),
         super(key: key);
-  final bool value;
 
+  final bool value;
   final ValueChanged<bool> onToggle;
   final bool showOnOff;
   final String? activeText;
@@ -145,8 +145,6 @@ class _CustomSwitchState extends State<CustomSwitch>
           widget.toggleBorder as Border?;
     }
 
-    double _textSpace = widget.width - widget.toggleSize;
-
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
@@ -167,6 +165,7 @@ class _CustomSwitchState extends State<CustomSwitch>
               child: Container(
                 width: widget.width,
                 height: widget.height,
+                padding: EdgeInsets.symmetric(vertical: 1),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(widget.borderRadius),
                   color: _switchColor,
@@ -174,66 +173,88 @@ class _CustomSwitchState extends State<CustomSwitch>
                 ),
                 child: Stack(
                   children: <Widget>[
+
                     Align(
                       alignment: Alignment.centerLeft,
                       child: AnimatedOpacity(
                         opacity: widget.value ? 1.0 : 0.0,
                         duration: widget.duration,
-                        child: FittedBox(
-                          child: Container(
-                            width: 50,
-                            alignment: Alignment.center,
-                            child: _activeText,
-                          ),
+                        child: Container(
+                          width: widget.width,
+                          alignment: Alignment.centerLeft,
+                          child: widget.showOnOff
+                              ? Padding(
+                                padding: const EdgeInsets.only(left: 2),
+                                child: Text(
+                                    widget.activeText ?? "On",
+                                    style: TextStyle(
+                                      color: widget.activeTextColor,
+                                      fontWeight: widget.activeTextFontWeight ??
+                                          FontWeight.w900,
+                                      fontSize: widget.valueFontSize,
+                                    ),
+                                  ),
+                              )
+                              : Container(),
                         ),
                       ),
                     ),
+                    // Inactive Text without space between text and icon
                     Align(
                       alignment: Alignment.centerRight,
                       child: AnimatedOpacity(
                         opacity: !widget.value ? 1.0 : 0.0,
                         duration: widget.duration,
-                        child: FittedBox(
-                          child: Container(
-                            width: 50,
-                            alignment: Alignment.center,
-                            child: _inactiveText,
-                          ),
+                        child: Container(
+                          width: widget.width,
+                          alignment: Alignment.centerRight,
+                          child: widget.showOnOff
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(
+                                    widget.inactiveText ?? "Off",
+                                    style: TextStyle(
+                                      color: widget.inactiveTextColor,
+                                      fontWeight:
+                                          widget.inactiveTextFontWeight ??
+                                              FontWeight.w900,
+                                      fontSize: widget.valueFontSize,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                         ),
                       ),
                     ),
-                    Container(
-                      child: Align(
-                        alignment: _toggleAnimation.value,
-                        child: Container(
-                          width: widget.toggleSize,
-                          height: widget.toggleSize,
-                          padding:
-                              EdgeInsets.symmetric( vertical: 2),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _toggleColor,
-                            border: _toggleBorder,
-                          ),
-                          child: Container(
-                            child: Stack(
-                              children: [
-                                Center(
-                                  child: AnimatedOpacity(
-                                    opacity: widget.value ? 1.0 : 0.0,
-                                    duration: widget.duration,
-                                    child: widget.activeIcon,
-                                  ),
+                    // Toggle Button (with Icon)
+                    Align(
+                      alignment: _toggleAnimation.value,
+                      child: Container(
+                        width: widget.toggleSize,
+                        height: widget.toggleSize,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _toggleColor,
+                          border: _toggleBorder,
+                        ),
+                        child: Center(
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: AnimatedOpacity(
+                                  opacity: widget.value ? 1.0 : 0.0,
+                                  duration: widget.duration,
+                                  child: widget.activeIcon,
                                 ),
-                                Center(
-                                  child: AnimatedOpacity(
-                                    opacity: !widget.value ? 1.0 : 0.0,
-                                    duration: widget.duration,
-                                    child: widget.inactiveIcon,
-                                  ),
+                              ),
+                              Center(
+                                child: AnimatedOpacity(
+                                  opacity: !widget.value ? 1.0 : 0.0,
+                                  duration: widget.duration,
+                                  child: widget.inactiveIcon,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -246,42 +267,5 @@ class _CustomSwitchState extends State<CustomSwitch>
         );
       },
     );
-  }
-
-  FontWeight get _activeTextFontWeight =>
-      widget.activeTextFontWeight ?? FontWeight.w900;
-  FontWeight get _inactiveTextFontWeight =>
-      widget.inactiveTextFontWeight ?? FontWeight.w900;
-
-  Widget get _activeText {
-    if (widget.showOnOff) {
-      return Text(
-        widget.activeText ?? "On",
-        style: TextStyle(
-          color: widget.activeTextColor,
-          fontWeight: _activeTextFontWeight,
-          fontSize: widget.valueFontSize,
-        ),
-        textAlign: TextAlign.center,
-      );
-    }
-
-    return Text("");
-  }
-
-  Widget get _inactiveText {
-    if (widget.showOnOff) {
-      return Text(
-        widget.inactiveText ?? "Off",
-        style: TextStyle(
-          color: widget.inactiveTextColor,
-          fontWeight: _inactiveTextFontWeight,
-          fontSize: widget.valueFontSize,
-        ),
-        textAlign: TextAlign.center,
-      );
-    }
-
-    return Text("");
   }
 }

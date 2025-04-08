@@ -80,15 +80,19 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 child: Column(
                   children: [
                     MediaQuery.of(context).padding.top.vGap,
+                    8.vGap,
                     Center(
-                      child: Image.asset(
-                        (selfProfileData.data?.isPremium ?? false)
-                            ? 'assets/images/ic_premium_launcher.png'
-                            : 'assets/images/phoosar_img.png',
-                        width: (selfProfileData.data?.isPremium ?? false)
-                            ? 60
-                            : 120,
-                        fit: BoxFit.fill,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Image.asset(
+                          (selfProfileData.data?.isPremium ?? false)
+                              ? 'assets/images/ic_premium_launcher.png'
+                              : 'assets/images/phoosar_img.png',
+                          width: (selfProfileData.data?.isPremium ?? false)
+                              ? 60
+                              : 120,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     12.vGap,

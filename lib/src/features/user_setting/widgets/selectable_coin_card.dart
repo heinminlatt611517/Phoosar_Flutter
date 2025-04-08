@@ -65,7 +65,7 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                         style: GoogleFonts.roboto(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: widget.isSelected ? Colors.white : Colors.black,
+                          color: widget.isSelected ? Colors.black : Colors.black,
                         ),
                       ),
                       8.vGap,
@@ -97,7 +97,7 @@ class _SelectableCoinCardState extends State<SelectableCoinCard> {
                     color: Colors.black,borderRadius: BorderRadius.circular(12)),
                 child: Center(child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: FittedBox(child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 11),)),
+                  child: FittedBox(child: Text('MOST POPULAR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 10),)),
                 ),),),
             ),
           )

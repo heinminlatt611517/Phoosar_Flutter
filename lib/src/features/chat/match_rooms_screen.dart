@@ -57,7 +57,6 @@ class MatchRoomsScreen extends ConsumerWidget {
                     .where((room) => room.otherUserId == filterUsers[index].profile!.supabaseUserId)
                     .firstOrNull;
                 var otherUser = filterUsers[index].profile!;
-                debugPrint("UnreadCount>>>>>${room?.unreadCount}");
                 return Slidable(
                   key: ValueKey(index),
                   endActionPane: ActionPane(
@@ -116,6 +115,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                     onTap: () async {
                       if (room != null) {
                         await ref.read(chatProvider(room.id).notifier).markRoomAsRead();
+                        ref.read(chatProvider(room.id).notifier).onEnterChatScreen();
 
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
@@ -126,6 +126,8 @@ class MatchRoomsScreen extends ConsumerWidget {
                         try {
                           final roomId = await ref.read(roomsProvider.notifier).createRoom(
                               filterUsers[index].profile!.supabaseUserId.toString());
+                          await ref.read(chatProvider(roomId).notifier).markRoomAsRead();
+                          ref.read(chatProvider(roomId).notifier).onEnterChatScreen();
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ChatPage(
                                   roomId: roomId,

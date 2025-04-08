@@ -65,7 +65,6 @@ class CoinRow extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                // width: 40,
                 child: Text(
                   likeHeartCount,
                   textAlign: TextAlign.end,
@@ -100,10 +99,10 @@ class CoinRow extends StatelessWidget {
             },
             child: Text(
               'BUY NOW',
-              style: GoogleFonts.roboto(
+              style: TextStyle(
                 fontSize: kTextRegular,
                 color: greenColor,
-                fontWeight: FontWeight.bold,
+                fontFamily: kFontGibsonBold,
               ),
             ),
           ),

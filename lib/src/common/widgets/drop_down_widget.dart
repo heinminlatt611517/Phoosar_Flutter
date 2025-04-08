@@ -50,7 +50,8 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize:
-                        14, // Set the text color for the selected item
+                        14,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
               ),
@@ -97,8 +98,8 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         ),
         iconStyleData: const IconStyleData(
           icon: Icon(
-            Icons.keyboard_arrow_down,
-            color: Colors.black45,
+            Icons.arrow_drop_down,
+            color: Colors.black,
           ),
           iconSize: 14,
         ),

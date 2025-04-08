@@ -10,6 +10,8 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
+import '../../../utils/fonts.dart';
+
 class GetMoreRewindsDialog extends ConsumerWidget {
   const GetMoreRewindsDialog({super.key});
 
@@ -69,6 +71,8 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 20,
                     color: blackColor,
+                    fontWeight: FontWeight.w700,
+                      fontFamily: kFontArticulatCFDemiBold
                   ),
                 ),
                 8.hGap,
@@ -77,6 +81,8 @@ class GetMoreRewindsDialog extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 20,
                     color: blackColor,
+                      fontFamily: kFontArticulatCFDemiBold,
+                      fontWeight: FontWeight.w700
                   ),
                 ),
               ],
@@ -87,6 +93,7 @@ class GetMoreRewindsDialog extends ConsumerWidget {
               child: CommonButton(
                 bgColor: blackColor,
                 fontSize: mediumFontSize,
+                containerVPadding: 8,
                 text: "PHOOSAR PREMIUM",
                 buttonTextColor: orangeColor,
                 onTap: () {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 
 class CommonTextFormField extends StatelessWidget {
   CommonTextFormField(
@@ -24,6 +25,7 @@ class CommonTextFormField extends StatelessWidget {
         border: Border.all(color: whitePaleColor),
       ),
       child: TextFormField(
+        style: TextStyle(fontFamily: kFontArticulatCFLight),
         controller: controller,
         keyboardType: TextInputType.multiline,
         maxLines: maxLines, // Makes it grow vertically

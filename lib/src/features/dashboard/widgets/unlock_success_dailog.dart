@@ -18,7 +18,8 @@ class UnlockSuccessDailog extends StatelessWidget {
       title: '',
       isLargeTitleSize: true,
       isUnlockDialog: true,
-      width: 400,
+      width: 220,
+      height: 260,
       isExpand: true,
       child: SingleChildScrollView(
         child: Column(

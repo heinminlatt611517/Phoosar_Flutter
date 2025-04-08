@@ -115,7 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       'assets/images/white_logo.png',
                       height: 80,
                     ),
-                    100.vGap,
+                    80.vGap,
 
                     Text(
                       AppLocalizations.of(context)!.kPhoneNumberLabel.toUpperCase(),
@@ -282,11 +282,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Text(
                         AppLocalizations.of(context)!.kForgotPasswordLabel,
                         style:
-                            TextStyle(fontSize: kTextRegular2x, color: Colors.white),
+                            TextStyle(fontSize: kTextRegular2x, color: Color(0xFFF5D5DD)),
                       ),
                     ),
 
-                    30.vGap,
+                    60.vGap,
 
                     ///facebook and google sign in view
                     Visibility(

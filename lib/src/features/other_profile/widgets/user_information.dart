@@ -4,8 +4,11 @@ import 'package:phoosar/src/common/widgets/info_row.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../utils/utils.dart';
 
 
 class UserInformation extends StatelessWidget {
@@ -33,10 +36,10 @@ class UserInformation extends StatelessWidget {
             4.hGap,
             Text(
              findData.isOnline == 1 ? AppLocalizations.of(context)!.kOnlineLabel : AppLocalizations.of(context)!.kOfflineLabel,
-              style: GoogleFonts.roboto(
+              style: TextStyle(
                 fontSize: smallFontSize,
                 color: blackColor,
-                fontWeight: FontWeight.w200,
+                fontFamily: kFontArticulatCFLight,
               ),
             ),
           ],
@@ -46,21 +49,21 @@ class UserInformation extends StatelessWidget {
           children: [
             Text(
               findData.name ?? '',
-              style: GoogleFonts.roboto(
+              style: TextStyle(
                 fontSize: largeFontSize,
                 color: blackColor,
-                fontWeight: FontWeight.w700,
+                fontFamily: kFontArticulatCFBold,
               ),
             ),
             12.hGap,
             Visibility(
                visible: findData.showAge!.showAgeStatus! == true ? false : true,
               child: Text(
-                findData.birthdate ?? '',
-                style: GoogleFonts.roboto(
+                Utils.calculateAge(findData.birthdate ?? ''),
+                style: TextStyle(
                   fontSize: smallLargeFontSize,
                   color: blackColor,
-                  fontWeight: FontWeight.w200,
+                  fontFamily: kFontArticulatCFLight
                 ),
               ),
             ),
@@ -68,56 +71,67 @@ class UserInformation extends StatelessWidget {
         ),
         8.vGap,
         UserInfoRow(
-          icon: Icon(
-            Icons.location_on,
+          icon: Image.asset(
+            'assets/images/location.png',
+            width: 10,
             color: blackColor,
-            size: 14,
           ),
+          isOtherProfile : true,
           text: findData.city ?? '' + ' km away',
           textColor: blackColor,
         ),
+        6.vGap,
         UserInfoRow(
-          icon: Icon(
-            Icons.work,
+          icon: Image.asset(
+            'assets/images/work.png',
+            width: 12,
             color: blackColor,
-            size: 14,
           ),
+          isOtherProfile : true,
           text: findData.jobTitle ?? '',
           textColor: blackColor,
         ),
+        6.vGap,
         UserInfoRow(
-          icon: Icon(
-            Icons.home,
+          icon: Image.asset(
+            'assets/images/address.png',
+            width: 12,
             color: blackColor,
-            size: 14,
           ),
+          isOtherProfile : true,
           text: 'Live in ${findData.city ?? ''}',
           textColor: blackColor,
         ),
+        6.vGap,
         UserInfoRow(
-          icon: Icon(
-            Icons.school,
+          icon: Image.asset(
+            'assets/images/school.png',
+            width: 12,
             color: blackColor,
-            size: 14,
           ),
+          isOtherProfile : true,
           text: findData.school ?? '',
           textColor: blackColor,
         ),
+        6.vGap,
         UserInfoRow(
-          icon: Icon(
-            Icons.calendar_month,
+          icon: Image.asset(
+            'assets/images/date.png',
+            width: 12,
             color: blackColor,
-            size: 14,
           ),
+          isOtherProfile : true,
           text: findData.birthdate ?? '',
           textColor: blackColor,
         ),
+        6.vGap,
         UserInfoRow(
-          icon: Icon(
-            Icons.smoke_free,
+          icon: Image.asset(
+            'assets/images/smoke.png',
+            width: 12,
             color: blackColor,
-            size: 14,
           ),
+          isOtherProfile : true,
           text: findData.smoke == "1" ? "Yes" : "No",
           textColor: blackColor,
         ),
@@ -138,7 +152,7 @@ class UserInformation extends StatelessWidget {
             style: GoogleFonts.roboto(
               fontSize: smallFontSize,
               color: blackColor,
-              fontWeight: FontWeight.w100,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),

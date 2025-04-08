@@ -68,7 +68,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       Container(height: MediaQuery.of(context).size.height/4.5,),
                       /// App icon
                       Image.asset(
-                        'assets/images/auth_app_logo.png',
+                        'assets/images/white_logo.png',
                         height: 80,
                       ),
                       60.vGap,

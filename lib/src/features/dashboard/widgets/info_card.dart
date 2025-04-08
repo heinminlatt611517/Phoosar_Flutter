@@ -8,6 +8,7 @@ import 'package:phoosar/src/features/dashboard/widgets/dashboard_user_slider.dar
 import 'package:phoosar/src/features/other_profile/other_profile.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,7 +22,7 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     log(findData.profileImages.toString());
     return Container(
-      height: MediaQuery.of(context).size.height * 0.67,
+      height: MediaQuery.of(context).size.height * 0.7,
       padding: const EdgeInsets.only(top: 20, bottom: 10),
       child: Stack(
         children: [
@@ -55,7 +56,7 @@ class InfoCard extends StatelessWidget {
                         Icons.circle,
                         color:
                             findData.isOnline == 1 ? Colors.green : Colors.red,
-                        size: 12,
+                        size: 8,
                       ),
                       4.hGap,
                       Text(
@@ -75,10 +76,11 @@ class InfoCard extends StatelessWidget {
                     children: [
                       Text(
                         findData.name ?? '',
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                           fontSize: largeFontSize,
                           color: whiteColor,
                           fontWeight: FontWeight.w700,
+                          fontFamily: kFontArticulatCFBold
                         ),
                       ),
                       12.hGap,

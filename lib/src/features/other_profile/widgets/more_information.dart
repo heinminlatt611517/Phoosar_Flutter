@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class MoreInformation extends StatelessWidget {
@@ -31,9 +32,10 @@ class MoreInformation extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.left,
-              style: GoogleFonts.roboto(
+              style: TextStyle(
                 fontSize: mediumFontSize,
                 color: blackColor,
+                fontFamily: kFontGibsonBold,
                 fontWeight: FontWeight.w300,
               ),
             ),
@@ -41,10 +43,11 @@ class MoreInformation extends StatelessWidget {
             Text(
               description,
               textAlign: TextAlign.left,
-              style: GoogleFonts.roboto(
+              style: TextStyle(
                 fontSize: smallFontSize,
                 color: blackColor,
-                fontWeight: FontWeight.w100,
+                fontFamily: kFontArticulatCFNormal,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ],

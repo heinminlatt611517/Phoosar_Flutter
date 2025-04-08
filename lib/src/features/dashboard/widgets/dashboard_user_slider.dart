@@ -39,7 +39,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
     maxSteps = maxSteps < 1 ? 1 : maxSteps; // Ensure maxSteps is at least 1
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Stack(
@@ -53,7 +53,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                   },
                   aspectRatio: 16 / 9,
                   viewportFraction: 1,
-                  height: MediaQuery.of(context).size.height * 0.62),
+                  height: MediaQuery.of(context).size.height * 0.8),
               items: widget.profileImages.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -64,7 +64,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                           CachedNetworkImage(
                             imageUrl: i,
                             width: MediaQuery.of(context).size.width - 32,
-                            height: MediaQuery.of(context).size.height * 0.62,
+                            height: MediaQuery.of(context).size.height * 0.8,
                             fit: BoxFit.cover,
                           ),
                           Positioned(
@@ -72,7 +72,7 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
                             left: 0,
                             child: Container(
                               width: MediaQuery.of(context).size.width - 32,
-                              height: MediaQuery.of(context).size.height * 0.6,
+                              height: MediaQuery.of(context).size.height * 0.8,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.bottomLeft,

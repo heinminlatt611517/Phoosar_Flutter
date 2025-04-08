@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
 import 'package:phoosar/src/features/chat/models/room.dart';
@@ -54,6 +55,7 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
   }
 
   void _getNewestMessage(String roomId) {
+    debugPrint("GetNewestMessage");
     final client = _ref.read(supabaseClientProvider);
     _messageSubscriptions[roomId] = client
         .from('messages')
@@ -78,7 +80,10 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
                 .single();
             int currentUnreadCount = roomData['unread_count'] ?? 0;
 
-            if (!message.isRead) {
+            debugPrint("IsReadMessage>>>>>$currentUnreadCount");
+
+            /// Increase unread count only if the message is not read
+            if (!message.isRead && message.profileId != _myUserId) {
               currentUnreadCount += 1;
             }
 
@@ -92,9 +97,6 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
       }
     });
   }
-
-
-
 
   Future<String> createRoom(String otherUserId) async {
     final client = _ref.read(supabaseClientProvider);

@@ -9,6 +9,7 @@ import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 class GetMoreCoinsDialog extends ConsumerWidget {
@@ -21,7 +22,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
       title: 'GET MORE COINS',
       isCustomFont: true,
       width: 400,
-      titleFontSize: 30,
+      titleFontSize: 36,
       isExpand: true,
       child: SingleChildScrollView(
         child: Column(
@@ -71,7 +72,8 @@ class GetMoreCoinsDialog extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 20,
                   color: blackColor,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: kFontArticulatCFDemiBold
                 ),
               ),
             ),
@@ -82,6 +84,7 @@ class GetMoreCoinsDialog extends ConsumerWidget {
                 bgColor: blackColor,
                 fontSize: mediumFontSize,
                 buttonTextColor: orangeColor,
+                containerVPadding: 8,
                 text: "PHOOSAR PREMIUM",
                 onTap: () {
                   Navigator.pop(context);

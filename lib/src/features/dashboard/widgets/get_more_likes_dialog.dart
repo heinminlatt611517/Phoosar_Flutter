@@ -10,6 +10,8 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
+import '../../../utils/fonts.dart';
+
 class GetMoreLikesDialog extends ConsumerWidget {
   const GetMoreLikesDialog({super.key});
 
@@ -66,7 +68,9 @@ class GetMoreLikesDialog extends ConsumerWidget {
                 'Unlimited Likes',
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.w700,
                   color: blackColor,
+                    fontFamily: kFontArticulatCFDemiBold
                 ),
               ),
             ),
@@ -77,6 +81,7 @@ class GetMoreLikesDialog extends ConsumerWidget {
                 bgColor: blackColor,
                 buttonTextColor: orangeColor,
                 fontSize: mediumFontSize,
+                containerVPadding: 8,
                 text: "PHOOSAR PREMIUM",
                 onTap: () {
                   Navigator.pop(context);

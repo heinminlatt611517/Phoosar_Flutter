@@ -16,6 +16,7 @@ class CommonDialog extends StatelessWidget {
       this.isLargeTitleSize = false,
       this.isUnlockDialog = false,
       this.isCustomFont = false,
+        this.isUnlockFeature = false,
       this.titleColor,
       this.backgroundColor,
       this.titleFontSize});
@@ -27,6 +28,7 @@ class CommonDialog extends StatelessWidget {
   final bool? isLargeTitleSize;
   final bool isExpand;
   final bool? isUnlockDialog;
+  final bool? isUnlockFeature;
   final bool? isCustomFont;
   final Color? titleColor;
   final Color? backgroundColor;
@@ -49,9 +51,10 @@ class CommonDialog extends StatelessWidget {
         height: height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            20.vGap,
+           isUnlockFeature ==true ? 30.vGap : 20.vGap,
             Center(
               child: isUnlockDialog == true
                   ? Image.asset(
@@ -62,8 +65,9 @@ class CommonDialog extends StatelessWidget {
                   : Text(
                       title,
                        textAlign: TextAlign.center,
-                      style:isCustomFont == true ? GoogleFonts.roboto(
+                      style:isCustomFont == true ? TextStyle(
                         fontSize:titleFontSize ?? 26,
+                        fontFamily: kFontGibsonBold,
                         color:titleColor ?? orangeColor,
                         fontWeight: FontWeight.bold,
                       ) : GoogleFonts.roboto(

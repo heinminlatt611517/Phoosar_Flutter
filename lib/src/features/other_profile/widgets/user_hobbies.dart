@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
+import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../../data/response/profile.dart';
@@ -31,10 +32,10 @@ class UserHobbies extends StatelessWidget {
                     ),
                     child: Text(
                       interest,
-                      style: GoogleFonts.roboto(
+                      style: TextStyle(
                         fontSize: smallFontSize,
-                        color: whiteColor,
-                        fontWeight: FontWeight.w600,
+                        color: blackColor,
+                        fontFamily: kFontArticulatCFDemiBold,
                       ),
                     ),
                   ),
