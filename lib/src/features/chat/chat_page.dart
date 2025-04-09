@@ -21,7 +21,7 @@ import '../../providers/data_providers.dart';
 import '../../providers/room_provider.dart';
 import '../../utils/fonts.dart';
 
-class ChatPage extends ConsumerWidget {
+class ChatPage extends ConsumerStatefulWidget {
   final String roomId;
   final String otherUserName;
   final String otherProfileImage;
@@ -33,27 +33,40 @@ class ChatPage extends ConsumerWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final chatState = ref.watch(chatProvider(roomId));
+  ConsumerState<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends ConsumerState<ChatPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(chatProvider(widget.roomId).notifier).onChatScreenOpened();
+  }
+
+  Future<bool> _onBackPressed() async {
+    return false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final chatState = ref.watch(chatProvider(widget.roomId));
     var selfProfileData = ref.watch(selfProfileProvider);
 
     return WillPopScope(
-      onWillPop: () async {
-        ref.read(chatProvider(roomId).notifier).onLeaveChatScreen();
-        return Future.value(false);
-      },
+      onWillPop: _onBackPressed,
       child: Scaffold(
         backgroundColor: appBackgroundColor,
         appBar: AppBar(
           backgroundColor: blackColor,
           leading: InkWell(
               onTap: (){
+                ref.read(chatProvider(widget.roomId).notifier).onChatScreenClosed();
                 Navigator.pop(context);
-                ref.read(chatProvider(roomId).notifier).onLeaveChatScreen();
               },
               child: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 20,)),
           title: Text(
-            otherUserName,
+            widget.otherUserName,
             style: TextStyle(fontFamily: kFontGibsonBold,color: Colors.white),
           ),
           centerTitle: true,
@@ -65,7 +78,7 @@ class ChatPage extends ConsumerWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => VideoCallPage(roomId: roomId),
+                    builder: (context) => VideoCallPage(roomId: widget.roomId),
                   ),
                 );
               },
@@ -73,7 +86,7 @@ class ChatPage extends ConsumerWidget {
             InkWell(
               onTap: () async{
                 await ref
-                    .read(chatProvider(roomId).notifier)
+                    .read(chatProvider(widget.roomId).notifier)
                     .deleteRoom();
                 ref.invalidate(roomsProvider);
               },
@@ -99,7 +112,7 @@ class ChatPage extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Say "Hello" to $otherUserName',
+                            'Say "Hello" to ${widget.otherUserName}',
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w700,
                                 color: Colors.grey.withOpacity(0.5),
@@ -111,14 +124,14 @@ class ChatPage extends ConsumerWidget {
                               text: 'Tap to Say "Hello"'.toUpperCase(),
                               onTap: () {
                                 final notifier =
-                                ref.read(chatProvider(roomId).notifier);
+                                ref.read(chatProvider(widget.roomId).notifier);
                                 notifier.sendMessage("Hello");
                               })
                         ],
                       ),
                     ),
                   ),
-                  _MessageBar(roomId: roomId),
+                  _MessageBar(roomId: widget.roomId),
                 ],
               );
             } else {
@@ -133,7 +146,7 @@ class ChatPage extends ConsumerWidget {
                         final message = messages[index];
                         return _ChatBubble(
                           message: message,
-                          otherProfileImage: otherProfileImage,
+                          otherProfileImage: widget.otherProfileImage,
                           profileImage:
                           selfProfileData?.data?.profileImages?.first ??
                               ""
@@ -142,7 +155,7 @@ class ChatPage extends ConsumerWidget {
                       },
                     ),
                   ),
-                  _MessageBar(roomId: roomId),
+                  _MessageBar(roomId: widget.roomId),
                 ],
               );
             }
@@ -177,6 +190,7 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
       if (_focusNode.hasFocus) {
         setState(() {
           _showEmojiPicker = false;
+          images.clear();
         });
       }
     });
@@ -239,6 +253,7 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
 
 
   void _toggleEmojiPicker() {
+    images.clear();
     setState(() {
       _showEmojiPicker = !_showEmojiPicker;
     });
@@ -326,6 +341,8 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
                 IconButton(
                   icon: const Icon(Icons.photo, color: Colors.black26),
                   onPressed: () async {
+                    _textController.clear();
+                    FocusScope.of(context).unfocus();
                     final picker = ImagePicker();
                     final List<XFile>? imageFiles =
                     await picker.pickMultiImage();
@@ -333,6 +350,7 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
                     if (imageFiles != null && imageFiles.isNotEmpty) {
                       setState(() {
                         images.addAll(imageFiles.map((e) => File(e.path)));
+                        _showEmojiPicker = false;
                       });
                     }
                   },
@@ -395,7 +413,6 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
     );
   }
 }
-
 
 
 ///chat bubble

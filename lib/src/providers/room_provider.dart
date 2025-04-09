@@ -17,6 +17,7 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
   late final String _myUserId;
   StreamSubscription<List<Map<String, dynamic>>>? _roomsSubscription;
   final Map<String, StreamSubscription<Message?>> _messageSubscriptions = {};
+  final Map<String, StreamSubscription<int>> _unreadCountSubscriptions = {};
 
   RoomsNotifier(this._ref) : super(const AsyncValue.loading()) {
     _initializeRooms();
@@ -45,17 +46,50 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
           .where((room) => room.otherUserId != _myUserId)
           .toList();
 
+
+      _messageSubscriptions.forEach((_, sub) => sub.cancel());
+      _messageSubscriptions.clear();
+      _unreadCountSubscriptions.forEach((_, sub) => sub.cancel());
+      _unreadCountSubscriptions.clear();
+
       for (final room in _rooms) {
-        _getNewestMessage(room.id);
+      _getNewestMessage(room.id);
+      _subscribeToUnreadCount(room.id);
       }
       state = AsyncValue.data(_rooms);
-    }, onError: (error) {
+      }, onError: (error) {
       throw ('Error loading rooms');
     });
   }
 
+  void _subscribeToUnreadCount(String roomId) {
+    final client = _ref.read(supabaseClientProvider);
+    _unreadCountSubscriptions[roomId] = client
+        .from('room_participants')
+        .stream(primaryKey: ['room_id', 'profile_id'])
+        .eq('room_id', roomId)
+        .map<int>((data) {
+
+      final participant = data.firstWhere(
+            (row) => row['profile_id'] == _myUserId,
+      );
+      return participant['unread_count'] as int;
+        })
+        .listen((unreadCount) {
+
+          debugPrint("UnreadCount>>>>>>>$unreadCount");
+
+      state.whenData((rooms) {
+        final index = rooms.indexWhere((room) => room.id == roomId);
+        if (index != -1) {
+          rooms[index] = rooms[index].copyWith(unreadCount: unreadCount);
+          state = AsyncValue.data(List.from(rooms));
+        }
+      });
+    });
+  }
+
   void _getNewestMessage(String roomId) {
-    debugPrint("GetNewestMessage");
     final client = _ref.read(supabaseClientProvider);
     _messageSubscriptions[roomId] = client
         .from('messages')
@@ -68,29 +102,12 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
           ? null
           : Message.fromMap(map: data.first, myUserId: _myUserId),
     )
-        .listen((message) async {
+        .listen((message) {
       if (message != null) {
-        state.whenData((rooms) async {
+        state.whenData((rooms) {
           final index = rooms.indexWhere((room) => room.id == roomId);
           if (index != -1) {
-            final roomData = await client
-                .from('rooms')
-                .select('unread_count')
-                .eq('id', roomId)
-                .single();
-            int currentUnreadCount = roomData['unread_count'] ?? 0;
-
-            debugPrint("IsReadMessage>>>>>$currentUnreadCount");
-
-            /// Increase unread count only if the message is not read
-            if (!message.isRead && message.profileId != _myUserId) {
-              currentUnreadCount += 1;
-            }
-
-            rooms[index] = rooms[index].copyWith(
-              lastMessage: message,
-              unreadCount: currentUnreadCount,
-            );
+            rooms[index] = rooms[index].copyWith(lastMessage: message);
             state = AsyncValue.data(List.from(rooms));
           }
         });
@@ -98,18 +115,28 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
     });
   }
 
+  Future<void> markMessagesAsRead(String roomId) async {
+    final client = _ref.read(supabaseClientProvider);
+    await client
+        .from('room_participants')
+        .update({'unread_count': 0})
+        .eq('room_id', roomId)
+        .eq('profile_id', _myUserId);
+  }
+
   Future<String> createRoom(String otherUserId) async {
     final client = _ref.read(supabaseClientProvider);
     log("Creating room with user ID: $otherUserId");
     final response = await client
         .rpc('create_new_room', params: {'other_user_id': otherUserId});
-
     return response.toString();
   }
 
   @override
   void dispose() {
     _roomsSubscription?.cancel();
+    _messageSubscriptions.forEach((_, sub) => sub.cancel());
+    _unreadCountSubscriptions.forEach((_, sub) => sub.cancel());
     super.dispose();
   }
 }

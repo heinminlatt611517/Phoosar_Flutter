@@ -20,6 +20,8 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 
+import 'models/message.dart';
+
 /// Displays the list of chat threads
 class MatchRoomsScreen extends ConsumerWidget {
   const MatchRoomsScreen({
@@ -42,13 +44,6 @@ class MatchRoomsScreen extends ConsumerWidget {
       data: (rooms) {
         return profilesState.when(
           data: (profiles) {
-            final currentUserId = supabase.auth.currentUser!.id;
-            final filterUserIds = filterUsers
-                .map((user) => user.profile!.supabaseUserId)
-                .toList();
-            final matchUsers = profiles
-                .where((p) => p.id != currentUserId && filterUserIds.contains(p.id))
-                .toList();
             return ListView.separated(
               padding: EdgeInsets.zero,
               itemCount: filterUsers.length,
@@ -56,6 +51,7 @@ class MatchRoomsScreen extends ConsumerWidget {
                 Room? room = rooms
                     .where((room) => room.otherUserId == filterUsers[index].profile!.supabaseUserId)
                     .firstOrNull;
+
                 var otherUser = filterUsers[index].profile!;
                 return Slidable(
                   key: ValueKey(index),
@@ -114,9 +110,6 @@ class MatchRoomsScreen extends ConsumerWidget {
                     contentPadding: EdgeInsets.zero,
                     onTap: () async {
                       if (room != null) {
-                        await ref.read(chatProvider(room.id).notifier).markRoomAsRead();
-                        ref.read(chatProvider(room.id).notifier).onEnterChatScreen();
-
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
                                 roomId: room.id,
@@ -126,8 +119,6 @@ class MatchRoomsScreen extends ConsumerWidget {
                         try {
                           final roomId = await ref.read(roomsProvider.notifier).createRoom(
                               filterUsers[index].profile!.supabaseUserId.toString());
-                          await ref.read(chatProvider(roomId).notifier).markRoomAsRead();
-                          ref.read(chatProvider(roomId).notifier).onEnterChatScreen();
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ChatPage(
                                   roomId: roomId,
@@ -172,35 +163,56 @@ class MatchRoomsScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         room != null
-                            ? room.lastMessage?.content ?? 'Chat Room Created'
+                            ? _isImageMessage(room.lastMessage)
+                            ? '${otherUser.name.toString()} sent a photo.'
+                            : (room.lastMessage?.content ?? 'Chat Room Created')
                             : 'Start Messaging',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    trailing: Padding(
-                      padding: const EdgeInsets.only(top: 10,right: 10),
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            room != null ? room.unreadCount.toString() : '',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
+                    trailing: Consumer(
+                      builder: (context, ref, child) {
+                        final roomAsync = ref.watch(roomsProvider);
+                        return roomAsync.when(
+                          loading: () => const SizedBox.shrink(),
+                          error: (error, stack) => const SizedBox.shrink(),
+                          data: (rooms) {
+                            final currentRoom = rooms.firstWhere((r) => r.id == room?.id);
+                            if (currentRoom.unreadCount <= 0) return const SizedBox.shrink();
+
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10, right: 10),
+                              child: Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    currentRoom.unreadCount > 9 ? '9+' : currentRoom.unreadCount.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.2, // Better vertical centering
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 );
@@ -217,4 +229,8 @@ class MatchRoomsScreen extends ConsumerWidget {
       },
     );
   }
+}
+
+bool _isImageMessage(Message? message) {
+  return message != null && message.imageUrl != null && message.imageUrl!.isNotEmpty;
 }

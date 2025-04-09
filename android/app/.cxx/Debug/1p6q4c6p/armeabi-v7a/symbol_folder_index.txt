@@ -1,0 +1,1 @@
+/Users/mocdeveloper/AndroidStudioProjects/Phoosar_Flutter/build/app/intermediates/cxx/Debug/1p6q4c6p/obj/armeabi-v7a
