@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phoosar/src/common/widgets/yes_no_dialog.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/extensions.dart';
 
 import '../common/widgets/icon_button.dart';
 import '../providers/app_provider.dart';
@@ -36,7 +37,7 @@ class InterestListItemView extends ConsumerWidget {
                     color: blackColor,
                     fontWeight: FontWeight.w600,
                   ),
-                  value??""),
+                  value?.capitalize() ?? ''),
             ),),
           ),
         ),

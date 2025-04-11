@@ -67,7 +67,7 @@ class CommonDialog extends StatelessWidget {
                        textAlign: TextAlign.center,
                       style:isCustomFont == true ? TextStyle(
                         fontSize:titleFontSize ?? 26,
-                        fontFamily: kFontGibsonBold,
+                        fontFamily: kFontArticulatCFBold,
                         color:titleColor ?? orangeColor,
                         fontWeight: FontWeight.bold,
                       ) : GoogleFonts.roboto(

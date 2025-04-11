@@ -79,7 +79,6 @@ class InfoCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: largeFontSize,
                           color: whiteColor,
-                          fontWeight: FontWeight.w700,
                           fontFamily: kFontArticulatCFBold
                         ),
                       ),

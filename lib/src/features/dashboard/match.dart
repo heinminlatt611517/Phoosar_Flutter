@@ -11,9 +11,11 @@ import 'package:phoosar/src/providers/room_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
+import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:video_player/video_player.dart';
 import '../../common/widgets/icon_button.dart';
+import '../../utils/fonts.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
   const MatchScreen({super.key, required this.matchProfileData});
@@ -45,7 +47,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
               setState(() {
                 showUI = true;
               });
-              showSnackBarFun(context);
+              showSnackBarFun(context,10);
             }
           }
         });
@@ -191,32 +193,45 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     );
   }
 
-  showSnackBarFun(context) {
+  showSnackBarFun(context, count) {
     SnackBar snackBar = SnackBar(
       content: Row(
         children: [
-          Icon(
-            Icons.heart_broken,
-            size: 15,
-            color: Colors.red,
-          ),
-          SizedBox(width: 4),
+          Image.asset("assets/images/update_coin.png",
+              width: 36),
+          10.hGap,
           Text(
-            'You received 5 💕 for getting a match',
-            style: GoogleFonts.roboto(
-              fontSize: smallFontSize,
-              color: whiteColor,
+            'You received $count',
+            style: TextStyle(
+                fontSize: smallFontSize,
+                color: whiteColor,
+                fontFamily: kFontArticulatCFMedium
+            ),
+          ),
+          2.hGap,
+          Image.asset("assets/images/update_coin.png",
+              width: 15),
+          2.hGap,
+          Text(
+            'for getting a match',
+            style: TextStyle(
+                fontSize: smallFontSize,
+                color: whiteColor,
+                fontFamily: kFontArticulatCFMedium
             ),
           ),
         ],
       ),
-      backgroundColor: blackColor,
+      backgroundColor: greenColor,
       dismissDirection: DismissDirection.up,
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 110, left: 1, right: 1),
+          bottom: MediaQuery.of(context).size.height - 120,
+          left: 10,
+          right: 10),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
 }

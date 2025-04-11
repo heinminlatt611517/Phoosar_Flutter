@@ -28,7 +28,10 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
         .order('created_at', ascending: false)
         .map<List<Message>>(
           (data) => data
-          .map<Message>((row) => Message.fromMap(map: row, myUserId: client.auth.currentUser!.id))
+          .map<Message>((row) => Message.fromMap(
+        map: row,
+        myUserId: client.auth.currentUser!.id,
+      ))
           .toList(),
     )
         .listen(
@@ -38,22 +41,21 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
           _isFirstLoad = false;
         }
 
-        if (messages.isEmpty) {
-          state = const AsyncValue.data([]);
-        } else {
-          state = AsyncValue.data(messages);
-        }
+        state = AsyncValue.data(messages);
       },
-      onError: (error) => state = AsyncValue.error(error, StackTrace.current),
+      onError: (error) =>
+      state = AsyncValue.error(error, StackTrace.current),
     );
   }
 
   Future<void> sendMessage(String content, {String? imageUrl}) async {
     final client = _ref.read(supabaseClientProvider);
+    final userId = client.auth.currentUser!.id;
+
     final message = Message(
       id: 'temp',
       roomId: _roomId,
-      profileId: client.auth.currentUser!.id,
+      profileId: userId,
       content: content,
       imageUrl: imageUrl,
       createdAt: DateTime.now(),
@@ -61,36 +63,99 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
     );
 
     state.whenData((messages) => state = AsyncValue.data([message, ...messages]));
+
     try {
       await client.from('messages').insert(message.toMap());
 
-      await client.rpc('increment_unread_count', params: {
-        'p_room_id': _roomId,
-        'p_sender_id': client.auth.currentUser!.id,
-      });
+      final receiverId = await _getReceiverId();
+      if (receiverId == null) {
+        debugPrint('Receiver not found — skipping unread increment');
+        return;
+      }
 
+      debugPrint("IsReceiverId → $receiverId");
+
+      final isReceiverActive = await _checkUserActivityStatus(receiverId);
+      debugPrint("IsReceiverActive → $isReceiverActive");
+
+      if (!isReceiverActive) {
+        await client.rpc('increment_unread_count', params: {
+          'p_room_id': _roomId,
+          'p_sender_id': userId,
+        });
+      }
     } catch (e) {
-      state.whenData((messages) => state = AsyncValue.data(messages.where((m) => m.id != 'temp').toList()));
+      state.whenData((messages) =>
+      state = AsyncValue.data(messages.where((m) => m.id != 'temp').toList()));
+      debugPrint('❌ Error sending message: $e');
     }
   }
 
+  Future<String?> _getReceiverId() async {
+    final client = _ref.read(supabaseClientProvider);
+    final currentUserId = client.auth.currentUser!.id;
+
+    final response = await client
+        .from('room_participants')
+        .select('profile_id')
+        .eq('room_id', _roomId)
+        .neq('profile_id', currentUserId)
+        .maybeSingle();
+
+    if (response == null) {
+      debugPrint('❌ Could not find receiver ID');
+      return null;
+    }
+
+    return response['profile_id'] as String;
+  }
+
+  Future<bool> _checkUserActivityStatus(String userId) async {
+    final client = _ref.read(supabaseClientProvider);
+
+    final response = await client
+        .from('room_participants')
+        .select('is_active_in_chat')
+        .eq('room_id', _roomId)
+        .eq('profile_id', userId)
+        .maybeSingle();
+
+    if (response == null) {
+      debugPrint('No matching participant found');
+      return false;
+    }
+
+    return response['is_active_in_chat'] ?? false;
+  }
+
   void onChatScreenOpened() {
-      _ref.read(roomsProvider.notifier).markMessagesAsRead(_roomId);
+    _ref.read(roomsProvider.notifier).markMessagesAsRead(_roomId);
+    _setUserActiveStatus(true);
   }
 
   void onChatScreenClosed() {
+    _setUserActiveStatus(false);
+  }
+
+  Future<void> _setUserActiveStatus(bool isActive) async {
+    final client = _ref.read(supabaseClientProvider);
+    final userId = client.auth.currentUser!.id;
+
+    await client
+        .from('room_participants')
+        .update({'is_active_in_chat': isActive})
+        .eq('room_id', _roomId)
+        .eq('profile_id', userId);
   }
 
   Future<void> deleteAllMessages() async {
     final client = _ref.read(supabaseClientProvider);
-    final userId = client.auth.currentUser!.id;
 
     try {
       await client.from('messages').delete().eq('room_id', _roomId);
       state = const AsyncValue.data([]);
     } catch (e, stackTrace) {
-      print('Error deleting messages: $e');
-      print('Stack trace: $stackTrace');
+      debugPrint('Error deleting messages: $e');
       state = AsyncValue.error(e, stackTrace);
     }
   }
@@ -102,70 +167,8 @@ class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
       await client.from('rooms').delete().eq('id', _roomId);
       state = const AsyncValue.data([]);
     } catch (e, stackTrace) {
-      print('Error deleting room: $e');
-      print('Stack trace: $stackTrace');
+      debugPrint('Error deleting room: $e');
       state = AsyncValue.error(e, stackTrace);
-    }
-  }
-
-  String _getReceiverId(String senderId) {
-    final client = _ref.read(supabaseClientProvider);
-    final currentUserId = client.auth.currentUser!.id;
-
-    return currentUserId == senderId ? 'otherUserId' : currentUserId;
-  }
-
-  Future<void> sendOffer(String sdp) async {
-    final client = _ref.read(supabaseClientProvider);
-    final userId = client.auth.currentUser!.id;
-    final receiverId = _getReceiverId(userId);
-
-    try {
-      await client.from('signaling_messages').insert({
-        'room_id': _roomId,
-        'sender_id': userId,
-        'receiver_id': receiverId,
-        'type': 'offer',
-        'sdp': sdp,
-      }).select();
-    } catch (e) {
-      print('Error sending offer: $e');
-    }
-  }
-
-  Future<void> sendAnswer(String sdp) async {
-    final client = _ref.read(supabaseClientProvider);
-    final userId = client.auth.currentUser!.id;
-    final receiverId = _getReceiverId(userId);
-
-    try {
-      await client.from('signaling_messages').insert({
-        'room_id': _roomId,
-        'sender_id': userId,
-        'receiver_id': receiverId,
-        'type': 'answer',
-        'sdp': sdp,
-      }).select();
-    } catch (e) {
-      print('Error sending answer: $e');
-    }
-  }
-
-  Future<void> sendCandidate(Map<String, dynamic> candidate) async {
-    final client = _ref.read(supabaseClientProvider);
-    final userId = client.auth.currentUser!.id;
-    final receiverId = _getReceiverId(userId);
-
-    try {
-      await client.from('signaling_messages').insert({
-        'room_id': _roomId,
-        'sender_id': userId,
-        'receiver_id': receiverId,
-        'type': 'candidate',
-        'candidate': candidate,
-      }).select();
-    } catch (e) {
-      print('Error sending ICE candidate: $e');
     }
   }
 

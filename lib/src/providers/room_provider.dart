@@ -132,6 +132,35 @@ class RoomsNotifier extends StateNotifier<AsyncValue<List<Room>>> {
     return response.toString();
   }
 
+  Future<void> deleteRoom(String roomId) async {
+    final client = _ref.read(supabaseClientProvider);
+
+    try {
+      final response = await client.from('rooms').delete().eq('id', roomId);
+
+      if (response.error != null) {
+        throw response.error!;
+      }
+
+
+      state.whenData((rooms) {
+
+        final updatedRooms = rooms.where((room) => room.id != roomId).toList();
+        state = AsyncValue.data(updatedRooms);
+      });
+
+      _messageSubscriptions[roomId]?.cancel();
+      _unreadCountSubscriptions[roomId]?.cancel();
+      _messageSubscriptions.remove(roomId);
+      _unreadCountSubscriptions.remove(roomId);
+
+    } catch (e, stackTrace) {
+      debugPrint('Error deleting room: $e');
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+
   @override
   void dispose() {
     _roomsSubscription?.cancel();

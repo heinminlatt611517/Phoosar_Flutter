@@ -1,0 +1,2 @@
+/Users/mocdeveloper/AndroidStudioProjects/Phoosar_Flutter/android/app/.cxx/RelWithDebInfo/303k355j/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/mocdeveloper/AndroidStudioProjects/Phoosar_Flutter/android/app/.cxx/RelWithDebInfo/303k355j/arm64-v8a/CMakeFiles/rebuild_cache.dir

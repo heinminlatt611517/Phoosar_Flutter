@@ -48,7 +48,7 @@ class _CarouselWithIndicatorState extends State<PhoosarPremiumCarouselWidget> {
                             .width / 2 : MediaQuery
                             .of(context)
                             .size
-                            .width / 1.7,
+                            .width / 1.6,
                       ),
                     ),
                     10.vGap,

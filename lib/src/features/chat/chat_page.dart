@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:phoosar/src/common/widgets/custom_style_arrow_view.dart';
 import 'package:phoosar/src/common/widgets/user_avatar.dart';
 import 'package:phoosar/src/features/chat/models/message.dart';
 import 'package:phoosar/src/features/chat/video_call_page.dart';
@@ -45,7 +46,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 
   Future<bool> _onBackPressed() async {
-    return false;
+    Navigator.pop(context);
+    return true;
   }
 
   @override
@@ -72,23 +74,26 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           centerTitle: true,
           actions: [
 
-            IconButton(
-              icon: Icon(Icons.videocam, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => VideoCallPage(roomId: widget.roomId),
-                  ),
-                );
-              },
-            ),
+            ///video
+            // IconButton(
+            //   icon: Icon(Icons.videocam, color: Colors.white,size: 30,),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => VideoCallPage(roomId: widget.roomId,otherProfileImage: widget.otherProfileImage,otherUserName: widget.otherUserName,),
+            //       ),
+            //     );
+            //   },
+            // ),
+            // 10.hGap,
+
+            ///delete
             InkWell(
               onTap: () async{
-                await ref
-                    .read(chatProvider(widget.roomId).notifier)
-                    .deleteRoom();
+                await ref.read(roomsProvider.notifier).deleteRoom(widget.roomId);
                 ref.invalidate(roomsProvider);
+                Navigator.pop(context);
               },
               child: Image.asset(
                 'assets/images/chat_delete.png',
@@ -167,7 +172,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 }
 
 /// Set of widget that contains TextField and Button to submit message
-
 class _MessageBar extends ConsumerStatefulWidget {
   final String roomId;
   const _MessageBar({Key? key, required this.roomId}) : super(key: key);
@@ -414,7 +418,6 @@ class _MessageBarState extends ConsumerState<_MessageBar> {
   }
 }
 
-
 ///chat bubble
 class _ChatBubble extends StatelessWidget {
   const _ChatBubble({
@@ -438,89 +441,93 @@ class _ChatBubble extends StatelessWidget {
         profileImage: message.isMine ? profileImage : otherProfileImage,
       ),
       const SizedBox(width: 12),
+
       /// Message container
-      Flexible(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: message.isMine
-              ? CrossAxisAlignment.end
-              : CrossAxisAlignment.start,
-          children: [
-            /// Main message bubble container
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: message.isMine ? primaryColor : Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: message.isMine
-                    ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    offset: const Offset(0, 1),
-                    blurRadius: 2,
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: message.isMine
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                /// Main message bubble container
+                CustomPaint(
+                  painter: CustomStyleArrow(
+                    isMine: message.isMine,
+                    bubbleColor: message.isMine ? primaryColor : Colors.white,
                   ),
-                ]
-                    : [],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// If the message has an image
-                  if (message.imageUrl != null && message.imageUrl!.isNotEmpty)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        message.imageUrl!,
-                        fit: BoxFit.cover,
-                        width: 200,
-                        height: 200,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
+                  child: Container(
+                    // Constrain the width of the container to avoid overflow
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.75, // limit width to 75% of screen
+                    ),
+                    margin: EdgeInsets.only(left: message.isMine ? 0 : 10, right: message.isMine ? 10 : 0),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (message.imageUrl != null && message.imageUrl!.isNotEmpty)
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              message.imageUrl!,
+                              fit: BoxFit.cover,
+                              width: 200,
+                              height: 200,
+                              errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return SizedBox(
+                                  width: 200,
+                                  height: 200,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        if (message.content.isNotEmpty) ...[
+                          if (message.imageUrl != null && message.imageUrl!.isNotEmpty)
+                            const SizedBox(height: 8),
+                          Text(
+                            message.content,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: message.isMine ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
-                  /// If the message has content (text)
-                  if (message.content.isNotEmpty) ...[
-                    if (message.imageUrl != null && message.imageUrl!.isNotEmpty)
-                      const SizedBox(height: 8), // Space between image and text
-                    Text(
-                      message.content,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: message.isMine ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            /// Time of the message
-            Align(
-              alignment: message.isMine ? Alignment.topRight : Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  format(message.createdAt, locale: 'en_short'),
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                  textAlign: message.isMine ? TextAlign.right : TextAlign.left,
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          /// Time of the message
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              format(message.createdAt, locale: 'en_short'),
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
+              textAlign: message.isMine ? TextAlign.right : TextAlign.left,
+            ),
+          ),
+        ],
       ),
     ];
 
@@ -539,6 +546,7 @@ class _ChatBubble extends StatelessWidget {
     );
   }
 }
+
 
 
 

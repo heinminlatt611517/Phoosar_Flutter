@@ -50,28 +50,9 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
             children: [
               Text(
                 'PROFILE BUILDER',
-                style: TextStyle(color: Colors.black,fontFamily: kFontGibsonBold,fontSize: 24),
+                style: TextStyle(color: Colors.black,fontFamily: kFontArticulatCFBold,fontSize: 24),
               ),
               12.hGap,
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 4),
-              //   child: Row(
-              //     children: [
-              //       Image.asset(
-              //         'assets/images/ic_love.png',
-              //         width: 15,
-              //         color: Colors.red,
-              //       ),
-              //       Text(
-              //         ' ++',
-              //         style: GoogleFonts.roboto(
-              //           fontSize: smallFontSize,
-              //           color: blueColor,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
           12.vGap,
@@ -93,7 +74,6 @@ class _ProfileBuilderState extends ConsumerState<ProfileBuilder> {
               fontSize: mediumFontSize,
               color: blackColor,
               fontFamily: kFontArticulatCFNormal,
-              fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w500,
             ),
           ),
