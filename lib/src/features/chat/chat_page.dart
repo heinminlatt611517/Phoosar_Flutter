@@ -75,18 +75,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           actions: [
 
             ///video
-            // IconButton(
-            //   icon: Icon(Icons.videocam, color: Colors.white,size: 30,),
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => VideoCallPage(roomId: widget.roomId,otherProfileImage: widget.otherProfileImage,otherUserName: widget.otherUserName,),
-            //       ),
-            //     );
-            //   },
-            // ),
-            // 10.hGap,
+            IconButton(
+              icon: Icon(Icons.videocam, color: Colors.white,size: 30,),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VideoCallPage(roomId: widget.roomId,otherProfileImage: widget.otherProfileImage,otherUserName: widget.otherUserName,),
+                  ),
+                );
+              },
+            ),
+            10.hGap,
 
             ///delete
             InkWell(

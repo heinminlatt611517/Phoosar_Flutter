@@ -22,8 +22,8 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     log(findData.profileImages.toString());
     return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
+      height: MediaQuery.of(context).size.height * 0.67,
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: Stack(
         children: [
           DashboardProfileSlider(

@@ -28,6 +28,17 @@ android {
     compileSdk = 35
     ndkVersion = "25.1.8937393"
 
+    defaultConfig {
+        applicationId = "com.moc.updatephoosar"
+        minSdk = 21
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+        ndk {
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -43,6 +54,14 @@ android {
         pickFirst 'lib/x86_64/libaosl.so'
         pickFirst 'lib/x86/libaosl.so'
         pickFirst 'lib/armeabi-v7a/libaosl.so'
+
+        exclude 'lib/armeabi-v7a/libagora_ai_denoise_extension.so'
+        exclude 'lib/armeabi-v7a/libagora_spatial_audio_extension.so'
+        exclude 'lib/armeabi-v7a/libagora_full_audio_format_extension.so'
+
+        exclude 'lib/arm64-v8a/libagora_ai_denoise_extension.so'
+        exclude 'lib/arm64-v8a/libagora_spatial_audio_extension.so'
+        exclude 'lib/arm64-v8a/libagora_full_audio_format_extension.so'
     }
 
     signingConfigs {
@@ -52,14 +71,6 @@ android {
             keyAlias "com.moc.updatephoosar"
             keyPassword "com.moc.updatephoosar"
         }
-    }
-
-    defaultConfig {
-        applicationId = "com.moc.updatephoosar"
-        minSdk = 21
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutterVersionCode.toInteger()
-        versionName = flutterVersionName
     }
 
     buildTypes {
@@ -73,7 +84,6 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
 }
-
 
 flutter {
     source = "../.."

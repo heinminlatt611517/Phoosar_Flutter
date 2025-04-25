@@ -75,7 +75,7 @@ class CoinRow extends StatelessWidget {
                 ),
               ),
               Text(
-                ' Coins',
+                ' MMK',
                 style: TextStyle(
                   fontSize: mediumFontSize,
                   fontWeight: FontWeight.normal,

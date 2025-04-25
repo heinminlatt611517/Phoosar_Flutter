@@ -139,54 +139,56 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return Container(
       height: double.infinity,
       color: whitePaleColor,
-      child: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              MediaQuery.of(context).padding.top.vGap,
-              DashboardHeader(),
-              findListState.when(
-                data: (profiles) {
-                  if (profiles == null || profiles.isEmpty) {
-                    return Container(
-                      height: context.heightPx * 0.8,
-                      child: Center(
-                        child: Text(AppLocalizations.of(context)!.kLastProfile),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            MediaQuery.of(context).padding.top.vGap,
+            Container(
+                height: MediaQuery.of(context).size.height * 0.07,
+                child: DashboardHeader()),
+            findListState.when(
+              data: (profiles) {
+                if (profiles == null || profiles.isEmpty) {
+                  return Container(
+                    height: context.heightPx * 0.7,
+                    child: Center(
+                      child: Text(AppLocalizations.of(context)!.kLastProfile),
+                    ),
+                  );
+                }
+                if (selectedIndex >= profiles.length) {
+                  selectedIndex = profiles.length - 1;
+                }
+                return Column(
+                  children: [
+                    Visibility(
+                      visible: !isProfileBuilder,
+                      child: InfoCard(findData: profiles[selectedIndex]),
+                    ),
+                    Visibility(
+                      visible: isProfileBuilder,
+                      child: ProfileBuilder(
+                        profileBuilderData:
+                        profileBuilderData ?? ProfileBuilderData(),
+                        onSave: () {
+                          setState(() {
+                            profileBuilderData = null;
+                            isProfileBuilder = false;
+                          });
+                        },
+                        onCancel: () {
+                          setState(() {
+                            profileBuilderData = null;
+                            isProfileBuilder = false;
+                          });
+                        },
                       ),
-                    );
-                  }
-                  if (selectedIndex >= profiles.length) {
-                    selectedIndex = profiles.length - 1;
-                  }
-                  return Column(
-                    children: [
-                      Visibility(
-                        visible: !isProfileBuilder,
-                        child: InfoCard(findData: profiles[selectedIndex]),
-                      ),
-                      Visibility(
-                        visible: isProfileBuilder,
-                        child: ProfileBuilder(
-                          profileBuilderData:
-                          profileBuilderData ?? ProfileBuilderData(),
-                          onSave: () {
-                            setState(() {
-                              profileBuilderData = null;
-                              isProfileBuilder = false;
-                            });
-                          },
-                          onCancel: () {
-                            setState(() {
-                              profileBuilderData = null;
-                              isProfileBuilder = false;
-                            });
-                          },
-                        ),
-                      ),
-                      6.vGap,
-                      Visibility(
-                        visible: !isProfileBuilder,
+                    ),
+                    Visibility(
+                      visible: !isProfileBuilder,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.13,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -250,19 +252,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ],
                         ),
                       ),
-                    ],
-                  );
-                },
-                loading: () => Container(
-                  height: context.heightPx * 0.6,
-                  child: Center(
-                    child: SpinKitThreeBounce(color: primaryColor),
-                  ),
+                    ),
+                  ],
+                );
+              },
+              loading: () => Container(
+                height: context.heightPx * 0.6,
+                child: Center(
+                  child: SpinKitThreeBounce(color: primaryColor),
                 ),
-                error: (error, stack) => Center(child: Text('Error: $error')),
               ),
-            ],
-          ),
+              error: (error, stack) => Center(child: Text('Error: $error')),
+            ),
+          ],
         ),
       ),
     );
