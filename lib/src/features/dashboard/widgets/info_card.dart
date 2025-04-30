@@ -22,8 +22,7 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     log(findData.profileImages.toString());
     return Container(
-      height: MediaQuery.of(context).size.height * 0.67,
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      height: MediaQuery.of(context).size.height * 0.68,
       child: Stack(
         children: [
           DashboardProfileSlider(
@@ -110,7 +109,7 @@ class InfoCard extends StatelessWidget {
                       'assets/images/work.png',
                       width: 14,
                     ),
-                    text: findData.jobTitle ?? '',
+                    text: findData.jobTitle ?? '-',
                   ),
                   6.vGap,
                   UserInfoRow(
@@ -118,7 +117,7 @@ class InfoCard extends StatelessWidget {
                       'assets/images/address.png',
                       width: 14,
                     ),
-                    text: 'Live in ${findData.city ?? ''}',
+                    text: 'Live in ${findData.city ?? '-'}',
                   ),
                   6.vGap,
                   UserInfoRow(
@@ -126,7 +125,7 @@ class InfoCard extends StatelessWidget {
                       'assets/images/school.png',
                       width: 14,
                     ),
-                    text: findData.school ?? '',
+                    text: findData.school ?? '-',
                   ),
                 ],
               ),

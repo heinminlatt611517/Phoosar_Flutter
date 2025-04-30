@@ -126,7 +126,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     20.vGap,
 
-                    ///phone number sign in view
+                    ///phone number and password input view
                     Visibility(
                       visible: true,
                       child: Column(
@@ -190,61 +190,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
 
-                    // 50.vGap,
-                    //
-                    // ///Sign in button
-                    // SizedBox(
-                    //   width: MediaQuery.of(context).size.width / 2,
-                    //   child: CommonButton(
-                    //     containerVPadding: 10,
-                    //     text: AppLocalizations.of(context)!.kSignInLabel.toUpperCase(),
-                    //     fontSize: 18,
-                    //     buttonTextColor: Colors.white,
-                    //     isLoading: _isLoading,
-                    //     onTap: () {
-                    //       if (!_isLoading) {
-                    //         _signIn();
-                    //       }
-                    //     },
-                    //     bgColor: primaryColor,
-                    //   ),
-                    // ),
+                    40.vGap,
 
-                    20.vGap,
-
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Checkbox(
-                          value: _hasAgreedToTerms,
-                          onChanged: (value) {
-                            setState(() {
-                              _hasAgreedToTerms = value!;
-                            });
-                          },
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EULAView(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'I agree to the Terms of Service',
-                            style: TextStyle(
-                                color: Colors.cyan,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    20.vGap,
-
+                    ///sign in
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2,
                       child: CommonButton(
@@ -254,12 +202,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         buttonTextColor: Colors.white,
                         isLoading: _isLoading,
                         onTap: () {
-                          if (_hasAgreedToTerms && !_isLoading) {
+                          if (!_isLoading) {
                             _signIn();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('You must agree to the terms to continue.')),
-                            );
                           }
                         },
                         bgColor: primaryColor,

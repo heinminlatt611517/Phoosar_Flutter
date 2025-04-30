@@ -171,52 +171,52 @@ class MatchRoomsScreen extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    // trailing: Consumer(
-                    //   builder: (context, ref, child) {
-                    //     final roomAsync = ref.watch(roomsProvider);
-                    //     return roomAsync.when(
-                    //       loading: () => const SizedBox.shrink(),
-                    //       error: (error, stack) => const SizedBox.shrink(),
-                    //       data: (rooms) {
-                    //         final currentRoom = rooms.firstWhere(
-                    //               (r) => r.id == room?.id,
-                    //           orElse: () => Room(id: '', otherUserId: '', unreadCount: 0, lastMessage: null, createdAt: DateTime.now())
-                    //         );
-                    //         if (currentRoom == null || currentRoom.unreadCount <= 0) return const SizedBox.shrink();
-                    //
-                    //         return Padding(
-                    //           padding: const EdgeInsets.only(top: 10, right: 10),
-                    //           child: Container(
-                    //             width: 24,
-                    //             height: 24,
-                    //             decoration: BoxDecoration(
-                    //               color: primaryColor,
-                    //               shape: BoxShape.circle,
-                    //               boxShadow: [
-                    //                 BoxShadow(
-                    //                   color: Colors.black.withOpacity(0.1),
-                    //                   blurRadius: 2,
-                    //                   offset: const Offset(0, 1),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //             child: Center(
-                    //               child: Text(
-                    //                 currentRoom.unreadCount > 9 ? '9+' : currentRoom.unreadCount.toString(),
-                    //                 style: const TextStyle(
-                    //                   color: Colors.white,
-                    //                   fontSize: 12,
-                    //                   fontWeight: FontWeight.bold,
-                    //                   height: 1.2, // Better vertical centering
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    // ),
+                    trailing: Consumer(
+                      builder: (context, ref, child) {
+                        final roomAsync = ref.watch(roomsProvider);
+                        return roomAsync.when(
+                          loading: () => const SizedBox.shrink(),
+                          error: (error, stack) => const SizedBox.shrink(),
+                          data: (rooms) {
+                            final currentRoom = rooms.firstWhere(
+                                  (r) => r.id == room?.id,
+                              orElse: () => Room(id: '', otherUserId: '', unreadCount: 0, lastMessage: null, createdAt: DateTime.now())
+                            );
+                            if (currentRoom == null || currentRoom.unreadCount <= 0) return const SizedBox.shrink();
+
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10, right: 10),
+                              child: Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    currentRoom.unreadCount > 9 ? '9+' : currentRoom.unreadCount.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.2, // Better vertical centering
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 );
               },

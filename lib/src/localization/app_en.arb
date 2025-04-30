@@ -137,8 +137,9 @@
      "cancel" : "Cancel",
      "logout" : "Logout",
       "areYouSure" : "Are you sure?",
-      "doYouWantToDeleteAccount" : "Do you want to delete your account? This action cannot be undone"
-
-
+      "doYouWantToDeleteAccount" : "Do you want to delete your account? This action cannot be undone",
+      "enterNewPassword" : "Enter New Password",
+      "confirmPassword" : "Confirm Password",
+      "update" : "Update"
 
 }

@@ -29,6 +29,8 @@ class ConfigData {
   int? forceUpdate;
   int? percentage;
   int? showBuyCoin;
+  int? skipCount;
+  int? rewindCount;
 
   ConfigData(
       {this.skipQuestion,
@@ -36,7 +38,9 @@ class ConfigData {
         this.releaseVersion,
         this.forceUpdate,
         this.percentage,
-      this.showBuyCoin});
+      this.showBuyCoin,
+      this.skipCount,
+      this.rewindCount});
 
   ConfigData.fromJson(Map<String, dynamic> json) {
     skipQuestion = json['skip_question'];
@@ -45,6 +49,8 @@ class ConfigData {
     forceUpdate = json['force_update'];
     percentage = json['percentage'];
     showBuyCoin = json['show_buy_coin'];
+    skipCount = json['skip_count'];
+    rewindCount = json['rewind_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +61,8 @@ class ConfigData {
     data['force_update'] = this.forceUpdate;
     data['percentage'] = this.percentage;
     data['show_buy_coin'] = this.showBuyCoin;
+    data['skip_count'] = this.skipCount;
+    data['rewind_count'] = this.rewindCount;
     return data;
   }
 }

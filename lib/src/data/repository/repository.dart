@@ -289,6 +289,36 @@ class Repository {
     return response;
   }
 
+  Future<Response> forgotPasswordOtpRequest(dynamic request, BuildContext context) async {
+    var response = await Session.postWithoutAuth(
+      Uri.parse("${Env.baseurl}/forget-password-v2/send-otp"),
+      jsonEncode(request),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> forgotPasswordVerifyOTP(dynamic request, BuildContext context) async {
+    var response = await Session.postWithoutAuth(
+      Uri.parse("${Env.baseurl}/forget-password-v2/verify-otp"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> resetPassword(dynamic request, BuildContext context) async {
+    var response = await Session.postWithoutAuth(
+      Uri.parse("${Env.baseurl}/reset-password"),
+      request,
+      context,
+      ref,
+    );
+    return response;
+  }
+
   Future<Response> saveProfileReact(
       dynamic request, BuildContext context) async {
     debugPrint("Request:::$request");

@@ -349,6 +349,14 @@ final percentageProvider = StateProvider<int>((ref) {
   return 0;
 });
 
+final skipCountProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+final rewindCountProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
 final showBuyCoinProvider = StateProvider<int?>((ref) {
   return null;
 });

@@ -7,7 +7,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
 import 'package:phoosar/src/common/widgets/input_view.dart';
+import 'package:phoosar/src/data/request/forgot_password_otp_request.dart';
 import 'package:phoosar/src/data/request/forgot_password_request.dart';
+import 'package:phoosar/src/features/auth/enter_forgot_password_pin_code_screen.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
@@ -162,30 +164,31 @@ class _LoginScreenState extends ConsumerState<ForgotPasswordScreen> {
                       fontSize: 18,
                       isLoading: _isLoading,
                       onTap: () async {
-                        if (!_isLoading) {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          var request = ForgotPasswordRequest(
-                              value: e164PhoneNo, type: widget.type);
-                          var response = await ref
-                              .read(repositoryProvider)
-                              .forgotPassword(request, context);
-                          if (response.statusCode.toString().startsWith('2')) {
-                            final Map<String, dynamic> data =
-                                json.decode(response.body);
-                            context.showSnackBar(
-                                message: data['message'],
-                                backgroundColor: primaryColor);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()),
-                            );
-                          } else {
+                        if(e164PhoneNo != ''){
+                          if (!_isLoading) {
                             setState(() {
-                              _isLoading = false;
+                              _isLoading = true;
                             });
+                            var forgotPasswordOtpRequest = ForgotPasswordOtpRequest(phone: e164PhoneNo);
+                            var response = await ref
+                                .read(repositoryProvider)
+                                .forgotPasswordOtpRequest(forgotPasswordOtpRequest, context);
+                            if (response.statusCode.toString().startsWith('2')) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EnterForgotPasswordPinCodeScreen(phoneNumber: e164PhoneNo)),
+                              );
+                              if (mounted) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            } else {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
                           }
                         }
                       },

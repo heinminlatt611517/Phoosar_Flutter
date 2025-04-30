@@ -108,9 +108,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           : true,
                       child: InkWell(
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => GetMoreCoinsDialog());
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (context) => GetMoreCoinsDialog());
                         },
                         child: Container(
                           color: Color(0xFFF7F8FC),

@@ -59,6 +59,7 @@ dependencies:
   emoji_picker_flutter: ^4.3.0
   agora_rtm: ^2.2.2
   agora_rtc_engine: ^6.5.1
+  flutter_card_swiper: ^7.0.2
 
 
 dev_dependencies:

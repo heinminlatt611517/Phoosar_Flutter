@@ -36,134 +36,131 @@ class _DashboardProfileSliderState extends State<DashboardProfileSlider> {
     double stepSize = maxScore / desiredSteps;
     int maxSteps = (widget.score / stepSize).ceil();
     maxSteps = maxSteps > desiredSteps ? desiredSteps : maxSteps;
-    maxSteps = maxSteps < 1 ? 1 : maxSteps; // Ensure maxSteps is at least 1
+    maxSteps = maxSteps < 1 ? 1 : maxSteps;
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Stack(
-          children: [
-            carousel_slider.CarouselSlider(
-              options: carousel_slider.CarouselOptions(
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 1,
-                  height: MediaQuery.of(context).size.height * 0.8),
-              items: widget.profileImages.map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Stack(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: i,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Stack(
+        children: [
+          carousel_slider.CarouselSlider(
+            options: carousel_slider.CarouselOptions(
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                aspectRatio: 16 / 9,
+                viewportFraction: 1,
+                height: MediaQuery.of(context).size.height * 0.8),
+            items: widget.profileImages.map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Stack(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: i,
+                          width: MediaQuery.of(context).size.width - 32,
+                          height: MediaQuery.of(context).size.height * 0.8,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          child: Container(
                             width: MediaQuery.of(context).size.width - 32,
                             height: MediaQuery.of(context).size.height * 0.8,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width - 32,
-                              height: MediaQuery.of(context).size.height * 0.8,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomLeft,
-                                  end: Alignment.topRight,
-                                  colors: [
-                                    Colors.black.withOpacity(0.6),
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                  ],
-                                ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                colors: [
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                ],
                               ),
                             ),
                           ),
-                          Positioned(
-                            left: 20,
-                            top: 20,
-                            child: Stack(
-                              children: [
+                        ),
+                        Positioned(
+                          left: 20,
+                          top: 20,
+                          child: Stack(
+                            children: [
 
-                                // CircularStepProgressIndicator(
-                                //   totalSteps: maxSteps,
-                                //   currentStep: maxSteps,
-                                //   stepSize: stepSize.toDouble(),
-                                //   selectedColor: Colors.red,
-                                //   unselectedColor: Colors.purple[400],
-                                //   padding: math.pi / 100,
-                                //   width: 60,
-                                //   height: 60,
-                                //   startingAngle: startingAngle,
-                                //   arcSize: arcSize,
-                                //   gradientColor: LinearGradient(
-                                //     colors: [
-                                //       primaryColor,
-                                //       primaryColor.withOpacity(0.3)
-                                //     ],
-                                //   ),
-                                // ),
-                                Image.asset(
-                                  'assets/images/match.png',
-                                  width: 50,
-                                ),
-                                Positioned(
-                                    top: 4,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    child: Center(
-                                        child: Text(
-                                      "${widget.score.toString()}",
-                                      style: TextStyle(
-                                          color: blackColor,
-                                          fontSize: 19,
-                                          fontFamily: kFontGibsonBold,),
-                                    )))
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-            Positioned(
-              top: 12,
-              right: 6,
-              child: DotsIndicator(
-                dotsCount: widget.profileImages.length < 1
-                    ? 1
-                    : widget.profileImages.length,
-                position: _currentIndex < widget.profileImages.length
-                    ? _currentIndex
-                    : widget.profileImages.length - 1,
-                decorator: DotsDecorator(
-                  activeColor: blackColor,
-                  colors: List.filled(widget.profileImages.length, Colors.white),
-                  size: const Size.square(7),
-                  activeSize: const Size(8, 8),
-                  activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    side: BorderSide(color: Colors.white, width: 2),
-                  ),
-                  spacing: const EdgeInsets.all(4.0),
+                              // CircularStepProgressIndicator(
+                              //   totalSteps: maxSteps,
+                              //   currentStep: maxSteps,
+                              //   stepSize: stepSize.toDouble(),
+                              //   selectedColor: Colors.red,
+                              //   unselectedColor: Colors.purple[400],
+                              //   padding: math.pi / 100,
+                              //   width: 60,
+                              //   height: 60,
+                              //   startingAngle: startingAngle,
+                              //   arcSize: arcSize,
+                              //   gradientColor: LinearGradient(
+                              //     colors: [
+                              //       primaryColor,
+                              //       primaryColor.withOpacity(0.3)
+                              //     ],
+                              //   ),
+                              // ),
+                              Image.asset(
+                                'assets/images/match.png',
+                                width: 50,
+                              ),
+                              Positioned(
+                                  top: 4,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  child: Center(
+                                      child: Text(
+                                    "${widget.score.toString()}",
+                                    style: TextStyle(
+                                        color: blackColor,
+                                        fontSize: 19,
+                                        fontFamily: kFontGibsonBold,),
+                                  )))
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          ),
+          Positioned(
+            top: 14,
+            right: 18,
+            child: DotsIndicator(
+              dotsCount: widget.profileImages.length < 1
+                  ? 1
+                  : widget.profileImages.length,
+              position: _currentIndex < widget.profileImages.length
+                  ? _currentIndex
+                  : widget.profileImages.length - 1,
+              decorator: DotsDecorator(
+                activeColor: blackColor,
+                colors: List.filled(widget.profileImages.length, Colors.white),
+                size: const Size.square(7),
+                activeSize: const Size(8, 8),
+                activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(color: Colors.white, width: 2),
                 ),
-                axis: Axis.vertical,
+                spacing: const EdgeInsets.all(4.0),
               ),
-            )
+              axis: Axis.vertical,
+            ),
+          )
 
-          ],
-        ),
+        ],
       ),
     );
   }

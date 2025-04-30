@@ -52,10 +52,10 @@ class UserSettingScreen extends ConsumerWidget {
                 visible: showBuyCoinData.toString() == '1',
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PhoosarPremiumScreen()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => PhoosarPremiumScreen()));
                   },
                   child: Padding(
                       padding:

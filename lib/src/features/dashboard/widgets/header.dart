@@ -31,8 +31,8 @@ class DashboardHeader extends ConsumerWidget {
           GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          showDialog(
-              context: context, builder: (context) => GetMoreCoinsDialog());
+          // showDialog(
+          //     context: context, builder: (context) => GetMoreCoinsDialog());
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),

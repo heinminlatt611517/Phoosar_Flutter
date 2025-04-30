@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,6 +21,7 @@ import 'package:phoosar/src/features/dashboard/widgets/profile_builder.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/colors.dart';
+import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,7 +42,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   bool isProfileBuilder = false;
   int selectedIndex = 0;
   bool emptyShown = false;
+  bool _skipTriggeredManually = false;
   ProfileBuilderData? profileBuilderData;
+  final CardSwiperController swiperController = CardSwiperController();
 
   @override
   void initState() {
@@ -105,6 +109,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     var data = ConfigResponse.fromJson(jsonDecode(response.body)).data;
     ref.read(percentageProvider.notifier).state = data?.percentage ?? 0;
     ref.read(showBuyCoinProvider.notifier).state = data?.showBuyCoin ?? 0;
+    ref.read(skipCountProvider.notifier).state = data?.skipCount ?? 0;
+    ref.read(rewindCountProvider.notifier).state = data?.rewindCount ?? 0;
 
     if (compareVersionStrings(packageInfo.version, data?.releaseVersion ?? "") <
         0) {
@@ -139,133 +145,160 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return Container(
       height: double.infinity,
       color: whitePaleColor,
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            MediaQuery.of(context).padding.top.vGap,
-            Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                child: DashboardHeader()),
-            findListState.when(
-              data: (profiles) {
-                if (profiles == null || profiles.isEmpty) {
-                  return Container(
-                    height: context.heightPx * 0.7,
-                    child: Center(
-                      child: Text(AppLocalizations.of(context)!.kLastProfile),
-                    ),
-                  );
-                }
-                if (selectedIndex >= profiles.length) {
-                  selectedIndex = profiles.length - 1;
-                }
-                return Column(
-                  children: [
-                    Visibility(
-                      visible: !isProfileBuilder,
-                      child: InfoCard(findData: profiles[selectedIndex]),
-                    ),
-                    Visibility(
-                      visible: isProfileBuilder,
-                      child: ProfileBuilder(
-                        profileBuilderData:
-                        profileBuilderData ?? ProfileBuilderData(),
-                        onSave: () {
-                          setState(() {
-                            profileBuilderData = null;
-                            isProfileBuilder = false;
-                          });
+      child: Column(
+        children: [
+          MediaQuery.of(context).padding.top.vGap,
+          DashboardHeader(),
+          findListState.when(
+            data: (profiles) {
+              if (profiles == null || profiles.isEmpty) {
+                return Container(
+                  height: context.heightPx * 0.7,
+                  child: Center(
+                    child: Text(AppLocalizations.of(context)!.kLastProfile),
+                  ),
+                );
+              }
+              if (selectedIndex >= profiles.length) {
+                selectedIndex = profiles.length - 1;
+              }
+              return Column(
+                children: [
+                  Visibility(
+                    visible: !isProfileBuilder,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.71,
+                      child: CardSwiper(
+                        padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
+                        controller: swiperController,
+                        cardsCount: profiles.length,
+                        numberOfCardsDisplayed: 1,
+                        backCardOffset: const Offset(40, 40),
+                        onSwipe: (previousIndex, currentIndex, direction) {
+                          if (direction == CardSwiperDirection.right) {
+                            _handleRewind(profiles);
+                          } else if (direction == CardSwiperDirection.left) {
+                            if (_skipTriggeredManually) {
+                              _skipTriggeredManually = false;
+                            } else {
+                              _handleSkip(profiles);
+                            }
+                          }
+                          return true;
                         },
-                        onCancel: () {
+                        onUndo: (prev, curr, direction) {
                           setState(() {
-                            profileBuilderData = null;
-                            isProfileBuilder = false;
+                            selectedIndex = curr;
                           });
+                          return true;
                         },
+                        cardBuilder: (context, index, _, __) =>
+                            GestureDetector(
+                                onDoubleTap: () {
+                                  print("Profile liked!");
+                                  _handleLike(profiles);
+                                },
+                                child: InfoCard(findData: profiles[selectedIndex])),
                       ),
                     ),
-                    Visibility(
-                      visible: !isProfileBuilder,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.13,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ///rewind
-                            CommonIconButton(
-                              onTap: () async {
-                                await _handleRewind(profiles);
-                              },
-                              backgroundColor: Colors.transparent,
-                              icon: Image.asset(
-                                'assets/images/rewind.png',
-                                width: 55,
-                              ),
-                            ),
+              ),
+                  Visibility(
+                    visible: isProfileBuilder,
+                    child: ProfileBuilder(
+                      profileBuilderData:
+                      profileBuilderData ?? ProfileBuilderData(),
+                      onSave: () {
+                        setState(() {
+                          profileBuilderData = null;
+                          isProfileBuilder = false;
+                        });
+                      },
+                      onCancel: () {
+                        setState(() {
+                          profileBuilderData = null;
+                          isProfileBuilder = false;
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: !isProfileBuilder,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ///rewind
+                        CommonIconButton(
+                          onTap: () async {
+                            await _handleRewind(profiles);
+                          },
+                          backgroundColor: Colors.transparent,
+                          icon: Image.asset(
+                            'assets/images/rewind.png',
+                            width: 55,
+                          ),
+                        ),
 
-                            ///skip
-                            CommonIconButton(
-                              onTap: () async {
-                                await _handleSkip(profiles);
-                              },
-                              backgroundColor: Colors.transparent,
-                              icon: Image.asset(
-                                'assets/images/skip.png',
-                                width: 75,
-                              ),
-                            ),
+                        ///skip
+                        CommonIconButton(
+                          onTap: () async {
+                            _skipTriggeredManually = true;
+                            await _handleSkip(profiles);
+                          },
+                          backgroundColor: Colors.transparent,
+                          icon: Image.asset(
+                            'assets/images/skip.png',
+                            width: 75,
+                          ),
+                        ),
 
-                            ///ok
-                            CommonIconButton(
-                              onTap: () async {
-                                await _handleLike(profiles);
-                              },
-                              backgroundColor: Colors.transparent,
-                              icon: Image.asset(
-                                'assets/images/ok.png',
-                                width: 75,
-                              ),
-                            ),
+                        ///ok
+                        CommonIconButton(
+                          onTap: () async {
+                           await _handleLike(profiles);
+                          },
+                          backgroundColor: Colors.transparent,
+                          icon: Image.asset(
+                            'assets/images/ok.png',
+                            width: 75,
+                          ),
+                        ),
 
-                            ///info
-                            CommonIconButton(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfileScreen(
-                                      findData: profiles[selectedIndex],
-                                    ),
-                                  ),
-                                );
-                              },
-                              backgroundColor: Colors.transparent,
-                              icon: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Image.asset(
-                                  'assets/images/info.png',
-                                  width: 55,
+                        ///info
+                        CommonIconButton(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfileScreen(
+                                  findData: profiles[selectedIndex],
                                 ),
                               ),
+                            );
+                          },
+                          backgroundColor: Colors.transparent,
+                          icon: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Image.asset(
+                              'assets/images/info.png',
+                              width: 55,
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                );
-              },
-              loading: () => Container(
-                height: context.heightPx * 0.6,
-                child: Center(
-                  child: SpinKitThreeBounce(color: primaryColor),
-                ),
+                  ),
+                ],
+              );
+            },
+            loading: () => Container(
+              height: context.heightPx * 0.6,
+              child: Center(
+                child: SpinKitThreeBounce(color: primaryColor),
               ),
-              error: (error, stack) => Center(child: Text('Error: $error')),
             ),
-          ],
-        ),
+            error: (error, stack) => Center(child: Text('Error: $error')),
+          ),
+        ],
       ),
     );
   }
@@ -284,32 +317,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       jsonDecode(response.body),
     );
 
-    if (profileReactResponse.data?.buyRewind ?? false) {
-      showDialog(
-        context: context,
-        builder: (context) => GetMoreRewindsDialog(),
+    if (profileReactResponse.data?.matchData != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MatchScreen(
+            matchProfileData: profileReactResponse.data?.matchData,
+          ),
+        ),
       );
     } else {
-      if (profileReactResponse.data?.matchData != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MatchScreen(
-              matchProfileData: profileReactResponse.data?.matchData,
-            ),
-          ),
-        );
-      } else {
-        _decreaseIndexOrShowDialog(profiles);
-      }
+      _decreaseIndexOrShowDialog(profiles);
     }
 
     var sharedPrefs = ref.watch(sharedPrefProvider);
+    final rewindCount = ref.watch(rewindCountProvider);
     var oldSwipeCount = sharedPrefs.getInt("swipeCount");
     var newSwipeCount = (oldSwipeCount ?? 0) + 1;
 
     if (selectedIndex != profiles.length) {
-      if (newSwipeCount == 5) {
+      if (newSwipeCount == rewindCount) {
         sharedPrefs.setInt("swipeCount", 0);
         getProfileBuilderQuestion();
       } else {
@@ -330,7 +357,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       }),
       context,
     );
-    _increaseSwipeCount(profiles.length);
+    _increaseSwipeCountWhileSkip(profiles.length);
   }
 
   ///like
@@ -347,31 +374,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       jsonDecode(response.body),
     );
 
-    if (profileReactResponse.data?.buyLike ?? false) {
-      showDialog(
-        context: context,
-        builder: (context) => GetMoreLikesDialog(),
-      );
-    } else {
-      // _increaseSwipeCountWhileOnPressOk(profiles.length);
-      if (profileReactResponse.data?.matchData != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MatchScreen(
-              matchProfileData: profileReactResponse.data?.matchData,
-            ),
+
+    if (profileReactResponse.data?.matchData != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MatchScreen(
+            matchProfileData: profileReactResponse.data?.matchData,
           ),
-        );
-      }
-      else {
-        _increaseSwipeCountWhileOnPressOk(profiles.length);
-      }
+        ),
+      );
     }
+
+    _increaseSwipeCountWhileOnPressOk(profiles.length);
   }
 
+
+
+
   ///increase swipe count
-  void _increaseSwipeCount(int total) {
+  void _increaseSwipeCountWhileSkip(int total) {
     var sharedPrefs = ref.watch(sharedPrefProvider);
     if (total > selectedIndex) {
       setState(() {
@@ -398,11 +420,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ref.invalidate(findListNotifierProvider);
     }
     var oldSwipeCount = sharedPrefs.getInt("swipeCount");
+    final skipCount = ref.watch(skipCountProvider);
     var newSwipeCount = (oldSwipeCount ?? 0) + 1;
     log("newSwipeCount $newSwipeCount");
 
     if (selectedIndex != total) {
-      if (newSwipeCount == 5) {
+      if (newSwipeCount == skipCount) {
         sharedPrefs.setInt("swipeCount", 0);
         final percentage = ref.watch(percentageProvider);
         if (int.parse(percentage.toString()) < 100) {
@@ -416,6 +439,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         }
       } else {
         sharedPrefs.setInt("swipeCount", newSwipeCount);
+        swiperController.swipe(CardSwiperDirection.left);
       }
     } else {
       sharedPrefs.setInt("swipeCount", newSwipeCount);
@@ -465,6 +489,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       }
     } else {
       sharedPrefs.setInt("swipeCount", newSwipeCount);
+      swiperController.swipe(CardSwiperDirection.left);
     }
     ref.invalidate(swipeCountProvider);
   }
@@ -490,7 +515,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       setState(() {
         selectedIndex--;
       });
-      if (selectedIndex == 0) {
+      if (selectedIndex == -1) {
         showDialog(
           context: context,
           builder: (context) => EmptyFindDialog(
@@ -501,6 +526,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             },
           ),
         );
+      }
+      else {
+        swiperController.undo();
       }
     } else {
       showDialog(
