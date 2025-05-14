@@ -23,6 +23,7 @@ import 'package:phoosar/src/data/response/match_type_response.dart';
 import 'package:phoosar/src/data/response/more_details_question_response.dart';
 import 'package:phoosar/src/data/response/package_list_response.dart';
 import 'package:phoosar/src/data/response/point_list_response.dart';
+import 'package:phoosar/src/data/response/pop_up_response.dart';
 import 'package:phoosar/src/data/response/profile.dart';
 import 'package:phoosar/src/data/response/purchase_history_list_response.dart';
 import 'package:phoosar/src/data/response/questions_response.dart';
@@ -325,6 +326,17 @@ FutureProvider.family<ShowBuyCoinResponse?, BuildContext>((ref, context) async {
     return ShowBuyCoinResponse.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load show buy coin data');
+  }
+});
+
+final popUpDataProvider =
+FutureProvider.family<PopupResponse?, BuildContext>((ref, context) async {
+  final repository = ref.watch(repositoryProvider);
+  final response = await repository.getPopupData(context);
+  if (response.statusCode == 200) {
+    return PopupResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load pop up data');
   }
 });
 

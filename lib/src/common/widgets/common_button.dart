@@ -45,14 +45,16 @@ class CommonButton extends StatelessWidget {
           border: Border.all(color:isShowBorderColor==true ? Colors.cyan : Colors.transparent,width: 1)
         ),
         child: isLoading
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('processing',
-                      style: const TextStyle(color: Colors.white)),
-                  const SpinKitThreeBounce(size: 25, color: Colors.white),
-                ],
-              )
+            ? IntrinsicWidth(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('processing',
+                        style: const TextStyle(color: Colors.white)),
+                    const SpinKitThreeBounce(size: 25, color: Colors.white),
+                  ],
+                ),
+            )
             : Text(
                 text,
                 textAlign: TextAlign.center,

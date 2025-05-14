@@ -140,6 +140,10 @@
       "doYouWantToDeleteAccount" : "Do you want to delete your account? This action cannot be undone",
       "enterNewPassword" : "Enter New Password",
       "confirmPassword" : "Confirm Password",
-      "update" : "Update"
+      "update" : "Update",
+      "gaining" : "Gaining",
+      "forFirstSignUp" : "FOR THE\nFIRST SIGN-UP",
+      "vpnDescription" : "TURN ON YOUR VPN TO\nMAKE SURE NOTHING\nSTANDS IN YOUR WAY!",
+      "locationDescription" : "Your location is used for better matching and will never be shared with anyone."
 
 }

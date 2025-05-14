@@ -32,14 +32,14 @@ class _ChooseCountryAndCityScreenState
           backgroundColor: whitePaleColor,
           appBar: CustomAppBarView(),
           body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: kMarginLarge,horizontal: kMarginXLarge),
+              padding: const EdgeInsets.symmetric(
+                  vertical: kMarginLarge, horizontal: kMarginXLarge),
               child: countryList.when(data: (countryList) {
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       ///From
                       MatchCityAndCountryDropdownView(
                         countryList: countryList,
@@ -51,8 +51,6 @@ class _ChooseCountryAndCityScreenState
                       CurrentlyLocatedCityAndCountryDropdownView(
                         countryList: countryList,
                       ),
-
-
                     ],
                   ),
                 );
@@ -65,25 +63,42 @@ class _ChooseCountryAndCityScreenState
                   ),
                 );
               })),
-          bottomNavigationBar:  ///continue button
-          Padding(
-            padding: const EdgeInsets.only(bottom: 60,left: 60,right: 60),
-            child: CommonButton(
-              containerVPadding: 10,
-              text: AppLocalizations.of(context)!.kContinueLabel,
-              fontSize: 18,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddSpeakLanguageScreen(),
+          bottomNavigationBar:
+              ///continue button
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20, left: 60, right: 60),
+                    child: CommonButton(
+                      containerVPadding: 10,
+                      text: AppLocalizations.of(context)!.kContinueLabel,
+                      fontSize: 18,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddSpeakLanguageScreen(),
+                          ),
+                        );
+                      },
+                      bgColor: Colors.black,
+                      buttonTextColor: Colors.white,
+                    ),
                   ),
-                );
-              },
-              bgColor: Colors.black,
-              buttonTextColor: Colors.white,
-            ),
-          ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 60, left: 30, right: 30),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      AppLocalizations.of(context)!.locationDescription,
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                          fontFamily: kFontArticulatCFMedium),
+                    ),
+                  ),
+                ],
+              ),
         ),
       ],
     );
@@ -94,6 +109,7 @@ class _ChooseCountryAndCityScreenState
 class CurrentlyLocatedCityAndCountryDropdownView
     extends ConsumerStatefulWidget {
   final List<CountryData> countryList;
+
   const CurrentlyLocatedCityAndCountryDropdownView(
       {super.key, required this.countryList});
 
@@ -120,7 +136,10 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kCurrentLocateIn.toUpperCase(),
-          style: TextStyle(color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: kTextRegular22,
+              fontFamily: kFontGibsonBold),
         ),
         18.vGap,
         DynamicDropDownWidget(
@@ -141,11 +160,11 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
               cityList.first.code.toString();
           return DynamicDropDownWidget(
             hintText: 'City',
-              items: cityList,
-              onSelect: (value) {
-                ref.read(profileSaveRequestProvider.notifier).state.city =
-                    value.code.toString();
-              },
+            items: cityList,
+            onSelect: (value) {
+              ref.read(profileSaveRequestProvider.notifier).state.city =
+                  value.code.toString();
+            },
           );
         }, error: (error, stack) {
           return Container(
@@ -162,6 +181,7 @@ class _CurrentlyLocatedCityAndCountryDropdownViewState
 ///match  city and country dropdown view
 class MatchCityAndCountryDropdownView extends ConsumerStatefulWidget {
   final List<CountryData> countryList;
+
   const MatchCityAndCountryDropdownView({super.key, required this.countryList});
 
   @override
@@ -185,7 +205,11 @@ class _MatchCityAndCountryDropdownViewState
       children: [
         Text(
           AppLocalizations.of(context)!.kWantMyMatch.toUpperCase(),
-          style: TextStyle(height: 1.8,color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
+          style: TextStyle(
+              height: 1.8,
+              color: Colors.black,
+              fontSize: kTextRegular22,
+              fontFamily: kFontGibsonBold),
         ),
         18.vGap,
         DynamicDropDownWidget(
@@ -205,12 +229,13 @@ class _MatchCityAndCountryDropdownViewState
           ref.read(profileSaveRequestProvider.notifier).state.matchCity =
               cityList.first.code.toString();
           return DynamicDropDownWidget(
-              items: cityList,
-              onSelect: (value) {
-                ref.read(profileSaveRequestProvider.notifier).state.matchCity =
-                    value.code.toString();
-              },
-              hintText: 'City',);
+            items: cityList,
+            onSelect: (value) {
+              ref.read(profileSaveRequestProvider.notifier).state.matchCity =
+                  value.code.toString();
+            },
+            hintText: 'City',
+          );
         }, error: (error, stack) {
           return Container(
             child: Text(error.toString()),

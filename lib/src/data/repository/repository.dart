@@ -506,4 +506,22 @@ class Repository {
     return response;
   }
 
+  Future<Response> getPopupData(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/get-pop-up"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
+  Future<Response> updatePopupData(BuildContext context) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/update-pop-up"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }
