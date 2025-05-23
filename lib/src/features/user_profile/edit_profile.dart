@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -887,9 +888,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             ),
           );
         }, error: (error, stack) {
-          return Container(
-            child: Text(error.toString()),
-          );
+            if (error is TimeoutException) {
+              return Text("Request timed out. Please try again.");
+            }
+            return Text("Error: ${error.toString()}");
         }, loading: () {
           return Center(
             child: SpinKitThreeBounce(

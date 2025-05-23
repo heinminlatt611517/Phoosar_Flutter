@@ -23,6 +23,7 @@ class _FirstSignUpDialogViewState extends ConsumerState<FirstSignUpDialogView> {
 
   @override
   Widget build(BuildContext context) {
+    var locale = ref.watch(localeProvider);
     return Dialog(
       insetPadding: const EdgeInsets.all(50),
       surfaceTintColor: Colors.white,
@@ -48,7 +49,7 @@ class _FirstSignUpDialogViewState extends ConsumerState<FirstSignUpDialogView> {
                   color: Colors.black,
                 fontFamily: kFontArticulatCFBold,),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
             IntrinsicWidth(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -75,19 +76,19 @@ class _FirstSignUpDialogViewState extends ConsumerState<FirstSignUpDialogView> {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Text(
               AppLocalizations.of(context)!.forFirstSignUp,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                height: 1,
+              style:  TextStyle(
+                height:locale == 'my' ?  1.5 : 1,
                 color: Colors.black,
                 fontFamily: kFontArticulatCFBold,
                 fontSize: 28,
                 fontWeight: FontWeight.bold
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
             Align(
               alignment: Alignment.center,
               child: CommonButton(

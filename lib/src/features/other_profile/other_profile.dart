@@ -55,6 +55,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         'assets/images/backward.png',
                         height: 20,
                         width: 20,
+                        color: Color(0xFFDE2966),
                       ),),
                 )
               ],

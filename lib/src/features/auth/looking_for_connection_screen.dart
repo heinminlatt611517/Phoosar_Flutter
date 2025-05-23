@@ -38,74 +38,66 @@ class _ChooseGenderScreenState
     return Stack(
       children: [
         Scaffold(
-            backgroundColor: whitePaleColor,
-            appBar: CustomAppBarView(),
-            body: matchTypes.when(
-              data: (data) {
-                if (data == null || data.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'There is no data',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                }
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(kMarginLarge),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        50.vGap,
-                        Text(
-                          AppLocalizations.of(context)!.theConnectionLookingFor.toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black, fontSize: kTextRegular22,fontFamily: kFontGibsonBold),
-                        ),
+          backgroundColor: whitePaleColor,
+          appBar: CustomAppBarView(),
+          body: matchTypes.when(
+            data: (data) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(kMarginLarge),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      50.vGap,
+                      Text(
+                        AppLocalizations.of(context)!
+                            .theConnectionLookingFor
+                            .toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: kTextRegular22,
+                            fontFamily: kFontGibsonBold),
+                      ),
 
-                        50.vGap,
+                      50.vGap,
 
-                        ///List view
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 16),
-                                child: SelectableButton(
-                                  initialBgColor: data[index].backgroundColor,
-                                  label: data[index].label ?? "",
-                                  isSelected: selectedText == data[index].label,
-                                  onTapButton: (value) {
-                                    setState(() {
-                                      selectedText = data[index].label ?? "";
-                                      selectedValue = data[index].value ?? "";
-                                    });
-                                  },
-                                ),
-                              );
-                            }),
-
-                      ],
-                    ),
+                      ///List view
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: data?.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: SelectableButton(
+                                initialBgColor: data?[index].backgroundColor,
+                                label: data?[index].label ?? "",
+                                isSelected: selectedText == data?[index].label,
+                                onTapButton: (value) {
+                                  setState(() {
+                                    selectedText = data?[index].label ?? "";
+                                    selectedValue = data?[index].value ?? "";
+                                  });
+                                },
+                              ),
+                            );
+                          }),
+                    ],
                   ),
-                );
-              },
-              error: (error, stack) => Center(
-                child: Text(
-                  AppLocalizations.of(context)!.kErrorMessage,
-                  style: TextStyle(color: Colors.red),
                 ),
-              ),
-              loading: () => Center(
-                child: SpinKitThreeBounce(
-                  color: primaryColor,
-                ),
+              );
+            },
+            error: (error, stack) => Container(),
+            loading: () => Center(
+              child: SpinKitThreeBounce(
+                color: primaryColor,
               ),
             ),
-          bottomNavigationBar: ///continue button
-          Padding(
+          ),
+          bottomNavigationBar:
+
+              ///continue button
+              Padding(
             padding: const EdgeInsets.all(60),
             child: CommonButton(
               containerVPadding: 10,
@@ -114,10 +106,12 @@ class _ChooseGenderScreenState
               onTap: () {
                 if (selectedText == "") {
                   context.showErrorSnackBar(
-                      message: AppLocalizations.of(context)!
-                          .kErrorMessage);
+                      message: AppLocalizations.of(context)!.kErrorMessage);
                 } else {
-                  ref.read(profileSaveRequestProvider.notifier).state.matchType = selectedValue;
+                  ref
+                      .read(profileSaveRequestProvider.notifier)
+                      .state
+                      .matchType = selectedValue;
                   Navigator.push(
                     context,
                     MaterialPageRoute(

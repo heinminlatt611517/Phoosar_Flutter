@@ -181,55 +181,62 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               }
               return Column(
                 children: [
+              //     Visibility(
+              //       visible: !isProfileBuilder,
+              //       child: Container(
+              //         height: MediaQuery.of(context).size.height * 0.71,
+              //         child: CardSwiper(
+              //           padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
+              //           controller: swiperController,
+              //           cardsCount: profiles.length,
+              //           numberOfCardsDisplayed: 1,
+              //           backCardOffset: const Offset(40, 40),
+              //           // duration: const Duration(milliseconds: 300),
+              //           // allowedSwipeDirection: AllowedSwipeDirection.symmetric(
+              //           //   horizontal: true,
+              //           //   vertical: true,
+              //           // ),
+              //           onSwipe: (previousIndex, currentIndex, direction) async{
+              //             if (_isProcessingSwipe) return false;
+              //             _isProcessingSwipe = true;
+              //
+              //             try {
+              //               if (direction == CardSwiperDirection.right) {
+              //                 await _handleRewind(profiles);
+              //               } else if (direction == CardSwiperDirection.left) {
+              //                 if (!_skipTriggeredManually) {
+              //                   await _handleSkip(profiles);
+              //                 }
+              //                 _skipTriggeredManually = false;
+              //               }
+              //               return true;
+              //             } finally {
+              //               _isProcessingSwipe = false;
+              //             }
+              //           },
+              //           onUndo: (prev, curr, direction) {
+              //             setState(() {
+              //               selectedIndex = curr;
+              //             });
+              //             return true;
+              //           },
+              //           cardBuilder: (context, index, _, __) =>
+              //               GestureDetector(
+              //                   onDoubleTap: () {
+              //                     print("Profile liked!");
+              //                     _handleLike(profiles);
+              //                   },
+              //                   child: InfoCard(findData: profiles[selectedIndex])),
+              //         ),
+              //       ),
+              // ),
                   Visibility(
                     visible: !isProfileBuilder,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.71,
-                      child: CardSwiper(
-                        padding: EdgeInsets.symmetric(vertical: kMarginMedium2),
-                        controller: swiperController,
-                        cardsCount: profiles.length,
-                        numberOfCardsDisplayed: 1,
-                        backCardOffset: const Offset(40, 40),
-                        // duration: const Duration(milliseconds: 300),
-                        // allowedSwipeDirection: AllowedSwipeDirection.symmetric(
-                        //   horizontal: true,
-                        //   vertical: true,
-                        // ),
-                        onSwipe: (previousIndex, currentIndex, direction) async{
-                          if (_isProcessingSwipe) return false;
-                          _isProcessingSwipe = true;
-
-                          try {
-                            if (direction == CardSwiperDirection.right) {
-                              await _handleRewind(profiles);
-                            } else if (direction == CardSwiperDirection.left) {
-                              if (!_skipTriggeredManually) {
-                                await _handleSkip(profiles);
-                              }
-                              _skipTriggeredManually = false;
-                            }
-                            return true;
-                          } finally {
-                            _isProcessingSwipe = false;
-                          }
-                        },
-                        onUndo: (prev, curr, direction) {
-                          setState(() {
-                            selectedIndex = curr;
-                          });
-                          return true;
-                        },
-                        cardBuilder: (context, index, _, __) =>
-                            GestureDetector(
-                                onDoubleTap: () {
-                                  print("Profile liked!");
-                                  _handleLike(profiles);
-                                },
-                                child: InfoCard(findData: profiles[selectedIndex])),
-                      ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: kMarginMedium2),
+                      child: InfoCard(findData: profiles[selectedIndex]),
                     ),
-              ),
+                  ),
                   Visibility(
                     visible: isProfileBuilder,
                     child: ProfileBuilder(
@@ -257,9 +264,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         ///rewind
                         CommonIconButton(
                           onTap: () async {
-                            if (_isProcessingSwipe) return;
+                            //if (_isProcessingSwipe) return;
                             await _handleRewind(profiles);
-                            swiperController.undo();
+                            //swiperController.undo();
                           },
                           backgroundColor: Colors.transparent,
                           icon: Image.asset(
@@ -271,10 +278,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         ///skip
                         CommonIconButton(
                           onTap: () async {
-                            if (_isProcessingSwipe) return;
-                            _skipTriggeredManually = true;
                             await _handleSkip(profiles);
-                            swiperController.swipe(CardSwiperDirection.left);
+
+                            // if (_isProcessingSwipe) return;
+                            // _skipTriggeredManually = true;
+                            // await _handleSkip(profiles);
+                            // swiperController.swipe(CardSwiperDirection.left);
                           },
                           backgroundColor: Colors.transparent,
                           icon: Image.asset(
@@ -391,9 +400,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         context,
       );
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _increaseSwipeCountWhileSkip(profiles.length);
-      });
+      _increaseSwipeCountWhileSkip(profiles.length);
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   _increaseSwipeCountWhileSkip(profiles.length);
+      // });
     } catch (e) {
       debugPrint('Skip failed: $e');
       swiperController.undo();

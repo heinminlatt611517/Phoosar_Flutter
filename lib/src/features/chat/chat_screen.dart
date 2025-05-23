@@ -11,7 +11,6 @@ import '../../providers/data_providers.dart';
 import '../../utils/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({
     super.key,
@@ -23,6 +22,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 
 class _ChatState extends ConsumerState<ChatScreen> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     var selfProfileData = ref.watch(selfProfileProvider);
@@ -32,13 +32,16 @@ class _ChatState extends ConsumerState<ChatScreen> {
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-         selectedIndex == 0 ? 'MATCHES' : selectedIndex == 1 ? AppLocalizations.of(context)!.kLikedYouLabel : AppLocalizations.of(context)!.kLikedProfilesLabel,
-          style: TextStyle(
-              fontFamily: kFontGibsonBold,
-               color: Colors.white),
+          selectedIndex == 0
+              ? AppLocalizations.of(context)!.kMatchesLabel.toUpperCase()
+              : selectedIndex == 1
+                  ? AppLocalizations.of(context)!.kLikedYouLabel.toUpperCase()
+                  : AppLocalizations.of(context)!
+                      .kLikedProfilesLabel
+                      .toUpperCase(),
+          style: TextStyle(fontFamily: kFontGibsonBold, color: Colors.white),
         ),
-        actions: [
-        ],
+        actions: [],
       ),
       body: Column(
         children: [
@@ -61,7 +64,6 @@ class _ChatState extends ConsumerState<ChatScreen> {
               });
             },
           ),
-
 
           ///Matches View
           Visibility(
@@ -92,11 +94,13 @@ class MatchAndLikeYouView extends StatelessWidget {
   final Function() onTapLikedYou;
   final Function() onTapLikedProfiles;
   final int selectedIndex;
+
   const MatchAndLikeYouView(
       {super.key,
       required this.onTapMatches,
       required this.onTapLikedYou,
-      required this.onTapLikedProfiles,required this.selectedIndex});
+      required this.onTapLikedProfiles,
+      required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -115,22 +119,25 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'Matches',//AppLocalizations.of(context)!.kMatchesLabel,
-                      style: TextStyle(color:selectedIndex == 0 ? primaryColor : Colors.grey, fontSize: 16),
+                      'Matches', //AppLocalizations.of(context)!.kMatchesLabel,
+                      style: TextStyle(
+                          color:
+                              selectedIndex == 0 ? primaryColor : Colors.grey,
+                          fontSize: 16),
                     ),
 
-                    ///spacer
-                    5.hGap,
-
-                    ///red circle indicator
-                    Container(
-                      width: 8,
-                      height: 8,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(4)),
-                    )
+                    // ///spacer
+                    // 5.hGap,
+                    //
+                    // ///red circle indicator
+                    // Container(
+                    //   width: 8,
+                    //   height: 8,
+                    //   margin: EdgeInsets.only(bottom: 10),
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.red,
+                    //       borderRadius: BorderRadius.circular(4)),
+                    // )
                   ],
                 ),
               ),
@@ -144,22 +151,26 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'Liked You',//AppLocalizations.of(context)!.kLikedYouLabel,
-                      style: TextStyle(color: selectedIndex == 1 ? primaryColor : Colors.grey, fontSize: 16),
+                      'Liked You',
+                      //AppLocalizations.of(context)!.kLikedYouLabel,
+                      style: TextStyle(
+                          color:
+                              selectedIndex == 1 ? primaryColor : Colors.grey,
+                          fontSize: 16),
                     ),
 
-                    ///spacer
-                    5.hGap,
-
-                    ///red circle indicator
-                    Container(
-                      width: 8,
-                      height: 8,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(4)),
-                    )
+                    // ///spacer
+                    // 5.hGap,
+                    //
+                    // ///red circle indicator
+                    // Container(
+                    //   width: 8,
+                    //   height: 8,
+                    //   margin: EdgeInsets.only(bottom: 10),
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.red,
+                    //       borderRadius: BorderRadius.circular(4)),
+                    // )
                   ],
                 ),
               ),
@@ -172,8 +183,12 @@ class MatchAndLikeYouView extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'Liked Profiles',//AppLocalizations.of(context)!.kLikedProfilesLabel,
-                      style: TextStyle(color: selectedIndex == 2 ? primaryColor : Colors.grey, fontSize: 16),
+                      'Liked Profiles',
+                      //AppLocalizations.of(context)!.kLikedProfilesLabel,
+                      style: TextStyle(
+                          color:
+                              selectedIndex == 2 ? primaryColor : Colors.grey,
+                          fontSize: 16),
                     ),
 
                     // ///spacer

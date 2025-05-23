@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as developer;
 
@@ -54,7 +55,7 @@ class Session {
         'Authorization': "Bearer " + token,
         'language': locale,
       },
-    );
+    ).timeout(Duration(seconds: 1));
 
     if (!response.statusCode.toString().startsWith("2")) {
       var data = DefaultResponse.fromJson(jsonDecode(response.body));
@@ -135,7 +136,8 @@ class Session {
           'language': locale,
         },
         body: data,
-      );
+      )
+          .timeout(Duration(seconds: 10));
 
       if (!response.statusCode.toString().startsWith("2")) {
         var responseData = DefaultResponse.fromJson(jsonDecode(response.body));
@@ -145,17 +147,22 @@ class Session {
           print('should call here');
           showDialog(
             context: context,
-            builder: (context) => ErrorDialog(
-              title: "",
-              message: response.statusCode == 422
-                  ? responseData.errors!.join("\n")
-                  : responseData.message,
-            ),
+            builder: (context) =>
+                ErrorDialog(
+                  title: "",
+                  message: response.statusCode == 422
+                      ? responseData.errors!.join("\n")
+                      : responseData.message,
+                ),
           );
         }
       }
       return response;
-    } catch (e) {
+    } on TimeoutException catch (e) {
+      developer.log("Timeout: $e");
+      throw TimeoutException("Request timed out after 10 seconds");
+    }
+   catch (e) {
       developer.log("Request error: $e");
       return Response(
         'Error',

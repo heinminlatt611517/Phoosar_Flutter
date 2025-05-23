@@ -47,28 +47,28 @@ class UserSettingScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ///phoosar premium view
-              Visibility(
-                visible: showBuyCoinData.toString() == '1',
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => PhoosarPremiumScreen()));
-                  },
-                  child: Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: kMarginMedium),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: PhoosarPremiumCarouselWidget(titleColor: Colors.grey,isBlackPremiumLogo: true,),
-                      )),
-                ),
-              ),
+              // ///phoosar premium view
+              // Visibility(
+              //   visible: showBuyCoinData.toString() == '1',
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       // Navigator.push(
+              //       //     context,
+              //       //     MaterialPageRoute(
+              //       //         builder: (context) => PhoosarPremiumScreen()));
+              //     },
+              //     child: Padding(
+              //         padding:
+              //         const EdgeInsets.symmetric(horizontal: kMarginMedium),
+              //         child: Container(
+              //           decoration: BoxDecoration(
+              //             color: Colors.white,
+              //             borderRadius: BorderRadius.circular(10),
+              //           ),
+              //           child: PhoosarPremiumCarouselWidget(titleColor: Colors.grey,isBlackPremiumLogo: true,),
+              //         )),
+              //   ),
+              // ),
 
               20.vGap,
 

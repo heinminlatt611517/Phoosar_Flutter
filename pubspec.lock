@@ -22,22 +22,6 @@ packages:
     description: dart
     source: sdk
     version: "0.3.3"
-  agora_rtc_engine:
-    dependency: "direct main"
-    description:
-      name: agora_rtc_engine
-      sha256: "458c4b535a619d573915a36aa634feccd076ac72782263004e9666cafc449021"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.5.1"
-  agora_rtm:
-    dependency: "direct main"
-    description:
-      name: agora_rtm
-      sha256: "56d802cd6592a163a90c1a4220e361734fa1a45dfe13536f36f4e81e1b7f5a61"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.2"
   analyzer:
     dependency: transitive
     description:
@@ -351,6 +335,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  facebook_app_events:
+    dependency: "direct main"
+    description:
+      name: facebook_app_events
+      sha256: b448a9bb74016c7a42a9b954da4a5fb2ca59a26fa0893b69f0653af9634ca503
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.7"
   facebook_auth_desktop:
     dependency: transitive
     description:
@@ -971,14 +963,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  iris_method_channel:
-    dependency: transitive
-    description:
-      name: iris_method_channel
-      sha256: "99143ae77073ee8fd6c19d8f56ec59ba6c332000d8bea46bb9b6a89d83feca5c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.2"
   js:
     dependency: transitive
     description:

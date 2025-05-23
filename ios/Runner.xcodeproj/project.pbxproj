@@ -504,7 +504,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.8;
-				PRODUCT_BUNDLE_IDENTIFIER = com.moc.phoosar;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.moc.phoo-sar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -696,7 +696,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.8;
-				PRODUCT_BUNDLE_IDENTIFIER = com.moc.phoosar;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.moc.phoo-sar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -725,7 +725,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.8;
-				PRODUCT_BUNDLE_IDENTIFIER = com.moc.phoosar;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.moc.phoo-sar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
