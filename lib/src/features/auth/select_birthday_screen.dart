@@ -30,6 +30,12 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
   int currentYear = DateTime.now().year;
   List<String> years = [];
 
+  bool isAtLeast18(DateTime birthDate) {
+    final today = DateTime.now();
+    final eighteenYearsAgo = DateTime(today.year - 18, today.month, today.day);
+    return birthDate.isBefore(eighteenYearsAgo) || birthDate.isAtSameMomentAs(eighteenYearsAgo);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -135,23 +141,37 @@ class _ChooseGenderScreenState extends ConsumerState<SelectBirthdayScreen> {
                     selectedYear == "") {
                   context.showErrorSnackBar(
                       message: AppLocalizations.of(context)!.kErrorMessage);
-                } else {
+                }
+                else {
                   var selectedBirthDate =
                       "${selectedDay.toString()}, $selectedMonth, ${selectedYear.toString()}";
-                  debugPrint(selectedBirthDate);
-                  ref
-                      .read(profileSaveRequestProvider.notifier)
-                      .state
-                      .birthdate =
-                      DateFormat('yyyy-MM-dd').format(
-                          DateFormat('d, MMMM, yyyy')
-                              .parse(selectedBirthDate));
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChooseCountryAndCityScreen(),
-                    ),
+
+                  final selectedBirthDateForCheck = DateTime(
+                    int.parse(selectedYear),
+                    months.indexOf(selectedMonth) + 1,
+                    int.parse(selectedDay),
                   );
+
+                  if (!isAtLeast18(selectedBirthDateForCheck)) {
+                    context.showErrorSnackBar(
+                      message: 'You must be at least 18 years old to continue.',
+                    );
+                  }
+                  else {
+                    ref
+                        .read(profileSaveRequestProvider.notifier)
+                        .state
+                        .birthdate =
+                        DateFormat('yyyy-MM-dd').format(
+                            DateFormat('d, MMMM, yyyy')
+                                .parse(selectedBirthDate));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChooseCountryAndCityScreen(),
+                      ),
+                    );
+                  }
                 }
               },
               bgColor: Colors.black,

@@ -524,4 +524,13 @@ class Repository {
     return response;
   }
 
+  Future<Response> removeLiked(BuildContext context,int id) async {
+    var response = await Session.get(
+      Uri.parse("${Env.baseurl}/remove-like/$id"),
+      context,
+      ref,
+    );
+    return response;
+  }
+
 }

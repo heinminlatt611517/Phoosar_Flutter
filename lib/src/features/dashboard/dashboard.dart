@@ -176,6 +176,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                 );
               }
+               //selectedIndex = profiles.indexWhere((profile) => profile.id == 713);
+              //print("SelectedIndex>>>>>>>${profiles.length}");
               if (selectedIndex >= profiles.length) {
                 selectedIndex = profiles.length - 1;
               }

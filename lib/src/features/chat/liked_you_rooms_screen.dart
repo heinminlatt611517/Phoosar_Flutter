@@ -50,13 +50,14 @@ class LikedYouRoomsScreen extends ConsumerWidget {
                         filterUsers[index].profile!.supabaseUserId)
                     .firstOrNull;
                 var otherUser = filterUsers[index].profile!;
+                var otherUserId = filterUsers[index].id;
                 return InkWell(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ProfileScreen(findData: otherUser)));
+                                ProfileScreen(findData: otherUser,isFromLikedYou: true,otherProfileId: otherUserId,)));
                   },
                   child: UserAvatar(
                     userId: otherUser.supabaseUserId.toString(),
