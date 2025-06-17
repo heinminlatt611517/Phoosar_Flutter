@@ -43,7 +43,7 @@ class InfoCard extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ProfileScreen(findData: findData)));
+                            ProfileScreen(findData: findData,isShowLikeButton: true,)));
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

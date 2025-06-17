@@ -23,10 +23,11 @@ import '../../providers/app_provider.dart';
 import '../../utils/dimens.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
-  const ProfileScreen({super.key, required this.findData, this.isFromLikedYou,this.otherProfileId});
+  const ProfileScreen({super.key, required this.findData, this.isShowRemoveButton,this.otherProfileId,this.isShowLikeButton});
 
   final ProfileData findData;
-  final bool? isFromLikedYou;
+  final bool? isShowRemoveButton;
+  final bool? isShowLikeButton;
   final int? otherProfileId;
 
   @override
@@ -73,8 +74,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: UserInformation(
                     findData: widget.findData,
                     isShowAboutText: false,
-                    isFromLikedYou: widget.isFromLikedYou,
+                    isShowRemoveButton: widget.isShowRemoveButton,
                     otherProfileId: widget.otherProfileId,
+                    isShowLikeButton: widget.isShowLikeButton,
                   ),
                 ),
 

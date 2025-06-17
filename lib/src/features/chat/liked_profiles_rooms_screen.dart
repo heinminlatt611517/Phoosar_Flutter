@@ -68,7 +68,7 @@ class LikedProfilesRoomsScreen extends ConsumerWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ProfileScreen(findData: otherUser)));
+                                                ProfileScreen(findData: otherUser,isShowLikeButton: false,)));
                   },
                   child: UserAvatar(
                     userId: otherUser.supabaseUserId.toString(),

@@ -20,11 +20,12 @@ import '../../dashboard/match.dart';
 
 class UserInformation extends ConsumerWidget {
   const UserInformation(
-      {super.key, required this.findData, this.isShowAboutText,this.isFromLikedYou,this.otherProfileId});
+      {super.key, required this.findData, this.isShowAboutText,this.isShowRemoveButton,this.otherProfileId,this.isShowLikeButton = true});
 
   final ProfileData findData;
   final bool? isShowAboutText;
-  final bool? isFromLikedYou;
+  final bool? isShowRemoveButton;
+  final bool? isShowLikeButton;
   final int? otherProfileId;
 
   @override
@@ -77,7 +78,7 @@ class UserInformation extends ConsumerWidget {
             ),
             Spacer(),
             Visibility(
-              visible: isFromLikedYou == true,
+              visible: isShowRemoveButton == true,
               child: CommonIconButton(
                 padding: 0,
                 onTap: () async {
@@ -90,15 +91,18 @@ class UserInformation extends ConsumerWidget {
                 ),
               ),
             ),
-            CommonIconButton(
-              onTap: () async {
-                await _handleLike(ref, context);
-              },
-              padding: 8,
-              backgroundColor: Colors.transparent,
-              icon: Image.asset(
-                'assets/images/ok.png',
-                width: 50,
+            Visibility(
+              visible: isShowLikeButton == true,
+              child: CommonIconButton(
+                onTap: () async {
+                  await _handleLike(ref, context);
+                },
+                padding: 8,
+                backgroundColor: Colors.transparent,
+                icon: Image.asset(
+                  'assets/images/ok.png',
+                  width: 50,
+                ),
               ),
             ),
           ],
