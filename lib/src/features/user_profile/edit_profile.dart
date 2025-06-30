@@ -32,6 +32,7 @@ import '../../common/widgets/common_dialog.dart';
 import '../../common/widgets/drop_down_widget.dart';
 import '../../common/widgets/select_photo_options_widget.dart';
 import '../../providers/app_provider.dart';
+import '../../services/tiktok_events.dart';
 import '../../utils/constants.dart';
 import '../dashboard/widgets/unlock_success_dailog.dart';
 import 'more_details_writing_prompt_screen.dart';
@@ -69,6 +70,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      TikTokEvents.trackEvent(
+        'View Content',
+        properties: {'content_type': 'EditProfile',},
+      );
+    });
+
     days.insert(0, 'Day');
     years = List.generate(61, (i) => (currentYear - i).toString());
     years.insert(0, 'Year');
@@ -151,6 +160,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     if (croppedImage == null) return null;
     return File(croppedImage.path);
   }
+
 
   @override
   Widget build(BuildContext context) {

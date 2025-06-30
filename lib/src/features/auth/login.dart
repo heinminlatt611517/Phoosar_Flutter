@@ -36,6 +36,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../services/tiktok_events.dart';
 import '../../utils/fonts.dart';
 import 'eula_view.dart';
 
@@ -385,12 +386,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  navigateToNextScreen() {
+  navigateToNextScreen() async{
     ref.invalidate(profilesProvider);
     ref.invalidate(profileProvider);
     ref.invalidate(roomsProvider);
     ref.invalidate(supabaseClientProvider);
     debugPrint("RecentOnboardingStatus>>>>>>>$recentOnboardingStatus");
+
+    ///tracking tiktok event
+    await TikTokEvents.trackEvent(
+      'Login',
+      properties: {'value': e164PhoneNo,},
+    );
+
     ref
         .watch(sharedPrefProvider)
         .setString(kRecentOnboardingKey, recentOnboardingStatus ?? '');

@@ -16,10 +16,12 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/phoosar_premium_carousel_widget.dart';
+import '../../services/tiktok_events.dart';
 import '../../utils/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class UserSettingScreen extends ConsumerWidget {
   const UserSettingScreen({super.key});
 
@@ -79,7 +81,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kAccountSettingLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -99,7 +101,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kActiveSubscriptionLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -121,12 +123,13 @@ class UserSettingScreen extends ConsumerWidget {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.kBillingLabel,
-                      style:
-                      TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                      style: TextStyle(
+                          color: Colors.grey, fontSize: kTextRegular2x),
                     ),
                     12.vGap,
                     LabelWithIconOrText(
-                      label: AppLocalizations.of(context)!.kPurchaseHistoryLabel,
+                      label:
+                          AppLocalizations.of(context)!.kPurchaseHistoryLabel,
                       isIcon: true,
                       onTap: () {
                         Navigator.push(
@@ -148,7 +151,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kPrivacyLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -173,7 +176,7 @@ class UserSettingScreen extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.kNotificationLabel,
                     style:
-                    TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
+                        TextStyle(color: Colors.grey, fontSize: kTextRegular2x),
                   ),
                   12.vGap,
                   LabelWithIconOrText(
@@ -225,7 +228,7 @@ class HelpAndWhatNewView extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.kHelpAndSupportLabel,
                 style:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               Spacer(),
             ],
@@ -238,9 +241,7 @@ class HelpAndWhatNewView extends StatelessWidget {
         LabelWithIconOrText(
           label: AppLocalizations.of(context)!.kTermAndConditionLabel,
           isIcon: true,
-          onTap: (){
-
-          },
+          onTap: () {},
         ),
 
         10.vGap,
@@ -264,10 +265,12 @@ class LogoutAndDeleteAccountView extends ConsumerStatefulWidget {
   const LogoutAndDeleteAccountView({super.key});
 
   @override
-  ConsumerState<LogoutAndDeleteAccountView> createState() => _LogoutAndDeleteAccountViewState();
+  ConsumerState<LogoutAndDeleteAccountView> createState() =>
+      _LogoutAndDeleteAccountViewState();
 }
 
-class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAccountView> {
+class _LogoutAndDeleteAccountViewState
+    extends ConsumerState<LogoutAndDeleteAccountView> {
   var isLoading = false;
   var isDeleteLoading = false;
 
@@ -279,18 +282,19 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
         ///logout container
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () async{
+          onTap: () async {
             showGeneralDialog(
               barrierLabel: "Label",
               barrierDismissible: true,
               barrierColor: Colors.black.withOpacity(0.5),
-              transitionDuration:const Duration(milliseconds: 300),
+              transitionDuration: const Duration(milliseconds: 300),
               context: _scaffoldKey.currentContext!,
               pageBuilder: (context, anim1, anim2) {
                 return Align(
-                  alignment: Alignment.center ,
-                  child: SizedBox.expand(child: LogoutDialogView(onLogout: () async{
-                    if(isLoading != true){
+                  alignment: Alignment.center,
+                  child: SizedBox.expand(
+                      child: LogoutDialogView(onLogout: () async {
+                    if (isLoading != true) {
                       setState(() {
                         isLoading = true;
                       });
@@ -304,7 +308,9 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
               },
               transitionBuilder: (context, anim1, anim2, child) {
                 return SlideTransition(
-                  position: Tween(begin: const Offset(0,  -1), end:const Offset(0, 0)).animate(anim1),
+                  position:
+                      Tween(begin: const Offset(0, -1), end: const Offset(0, 0))
+                          .animate(anim1),
                   child: child,
                 );
               },
@@ -317,23 +323,25 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey.withOpacity(0.3))),
-            child:isLoading == true ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Please wait...',
-                    style: const TextStyle(color: primaryColor)),
-                const SpinKitThreeBounce(size: 25, color: primaryColor),
-              ],
-            )  : Row(
-              children: [
-                Spacer(),
-                Text(
-                  AppLocalizations.of(context)!.kLogoutLabel,
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Spacer(),
-              ],
-            ),
+            child: isLoading == true
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Please wait...',
+                          style: const TextStyle(color: primaryColor)),
+                      const SpinKitThreeBounce(size: 25, color: primaryColor),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Spacer(),
+                      Text(
+                        AppLocalizations.of(context)!.kLogoutLabel,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
           ),
         ),
 
@@ -352,19 +360,19 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
 
         ///delete account container
         GestureDetector(
-          onTap: () async{
-
+          onTap: () async {
             showGeneralDialog(
               barrierLabel: "Label",
               barrierDismissible: true,
               barrierColor: Colors.black.withOpacity(0.5),
-              transitionDuration:const Duration(milliseconds: 300),
+              transitionDuration: const Duration(milliseconds: 300),
               context: _scaffoldKey.currentContext!,
               pageBuilder: (context, anim1, anim2) {
                 return Align(
-                  alignment: Alignment.center ,
-                  child: SizedBox.expand(child: DeleteAccountDialogView(onTapConfirm: () async{
-                    if(isDeleteLoading != true){
+                  alignment: Alignment.center,
+                  child: SizedBox.expand(
+                      child: DeleteAccountDialogView(onTapConfirm: () async {
+                    if (isDeleteLoading != true) {
                       setState(() {
                         isDeleteLoading = true;
                       });
@@ -378,7 +386,9 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
               },
               transitionBuilder: (context, anim1, anim2, child) {
                 return SlideTransition(
-                  position: Tween(begin: const Offset(0,  -1), end:const Offset(0, 0)).animate(anim1),
+                  position:
+                      Tween(begin: const Offset(0, -1), end: const Offset(0, 0))
+                          .animate(anim1),
                   child: child,
                 );
               },
@@ -391,23 +401,25 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey.withOpacity(0.3))),
-            child:isDeleteLoading ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Please wait...',
-                    style: const TextStyle(color: primaryColor)),
-                const SpinKitThreeBounce(size: 25, color: primaryColor),
-              ],
-            )  : Row(
-              children: [
-                Spacer(),
-                Text(
-                  AppLocalizations.of(context)!.kDeleteAccountLabel,
-                  style: TextStyle(color: Colors.red),
-                ),
-                Spacer(),
-              ],
-            ),
+            child: isDeleteLoading
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Please wait...',
+                          style: const TextStyle(color: primaryColor)),
+                      const SpinKitThreeBounce(size: 25, color: primaryColor),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Spacer(),
+                      Text(
+                        AppLocalizations.of(context)!.kDeleteAccountLabel,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
           ),
         ),
       ],
@@ -415,6 +427,10 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
   }
 
   Future<void> logout(BuildContext context, WidgetRef ref) async {
+    await TikTokEvents.trackEvent(
+      'View Content',
+      properties: {'content_type': 'Logout',},
+    );
     await _updateOnlineStatus(false, ref, context);
   }
 
@@ -422,22 +438,23 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
     await _deleteAccount(ref, context);
   }
 
-
   ///update online status
-  Future<void> _deleteAccount(WidgetRef ref,BuildContext context) async {
+  Future<void> _deleteAccount(WidgetRef ref, BuildContext context) async {
     try {
       final repository = ref.watch(repositoryProvider);
       await repository.deleteAccount(
         {},
         context,
       );
+
       /// Clear shared preferences
       await ref.read(sharedPrefProvider).clear();
       ref.invalidate(dashboardProvider);
+
       /// Navigate to the login screen
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginScreen()),
-            (route) => false,
+        (route) => false,
       );
     } catch (e) {
       debugPrint('Error: $e');
@@ -445,7 +462,8 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
   }
 
   ///update online status
-  Future<void> _updateOnlineStatus(bool isOnline, WidgetRef ref, BuildContext context) async {
+  Future<void> _updateOnlineStatus(
+      bool isOnline, WidgetRef ref, BuildContext context) async {
     debugPrint("IsOnline:::$isOnline");
     try {
       final repository = ref.watch(repositoryProvider);
@@ -461,15 +479,13 @@ class _LogoutAndDeleteAccountViewState extends ConsumerState<LogoutAndDeleteAcco
       ///navigate to login screen
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginScreen()),
-            (route) => false,
+        (route) => false,
       );
     } catch (e) {
       debugPrint('Error: $e');
     }
   }
-
 }
-
 
 ///label with icon or text container view
 class LabelWithIconOrText extends StatelessWidget {
@@ -477,12 +493,13 @@ class LabelWithIconOrText extends StatelessWidget {
   final String? text;
   final bool isIcon;
   final Function()? onTap;
+
   const LabelWithIconOrText(
       {super.key,
-        required this.label,
-        required this.isIcon,
-        this.text,
-        this.onTap});
+      required this.label,
+      required this.isIcon,
+      this.text,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -503,7 +520,7 @@ class LabelWithIconOrText extends StatelessWidget {
             Text(
               label,
               style:
-              TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
+                  TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
             ),
             Spacer(),
 

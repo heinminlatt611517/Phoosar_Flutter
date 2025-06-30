@@ -23,61 +23,63 @@ class ScaffoldWithNavigationBar extends ConsumerWidget {
         bottomNavigationBar: Container(
           color: Colors.black,
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    onDestinationSelected(0);
-                  },
-                  child :Image.asset(
-                    'assets/images/home_icon.png',
-                    width: 22,
-                    height: 22,
-                    color: selectedIndex == 0 ? Colors.cyan : Colors.white,
+          child: SafeArea(
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      onDestinationSelected(0);
+                    },
+                    child :Image.asset(
+                      'assets/images/home_icon.png',
+                      width: 22,
+                      height: 22,
+                      color: selectedIndex == 0 ? Colors.cyan : Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                width: 2,
-                height: 32,
-                color: whitePaleColor,
-              ),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    onDestinationSelected(1);
-                  },
-                  child: SvgPicture.asset(
-                    'assets/svgs/ic_chat.svg',
-                    width: 22,
-                    height: 22,
-                    color: selectedIndex == 1 ? Colors.cyan : Colors.white,
+                Container(
+                  width: 2,
+                  height: 32,
+                  color: whitePaleColor,
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      onDestinationSelected(1);
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svgs/ic_chat.svg',
+                      width: 22,
+                      height: 22,
+                      color: selectedIndex == 1 ? Colors.cyan : Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                width: 2,
-                height: 32,
-                color: whitePaleColor,
-              ),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    onDestinationSelected(2);
-                  },
-                  child: SvgPicture.asset(
-                    'assets/svgs/ic_account.svg',
-                    width: 22,
-                    height: 22,
-                    color: selectedIndex == 2 ? Colors.cyan : Colors.white,
+                Container(
+                  width: 2,
+                  height: 32,
+                  color: whitePaleColor,
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      onDestinationSelected(2);
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svgs/ic_account.svg',
+                      width: 22,
+                      height: 22,
+                      color: selectedIndex == 2 ? Colors.cyan : Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }

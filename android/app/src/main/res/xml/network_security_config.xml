@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Base configuration for all domains -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+            <certificates src="user"/>
+        </trust-anchors>
+    </base-config>
+
+    <!-- TikTok-specific domain exceptions -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">analytics.us.tiktok.com</domain>
+        <domain includeSubdomains="true">api16-access-gcp.tiktokv.com</domain>
+        <domain includeSubdomains="true">log.tiktokv.com</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+            <certificates src="user"/>
+        </trust-anchors>
+    </domain-config>
+
+    <!-- Debug settings for development -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="@raw/debug_certs"/>
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

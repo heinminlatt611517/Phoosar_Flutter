@@ -28,6 +28,7 @@ import 'package:sized_context/sized_context.dart';
 
 import '../../data/response/self_profile_response.dart';
 import '../../providers/app_provider.dart';
+import '../../services/tiktok_events.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({
@@ -46,6 +47,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await _fetchProfile();
+      await TikTokEvents.trackEvent(
+        'View Content',
+        properties: {'content_type': 'UserProfile',},
+      );
     });
   }
 
@@ -119,18 +124,18 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                             child: Visibility(
                               visible: showBuyCoinData.toString() == '1',
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
                                       14.hGap,
                                       Text(
-                                        '${AppLocalizations.of(context)!
-                                            .kYourCoinsLabel}:',
-                                        style : GoogleFonts.roboto(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                            color: blackColor,
+                                        '${AppLocalizations.of(context)!.kYourCoinsLabel}:',
+                                        style: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: blackColor,
                                         ),
                                       ),
                                       12.hGap,
@@ -140,7 +145,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                                     .toString() ??
                                                 "0")
                                             : "0",
-                                        backgroundColor: greyColor.withOpacity(0.5),
+                                        backgroundColor:
+                                            greyColor.withOpacity(0.5),
                                       ),
                                     ],
                                   ),
@@ -220,14 +226,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${AppLocalizations.of(context)!
-                                          .kYourCoinsLabel}:',
+                                      '${AppLocalizations.of(context)!.kYourCoinsLabel}:',
                                       style: TextStyle(
                                           color: blackColor,
                                           fontWeight: FontWeight.w700,
                                           fontFamily: kFontArticulatCFNormal,
-                                          fontSize: 18
-                                      ),
+                                          fontSize: 18),
                                     ),
                                     12.hGap,
                                     IntrinsicWidth(
@@ -271,8 +275,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                       },
                                       aspectRatio: 16 / 9,
                                       viewportFraction: 1,
-                                      height: MediaQuery.of(context).size.height *
-                                          0.44,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.44,
                                     ),
                                     items: selfProfileData.data?.profileImages
                                         ?.map((i) {
@@ -280,8 +285,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                         builder: (BuildContext context) {
                                           return CachedNetworkImage(
                                             width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
+                                                .size
+                                                .width,
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
@@ -305,7 +310,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                             placeholder: (context, url) {
                                               return Shimmer.fromColors(
                                                 baseColor: Colors.grey[300]!,
-                                                highlightColor: Colors.grey[100]!,
+                                                highlightColor:
+                                                    Colors.grey[100]!,
                                                 child: Container(
                                                   width: MediaQuery.of(context)
                                                           .size
@@ -318,7 +324,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                                   decoration: BoxDecoration(
                                                     color: Colors.grey[300],
                                                     borderRadius:
-                                                        BorderRadius.circular(20),
+                                                        BorderRadius.circular(
+                                                            20),
                                                   ),
                                                 ),
                                               );
@@ -329,9 +336,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                     }).toList(),
                                   )
                                 : CachedNetworkImage(
-                                    width: MediaQuery.of(context).size.width - 32,
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.5,
+                                    width:
+                                        MediaQuery.of(context).size.width - 32,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
                                     fit: BoxFit.cover,
                                     imageUrl: errorImageUrl,
                                     placeholder: (context, url) {
@@ -339,12 +347,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                         baseColor: Colors.grey[300]!,
                                         highlightColor: Colors.grey[100]!,
                                         child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width -
-                                                  32,
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  0.5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              32,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.5,
                                           decoration: BoxDecoration(
                                             color: Colors.grey[300],
                                             borderRadius:
@@ -418,8 +428,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                   activeSize: const Size(8, 8),
                                   activeShape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0),
-                                    side:
-                                        BorderSide(color: Colors.white, width: 2),
+                                    side: BorderSide(
+                                        color: Colors.white, width: 2),
                                   ),
                                   spacing: const EdgeInsets.all(4.0),
                                 ),
@@ -465,7 +475,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           },
                           icon: Icon(
                             Icons.edit,
-                            color:Colors.black,
+                            color: Colors.black,
                             size: 28,
                           ),
                         ),
