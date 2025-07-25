@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:phoosar/src/common/widgets/common_button.dart';
@@ -10,6 +9,7 @@ import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
 import '../../common/widgets/drop_down_widget.dart';
+import '../../localization/app_localizations.dart';
 import '../../providers/data_providers.dart';
 import '../../utils/constants.dart';
 import '../../utils/fonts.dart';

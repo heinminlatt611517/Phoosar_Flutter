@@ -10,7 +10,7 @@ import 'package:phoosar/src/utils/gap.dart';
 import '../../providers/data_providers.dart';
 import '../../services/tiktok_events.dart';
 import '../../utils/colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({

@@ -5,7 +5,7 @@ import 'package:phoosar/src/features/user_setting/get_more_coins_screen.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../localization/app_localizations.dart';
 
 
 class UnlockCoinDialog extends StatelessWidget {

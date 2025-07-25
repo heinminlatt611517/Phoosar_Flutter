@@ -5,7 +5,7 @@ import 'package:phoosar/src/data/response/payment_success_response.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 
 import '../../utils/fonts.dart';
 

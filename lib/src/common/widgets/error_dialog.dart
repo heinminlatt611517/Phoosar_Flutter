@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:phoosar/src/utils/gap.dart';
+import '../../localization/app_localizations.dart';
 import 'common_button.dart';
 import 'common_dialog.dart';
 import 'package:sized_context/sized_context.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String? message;

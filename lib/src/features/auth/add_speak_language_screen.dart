@@ -10,8 +10,8 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../localization/app_localizations.dart';
 import '../../providers/data_providers.dart';
 
 class AddSpeakLanguageScreen extends ConsumerStatefulWidget {

@@ -13,7 +13,7 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 import 'enter_pin_code_screen.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {

@@ -18,7 +18,7 @@ import 'package:phoosar/src/utils/constants.dart';
 import 'package:phoosar/src/utils/extensions.dart';
 import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 import 'package:phoosar/src/utils/strings.dart';
 import 'package:phoosar/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;

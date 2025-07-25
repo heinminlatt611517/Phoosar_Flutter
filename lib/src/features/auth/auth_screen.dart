@@ -8,7 +8,7 @@ import 'package:phoosar/src/features/auth/register.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:phoosar/src/utils/strings.dart';
 

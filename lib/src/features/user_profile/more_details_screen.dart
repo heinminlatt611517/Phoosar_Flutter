@@ -8,7 +8,7 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/gap.dart';
 import '../../utils/constants.dart';
 import '../../utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 
 import '../../utils/fonts.dart';
 

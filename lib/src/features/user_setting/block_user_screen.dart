@@ -7,7 +7,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/strings.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/app_provider.dart';
 import '../../utils/colors.dart';

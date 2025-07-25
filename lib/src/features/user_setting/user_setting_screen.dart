@@ -7,7 +7,6 @@ import 'package:phoosar/src/common/widgets/delete_account_dialog_view.dart';
 import 'package:phoosar/src/common/widgets/logout_dialog_view.dart';
 import 'package:phoosar/src/features/auth/login.dart';
 import 'package:phoosar/src/features/user_setting/block_user_screen.dart';
-import 'package:phoosar/src/features/user_setting/phoosar_premium.dart';
 import 'package:phoosar/src/features/user_setting/purchase_history.dart';
 import 'package:phoosar/src/features/user_setting/whats_new.dart';
 import 'package:phoosar/src/providers/app_provider.dart';
@@ -15,10 +14,9 @@ import 'package:phoosar/src/providers/data_providers.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
-import '../../common/widgets/phoosar_premium_carousel_widget.dart';
+import '../../localization/app_localizations.dart';
 import '../../services/tiktok_events.dart';
 import '../../utils/colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

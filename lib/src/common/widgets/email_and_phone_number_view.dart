@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../localization/app_localizations.dart';
 import '../../utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 ///email and phone number view
 class EmailAndPhoneNumberView extends StatelessWidget {

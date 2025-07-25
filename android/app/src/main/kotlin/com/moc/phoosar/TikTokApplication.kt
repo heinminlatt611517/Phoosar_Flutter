@@ -16,8 +16,8 @@ class TikTokApplication : Application() {
         val ttConfig = TTConfig(applicationContext)
             .setAppId("com.moc.updatephoosar")
             .setTTAppId("7519743096805097473")
-            .openDebugMode()
-            .setLogLevel(TikTokBusinessSdk.LogLevel.DEBUG)
+//            .openDebugMode()
+//            .setLogLevel(TikTokBusinessSdk.LogLevel.DEBUG)
 
         TikTokBusinessSdk.initializeSdk(ttConfig, object : TikTokBusinessSdk.TTInitCallback {
             override fun success() {

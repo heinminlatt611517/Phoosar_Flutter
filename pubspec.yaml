@@ -4,7 +4,7 @@ description: "A dating app"
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 1.0.2+8
+version: 1.0.2+9
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -42,7 +42,7 @@ dependencies:
   flutter_spinkit: ^5.2.1
   image_picker: ^1.1.2
   image_cropper: ^8.0.2
-  intl: ^0.19.0
+  intl: ^0.20.2
   flutter_slidable: ^3.1.1
   intl_phone_number_input: ^0.7.4
   step_progress_indicator: ^1.0.2

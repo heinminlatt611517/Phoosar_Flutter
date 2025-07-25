@@ -12,7 +12,7 @@ import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/dimens.dart';
 import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../localization/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../data/request/forgot_password_otp_request.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phoosar/src/utils/colors.dart';
 import 'package:phoosar/src/utils/fonts.dart';
 import 'package:phoosar/src/utils/gap.dart';
 
+import '../../localization/app_localizations.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/dimens.dart';
