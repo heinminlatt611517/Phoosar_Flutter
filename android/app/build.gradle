@@ -75,7 +75,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig = signingConfigs.release
@@ -95,7 +95,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.4.0'
     //to get Google install referrer
     implementation 'com.android.installreferrer:installreferrer:2.2'
-    implementation 'com.android.billingclient:billing:6.0.1'
+    implementation 'com.android.billingclient:billing:8.0.0'
 }
 
 flutter {

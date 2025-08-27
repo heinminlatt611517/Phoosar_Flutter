@@ -339,10 +339,10 @@ packages:
     dependency: "direct main"
     description:
       name: facebook_app_events
-      sha256: b448a9bb74016c7a42a9b954da4a5fb2ca59a26fa0893b69f0653af9634ca503
+      sha256: febb0c73714ed48c546b4fa214ac08cf3b4db0a4acebaaefc61e3b653bf1f342
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.7"
+    version: "0.20.1"
   facebook_auth_desktop:
     dependency: transitive
     description:
